@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402.5 34.32">
+    <defs>
+        <style> 
+            @font-face {
+                font-family: "LouisGeorgeCafe-Bold", "LouisGeorgeCafe";
+                src: url("/assets/fonts/louis_george_cafe_bold-webfont.woff2") format("woff2"), url("/assets/fonts/louis_george_cafe-webfont.woff2") format("woff2");
+                font-style: normal;
+            }
+            .cls-1{ 
+                <!-- fill:#daa628;  -->
+                font-size:28.67px; 
+                font-family:LouisGeorgeCafe-Bold, LouisGeorge Cafe; 
+                font-weight: 400; 
+                letter-spacing:0.1em; 
+                margin: 0; 
+            } 
+        </style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <h6 class="cls-1">contabilidade</h6>
+        </g>
+    </g>
+</svg>

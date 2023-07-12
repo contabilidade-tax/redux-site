@@ -1,27 +1,91 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --px-header: .2rem;
+  --primary-color: #D5A115;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: rgb(0 0 0);
+  background-color: rgb(250 250 250);
 }
+
+.active-page {
+  font-weight: bold;
+  border-bottom: 3px solid var(--primary-color);
+
+  transition: 0.5s ease-out linear;
+}
+
+ul > li {
+  margin: 0 var(--px-header);
+  padding: 0 .7rem;
+}
+
+.text-yellow{
+  color: var(--primary-color);
+}
+.bg-yellow{
+  background-color: var(--primary-color);
+}
+
+.big-image {
+  position: absolute;
+  top: -6.5rem;
+  right: 7rem;
+  height: 44rem;
+  /* display: none; */
+}
+
+.each-slide-effect > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  height: 30rem;
+  border-radius: 5rem;
+}
+
+.each-slide-effect span {
+  padding: 20px;
+  font-size: 20px;
+  text-align: center;
+  display: none;
+}
+
+
+.slide {
+  border-radius: 5rem;
+}
+
+.divisor {
+  width: 80%;
+  /* height: 1rem; */
+  background-color: black;
+  border-bottom: .5px solid #000 ;
+  margin: 5rem auto;
+  opacity: .5;
+}
+
+.animate-container {
+  overflow: hidden;
+  width: auto;
+  height: max-content
+}
+
+.theme {
+  border-radius: 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 150%;
+  padding: .25rem 1rem;
+  display: inline-flex;
+  -webkit-backdrop-filter: blur(0.625rem);
+  backdrop-filter: blur(0.625rem)
+}
+
+/* flex items-center gap-2 */

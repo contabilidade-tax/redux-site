@@ -1,0 +1,24 @@
+@import '../../common/utils/animations.scss';
+
+.service-nav>ul li {
+    display: flex;
+    width: max-content;
+    cursor: pointer;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background-color: rgb(212 212 216);
+    font-weight: 600;
+    font-size: smaller;
+    text-align: start;
+
+    padding: .1rem 1.5rem;
+}
+
+.service-nav>ul li img {
+    scale: .8;
+}
+
+.selectedItem {
+    background-color: rgb(213, 161, 21) !important;
+}
