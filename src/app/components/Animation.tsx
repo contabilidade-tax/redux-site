@@ -13,17 +13,18 @@ const GameScene: React.FC = () => {
     if (canvasRef.current) {
       const canvas = canvasRef.current
       const ctx = canvas.getContext('2d')!
-      const cw = (canvas.width = 600)
-      const ch = (canvas.height = 600)
+      const cw = (canvas.width = 500)
+      const ch = (canvas.height = 500)
+      const imageWidth = 1000
 
       const bg = [
-        { img: new Image(), x: 0 },
-        { img: new Image(), x: 0 },
-        { img: new Image(), x: 0 },
-        { img: new Image(), x: 0 },
-        { img: new Image(), x: 0 },
-        { img: new Image(), x: 0 },
-        { img: new Image(), x: 0 },
+        { img: new Image(), x: cw },
+        { img: new Image(), x: cw + 1000 },
+        { img: new Image(), x: cw + 2000 },
+        { img: new Image(), x: cw + 3000 },
+        { img: new Image(), x: cw + 4000 },
+        { img: new Image(), x: cw + 5000 },
+        { img: new Image(), x: cw + 6000 },
       ]
 
       bg[0].img.src = 'https://i.postimg.cc/0ySBb4f4/bg-1.png'
@@ -47,17 +48,15 @@ const GameScene: React.FC = () => {
       gsap.ticker.add(() => {
         ctx.clearRect(0, 0, cw, ch)
 
-        for (let i = 0; i < bg.length; i++) {
-          const bgImage = bg[i]
-          ctx.drawImage(bgImage.img, bgImage.x, 0, bgImage.img.width, ch)
-        }
+        bg.forEach((bgImage, index) => {
+          bgImage.x -= 5 // Move a imagem para a esquerda
 
-        const bgTl = gsap.timeline({ repeat: -1 })
-        bgTl.to(bg, {
-          x: `-=${cw}`,
-          duration: 20,
-          ease: 'none',
-          repeatDelay: 1, // Intervalo entre cada repetição em segundos
+          if (bgImage.x <= -imageWidth) {
+            const previousImage = bg[(index - 1 + bg.length) % bg.length]
+            bgImage.x = previousImage.x + imageWidth // Reposiciona a imagem para reiniciar o movimento
+          }
+
+          ctx.drawImage(bgImage.img, bgImage.x, 0, imageWidth, ch)
         })
 
         ctx.drawImage(
