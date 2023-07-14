@@ -26,6 +26,12 @@ const GameScene: React.FC = () => {
         { img: new Image(), x: cw + 6000 },
       ]
       const dino = { img: new Image(), spriteOffsetX: 0, x: cw / 5, top: 250 }
+      const dinoPaused = {
+        img: new Image(),
+        spriteOffsetX: 0,
+        x: cw / 5,
+        top: 250,
+      }
 
       bg[0].img.src = 'https://i.postimg.cc/0ySBb4f4/bg-1.png'
       bg[1].img.src = 'https://i.postimg.cc/G2YMpg1Q/bg-2.png'
@@ -35,20 +41,26 @@ const GameScene: React.FC = () => {
       bg[5].img.src = 'https://i.postimg.cc/TYQthWBZ/bg-6.png'
       bg[6].img.src = 'https://i.postimg.cc/6qfYr7q4/bg-7.png'
       dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
+      dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
 
       const timeline = gsap.timeline({ repeat: -1 })
-      const imageSpeed = 200 // velocidade das imagens
+      let imageSpeed = 200 // velocidade das imagens
       const scale = 0.6 // escala da imagem
       const scaledImageWidth = imageWidth * scale // largura da imagem reescalonada
       const totalWidth = bg.length * scaledImageWidth // largura total do cenário
 
       // Ajuste a posição inicial das imagens de acordo com a nova escala
       bg.forEach((bgImage, index) => {
-        bgImage.x = cw + index * scaledImageWidth
+        if (index === 0) {
+          // Posicione a primeira imagem no início do canvas
+          bgImage.x = 0
+        } else {
+          // Posicione as outras imagens de acordo com a largura da imagem reescalada
+          bgImage.x = index * scaledImageWidth
+        }
       })
 
       timeline.set(bg, { x: '+=0' }) // Mantém todas as animações de fundo na mesma posição inicial
-
       bg.forEach((bgImage, index) => {
         const time = totalWidth / imageSpeed // tempo que levará para a imagem passar completamente pelo quadro
 
@@ -85,7 +97,7 @@ const GameScene: React.FC = () => {
             ctx.drawImage(
               bgImage.img,
               bgImage.x,
-              ch / 2 - 150,
+              0,
               scaledImageWidth,
               ch * scale,
             )
@@ -95,7 +107,7 @@ const GameScene: React.FC = () => {
               ctx.drawImage(
                 bgImage.img,
                 bgImage.x,
-                ch / 2,
+                0,
                 scaledImageWidth,
                 ch * scale,
               )
@@ -103,18 +115,95 @@ const GameScene: React.FC = () => {
           }
         })
 
-        ctx.drawImage(
-          dino.img,
-          dino.spriteOffsetX + 1,
-          0,
-          74,
-          78,
-          dino.x,
-          dino.top + 59,
-          74,
-          78,
-        )
+        if (timeline.paused()) {
+          ctx.drawImage(
+            dinoPaused.img,
+            dinoPaused.spriteOffsetX,
+            0,
+            74,
+            78,
+            dino.x,
+            dino.top - 39,
+            74,
+            78,
+          )
+        } else {
+          ctx.drawImage(
+            dino.img,
+            dino.spriteOffsetX + 1,
+            0,
+            74,
+            78,
+            dino.x,
+            dino.top - 39,
+            74,
+            78,
+          )
+        }
       })
+
+      setTimeout(() => {
+        timeline.pause() // Pausar após 15.25s
+
+        setTimeout(() => {
+          imageSpeed = 100 // Alterar a velocidade
+
+          timeline.clear() // Limpar as animações existentes
+
+          // Criar novas animações com a nova velocidade
+          bg.forEach((bgImage, index) => {
+            const time = totalWidth / imageSpeed // Novo tempo
+            timeline.to(
+              bgImage,
+              {
+                x: '-=' + totalWidth,
+                duration: time,
+                ease: 'none',
+                repeat: -1,
+                onRepeat: function () {
+                  this.targets()[0].x = (bg.length - 1) * scaledImageWidth
+                },
+              },
+              0,
+            )
+          })
+
+          timeline.play() // Dar play
+
+          setTimeout(() => {
+            timeline.pause() // Pausar após 1s
+
+            setTimeout(() => {
+              imageSpeed = 200 // Voltar para a velocidade original
+
+              timeline.clear() // Limpar as animações existentes
+
+              // Criar novas animações com a velocidade original
+              bg.forEach((bgImage, index) => {
+                const time = totalWidth / imageSpeed // Tempo com a velocidade original
+                timeline.to(
+                  bgImage,
+                  {
+                    x: '-=' + totalWidth,
+                    duration: time,
+                    ease: 'none',
+                    repeat: -1,
+                    onRepeat: function () {
+                      this.targets()[0].x = (bg.length - 1) * scaledImageWidth
+                    },
+                  },
+                  0,
+                )
+              })
+
+              // Garantir que o play da animação comece do mesmo ponto onde foi pausada
+              const progress = timeline.progress()
+              timeline.play()
+              timeline.progress(progress)
+            }, 1500)
+          }, 1700) // animação da frente da tax
+        }, 1500)
+      }, 15250)
 
       // Controlar a animação com a tecla de espaço
       window.addEventListener('keydown', (event) => {
@@ -131,7 +220,7 @@ const GameScene: React.FC = () => {
 
   return (
     <div className="relative h-[300px] w-[500px] border-collapse overflow-hidden border-2 border-slate-950">
-      <canvas ref={canvasRef} className="gameScene absolute -top-[7.1rem]" />
+      <canvas ref={canvasRef} className="gameScene absolute -top-[1.1rem]" />
     </div>
   )
 }
