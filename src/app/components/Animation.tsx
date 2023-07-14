@@ -25,6 +25,7 @@ const GameScene: React.FC = () => {
         { img: new Image(), x: cw + 5000 },
         { img: new Image(), x: cw + 6000 },
       ]
+      const dino = { img: new Image(), spriteOffsetX: 0, x: cw / 5, top: 250 }
 
       bg[0].img.src = 'https://i.postimg.cc/0ySBb4f4/bg-1.png'
       bg[1].img.src = 'https://i.postimg.cc/G2YMpg1Q/bg-2.png'
@@ -33,18 +34,32 @@ const GameScene: React.FC = () => {
       bg[4].img.src = 'https://i.postimg.cc/1RGChdBR/bg-5.png'
       bg[5].img.src = 'https://i.postimg.cc/TYQthWBZ/bg-6.png'
       bg[6].img.src = 'https://i.postimg.cc/6qfYr7q4/bg-7.png'
-
-      const dino = { img: new Image(), spriteOffsetX: 0, x: cw / 2, top: 250 }
       dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
 
       const timeline = gsap.timeline({ repeat: -1 })
+      const imageSpeed = 280 // velocidade das imagens
+      const totalWidth = bg.length * imageWidth // largura total do cenário
+
+      timeline.set(bg, { x: '+=0' }) // Mantém todas as animações de fundo na mesma posição inicial
 
       bg.forEach((bgImage, index) => {
-        timeline.to(bgImage, {
-          duration: 2,
-          x: -bgImage.img.width,
-          ease: 'none',
-        })
+        const time = totalWidth / imageSpeed // tempo que levará para a imagem passar completamente pelo quadro
+
+        // Adiciona cada animação ao timeline
+        timeline.to(
+          bgImage,
+          {
+            x: '-=' + totalWidth,
+            duration: time,
+            ease: 'none',
+            repeat: -1, // faz com que a animação se repita indefinidamente
+            onRepeat: function () {
+              // reposiciona a imagem no final do cenário uma vez que ela tenha passado completamente pelo quadro
+              this.targets()[0].x = (bg.length - 1) * imageWidth
+            },
+          },
+          0,
+        ) // Começa todas as animações simultaneamente
       })
 
       gsap.to(dino, {
@@ -56,6 +71,10 @@ const GameScene: React.FC = () => {
 
       gsap.ticker.add(() => {
         ctx.clearRect(0, 0, cw, ch)
+
+        const escala = 2
+        const widthScale = imageWidth / escala
+        const heightScale = ch / escala
 
         bg.forEach((bgImage) => {
           if (bgImage.img.complete) {
@@ -93,7 +112,11 @@ const GameScene: React.FC = () => {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="gameScene" />
+  return (
+    <div className="relative h-[450px] w-[500px] border-collapse overflow-hidden border-2 border-slate-950">
+      <canvas ref={canvasRef} className="gameScene absolute -top-14" />
+    </div>
+  )
 }
 
 export default GameScene
