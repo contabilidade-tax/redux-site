@@ -9,7 +9,6 @@ const GameScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
-    // Dentro da função useEffect:
     if (canvasRef.current) {
       const canvas = canvasRef.current
       const ctx = canvas.getContext('2d')!
@@ -35,46 +34,66 @@ const GameScene: React.FC = () => {
       bg[5].img.src = 'https://i.postimg.cc/TYQthWBZ/bg-6.png'
       bg[6].img.src = 'https://i.postimg.cc/6qfYr7q4/bg-7.png'
 
-      const dino = { img: new Image(), spriteOffsetX: 0, x: cw / 3, top: 300 }
-      dino.img.src = 'https://i.postimg.cc/HkV0jQpT/dfhfgfghfghfghh.png'
+      const dino = { img: new Image(), spriteOffsetX: 0, x: cw / 2, top: 250 }
+      dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
+
+      const timeline = gsap.timeline({ repeat: -1 })
+
+      bg.forEach((bgImage, index) => {
+        timeline.to(bgImage, {
+          duration: 2,
+          x: -bgImage.img.width,
+          ease: 'none',
+        })
+      })
 
       gsap.to(dino, {
-        duration: 0.55,
-        spriteOffsetX: 1250,
-        ease: 'steps(3)',
+        duration: 0.25,
+        spriteOffsetX: 150,
+        ease: 'steps(2)',
         repeat: -1,
       })
 
       gsap.ticker.add(() => {
         ctx.clearRect(0, 0, cw, ch)
 
-        bg.forEach((bgImage, index) => {
-          bgImage.x -= 5 // Move a imagem para a esquerda
-
-          if (bgImage.x <= -imageWidth) {
-            const previousImage = bg[(index - 1 + bg.length) % bg.length]
-            bgImage.x = previousImage.x + imageWidth // Reposiciona a imagem para reiniciar o movimento
+        bg.forEach((bgImage) => {
+          if (bgImage.img.complete) {
+            ctx.drawImage(bgImage.img, bgImage.x, 0, imageWidth, ch)
+          } else {
+            bgImage.img.onload = () => {
+              ctx.drawImage(bgImage.img, bgImage.x, 0, imageWidth, ch)
+            }
           }
-
-          ctx.drawImage(bgImage.img, bgImage.x, 0, imageWidth, ch)
         })
 
         ctx.drawImage(
           dino.img,
-          dino.spriteOffsetX,
+          dino.spriteOffsetX + 1,
           0,
-          100,
-          140,
+          74,
+          78,
           dino.x,
-          dino.top,
-          85,
-          150,
+          dino.top + 150,
+          74,
+          78,
         )
+      })
+
+      // Controlar a animação com a tecla de espaço
+      window.addEventListener('keydown', (event) => {
+        if (event.code === 'Space') {
+          if (timeline.paused()) {
+            timeline.play()
+          } else {
+            timeline.pause()
+          }
+        }
       })
     }
   }, [])
 
-  return <canvas className="gameScene" ref={canvasRef}></canvas>
+  return <canvas ref={canvasRef} className="gameScene" />
 }
 
 export default GameScene
