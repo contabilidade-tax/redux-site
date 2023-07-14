@@ -17,7 +17,7 @@ const GameScene: React.FC = () => {
       const imageWidth = 1000
 
       const bg = [
-        { img: new Image(), x: cw },
+        { img: new Image(), x: cw / 2 },
         { img: new Image(), x: cw + 1000 },
         { img: new Image(), x: cw + 2000 },
         { img: new Image(), x: cw + 3000 },
@@ -37,8 +37,15 @@ const GameScene: React.FC = () => {
       dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
 
       const timeline = gsap.timeline({ repeat: -1 })
-      const imageSpeed = 280 // velocidade das imagens
-      const totalWidth = bg.length * imageWidth // largura total do cenário
+      const imageSpeed = 200 // velocidade das imagens
+      const scale = 0.6 // escala da imagem
+      const scaledImageWidth = imageWidth * scale // largura da imagem reescalonada
+      const totalWidth = bg.length * scaledImageWidth // largura total do cenário
+
+      // Ajuste a posição inicial das imagens de acordo com a nova escala
+      bg.forEach((bgImage, index) => {
+        bgImage.x = cw + index * scaledImageWidth
+      })
 
       timeline.set(bg, { x: '+=0' }) // Mantém todas as animações de fundo na mesma posição inicial
 
@@ -55,7 +62,7 @@ const GameScene: React.FC = () => {
             repeat: -1, // faz com que a animação se repita indefinidamente
             onRepeat: function () {
               // reposiciona a imagem no final do cenário uma vez que ela tenha passado completamente pelo quadro
-              this.targets()[0].x = (bg.length - 1) * imageWidth
+              this.targets()[0].x = (bg.length - 1) * scaledImageWidth
             },
           },
           0,
@@ -72,16 +79,26 @@ const GameScene: React.FC = () => {
       gsap.ticker.add(() => {
         ctx.clearRect(0, 0, cw, ch)
 
-        const escala = 2
-        const widthScale = imageWidth / escala
-        const heightScale = ch / escala
-
         bg.forEach((bgImage) => {
           if (bgImage.img.complete) {
-            ctx.drawImage(bgImage.img, bgImage.x, 0, imageWidth, ch)
+            // Desenha a imagem com um tamanho escalonado.
+            ctx.drawImage(
+              bgImage.img,
+              bgImage.x,
+              ch / 2 - 150,
+              scaledImageWidth,
+              ch * scale,
+            )
           } else {
             bgImage.img.onload = () => {
-              ctx.drawImage(bgImage.img, bgImage.x, 0, imageWidth, ch)
+              // Desenha a imagem com um tamanho escalonado.
+              ctx.drawImage(
+                bgImage.img,
+                bgImage.x,
+                ch / 2,
+                scaledImageWidth,
+                ch * scale,
+              )
             }
           }
         })
@@ -93,7 +110,7 @@ const GameScene: React.FC = () => {
           74,
           78,
           dino.x,
-          dino.top + 150,
+          dino.top + 59,
           74,
           78,
         )
@@ -113,8 +130,8 @@ const GameScene: React.FC = () => {
   }, [])
 
   return (
-    <div className="relative h-[450px] w-[500px] border-collapse overflow-hidden border-2 border-slate-950">
-      <canvas ref={canvasRef} className="gameScene absolute -top-14" />
+    <div className="relative h-[300px] w-[500px] border-collapse overflow-hidden border-2 border-slate-950">
+      <canvas ref={canvasRef} className="gameScene absolute -top-[7.1rem]" />
     </div>
   )
 }
