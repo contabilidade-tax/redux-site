@@ -26,14 +26,15 @@ const GameScene: React.FC = () => {
         { img: new Image(), x: cw + 6000 },
       ]
       const car = { img: new Image(), x: cw + 480, y: 220, jumped: false } // Defina a posição y de acordo com a posição onde você quer desenhar o carro
-      const dinoCar = {
+      const dinoCar = { img: new Image(), x: cw + 480, y: 220, visible: false } // Defina a posição y de acordo com a posição onde você quer desenhar o carro
+      const peCicero = { img: new Image(), x: 0, y: -5 } // Defina a posição y de acordo com a posição onde você quer desenhar o carro
+      const dino = {
         img: new Image(),
-        x: cw + 480,
-        y: 220,
-        isVisible: false,
-      } // Defina a posição y de acordo com a posição onde você quer desenhar o carro
-      const peCicero = { img: new Image(), x: cw - 150, y: 20 } // Defina a posição y de acordo com a posição onde você quer desenhar o carro
-      const dino = { img: new Image(), spriteOffsetX: 0, x: cw / 5, top: 250 }
+        spriteOffsetX: 0,
+        x: cw / 5,
+        top: 250,
+        visible: true,
+      }
       const dinoPaused = {
         img: new Image(),
         spriteOffsetX: 0,
@@ -41,16 +42,16 @@ const GameScene: React.FC = () => {
         top: 250,
       }
 
-      bg[0].img.src = 'https://i.postimg.cc/0ySBb4f4/bg-1.png'
-      bg[1].img.src = 'https://i.postimg.cc/G2YMpg1Q/bg-2.png'
-      bg[2].img.src = 'https://i.postimg.cc/hPKCS0ZL/bg-3.png'
-      bg[3].img.src = 'https://i.postimg.cc/T16t5jdX/bg-4.png'
-      bg[4].img.src = 'https://i.postimg.cc/1RGChdBR/bg-5.png'
-      bg[5].img.src = 'https://i.postimg.cc/TYQthWBZ/bg-6.png'
-      bg[6].img.src = 'https://i.postimg.cc/6qfYr7q4/bg-7.png'
+      bg[0].img.src = 'https://i.postimg.cc/P5YRpYk6/bg1.png'
+      bg[1].img.src = 'https://i.postimg.cc/RV4b2Nry/bg2.png'
+      bg[2].img.src = 'https://i.postimg.cc/FzyFz1Gw/bg3.png'
+      bg[3].img.src = 'https://i.postimg.cc/4xtPdGTV/bg4.png'
+      bg[4].img.src = 'https://i.postimg.cc/CKSGxf7p/bg5.png'
+      bg[5].img.src = 'https://i.postimg.cc/m262mchN/bg6.png'
+      bg[6].img.src = 'https://i.postimg.cc/pTx2mz1x/bg7.png'
       car.img.src = 'https://i.postimg.cc/25LVxQdv/carro.png' // substitua pelo URL da imagem do carro
       dinoCar.img.src = 'https://i.postimg.cc/gj5hNWcD/dino-no-carro.png' // substitua pelo URL da imagem do carro
-      peCicero.img.src = 'https://i.postimg.cc/t4903Xzd/coisa.png' // substitua pelo URL da imagem do carro
+      peCicero.img.src = 'https://i.postimg.cc/9Mxvc76L/cicao.png' // substitua pelo URL da imagem do carro
       dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
       dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
 
@@ -60,7 +61,7 @@ const GameScene: React.FC = () => {
       const scaledImageWidth = imageWidth * scale // largura da imagem reescalonada
       const totalWidth = bg.length * scaledImageWidth // largura total do cenário
       // Define a velocidade da imagem de teste
-      const peCiceroSpeed = 5 // Ajuste esse valor para a velocidade desejada
+      const peCiceroSpeed = 8 // Ajuste esse valor para a velocidade desejada
       const timePeCicero = cw / peCiceroSpeed // Calcula o tempo necessário para a imagem de teste passar completamente pelo quadro
       // Define a velocidade da imagem de teste
       const dinoCarSpeed = 150 // Ajuste esse valor para a velocidade desejada
@@ -115,7 +116,7 @@ const GameScene: React.FC = () => {
       ) // Começa a animação da imagem de teste simultaneamente com as imagens de fundo
 
       // Adiciona a animação da imagem do dinoCar ao timeline
-      if (dinoCar.isVisible) {
+      if (dinoCar.visible) {
         timeline.to(
           dinoCar,
           {
@@ -127,7 +128,7 @@ const GameScene: React.FC = () => {
           0,
         )
         // uma vez que a animação foi iniciada, marque o dino no carro como não visível para evitar que a animação seja iniciada novamente
-        dinoCar.isVisible = false
+        dinoCar.visible = false
       }
 
       gsap.to(dino, {
@@ -140,37 +141,17 @@ const GameScene: React.FC = () => {
       gsap.ticker.add(() => {
         ctx.clearRect(0, 0, cw, ch)
 
-        // Adicione uma verificação para saber se o dino e o carro estão alinhados no eixo x e o dino ainda não pulou
-        if (Math.abs(dino.x - bg[6].x) < 10 && !car.jumped) {
-          car.jumped = true // Marque que o dino pulou
-          gsap.to(dino, {
-            y: '-=100', // Faça o dino pular 100 pixels
-            duration: 0.2, // A duração do pulo
-            ease: 'power2.out', // Use uma função de suavização para que o pulo pareça mais natural
-            onComplete: function () {
-              // Quando a animação do pulo terminar
-              // Faça o dino cair
-              gsap.to(dino, {
-                y: '+=100', // Faça o dino cair 100 pixels
-                duration: 0.2, // A duração da queda
-                ease: 'power2.in', // Use uma função de suavização para que a queda pareça mais natural
-                onComplete: function () {
-                  // Quando a animação da queda terminar
-                  // Troque a sprite do dino para a sprite do dino no carro
-                  dino.img = dinoCar.img
-                },
-              })
-            },
-          })
-        }
-
         // Primeiro, desenhe a imagem "Padre cícero".
+        const cicaoScale = 1
+        const cicaoWidth = (peCicero.img.width * cicaoScale) / 2
+        const cicaoHeight = peCicero.img.height * cicaoScale
+        console.log(cicaoScale, cicaoWidth, cicaoHeight)
         ctx.drawImage(
           peCicero.img,
           peCicero.x,
           peCicero.y,
-          120, // Largura da imagem do teste
-          120, // Altura da imagem do teste
+          scaledImageWidth, // Largura da imagem do teste
+          ch * scale, // Altura da imagem do teste
         )
 
         bg.forEach((bgImage) => {
@@ -196,35 +177,20 @@ const GameScene: React.FC = () => {
             }
           }
         })
-
-        if (Math.abs(bg[6].x - dino.x) < 5) {
-          dinoCar.isVisible = true
-          // 50 é a tolerância em pixels para o alinhamento. Ajuste conforme necessário.
-          const carScale = 0.8
-          const carScaledWidth = car.img.width * carScale
-          const carScaledHeight = car.img.height * carScale
-          // Desenha o dino no carro
+        if (timeline.paused()) {
           ctx.drawImage(
-            dinoCar.img,
-            dinoCar.x,
-            dinoCar.y,
-            carScaledWidth, // Largura da imagem do dinoCar
-            carScaledHeight, // Altura da imagem do dinoCar
+            dinoPaused.img,
+            dinoPaused.spriteOffsetX,
+            0,
+            78,
+            78,
+            dino.x - 4,
+            dino.top - 39,
+            78,
+            78,
           )
         } else {
-          if (timeline.paused()) {
-            ctx.drawImage(
-              dinoPaused.img,
-              dinoPaused.spriteOffsetX,
-              0,
-              78,
-              78,
-              dino.x - 4,
-              dino.top - 39,
-              78,
-              78,
-            )
-          } else {
+          if (dino.visible) {
             ctx.drawImage(
               dino.img,
               dino.spriteOffsetX + 1,
@@ -235,20 +201,6 @@ const GameScene: React.FC = () => {
               dino.top - 39,
               74,
               78,
-            )
-          }
-
-          if (bg[6].x <= cw) {
-            // Quando o fundo 6 estiver sendo mostrado
-            const carScale = 0.8
-            const carScaledWidth = car.img.width * carScale
-            const carScaledHeight = car.img.height * carScale
-            ctx.drawImage(
-              car.img,
-              bg[6].x, // A posição x do carro é ajustada com base na posição x do fundo 6
-              car.y,
-              carScaledWidth, // Largura da imagem do carro
-              carScaledHeight, // Altura da imagem do carro
             )
           }
         }
@@ -285,6 +237,8 @@ const GameScene: React.FC = () => {
           setTimeout(() => {
             timeline.pause() // Pausar após 1s
 
+            dino.visible = false // Torna o dino invisível
+
             setTimeout(() => {
               imageSpeed = 200 // Voltar para a velocidade original
 
@@ -312,7 +266,7 @@ const GameScene: React.FC = () => {
               const progress = timeline.progress()
               timeline.play()
               timeline.progress(progress)
-            }, 1500)
+            }, 2000)
           }, 1700) // animação da frente da tax
         }, 1500)
       }, 15250)
