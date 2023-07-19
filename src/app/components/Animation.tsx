@@ -74,7 +74,7 @@ const GameScene: React.FC = () => {
           .then(() => {
             gsap.to(dino, {
               duration: 0.3,
-              y: '+=120',
+              y: 248,
               x: '-=20',
               ease: 'power2.in',
             })
@@ -451,7 +451,7 @@ const GameScene: React.FC = () => {
         // Controlar a animação com a tecla de espaço
         window.addEventListener('keydown', (event) => {
           console.log(event.code, 'is pressed')
-          if (event.code === 'Space') {
+          if (event.code === 'Space' && !dino.isJumping) {
             dinoJump()
           }
         })
