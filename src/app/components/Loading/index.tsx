@@ -18,18 +18,18 @@ export default function Loading() {
     const contabilidade = contabilidadeRef?.current
 
     function show() {
-      hide(X)
+      // hide(X)
       // hide(redu)
-      hide(contabilidade)
+      // hide(contabilidade)
 
-      // outAnimate()
-      // enter()
-      // enterContabilidade()
+      outAnimate()
+      enter()
+      enterContabilidade()
     }
 
-    function hide(el: any) {
-      el.style.opacity = '0'
-    }
+    // function hide(el: any) {
+    //   el.style.opacity = '0'
+    // }
 
     function enter(el = [X, redu]) {
       gsap.to(el, { delay: 1.7, opacity: 1, duration: 1.5 })

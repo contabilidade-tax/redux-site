@@ -4,7 +4,7 @@ import Image from 'next/image'
 import '../common/utils/loading.css'
 
 // const reduAnimatedSvg = '/assets/img/loading/redu_animated.svg'
-const reduAnimatedSvg = '/assets/img/loading/REDU_VETORIZADO_animated.svg'
+const reduAnimatedSvg = '/assets/img/loading/redu_animated.svg'
 const reduSvg = '/assets/img/loading/REDU.svg'
 const XAnimatedSvg = '/assets/img/loading/animated_final.svg'
 const XSvg = '/assets/img/loading/redux_x_branco.svg'
@@ -29,7 +29,7 @@ export default function Main({
 
   return (
     <>
-      <section className="absolute top-1/2 flex h-screen w-full -translate-y-1/2 flex-col items-center justify-center bg-bg-color">
+      <section className="absolute top-1/2 z-50 flex h-screen w-full -translate-y-1/2 flex-col items-center justify-center bg-bg-color">
         <section id="wrapper" className="relative flex items-center">
           <div className="relative left-4">
             <Image
@@ -51,7 +51,7 @@ export default function Main({
               ref={reduRef}
             />
           </div>
-          <div className="relative -top-6 right-2">
+          <div className="relative -top-8 right-2">
             <Image
               id="svg1"
               className="animated"
@@ -63,7 +63,7 @@ export default function Main({
             />
             <Image
               id="svg2"
-              className="notAnimated"
+              className="notAnimated relative top-[1.8rem]"
               src={XSvg}
               alt="X_logo"
               width={175}
