@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { PixiPlugin } from 'gsap/PixiPlugin'
-
 gsap.registerPlugin(PixiPlugin)
 
 const GameScene: React.FC = () => {
@@ -57,6 +56,7 @@ const GameScene: React.FC = () => {
       bg[6].img.src = 'https://i.postimg.cc/593ccMtN/bg7.png'
       bg[7].img.src = 'https://i.postimg.cc/NMZtC37k/bg8.png'
       peCicero.img.src = 'https://i.postimg.cc/9Mxvc76L/cicao.png'
+      // peCicero.img.src = '../../../public/assets/img/cicao.png'
       dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
       dinoCar.img.src = 'https://i.postimg.cc/gj5hNWcD/dino-no-carro.png'
       dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
@@ -355,18 +355,9 @@ const GameScene: React.FC = () => {
             })
 
             timeline.play() // Dar play
-
             setTimeout(() => {
+              // dino.visible = false // Torna o dino invisível
               timeline.pause() // Pausar após 1s
-
-              dinoCar.visible = true
-              console.log(
-                dinoCar.visible,
-                'Isso após tornar true no timeout e:',
-                dinoCar.x,
-                'posição atual',
-              )
-              dino.visible = false // Torna o dino invisível
 
               setTimeout(() => {
                 imageSpeed = 200 // Voltar para a velocidade original
@@ -395,7 +386,27 @@ const GameScene: React.FC = () => {
                 const progress = timeline.progress()
                 timeline.play()
                 timeline.progress(progress)
-              }, 1800) // timeout do play novamente
+
+                setTimeout(() => {
+                  dino.visible = false // Torna o dino invisível
+                  console.log('Dino hidden.')
+                  timeline.pause() // Pausar
+                  console.log('Animation paused.')
+
+                  setTimeout(() => {
+                    dinoCar.visible = true // Torna o carro visível
+                    console.log('DinoCar visible.')
+
+                    setTimeout(() => {
+                      console.log('1s delay over. About to resume animation.')
+                      const progress = timeline.progress()
+                      timeline.play()
+                      timeline.progress(progress)
+                      console.log('Animation resumed.')
+                    }, 1000) // 1s delay before resuming animation
+                  }, 1000) // 1s delay before dinoCar appears
+                }, 0)
+              }, 2500) // timeout do play novamente
             }, 1700) // timeout do pause em frente à tax
           }, 1500) // timeout de alterar a velocidade
         }, 15250) // primeiro pause
@@ -435,7 +446,7 @@ const GameScene: React.FC = () => {
           // Limpar a timeline e iniciar a animação novamente
           timeline.clear()
           startAnimation()
-        }, 25000)
+        }, 27500)
 
         // Controlar a animação com a tecla de espaço
         window.addEventListener('keydown', (event) => {

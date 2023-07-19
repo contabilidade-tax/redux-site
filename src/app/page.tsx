@@ -18,32 +18,52 @@ export default function Home() {
       setIsLoading(false)
     }, 3500) // Aqui você define o tempo de duração da animação
 
-    return () => clearTimeout(timer) // Limpa o timer se o componente for desmontado antes do tempo acabar
-  }, [])
+    // Função para interceptar o evento keydown
+    const onKeyDown = (event: {
+      keyCode: number
+      preventDefault: () => void
+    }) => {
+      // 32 é o código da tecla para a tecla de espaço
+      if (event.keyCode === 32) {
+        event.preventDefault()
+      }
+    }
 
-  const images = [
-    'https://img.freepik.com/fotos-gratis/mulher-de-negocios-usando-um-tablet-para-analisar-o-conceito-de-sucesso-de-estatisticas-de-estrategia-de-financas-de-empresa-e-planejamento-para-o-futuro-na-sala-de-escritorio_74952-1410.jpg?w=1060&t=st=1688670368~exp=1688670968~hmac=a6b603f6482e5dcbcc57660905124c2b22ce63d4d8da102cb4ebcb04c7a05382',
-    'https://images.pexels.com/photos/6863244/pexels-photo-6863244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/5196821/pexels-photo-5196821.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/7681091/pexels-photo-7681091.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://img.freepik.com/fotos-gratis/trabalhadores-de-escritorio-usando-graficos-de-financas_23-2150408642.jpg?w=996&t=st=1688670788~exp=1688671388~hmac=5fb3c06391504607b4c6c9d980515a35c3bce0395ece6181e2462c742dc232d5',
-  ]
+    // Adiciona o listener ao objeto window
+    window.addEventListener('keydown', onKeyDown)
 
-  const properties = {
-    indicators: true,
-    scale: 1.4,
-    arrows: false,
-    duration: 3000,
-    transitionDuration: 1000,
-    autoplay: true,
-    pauseOnHover: true,
-    canSwipe: true,
-    cssClass: 'slide',
-  }
+    return () => {
+      clearTimeout(timer) // Limpa o timer se o componente for desmontado antes do tempo acabar
+      window.removeEventListener('keydown', onKeyDown) // Remove o listener quando o componente é desmontado
+    }
+  }, []) // Sem dependências, então só é executado no mount e unmount
+
+  useEffect(() => {
+    // Verificar se o código está sendo executado no lado do cliente
+    if (typeof window !== 'undefined') {
+      if (isLoading) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
+    }
+
+    // Você pode querer reverter o overflow para 'auto' quando o componente desmonta
+    return () => {
+      if (typeof window !== 'undefined') {
+        document.body.style.overflow = 'auto'
+      }
+    }
+  }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
 
   return (
     <>
-      {isLoading ? <Loading /> : null}
+      {
+        isLoading ? (
+          <Loading />
+        ) : null /* ou qualquer outro componente ou conteúdo quando não estiver carregando */
+      }
+
       <div className="z-10 flex h-full w-full flex-col px-24 pt-28">
         <section className="first-visualization flex flex-1">
           <section className="left-area w-2/4">
@@ -68,15 +88,6 @@ export default function Home() {
             </div>
           </section>
           <section className="right-area relative -left-20 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
-            {/* <Zoom {...properties}>
-            {images.map((image, index) => (
-              <div className="each-slide-effect" key={index}>
-                <div style={{ backgroundImage: `url(${image})` }}>
-                  <span>Slide {index + 1}</span>
-                </div>
-              </div>
-            ))}
-          </Zoom> */}
             {!isLoading ? <GameScene /> : null}
           </section>
         </section>

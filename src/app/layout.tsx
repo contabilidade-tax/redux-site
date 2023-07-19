@@ -1,12 +1,12 @@
 import './globals.css'
 import Header from './components/Header'
-import { Montserrat } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 import { ReactNode } from 'react'
 
-// const inter = Comic_Neue({ subsets: ['latin'] })
-const inter = Montserrat({
+// const inter = Poppins({ subsets: ['latin'] })
+const inter = Poppins({
   subsets: ['latin'],
-  // weight: '400',
+  weight: '200',
 })
 
 export const metadata = {

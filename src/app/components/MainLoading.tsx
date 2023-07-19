@@ -29,7 +29,7 @@ export default function Main({
 
   return (
     <>
-      <section className="absolute top-1/2 z-50 flex h-screen w-full -translate-y-1/2 flex-col items-center justify-center bg-bg-color">
+      <section className="absolute top-1/2 z-50 flex h-screen w-full -translate-y-1/2 flex-col items-center justify-center overflow-hidden bg-bg-color">
         <section id="wrapper" className="relative flex items-center">
           <div className="relative left-4">
             <Image
