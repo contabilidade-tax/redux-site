@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react'
 
 import Loading from '../components/Loading'
-import DinoAnimation from '../components/Animation'
 
 export function LoadingAnimation() {
   return (
     <Fragment>
-      {/* <Loading /> */}
-      <DinoAnimation />
+      <Loading />
     </Fragment>
   )
 }
