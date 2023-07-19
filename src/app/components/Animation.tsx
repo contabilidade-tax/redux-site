@@ -64,24 +64,45 @@ const GameScene: React.FC = () => {
       // Função do pulo do dino
       const dinoJump = () => {
         dino.isJumping = true
-        gsap
-          .to(dino, {
-            duration: 0.3,
-            y: '-=120',
-            x: '+=20',
-            ease: 'power2.out',
-          })
-          .then(() => {
-            gsap.to(dino, {
+        if (dino.visible) {
+          gsap
+            .to(dino, {
               duration: 0.3,
-              y: 248,
-              x: '-=20',
-              ease: 'power2.in',
+              y: '-=120',
+              x: '+=20',
+              ease: 'power2.out',
             })
-            setTimeout(() => {
-              dino.isJumping = false
-            }, 350)
-          })
+            .then(() => {
+              gsap.to(dino, {
+                duration: 0.3,
+                y: 248,
+                x: '-=20',
+                ease: 'power2.in',
+              })
+              setTimeout(() => {
+                dino.isJumping = false
+              }, 350)
+            })
+        } else if (dinoCar.visible) {
+          gsap
+            .to(dinoCar, {
+              duration: 0.4,
+              y: '-=120',
+              x: '+=20',
+              ease: 'power2.out',
+            })
+            .then(() => {
+              gsap.to(dinoCar, {
+                duration: 0.2,
+                y: 195,
+                x: '-=20',
+                ease: 'power2.in',
+              })
+              setTimeout(() => {
+                dino.isJumping = false
+              }, 350)
+            })
+        }
       }
 
       // Wrapper da animação
@@ -218,7 +239,7 @@ const GameScene: React.FC = () => {
           })
 
           // Seta o dino na tela
-          if (timeline.paused() || dino.isJumping) {
+          if ((timeline.paused() || dino.isJumping) && !dinoCar.visible) {
             if (dinoPaused.img.complete) {
               ctx.drawImage(
                 dinoPaused.img,
