@@ -12,6 +12,7 @@ import { ButtonBackgroundShine } from '../app/components/Tools'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
+  const [renderGameScene, setRenderGameScene] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,18 +42,16 @@ export default function Home() {
   useEffect(() => {
     // Verificar se o código está sendo executado no lado do cliente
     if (typeof window !== 'undefined') {
-      if (isLoading) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = 'auto'
-      }
+      document.body.style.overflow = isLoading ? 'hidden' : 'auto'
     }
 
-    // Você pode querer reverter o overflow para 'auto' quando o componente desmonta
-    return () => {
-      if (typeof window !== 'undefined') {
-        document.body.style.overflow = 'auto'
-      }
+    if (!isLoading) {
+      const timer = setTimeout(() => {
+        setRenderGameScene(true) // Isto irá acionar a re-renderização do componente
+      }, 1000) // Se 1 ms é muito curto, considere aumentar este tempo
+
+      // Limpar o timer quando o componente desmontar ou antes da próxima renderização
+      return () => clearTimeout(timer)
     }
   }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
 
@@ -88,7 +87,7 @@ export default function Home() {
             </div>
           </section>
           <section className="right-area relative -left-20 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
-            {!isLoading ? <GameScene /> : null}
+            {renderGameScene ? <GameScene /> : null}
           </section>
         </section>
         <div className="divisor"></div>

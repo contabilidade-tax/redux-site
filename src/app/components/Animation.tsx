@@ -53,12 +53,12 @@ const GameScene: React.FC = () => {
       bg[3].img.src = 'https://i.postimg.cc/4xtPdGTV/bg4.png'
       bg[4].img.src = 'https://i.postimg.cc/CKSGxf7p/bg5.png'
       bg[5].img.src = 'https://i.postimg.cc/m262mchN/bg6.png'
-      bg[6].img.src = 'https://i.postimg.cc/593ccMtN/bg7.png'
+      bg[6].img.src = 'https://i.postimg.cc/yxf51GVV/bg7.png'
       bg[7].img.src = 'https://i.postimg.cc/NMZtC37k/bg8.png'
       peCicero.img.src = 'https://i.postimg.cc/9Mxvc76L/cicao.png'
       // peCicero.img.src = '../../../public/assets/img/cicao.png'
       dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
-      dinoCar.img.src = 'https://i.postimg.cc/gj5hNWcD/dino-no-carro.png'
+      dinoCar.img.src = 'https://i.postimg.cc/VkP9SRd1/Dino-no-carro.png'
       dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
 
       // Função do pulo do dino
