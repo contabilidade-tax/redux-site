@@ -9,6 +9,7 @@ const GameScene: React.FC = () => {
 
   useEffect(() => {
     if (canvasRef.current) {
+      const delay = 1.5
       const canvas = canvasRef.current
       const ctx = canvas.getContext('2d')!
       const cw = (canvas.width = 560)
@@ -107,7 +108,7 @@ const GameScene: React.FC = () => {
 
       // Wrapper da animação
       const startAnimation = () => {
-        const timeline = gsap.timeline()
+        const timeline = gsap.timeline({ delay })
         let imageSpeed = 200 // velocidade das imagens
         const scale = 0.6 // escala da imagem do fundo
         const scaledImageWidth = bgImageWidth * scale // largura da imagem reescalonada
@@ -346,7 +347,7 @@ const GameScene: React.FC = () => {
               }, 2950) // quarto pulo
             }, 2900) // terceiro pulo
           }, 3150) // segundo pulo
-        }, 3600) // primeiro pulo
+        }, 3600 + delay * 1000) // primeiro pulo
 
         // Controle da timeline
         setTimeout(() => {
@@ -430,7 +431,7 @@ const GameScene: React.FC = () => {
               }, 2500) // timeout do play novamente
             }, 1700) // timeout do pause em frente à tax
           }, 1500) // timeout de alterar a velocidade
-        }, 15250) // primeiro pause
+        }, 15250 + delay * 1000) // primeiro pause
 
         // Reiniciar a timeline após 24 segundos
         setTimeout(() => {
@@ -467,7 +468,7 @@ const GameScene: React.FC = () => {
           // Limpar a timeline e iniciar a animação novamente
           timeline.clear()
           startAnimation()
-        }, 27500)
+        }, 27500 + delay * 1000)
 
         // Controlar a animação com a tecla de espaço
         window.addEventListener('keydown', (event) => {

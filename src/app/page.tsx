@@ -48,7 +48,7 @@ export default function Home() {
     if (!isLoading) {
       const timer = setTimeout(() => {
         setRenderGameScene(true) // Isto irá acionar a re-renderização do componente
-      }, 1000) // Se 1 ms é muito curto, considere aumentar este tempo
+      }, 100) // Se 1 ms é muito curto, considere aumentar este tempo
 
       // Limpar o timer quando o componente desmontar ou antes da próxima renderização
       return () => clearTimeout(timer)
