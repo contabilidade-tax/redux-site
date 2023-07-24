@@ -177,17 +177,148 @@ const GameScene: React.FC = () => {
           })
         }
 
-        const dinoRace = () => {
-          console.log('ANIMOU O DINO NO CARRO')
-          gsap.to(dinoCar, {
-            x: '+=' + cw,
-            duration: 1,
-          })
+        // const dinoRace = () => {
+        //   console.log('ANIMOU O DINO NO CARRO')
+        //   gsap.to(dinoCar, {
+        //     x: '+=' + cw,
+        //     duration: 1,
+        //   })
+        // }
+
+        const jumps = () => {
+          // Pulos
+          setTimeout(() => {
+            dinoJump()
+            setTimeout(() => {
+              dinoJump()
+              setTimeout(() => {
+                dinoJump()
+                setTimeout(() => {
+                  dinoJump()
+                }, 2950) // quarto pulo
+              }, 2900) // terceiro pulo
+            }, 3150) // segundo pulo
+          }, 3600) // primeiro pulo
+        }
+
+        const tlControl = () => {
+          // Controle da timeline
+          setTimeout(() => {
+            timeline.pause() // Pausar após 15.25s
+
+            setTimeout(() => {
+              imageSpeed = 100 // Alterar a velocidade
+
+              timeline.clear() // Limpar as animações existentes
+
+              // Criar novas animações com a nova velocidade
+              bg.forEach((bgImage, index) => {
+                const time = totalWidth / imageSpeed // Novo tempo
+                timeline.to(
+                  bgImage,
+                  {
+                    x: '-=' + totalWidth,
+                    duration: time,
+                    ease: 'none',
+                    repeat: -1,
+                    onRepeat: function () {
+                      this.targets()[0].x = (bg.length - 1) * scaledImageWidth
+                    },
+                  },
+                  0,
+                )
+              })
+
+              timeline.play() // Dar play
+              setTimeout(() => {
+                dino.visible = false // Torna o dino invisível
+                timeline.pause() // Pausar após 1s
+
+                setTimeout(() => {
+                  dinoCar.visible = true // Torna o carro visível
+                  console.log('DinoCar visible.')
+                  // dinoRace()
+                }, 1500)
+
+                setTimeout(() => {
+                  imageSpeed = 200 // Voltar para a velocidade original
+
+                  timeline.clear() // Limpar as animações existentes
+
+                  // Criar novas animações com a velocidade original
+                  bg.forEach((bgImage, index) => {
+                    const time = totalWidth / imageSpeed // Tempo com a velocidade original
+                    timeline.to(
+                      bgImage,
+                      {
+                        x: '-=' + totalWidth,
+                        duration: time,
+                        ease: 'none',
+                        repeat: -1,
+                        onRepeat: function () {
+                          this.targets()[0].x =
+                            (bg.length - 1) * scaledImageWidth
+                        },
+                      },
+                      0,
+                    )
+                  })
+
+                  // Garantir que o play da animação comece do mesmo ponto onde foi pausada
+                  const progress = timeline.progress()
+                  timeline.play()
+                  timeline.progress(progress)
+                }, 2500) // timeout do play novamente
+              }, 1700) // timeout do pause em frente à tax
+            }, 1500) // timeout de alterar a velocidade
+          }, 15250) // primeiro pause
+        }
+
+        const restart = () => {
+          // Reiniciar a timeline após 24 segundos
+          setTimeout(() => {
+            // Limpar o contexto do canvas antes de reiniciar a animação
+            ctx.clearRect(0, 0, cw, ch)
+
+            // Reiniciar as configurações das imagens
+            bg.forEach((bgImage, index) => {
+              if (index === 0) {
+                bgImage.x = 0
+              } else {
+                bgImage.x = index * scaledImageWidth
+              }
+            })
+
+            // Reiniciar as configurações do dino
+            dino.spriteOffsetX = 0
+            dino.y = -248
+            dino.visible = true
+
+            // Reiniciar as configurações do dinoPaused
+            dinoPaused.spriteOffsetX = 0
+            dinoPaused.y = 250
+
+            // Reiniciar as configurações do dinoCar
+            dinoCar.x = cw / 5 - 30
+            dinoCar.y = 195
+            dinoCar.visible = false
+
+            // Reiniciar as configurações do peCicero
+            peCicero.x = 0
+            peCicero.y = -5
+
+            // Limpar a timeline e iniciar a animação novamente
+            timeline.clear()
+            startAnimation()
+          }, 23500)
         }
 
         // Adicione a animação do dino ao timeline
         timeline.add(animateDino, 0)
         timeline.add(dinoFall, -1.2)
+        timeline.add(jumps, 0)
+        timeline.add(tlControl, 0)
+        timeline.add(restart, 0)
 
         // função do gsap que é acionada a cada quadro do canvas desenhando os elementos em tela
         gsap.ticker.add(() => {
@@ -340,127 +471,6 @@ const GameScene: React.FC = () => {
             }
           }
         })
-
-        // Pulos
-        setTimeout(() => {
-          dinoJump()
-          setTimeout(() => {
-            dinoJump()
-            setTimeout(() => {
-              dinoJump()
-              setTimeout(() => {
-                dinoJump()
-              }, 2950) // quarto pulo
-            }, 2900) // terceiro pulo
-          }, 3150) // segundo pulo
-        }, 3600 + delay * 1000) // primeiro pulo
-
-        // Controle da timeline
-        setTimeout(() => {
-          timeline.pause() // Pausar após 15.25s
-
-          setTimeout(() => {
-            imageSpeed = 100 // Alterar a velocidade
-
-            timeline.clear() // Limpar as animações existentes
-
-            // Criar novas animações com a nova velocidade
-            bg.forEach((bgImage, index) => {
-              const time = totalWidth / imageSpeed // Novo tempo
-              timeline.to(
-                bgImage,
-                {
-                  x: '-=' + totalWidth,
-                  duration: time,
-                  ease: 'none',
-                  repeat: -1,
-                  onRepeat: function () {
-                    this.targets()[0].x = (bg.length - 1) * scaledImageWidth
-                  },
-                },
-                0,
-              )
-            })
-
-            timeline.play() // Dar play
-            setTimeout(() => {
-              dino.visible = false // Torna o dino invisível
-              timeline.pause() // Pausar após 1s
-
-              setTimeout(() => {
-                dinoCar.visible = true // Torna o carro visível
-                console.log('DinoCar visible.')
-                // dinoRace()
-              }, 1500)
-
-              setTimeout(() => {
-                imageSpeed = 200 // Voltar para a velocidade original
-
-                timeline.clear() // Limpar as animações existentes
-
-                // Criar novas animações com a velocidade original
-                bg.forEach((bgImage, index) => {
-                  const time = totalWidth / imageSpeed // Tempo com a velocidade original
-                  timeline.to(
-                    bgImage,
-                    {
-                      x: '-=' + totalWidth,
-                      duration: time,
-                      ease: 'none',
-                      repeat: -1,
-                      onRepeat: function () {
-                        this.targets()[0].x = (bg.length - 1) * scaledImageWidth
-                      },
-                    },
-                    0,
-                  )
-                })
-
-                // Garantir que o play da animação comece do mesmo ponto onde foi pausada
-                const progress = timeline.progress()
-                timeline.play()
-                timeline.progress(progress)
-              }, 2500) // timeout do play novamente
-            }, 1700) // timeout do pause em frente à tax
-          }, 1500) // timeout de alterar a velocidade
-        }, 15250 + delay * 1000) // primeiro pause
-
-        // Reiniciar a timeline após 24 segundos
-        setTimeout(() => {
-          // Limpar o contexto do canvas antes de reiniciar a animação
-          ctx.clearRect(0, 0, cw, ch)
-
-          // Reiniciar as configurações das imagens
-          bg.forEach((bgImage, index) => {
-            if (index === 0) {
-              bgImage.x = 0
-            } else {
-              bgImage.x = index * scaledImageWidth
-            }
-          })
-
-          // Reiniciar as configurações do dino
-          dino.spriteOffsetX = 0
-          dino.y = -248
-          dino.visible = true
-
-          // Reiniciar as configurações do dinoPaused
-          dinoPaused.spriteOffsetX = 0
-          dinoPaused.y = 250
-
-          // Reiniciar as configurações do dinoCar
-          dinoCar.x = cw / 5 - 30
-          dinoCar.y = 195
-          dinoCar.visible = false
-
-          // Reiniciar as configurações do peCicero
-          peCicero.x = 0
-          peCicero.y = -5
-
-          // Limpar a timeline e iniciar a animação novamente
-          timeline.clear()
-          startAnimation()
-        }, 26500)
 
         // Controlar a animação com a tecla de espaço
         window.addEventListener('keydown', (event) => {
