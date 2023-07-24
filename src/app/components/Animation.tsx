@@ -10,11 +10,11 @@ const GameScene: React.FC = () => {
   useEffect(() => {
     if (canvasRef.current) {
       const delay = 1.5
+      const bgImageWidth = 1000
       const canvas = canvasRef.current
       const ctx = canvas.getContext('2d')!
       const cw = (canvas.width = 560)
       const ch = (canvas.height = 500)
-      const bgImageWidth = 1000
       const bg = [
         { img: new Image(), x: cw / 2 },
         { img: new Image(), x: cw + 1000 },
@@ -26,19 +26,19 @@ const GameScene: React.FC = () => {
         { img: new Image(), x: cw + 7000 },
       ]
       const peCicero = { img: new Image(), x: 0, y: -5 } // Defina a posição y de acordo com a posição onde você quer desenhar o carro
-      const dinoCar = {
-        img: new Image(),
-        x: cw / 5 - 30,
-        y: 195,
-        visible: false,
-      }
       const dino = {
         img: new Image(),
         spriteOffsetX: 0,
         x: cw / 5,
-        y: 248,
+        y: -248,
         visible: true,
         isJumping: false,
+      }
+      const dinoCar = {
+        img: new Image(),
+        x: dino.x - 10,
+        y: 195,
+        visible: false,
       }
       const dinoPaused = {
         img: new Image(),
@@ -57,54 +57,9 @@ const GameScene: React.FC = () => {
       bg[6].img.src = 'https://i.postimg.cc/yxf51GVV/bg7.png'
       bg[7].img.src = 'https://i.postimg.cc/NMZtC37k/bg8.png'
       peCicero.img.src = 'https://i.postimg.cc/9Mxvc76L/cicao.png'
-      // peCicero.img.src = '../../../public/assets/img/cicao.png'
       dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
       dinoCar.img.src = 'https://i.postimg.cc/VkP9SRd1/Dino-no-carro.png'
       dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
-
-      // Função do pulo do dino
-      const dinoJump = () => {
-        dino.isJumping = true
-        if (dino.visible) {
-          gsap
-            .to(dino, {
-              duration: 0.3,
-              y: '-=120',
-              x: '+=20',
-              ease: 'power2.out',
-            })
-            .then(() => {
-              gsap.to(dino, {
-                duration: 0.3,
-                y: 248,
-                x: '-=20',
-                ease: 'power2.in',
-              })
-              setTimeout(() => {
-                dino.isJumping = false
-              }, 350)
-            })
-        } else if (dinoCar.visible) {
-          gsap
-            .to(dinoCar, {
-              duration: 0.4,
-              y: '-=120',
-              x: '+=20',
-              ease: 'power2.out',
-            })
-            .then(() => {
-              gsap.to(dinoCar, {
-                duration: 0.2,
-                y: 195,
-                x: '-=20',
-                ease: 'power2.in',
-              })
-              setTimeout(() => {
-                dino.isJumping = false
-              }, 350)
-            })
-        }
-      }
 
       // Wrapper da animação
       const startAnimation = () => {
@@ -116,9 +71,6 @@ const GameScene: React.FC = () => {
         // Define a velocidade da imagem de teste
         const peCiceroSpeed = 8 // Ajuste esse valor para a velocidade desejada
         const timePeCicero = cw / peCiceroSpeed // Calcula o tempo necessário para a imagem de teste passar completamente pelo quadro
-        // Define a velocidade da imagem de teste
-        const dinoCarSpeed = 800 // Ajuste esse valor para a velocidade desejada
-        const timeDinoCar = totalWidth / dinoCarSpeed // Calcula o tempo necessário para a imagem de teste passar completamente pelo quadro
 
         // Ajuste a posição inicial das imagens de acordo com a nova escala
         bg.forEach((bgImage, index) => {
@@ -163,18 +115,6 @@ const GameScene: React.FC = () => {
           0,
         ) // Começa a animação da imagem de teste simultaneamente com as imagens de fundo
 
-        // Adiciona a animação da imagem do dinoCar ao timeline
-        timeline.to(
-          dinoCar,
-          {
-            x: '+=500', // Isso move dinoCar 500 unidades à direita da sua posição atual
-            duration: timeDinoCar,
-            // delay: 0.2,
-            ease: 'none',
-          },
-          20,
-        )
-
         // Crie uma função de animação personalizada
         const animateDino = () => {
           gsap.to(dino, {
@@ -184,8 +124,70 @@ const GameScene: React.FC = () => {
             repeat: -1,
           })
         }
+
+        // Função do pulo do dino
+        const dinoJump = () => {
+          dino.isJumping = true
+          if (dino.visible) {
+            gsap
+              .to(dino, {
+                duration: 0.3,
+                y: '-=120',
+                x: '+=20',
+                ease: 'power2.out',
+              })
+              .then(() => {
+                gsap.to(dino, {
+                  duration: 0.3,
+                  y: 248,
+                  x: '-=20',
+                  ease: 'power2.in',
+                })
+                setTimeout(() => {
+                  dino.isJumping = false
+                }, 350)
+              })
+          } else if (dinoCar.visible) {
+            gsap
+              .to(dinoCar, {
+                duration: 0.4,
+                y: '-=120',
+                x: '+=20',
+                ease: 'power2.out',
+              })
+              .then(() => {
+                gsap.to(dinoCar, {
+                  duration: 0.2,
+                  y: 195,
+                  x: '-=20',
+                  ease: 'power2.in',
+                })
+                setTimeout(() => {
+                  dino.isJumping = false
+                }, 350)
+              })
+          }
+        }
+
+        const dinoFall = () => {
+          gsap.to(dino, {
+            y: 248,
+            duration: 1.1,
+            ease: 'bounce',
+          })
+        }
+
+        const dinoRace = () => {
+          console.log('ANIMOU O DINO NO CARRO')
+          gsap.to(dinoCar, {
+            x: '+=' + cw,
+            duration: 1,
+          })
+        }
+
         // Adicione a animação do dino ao timeline
         timeline.add(animateDino, 0)
+        timeline.add(dinoFall, -1.2)
 
         // função do gsap que é acionada a cada quadro do canvas desenhando os elementos em tela
         gsap.ticker.add(() => {
@@ -240,7 +242,11 @@ const GameScene: React.FC = () => {
           })
 
           // Seta o dino na tela
-          if ((timeline.paused() || dino.isJumping) && !dinoCar.visible) {
+          if (
+            (timeline.paused() || dino.isJumping) &&
+            !dinoCar.visible &&
+            dino.visible
+          ) {
             if (dinoPaused.img.complete) {
               ctx.drawImage(
                 dinoPaused.img,
@@ -378,8 +384,14 @@ const GameScene: React.FC = () => {
 
             timeline.play() // Dar play
             setTimeout(() => {
-              // dino.visible = false // Torna o dino invisível
+              dino.visible = false // Torna o dino invisível
               timeline.pause() // Pausar após 1s
+
+              setTimeout(() => {
+                dinoCar.visible = true // Torna o carro visível
+                console.log('DinoCar visible.')
+                // dinoRace()
+              }, 1500)
 
               setTimeout(() => {
                 imageSpeed = 200 // Voltar para a velocidade original
@@ -408,26 +420,6 @@ const GameScene: React.FC = () => {
                 const progress = timeline.progress()
                 timeline.play()
                 timeline.progress(progress)
-
-                setTimeout(() => {
-                  dino.visible = false // Torna o dino invisível
-                  console.log('Dino hidden.')
-                  timeline.pause() // Pausar
-                  console.log('Animation paused.')
-
-                  setTimeout(() => {
-                    dinoCar.visible = true // Torna o carro visível
-                    console.log('DinoCar visible.')
-
-                    setTimeout(() => {
-                      console.log('1s delay over. About to resume animation.')
-                      const progress = timeline.progress()
-                      timeline.play()
-                      timeline.progress(progress)
-                      console.log('Animation resumed.')
-                    }, 1000) // 1s delay before resuming animation
-                  }, 1000) // 1s delay before dinoCar appears
-                }, 0)
               }, 2500) // timeout do play novamente
             }, 1700) // timeout do pause em frente à tax
           }, 1500) // timeout de alterar a velocidade
@@ -449,7 +441,7 @@ const GameScene: React.FC = () => {
 
           // Reiniciar as configurações do dino
           dino.spriteOffsetX = 0
-          dino.y = 248
+          dino.y = -248
           dino.visible = true
 
           // Reiniciar as configurações do dinoPaused
@@ -468,7 +460,7 @@ const GameScene: React.FC = () => {
           // Limpar a timeline e iniciar a animação novamente
           timeline.clear()
           startAnimation()
-        }, 27500 + delay * 1000)
+        }, 26500)
 
         // Controlar a animação com a tecla de espaço
         window.addEventListener('keydown', (event) => {
