@@ -2,8 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
-
 :root {
   --px-header: .2rem;
   --primary-color: #D5A115;
@@ -16,9 +14,16 @@ body {
 
 .active-page {
   font-weight: bold;
-  border-bottom: 3px solid var(--primary-color);
+   transition: 0.5s ease-out linear; 
+}
 
-  transition: 0.5s ease-out linear;
+.underline {
+  position: relative;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-color);
 }
 
 ul > li {
@@ -57,7 +62,6 @@ ul > li {
   display: none;
 }
 
-
 .slide {
   border-radius: 5rem;
 }
@@ -89,3 +93,14 @@ ul > li {
 }
 
 /* flex items-center gap-2 */
+
+.screen {
+  max-height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.painel {
+  scroll-snap-align: start;
+  height: 100vh;
+}

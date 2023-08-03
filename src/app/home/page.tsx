@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 'use client'
 import React, { useState, useEffect } from 'react'
-
-// import { Zoom } from 'react-slideshow-image'
-// import 'react-slideshow-image/dist/styles.css'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import Servicos from '../components/Servicos'
 import GameScene from '../components/Animation'
 import Loading from '../components/Loading'
 import { ButtonBackgroundShine } from '../components/Tools'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -55,6 +56,8 @@ export default function Home() {
     }
   }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
 
+  useEffect(() => {}, [])
+
   return (
     <>
       {
@@ -64,7 +67,7 @@ export default function Home() {
       }
 
       <div className="z-10 flex h-full w-full flex-col px-24 pt-28">
-        <section className="first-visualization flex flex-1">
+        <section className="first-visualization painel flex flex-1">
           <section className="left-area w-2/4">
             <div className="home-text w-5/5 text-7xl leading-none">
               <h1 className="w-full">Não somos obrigação,</h1>
@@ -86,13 +89,12 @@ export default function Home() {
               />
             </div>
           </section>
-
           <section className="right-area relative -left-20 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
             {renderGameScene ? <GameScene /> : null}
           </section>
         </section>
         <div className="divisor"></div>
-        <Servicos className="servicos relative" />
+        <Servicos className="servicos painel relative" />
         <section className="my-8">A</section>
       </div>
     </>

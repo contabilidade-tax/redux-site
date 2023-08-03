@@ -2,13 +2,18 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+
+const tabs = [
+  { label: 'Home', src: '/home' },
+  { label: 'Sobre', src: '/sobre' },
+  { label: 'Serviços', src: '/servicos' },
+  { label: 'Contato', src: '/contato' },
+  { label: 'Trabalhe Conosco', src: '/trabalhe-conosco' },
+]
 
 export default function Header() {
-  const [currentPage, setCurrentPage] = useState('home')
-
-  const handleCurrentPage = (page: string) => {
-    setCurrentPage(page)
-  }
+  const [currentPage, setCurrentPage] = useState(tabs[0])
 
   return (
     <header className="flex h-20 w-full justify-between bg-zinc-50 px-16 shadow-md">
@@ -19,34 +24,18 @@ export default function Header() {
         height={200}
       />
       <ul className="flew-row wrapper mx-10 flex items-center justify-between font-normal">
-        <li className={currentPage === 'home' ? 'active-page' : ''}>
-          <Link onClick={() => handleCurrentPage('home')} href="/">
-            Início
-          </Link>
-        </li>
-        <li className={currentPage === 'about' ? 'active-page' : ''}>
-          <Link onClick={() => handleCurrentPage('about')} href="sobre">
-            A Redux
-          </Link>
-        </li>
-        <li className={currentPage === 'services' ? 'active-page' : ''}>
-          <Link onClick={() => handleCurrentPage('services')} href="servicos">
-            Servicos
-          </Link>
-        </li>
-        <li className={currentPage === 'contact' ? 'active-page' : ''}>
-          <Link onClick={() => handleCurrentPage('contact')} href="contato">
-            Contato
-          </Link>
-        </li>
-        <li className={currentPage === 'work-with-us' ? 'active-page' : ''}>
-          <Link
-            onClick={() => handleCurrentPage('work-with-us')}
-            href="trabalhe-conosco"
+        {tabs.map((item) => (
+          <li
+            key={item.label}
+            className={item === currentPage ? 'selected' : ''}
+            onClick={() => setCurrentPage(item)}
           >
-            Trabalhe conosco
-          </Link>
-        </li>
+            <Link href={item.src}>{item.label}</Link>
+            {item === currentPage ? (
+              <motion.div className="underline" layoutId="underline" />
+            ) : null}
+          </li>
+        ))}
         <li>
           <Link href="/login" target="blank">
             <button className="bg-yellow rounded-3xl px-4 py-1 hover:scale-105">

@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { gsap } from 'gsap'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { Icon, ButtonBackgroundShine } from '../Tools'
 import style from './Servicos.module.scss'
@@ -17,7 +19,7 @@ interface Service {
   image: string
 }
 
-const services: Service[] = [
+const tabs: Service[] = [
   {
     titulo: 'Quer abrir sua empresa?',
     subtitulo: 'Abrir empresa',
@@ -57,7 +59,47 @@ const services: Service[] = [
 ]
 
 export default function Servicos({ className, ...rest }: ServiceProps) {
-  const [selected, setSelected] = useState<number>(0)
+  const [selectedTab, setSelectedTab] = useState(tabs[0])
+  const imageRef = useRef<HTMLDivElement>(null)
+  const textAreaRef = useRef<HTMLDivElement>(null)
+  const tituloRef = useRef<HTMLDivElement>(null)
+  const infoButtonRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    gsap.fromTo(
+      textAreaRef.current,
+      { autoAlpha: 0, x: -100 },
+      { autoAlpha: 1, delay: 0.2, x: 0, duration: 0.7 },
+    )
+    gsap.fromTo(
+      tituloRef.current,
+      { autoAlpha: 0, x: -250 },
+      { autoAlpha: 1, x: 0, duration: 0.7 },
+    )
+    gsap.fromTo(
+      imageRef.current,
+      {
+        rotateY: 20,
+        rotateX: -35,
+        x: 300,
+        y: 300,
+        skewX: 35,
+        skewY: -10,
+        opacity: 0,
+      },
+      {
+        duration: 0.6,
+        rotateY: 0,
+        rotateX: 0,
+        x: 0,
+        y: 0,
+        skewX: 0,
+        skewY: 0,
+        opacity: 1,
+        ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+      },
+    )
+  }, [selectedTab])
 
   return (
     <section className={className} {...rest}>
@@ -69,33 +111,43 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
       </div>
       <nav className={`${style['service-nav']} w-5/5 max-h-max`}>
         <ul className="flex justify-start">
-          {services.map((item, index) => (
+          {tabs.map((item, index) => (
             <li
               key={index}
               onClick={() => {
-                setSelected(index)
+                setSelectedTab(item)
               }}
-              className={selected === index ? style.selectedItem : ''}
+              className={item === selectedTab ? style.selectedItem : ''}
             >
               <Icon src={`/assets/img/icons/${item.icon}`} />
               <span>{item.titulo}</span>
+              {item === selectedTab ? (
+                <motion.div className="underline" layoutId="underline" />
+              ) : null}
             </li>
           ))}
         </ul>
       </nav>
-      <section className="infos relative my-8 flex max-h-max flex-1">
-        <aside className="left w-1/2">
-          <div className="text-area">
-            <h3 className="font-semibold">{services[selected].subtitulo}</h3>
-            <div className="desc my-4 flex w-3/4 flex-col gap-10">
-              {services[selected].texto}
-              <ButtonBackgroundShine />
+      <section className="infos relative my-8 flex max-h-max flex-1 gap-20">
+        <aside className="left w-1/3">
+          <div className="text-area bg-[#20202010] p-5 backdrop-blur-md">
+            <h3 ref={tituloRef} className="text-xl font-semibold">
+              {selectedTab.subtitulo}
+            </h3>
+            <div
+              ref={textAreaRef}
+              className="desc w-4/4 my-4 flex flex-col gap-10"
+            >
+              {selectedTab.texto}
+              <div ref={infoButtonRef}>
+                <ButtonBackgroundShine className="w-full" />
+              </div>
             </div>
           </div>
         </aside>
-        <aside className="right mr-10">
+        <aside className="right mr-10" ref={imageRef}>
           <Image
-            src={services[selected].image}
+            src={selectedTab.image}
             width={400}
             height={400}
             alt="Monitor-Image"

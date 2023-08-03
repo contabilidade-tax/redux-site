@@ -17,6 +17,7 @@
     "dynamics.js": "^1.1.5",
     "eslint": "^8.44.0",
     "eslint-config-next": "13.4.8",
+    "framer-motion": "^10.15.0",
     "global": "^4.4.0",
     "gsap": "^3.12.2",
     "next": "^13.4.12",

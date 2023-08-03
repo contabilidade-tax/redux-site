@@ -31,7 +31,7 @@ export default function Main({
     <>
       <section className="absolute top-1/2 z-50 flex h-screen w-full -translate-y-1/2 flex-col items-center justify-center overflow-hidden bg-bg-color">
         <section id="wrapper" className="relative flex items-center">
-          <div className="relative left-4">
+          <div className="redu relative left-4">
             <Image
               id="redu_vetor"
               className="animated"
@@ -51,7 +51,7 @@ export default function Main({
               ref={reduRef}
             />
           </div>
-          <div className="relative -top-8 right-2">
+          <div className="x relative -top-[1.8rem] right-2">
             <Image
               id="svg1"
               className="animated"
@@ -63,7 +63,7 @@ export default function Main({
             />
             <Image
               id="svg2"
-              className="notAnimated relative top-[1.8rem]"
+              className="notAnimated relative top-[1.45rem]"
               src={XSvg}
               alt="X_logo"
               width={175}
@@ -80,15 +80,6 @@ export default function Main({
               contabilidade
             </h4>
           </div>
-          {/* <Image
-            id="contabilidade"
-            className="max-w-72 absolute bottom-24 left-5 md:w-40"
-            src={contabilidadeSvg}
-            width={300}
-            height={50}
-            alt="Contabilidade"
-            ref={contabilidadeRef}
-          /> */}
         </section>
       </section>
     </>

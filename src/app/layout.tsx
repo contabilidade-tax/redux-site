@@ -1,12 +1,12 @@
 import './globals.css'
 import Header from './components/Header'
-import { Poppins } from 'next/font/google'
+import { Montserrat_Alternates } from 'next/font/google'
 import { ReactNode } from 'react'
 
-// const inter = Poppins({ subsets: ['latin'] })
-const inter = Poppins({
+// const inter = Montserrat({ subsets: ['latin'] })
+const inter = Montserrat_Alternates({
   subsets: ['latin'],
-  weight: '200',
+  weight: '300',
 })
 
 export const metadata = {
@@ -18,7 +18,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className}>
+      <body className={`${inter.className} screen`}>
         <Header />
         <main className="min-h-screeen flex w-full flex-1 items-center justify-center">
           {children}

@@ -310,7 +310,7 @@ const GameScene: React.FC = () => {
             // Limpar a timeline e iniciar a animação novamente
             timeline.clear()
             startAnimation()
-          }, 23500)
+          }, 24000)
         }
 
         // Adicione a animação do dino ao timeline
