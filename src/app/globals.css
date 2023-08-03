@@ -3,18 +3,13 @@
 @import 'tailwindcss/utilities';
 
 :root {
-  --px-header: .2rem;
+  --px-li-itens: .2rem;
   --primary-color: #D5A115;
 }
 
 body {
   color: rgb(0 0 0);
   background-color: rgb(250 250 250);
-}
-
-.active-page {
-  font-weight: bold;
-   transition: 0.5s ease-out linear; 
 }
 
 .underline {
@@ -26,8 +21,9 @@ body {
   background: var(--primary-color);
 }
 
+/* Espaçamento entre itens li num menu */
 ul > li {
-  margin: 0 var(--px-header);
+  margin: 0 var(--px-li-itens);
   padding: 0 .7rem;
 }
 
@@ -36,34 +32,6 @@ ul > li {
 }
 .bg-yellow{
   background-color: var(--primary-color);
-}
-
-.big-image {
-  position: absolute;
-  top: -6.5rem;
-  right: 7rem;
-  height: 44rem;
-  /* display: none; */
-}
-
-.each-slide-effect > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-size: cover;
-  height: 30rem;
-  border-radius: 5rem;
-}
-
-.each-slide-effect span {
-  padding: 20px;
-  font-size: 20px;
-  text-align: center;
-  display: none;
-}
-
-.slide {
-  border-radius: 5rem;
 }
 
 .divisor {
@@ -75,12 +43,6 @@ ul > li {
   opacity: .5;
 }
 
-.animate-container {
-  overflow: hidden;
-  width: auto;
-  height: max-content
-}
-
 .theme {
   border-radius: 1.5rem;
   font-weight: 600;
@@ -90,17 +52,4 @@ ul > li {
   display: inline-flex;
   -webkit-backdrop-filter: blur(0.625rem);
   backdrop-filter: blur(0.625rem)
-}
-
-/* flex items-center gap-2 */
-
-.screen {
-  max-height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-}
-
-.painel {
-  scroll-snap-align: start;
-  height: 100vh;
 }

@@ -2,7 +2,6 @@
 import { HTMLAttributes, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { gsap } from 'gsap'
-import { motion, AnimatePresence } from 'framer-motion'
 
 import { Icon, ButtonBackgroundShine } from '../Tools'
 import style from './Servicos.module.scss'
@@ -64,6 +63,23 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
   const textAreaRef = useRef<HTMLDivElement>(null)
   const tituloRef = useRef<HTMLDivElement>(null)
   const infoButtonRef = useRef<HTMLDivElement>(null)
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (navRef.current) {
+      gsap.fromTo(
+        navRef.current.querySelectorAll('li'),
+        { x: '100%', opacity: 0 },
+        {
+          duration: 0.5,
+          x: '0%',
+          opacity: 1,
+          ease: "cubic-bezier(0.250, 0.460, 0.450, 0.940)",
+          stagger: 0.1 // Atraso entre as animações de cada elemento
+        }
+      );
+    }
+  }, []);
 
   useEffect(() => {
     gsap.fromTo(
@@ -109,7 +125,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
       <div className="my-8">
         <h1 className="text-5xl font-bold">Como podemos ajudar?</h1>
       </div>
-      <nav className={`${style['service-nav']} w-5/5 max-h-max`}>
+      <nav ref={navRef} className={`${style['service-nav']} w-5/5 max-h-max`}>
         <ul className="flex justify-start">
           {tabs.map((item, index) => (
             <li
@@ -121,9 +137,6 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             >
               <Icon src={`/assets/img/icons/${item.icon}`} />
               <span>{item.titulo}</span>
-              {item === selectedTab ? (
-                <motion.div className="underline" layoutId="underline" />
-              ) : null}
             </li>
           ))}
         </ul>

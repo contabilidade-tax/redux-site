@@ -1,8 +1,93 @@
 'use client'
-import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import Main from '../MainLoading'
+import Image from 'next/image'
+import { useEffect, useRef } from 'react'
+import styles from './loading.module.scss'
 
+//Variáveis de referência das imagens
+const reduAnimatedSvg = '/assets/img/loading/REDU_ANIMATED.svg'
+const reduSvg = '/assets/img/loading/REDU.svg'
+const XAnimatedSvg = '/assets/img/loading/X_ANIMATED_EASE.svg'
+const XSvg = '/assets/img/loading/X.svg'
+
+interface LoadingProps {
+  XRef: React.RefObject<HTMLImageElement>
+  XAnimatedRef: React.RefObject<HTMLImageElement>
+  reduRef: React.RefObject<HTMLImageElement>
+  reduAnimatedRef: React.RefObject<HTMLImageElement>
+  contabilidadeRef: React.RefObject<HTMLImageElement>
+}
+
+//Controle de classes das animações
+function MainLoading({
+  XRef,
+  XAnimatedRef,
+  reduRef,
+  reduAnimatedRef,
+  contabilidadeRef,
+}: LoadingProps) {
+
+  //Usado para prevenir caching das animações svg
+  const { value } = { value: Math.random() }
+
+  const xSize = 150
+
+  return (
+      <section className="absolute w-full min-h-screen top-0 flex items-center justify-center overflow-hidden bg-bg-color">
+        <section className="relative flex flex-wrap items-center justify-center h-max w-fit">
+          {/* REDU */}
+          <div className="relative">
+            <img
+              className={`${styles.animated} h-[78.5px]`}
+              src={reduAnimatedSvg + `?v=${value}`}
+              alt="Redu"
+              width={300}
+              height={0}
+              ref={reduAnimatedRef}
+            />
+            <img
+              className={`${styles.notAnimated} h-[78.5px]`}
+              src={reduSvg}
+              width={300}
+              height={0}
+              alt="Redu SOLID"
+              ref={reduRef}
+            />
+          </div>
+          {/* X */}
+          <div className="relative -left-5 -top-[0.10rem]">
+            <img
+              className={`${styles.animated}`}
+              src={XAnimatedSvg + `?v=${value}`}
+              alt="X_Animated"
+              width={xSize}
+              height={xSize}
+              ref={XAnimatedRef}
+            />
+            <img
+              className={`${styles.notAnimated}`}
+              src={XSvg}
+              alt="X"
+              width={xSize}
+              height={xSize}
+              ref={XRef}
+            />
+          </div>
+          {/* CONTABILIDADE */}
+          <div className="absolute bottom-1 -left-[0.95rem] w-[382px] h-[20px]">
+            <h4
+              ref={contabilidadeRef}
+              className={`${styles.contabilidade} absolute bottom-0 left-[1.1rem] flex text-center text-2xl font-semibold text-primary-color`}
+            >
+              contabilidade
+            </h4>
+          </div>
+        </section>
+      </section>
+  )
+}
+
+//Controle da ordem das animações
 export default function Loading() {
   const XRef = useRef<HTMLImageElement>(null)
   const XAnimatedRef = useRef<HTMLImageElement>(null)
@@ -18,25 +103,17 @@ export default function Loading() {
     const contabilidade = contabilidadeRef?.current
 
     function show() {
-      // hide(X)
-      // hide(redu)
-      // hide(contabilidade)
-
       outAnimate()
       enter()
       enterContabilidade()
     }
-
-    // function hide(el: any) {
-    //   el.style.opacity = '0'
-    // }
 
     function enter(el = [X, redu]) {
       gsap.to(el, { delay: 1.7, opacity: 1, duration: 1.5 })
     }
 
     function enterContabilidade(el = contabilidade) {
-      gsap.to(el, { delay: 1.8, opacity: 1, duration: 0.8 })
+      gsap.to(el, { delay: 1.9, opacity: 1, duration: 0.8 })
     }
 
     function outAnimate(el = [logoAnimated, reduAnimated]) {
@@ -47,7 +124,7 @@ export default function Loading() {
   }, [])
 
   return (
-    <Main
+    <MainLoading
       XRef={XRef}
       XAnimatedRef={XAnimatedRef}
       reduRef={reduRef}
