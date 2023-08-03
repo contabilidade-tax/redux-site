@@ -3,9 +3,6 @@ import Header from './components/Header'
 import { Montserrat_Alternates } from 'next/font/google'
 import { ReactNode } from 'react'
 
-import FullPageLayout from './components/FullPageLayout'
-
-// const inter = Montserrat({ subsets: ['latin'] })
 const inter = Montserrat_Alternates({
   subsets: ['latin'],
   weight: '300',
@@ -24,7 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Header />
         <main className="min-h-screeen flex w-full flex-1 items-center justify-center">
           {/* <FullPageLayout> */}
-            {children}
+          {children}
           {/* </FullPageLayout> */}
         </main>
       </body>

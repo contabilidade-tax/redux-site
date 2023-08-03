@@ -63,7 +63,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
   const textAreaRef = useRef<HTMLDivElement>(null)
   const tituloRef = useRef<HTMLDivElement>(null)
   const infoButtonRef = useRef<HTMLDivElement>(null)
-  const navRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (navRef.current) {
@@ -74,12 +74,12 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           duration: 0.5,
           x: '0%',
           opacity: 1,
-          ease: "cubic-bezier(0.250, 0.460, 0.450, 0.940)",
-          stagger: 0.1 // Atraso entre as animações de cada elemento
-        }
-      );
+          ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+          stagger: 0.1, // Atraso entre as animações de cada elemento
+        },
+      )
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     gsap.fromTo(

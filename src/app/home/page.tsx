@@ -52,37 +52,37 @@ export default function Home() {
         isLoading ? (
           <Loading />
         ) : (
-        <div className="z-10 flex h-full w-full flex-col px-24 pt-28">
-          <section className="first-visualization painel flex flex-1">
-            <section className="left-area w-2/4">
-              <div className="home-text w-5/5 text-7xl leading-none">
-                <h1 className="w-full">Não somos obrigação,</h1>
-                <h1 className="w-full font-extrabold">
-                  somos ferramenta
-                  <span className="text-yellow">.</span>
-                </h1>
-              </div>
-              <div className="flex flex-col">
-                <div className="mt-28">
-                  <h2 className="text-3xl">
-                    Soluções contábeis personalizadas <br />
-                    para simplificar sua rotina.
-                  </h2>
+          <div className="z-10 flex h-full w-full flex-col px-24 pt-28">
+            <section className="first-visualization painel flex flex-1">
+              <section className="left-area w-2/4">
+                <div className="home-text w-5/5 text-7xl leading-none">
+                  <h1 className="w-full">Não somos obrigação,</h1>
+                  <h1 className="w-full font-extrabold">
+                    somos ferramenta
+                    <span className="text-yellow">.</span>
+                  </h1>
                 </div>
-                <ButtonBackgroundShine
-                  text="Fale com a gente! 🤙🏼"
-                  className="mt-8 w-2/4 rounded-full px-4 py-2 text-zinc-100"
-                />
-              </div>
+                <div className="flex flex-col">
+                  <div className="mt-28">
+                    <h2 className="text-3xl">
+                      Soluções contábeis personalizadas <br />
+                      para simplificar sua rotina.
+                    </h2>
+                  </div>
+                  <ButtonBackgroundShine
+                    text="Fale com a gente! 🤙🏼"
+                    className="mt-8 w-2/4 rounded-full px-4 py-2 text-zinc-100"
+                  />
+                </div>
+              </section>
+              <section className="right-area relative -left-20 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
+                <GameScene />
+              </section>
             </section>
-            <section className="right-area relative -left-20 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
-              <GameScene />
-            </section>
-          </section>
-          {/* <div className="divisor"></div> */}
-          <Servicos className="servicos relative" />
-          <section className="my-8">A</section>
-        </div>
+            {/* <div className="divisor"></div> */}
+            <Servicos className="servicos relative" />
+            <section className="my-8">A</section>
+          </div>
         ) /* ou qualquer outro componente ou conteúdo quando não estiver carregando */
       }
     </>
