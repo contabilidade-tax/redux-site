@@ -1,4 +1,4 @@
-import './globals.css'
+import './globals.scss'
 import Header from './components/Header'
 import { Montserrat_Alternates } from 'next/font/google'
 import { ReactNode } from 'react'
