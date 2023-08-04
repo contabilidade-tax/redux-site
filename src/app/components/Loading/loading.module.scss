@@ -1,0 +1,25 @@
+@font-face {
+  font-family: "LouisGeorgeCafe-Bold", "LouisGeorgeCafe";
+  src: url("/assets/fonts/louis_george_cafe_bold-webfont.woff2") format("woff2"), url("/assets/fonts/louis_george_cafe-webfont.woff2") format("woff2");
+  font-style: normal;
+}
+
+.animated {
+  position: absolute;
+}
+
+.notAnimated {
+  opacity: 0;
+}
+
+.contabilidade {
+  // font-family: "LouisGeorgeCafe"; 
+  line-height: 1.5;
+  letter-spacing: .51rem;
+  font-weight: 600;
+
+  left: .9rem;
+  bottom: -.4rem;
+
+  opacity: 0;
+}

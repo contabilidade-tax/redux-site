@@ -1,0 +1,21 @@
+.fullPageSection {
+    min-height: 100vh;
+    /* Definir a altura mínima como 100% da altura da janela */
+    width: 100%;
+    overflow: hidden;
+    /* Esconder qualquer conteúdo que ultrapasse os limites */
+}
+
+.scrollContainer {
+    scroll-snap-type: y mandatory;
+    /* Habilitar o encaixe de rolagem ao longo do eixo y */
+    overflow-y: scroll;
+    /* Permitir rolagem vertical */
+    scroll-behavior: smooth;
+    /* realize uma transição suave ao rolar entre as seções. */
+}
+
+.scrollSection {
+    scroll-snap-align: start;
+    /* Fazer as seções se encaixarem na parte superior */
+}

@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { HTMLAttributes, useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import { gsap } from 'gsap'
+import Image from 'next/image'
 
-import { Icon, ButtonBackgroundShine } from '../Tools'
-import style from './Servicos.module.scss'
+import { Icon, ButtonBackgroundShine } from '@/components/Tools'
+import styles from '@/components/Servicos/Servicos.module.scss'
 
 interface ServiceProps extends HTMLAttributes<HTMLElement> {
   className?: string | undefined
@@ -65,6 +65,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
   const infoButtonRef = useRef<HTMLDivElement>(null)
   const navRef = useRef<HTMLDivElement>(null)
 
+  // animação dos menus de navegação e seleção da área
   useEffect(() => {
     if (navRef.current) {
       gsap.fromTo(
@@ -125,7 +126,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
       <div className="my-8">
         <h1 className="text-5xl font-bold">Como podemos ajudar?</h1>
       </div>
-      <nav ref={navRef} className={`${style['service-nav']} w-5/5 max-h-max`}>
+      <nav ref={navRef} className={`${styles['service-nav']} w-5/5 max-h-max`}>
         <ul className="flex justify-start">
           {tabs.map((item, index) => (
             <li
@@ -133,7 +134,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               onClick={() => {
                 setSelectedTab(item)
               }}
-              className={item === selectedTab ? style.selectedItem : ''}
+              className={item === selectedTab ? styles.selectedItem : ''}
             >
               <Icon src={`/assets/img/icons/${item.icon}`} />
               <span>{item.titulo}</span>
@@ -163,7 +164,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             src={selectedTab.image}
             width={400}
             height={400}
-            alt="Monitor-Image"
+            alt="Nav Big Image"
             className="w-full"
           />
         </aside>

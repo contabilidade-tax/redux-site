@@ -1,4 +1,4 @@
-import './404.scss'
+import '@/components/404/404.scss'
 
 export const metadata = {
   title: 'Nada por aqui',

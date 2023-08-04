@@ -1,9 +1,8 @@
-
 'use client'
 import { gsap } from 'gsap'
 import React, { useEffect, useRef } from 'react'
 
-import './Loading.scss'
+import styles from '@/components/Loading/loading.module.scss'
 
 // Variáveis de referência das imagens
 const reduAnimatedSvg = '/assets/img/loading/REDU_ANIMATED.svg'
@@ -38,7 +37,7 @@ function MainLoading({
         {/* REDU */}
         <div className="relative">
           <img
-            className="animated h-[78.5px]"
+            className={`${styles.animated} h-[78.5px]`}
             src={reduAnimatedSvg + `?v=${value}`}
             alt="Redu"
             width={300}
@@ -46,7 +45,7 @@ function MainLoading({
             ref={reduAnimatedRef}
           />
           <img
-            className="notAnimated h-[78.5px]"
+            className={`${styles.notAnimated} h-[78.5px]`}
             src={reduSvg}
             width={300}
             height={0}
@@ -57,7 +56,7 @@ function MainLoading({
         {/* X */}
         <div className="relative -left-5 -top-[0.10rem]">
           <img
-            className="animated"
+            className={`${styles.animated}`}
             src={XAnimatedSvg + `?v=${value}`}
             alt="X_Animated"
             width={xSize}
@@ -65,7 +64,7 @@ function MainLoading({
             ref={XAnimatedRef}
           />
           <img
-            className="notAnimated"
+            className={`${styles.notAnimated}`}
             src={XSvg}
             alt="X"
             width={xSize}
@@ -77,7 +76,7 @@ function MainLoading({
         <div className="absolute -left-[0.95rem] bottom-1 h-[20px] w-[382px]">
           <h4
             ref={contabilidadeRef}
-            className="contabilidade absolute bottom-0 left-[1.1rem] flex text-center text-2xl font-semibold text-primary-color"
+            className={`${styles.contabilidade} absolute bottom-0 left-[1.1rem] flex text-center text-2xl font-semibold text-primary-color`}
           >
             contabilidade
           </h4>

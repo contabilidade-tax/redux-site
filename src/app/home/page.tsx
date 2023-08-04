@@ -1,19 +1,19 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { gsap } from 'gsap'
 
-import Servicos from '../components/Servicos'
-import GameScene from '../components/Animation'
-import Loading from '../components/Loading'
-import { ButtonBackgroundShine } from '../components/Tools'
+import { ButtonBackgroundShine } from '@/components/Tools'
+import GameScene from '@/components/Animation'
+import Servicos from '@/components/Servicos'
+import Loading from '@/components/Loading'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
-  //Define o mount do component de loading e timeout de saída
+  // Define o mount do component de loading e timeout de saída
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
@@ -39,7 +39,7 @@ export default function Home() {
     }
   }, []) // Sem dependências, então só é executado no mount e unmount
 
-  //Não permite scroll na tela durante o loading
+  // Não permite scroll na tela durante o loading
   useEffect(() => {
     // Verificar se o código está sendo executado no lado do cliente
     if (typeof window !== 'undefined') {

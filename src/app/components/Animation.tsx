@@ -1,12 +1,13 @@
 'use client'
 import React, { useEffect, useRef } from 'react'
-import gsap from 'gsap'
 import { PixiPlugin } from 'gsap/PixiPlugin'
-gsap.registerPlugin(PixiPlugin)
+import gsap from 'gsap'
 
+gsap.registerPlugin(PixiPlugin)
 const GameScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
+  // Monta e permanece em loop
   useEffect(() => {
     if (canvasRef.current) {
       const delay = 1.5

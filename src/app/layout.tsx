@@ -1,7 +1,9 @@
-import './globals.scss'
-import Header from './components/Header'
 import { Montserrat_Alternates } from 'next/font/google'
 import { ReactNode } from 'react'
+
+import './globals.css'
+
+import Header from '@/components/Header'
 
 const inter = Montserrat_Alternates({
   subsets: ['latin'],
@@ -17,7 +19,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} screen`}>
+      <body className={inter.className}>
         <Header />
         <main className="min-h-screeen flex w-full flex-1 items-center justify-center">
           {/* <FullPageLayout> */}
