@@ -14,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger)
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
+  //Define o mount do component de loading e timeout de saída
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
@@ -39,6 +40,7 @@ export default function Home() {
     }
   }, []) // Sem dependências, então só é executado no mount e unmount
 
+  //Não permite scroll na tela durante o loading
   useEffect(() => {
     // Verificar se o código está sendo executado no lado do cliente
     if (typeof window !== 'undefined') {
