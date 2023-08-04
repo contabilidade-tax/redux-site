@@ -8,10 +8,14 @@ import styles from '@/components/FullPageLayout/fullPageLayout.module.scss'
 gsap.registerPlugin(ScrollTrigger)
 
 interface FullPageLayoutProps {
+  className?: string
   children: React.ReactNode
 }
 
-const FullPageLayout: React.FC<FullPageLayoutProps> = ({ children }) => {
+const FullPageLayout: React.FC<FullPageLayoutProps> = ({
+  className,
+  children,
+}) => {
   // Função para adicionar efeito parallax
   const addParallaxEffect = (index: number) => {
     gsap.to(`.section-${index}`, {
@@ -32,7 +36,7 @@ const FullPageLayout: React.FC<FullPageLayoutProps> = ({ children }) => {
   }, [children])
 
   return (
-    <div className={`${styles.scrollContainer}`}>
+    <div className={`${styles.scrollContainer} ${className}`}>
       {React.Children.map(children, (child, index) => (
         <motion.div
           key={index}

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { gsap } from 'gsap'
 
@@ -7,11 +7,13 @@ import { ButtonBackgroundShine } from '@/components/Tools'
 import GameScene from '@/components/Animation'
 import Servicos from '@/components/Servicos'
 import Loading from '@/components/Loading'
+import FullPageLayout from '@/components/FullPageLayout'
+import { useLoading } from '@/common/context/LoadingContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true)
+  const { isLoading, setIsLoading } = useLoading()
 
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
@@ -37,6 +39,7 @@ export default function Home() {
       clearTimeout(timer) // Limpa o timer se o componente for desmontado antes do tempo acabar
       window.removeEventListener('keydown', onKeyDown) // Remove o listener quando o componente é desmontado
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // Sem dependências, então só é executado no mount e unmount
 
   // Não permite scroll na tela durante o loading
@@ -53,8 +56,8 @@ export default function Home() {
         isLoading ? (
           <Loading />
         ) : (
-          <div className="z-10 flex h-full w-full flex-col px-24 pt-28">
-            <section className="first-visualization painel flex flex-1">
+          <FullPageLayout className="z-10 flex h-full w-full flex-col px-24 pt-28">
+            <section className="flex flex-1">
               <section className="left-area w-2/4">
                 <div className="home-text w-5/5 text-7xl leading-none">
                   <h1 className="w-full">Não somos obrigação,</h1>
@@ -80,10 +83,9 @@ export default function Home() {
                 <GameScene />
               </section>
             </section>
-            {/* <div className="divisor"></div> */}
-            <Servicos className="servicos relative" />
-            <section className="my-8">A</section>
-          </div>
+            <Servicos className="servicos" />
+            <section>A</section>
+          </FullPageLayout>
         ) /* ou qualquer outro componente ou conteúdo quando não estiver carregando */
       }
     </>
