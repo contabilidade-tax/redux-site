@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { HTMLAttributes, useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 
 import { Icon, ButtonBackgroundShine } from '@/components/Tools'
@@ -57,6 +58,8 @@ const tabs: Service[] = [
   },
 ]
 
+gsap.registerPlugin(ScrollTrigger)
+
 export default function Servicos({ className, ...rest }: ServiceProps) {
   const [selectedTab, setSelectedTab] = useState(tabs[0])
   const imageRef = useRef<HTMLDivElement>(null)
@@ -67,18 +70,29 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
 
   // animação dos menus de navegação e seleção da área
   useEffect(() => {
-    if (navRef.current) {
-      gsap.fromTo(
-        navRef.current.querySelectorAll('li'),
-        { x: '100%', opacity: 0 },
-        {
-          duration: 0.5,
-          x: '0%',
-          opacity: 1,
-          ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-          stagger: 0.1, // Atraso entre as animações de cada elemento
+    const sectionElement = document.querySelector('.servicos')
+
+    if (sectionElement && navRef.current) {
+      // Adicionada verificação para navRef.current
+      const navElement = navRef.current // Adicionada variável temporária
+      ScrollTrigger.create({
+        trigger: sectionElement,
+        start: 'top 75%',
+        onEnter: () => {
+          gsap.fromTo(
+            navElement.querySelectorAll('li'), // Usando a variável temporária aqui
+            { x: '100%', opacity: 0 },
+            {
+              duration: 0.5,
+              x: '0%',
+              opacity: 1,
+              ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+              stagger: 0.1,
+            },
+          )
+          // Adicione mais animações aqui
         },
-      )
+      })
     }
   }, [])
 
@@ -148,10 +162,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             <h3 ref={tituloRef} className="text-xl font-semibold">
               {selectedTab.subtitulo}
             </h3>
-            <div
-              ref={textAreaRef}
-              className="desc w-4/4 my-4 flex flex-col gap-10"
-            >
+            <div ref={textAreaRef} className="w-4/4 my-4 flex flex-col gap-10">
               {selectedTab.texto}
               <div ref={infoButtonRef}>
                 <ButtonBackgroundShine className="w-full" />

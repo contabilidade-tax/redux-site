@@ -36,15 +36,15 @@ const FullPageLayout: React.FC<FullPageLayoutProps> = ({
   }, [children])
 
   return (
-    <div className={`${styles.scrollContainer} ${className}`}>
+    <div className={`h-scren ${styles.scrollContainer} ${className}`}>
       {React.Children.map(children, (child, index) => (
         <motion.div
           key={index}
-          className={`${styles.fullPageSection} ${styles.scrollSection} section-${index}`}
+          className={`section-${index} ${styles.fullPageSection} ${styles.scrollSection}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.9 }}
         >
           {child}
         </motion.div>
