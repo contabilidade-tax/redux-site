@@ -2,7 +2,7 @@
 @import 'tailwindcss/components.css';
 @import 'tailwindcss/utilities.css';
 
-@import '/src/styles/variaveis.scss';
+@import '@/styles/variaveis';
 
 * {
   padding: 0;
@@ -13,15 +13,6 @@
 body {
   color: rgb(0 0 0);
   background-color: rgb(250 250 250);
-}
-
-.underline {
-  position: relative;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--primary-color);
 }
 
 /* Espaçamento entre itens li num menu */

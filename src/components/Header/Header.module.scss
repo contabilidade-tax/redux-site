@@ -1,8 +1,10 @@
+@import '@/styles/variaveis';
+
 .underline {
     position: relative;
     bottom: -2px;
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--primary-color);
+    background: $primary-color;
 }
