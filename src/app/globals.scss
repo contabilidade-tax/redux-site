@@ -1,10 +1,13 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss/base.css';
+@import 'tailwindcss/components.css';
+@import 'tailwindcss/utilities.css';
 
-:root {
-  --px-li-itens: .2rem;
-  --primary-color: #D5A115;
+@import '/src/styles/variaveis.scss';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -22,25 +25,19 @@ body {
 }
 
 /* Espaçamento entre itens li num menu */
-ul > li {
-  margin: 0 var(--px-li-itens);
-  padding: 0 .7rem;
+ul {
+  li {
+    margin: 0 $px-li-itens;
+    padding: 0 .7rem;
+  }
 }
 
-.text-yellow{
-  color: var(--primary-color);
-}
-.bg-yellow{
-  background-color: var(--primary-color);
+.text-yellow {
+  color: $primary-color;
 }
 
-.divisor {
-  width: 80%;
-  /* height: 1rem; */
-  background-color: black;
-  border-bottom: .5px solid #000 ;
-  margin: 5rem auto;
-  opacity: .5;
+.bg-yellow {
+  background-color: $primary-color;
 }
 
 .theme {

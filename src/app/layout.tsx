@@ -1,9 +1,9 @@
 import { Montserrat_Alternates } from 'next/font/google'
 import { ReactNode } from 'react'
 
-import './globals.css'
+import './globals.scss'
 
-import Header from '@/components/Header'
+import Header from 'src/components/Header'
 import { LoadingProvider } from '@/common/context/LoadingContext'
 
 const inter = Montserrat_Alternates({

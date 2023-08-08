@@ -2,6 +2,7 @@
   "extends": ["next/core-web-vitals", "@rocketseat/eslint-config/react"],
   "rules": {
     "react/no-unescaped-entities": "off",
+    "react/react-in-jsx-scope": "off",
     "@next/next/no-page-custom-font": "off",
     "camelcase":0,
     "@next/next/no-img-element": "off"

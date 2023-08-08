@@ -1,16 +1,12 @@
 'use client'
-import React, { useEffect } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { motion } from 'framer-motion'
+import React, { useEffect } from 'react'
+import { FullPageLayoutProps } from '@/types'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from '@/components/FullPageLayout/fullPageLayout.module.scss'
 
 gsap.registerPlugin(ScrollTrigger)
-
-interface FullPageLayoutProps {
-  className?: string
-  children: React.ReactNode
-}
 
 const FullPageLayout: React.FC<FullPageLayoutProps> = ({
   className,

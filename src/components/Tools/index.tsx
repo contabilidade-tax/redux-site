@@ -1,17 +1,7 @@
 import styles from '@/components/Tools/Tools.module.scss'
 import Image from 'next/image'
 
-interface ButtonProps {
-  text?: string
-  className?: string
-}
-
-interface IconProps {
-  src: string
-  alt?: string
-  width?: number
-  height?: number
-}
+import { ButtonProps, IconProps } from '@/types'
 
 export function Icon({
   src,

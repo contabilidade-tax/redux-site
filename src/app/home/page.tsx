@@ -1,14 +1,15 @@
 'use client'
-import React, { useEffect } from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import React, { useEffect } from 'react'
 import { gsap } from 'gsap'
 
-import { ButtonBackgroundShine } from '@/components/Tools'
-import GameScene from '@/components/Animation'
-import Servicos from '@/components/Servicos'
-import Loading from '@/components/Loading'
+import { ButtonBackgroundShine } from 'src/components/Tools'
 import FullPageLayout from '@/components/FullPageLayout'
+import GameScene from './GameScene'
+import Servicos from './Servicos'
+
 import { useLoading } from '@/common/context/LoadingContext'
+import Loading from 'src/components/Loading'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -56,7 +57,7 @@ export default function Home() {
         isLoading ? (
           <Loading />
         ) : (
-          <FullPageLayout className="z-10 flex w-full flex-col gap-2 px-24 pt-28">
+          <FullPageLayout className="z-10 flex w-full flex-col px-24 pt-28">
             <section className="flex flex-1">
               <section className="left-area w-2/4">
                 <div className="home-text w-5/5 text-7xl leading-none">

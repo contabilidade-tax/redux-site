@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import styles from './Header.module.scss'
 
 const tabs = [
   { label: 'Home', src: '/home' },
@@ -23,7 +24,7 @@ export default function Header() {
         width={200}
         height={200}
       />
-      <ul className="flew-row wrapper mx-10 flex items-center justify-between font-normal">
+      <ul className="flew-row mx-10 flex items-center justify-between font-normal">
         {tabs.map((item) => (
           <li
             key={item.label}
@@ -32,7 +33,7 @@ export default function Header() {
           >
             <Link href={item.src}>{item.label}</Link>
             {item === currentPage ? (
-              <motion.div className="underline" layoutId="underline" />
+              <motion.div className={styles.underline} layoutId="underline" />
             ) : null}
           </li>
         ))}

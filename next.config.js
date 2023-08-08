@@ -11,7 +11,7 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
   },
   webpack: (config) => {
-    config.resolve.alias['@'] = path.resolve(__dirname, './src/app/');
+    config.resolve.alias['@'] = path.resolve(__dirname, './src/');
     return config;
   },
 }

@@ -2,7 +2,7 @@
 import { gsap } from 'gsap'
 import React, { useEffect, useRef } from 'react'
 
-import styles from '@/components/Loading/loading.module.scss'
+import styles from '@/components/Loading/Loading.module.scss'
 
 // Variáveis de referência das imagens
 const reduAnimatedSvg = '/assets/img/loading/REDU_ANIMATED.svg'

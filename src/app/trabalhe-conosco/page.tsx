@@ -1,7 +1,7 @@
 'use client'
 
 import { useLoading } from '@/common/context/LoadingContext'
-import Loading from '@/components/Loading'
+import Loading from 'src/components/Loading'
 import { useEffect } from 'react'
 
 export default function TrabalheConosco() {
