@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
+
+import services from '@/common/data/services.json'
 
 interface ButtonProps {
   text?: string
@@ -17,4 +19,16 @@ interface FullPageLayoutProps {
   children: React.ReactNode
 }
 
-export type { ButtonProps, IconProps, FullPageLayoutProps }
+interface ServiceProps extends HTMLAttributes<HTMLElement> {
+  className?: string | undefined
+}
+
+type Service = (typeof services)[0]
+
+export type {
+  ButtonProps,
+  IconProps,
+  FullPageLayoutProps,
+  Service,
+  ServiceProps,
+}
