@@ -1,7 +1,7 @@
-import styles from '@/components/Tools/Tools.module.scss'
 import Image from 'next/image'
-
 import { ButtonProps, IconProps } from '@/types'
+
+import styles from './Tools.module.scss'
 
 export function Icon({
   src,

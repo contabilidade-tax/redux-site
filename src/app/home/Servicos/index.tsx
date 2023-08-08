@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
 
 import { Icon, ButtonBackgroundShine } from 'src/components/Tools'
-import styles from '@/components/Servicos/Servicos.module.scss'
+import styles from './Servicos.module.scss'
 
 interface ServiceProps extends HTMLAttributes<HTMLElement> {
   className?: string | undefined

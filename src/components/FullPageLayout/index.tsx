@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { FullPageLayoutProps } from '@/types'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import styles from '@/components/FullPageLayout/fullPageLayout.module.scss'
+import styles from './FullPageLayout.module.scss'
 
 gsap.registerPlugin(ScrollTrigger)
 
