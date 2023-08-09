@@ -60,7 +60,7 @@ export default function Home() {
           <FullPageLayout className="z-10 flex w-full flex-col px-24 pt-28">
             <section className="flex flex-1">
               <section className="left-area w-2/4">
-                <div className="home-text w-5/5 text-7xl leading-none">
+                <div className="w-5/5 text-7xl leading-none">
                   <h1 className="w-full">Não somos obrigação,</h1>
                   <h1 className="w-full font-extrabold">
                     somos ferramenta
@@ -80,7 +80,7 @@ export default function Home() {
                   />
                 </div>
               </section>
-              <section className="right-area relative -left-20 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
+              <section className="right-area relative -left-4 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
                 <GameScene />
               </section>
             </section>

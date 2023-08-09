@@ -4,6 +4,7 @@ import { PixiPlugin } from 'gsap/PixiPlugin'
 import gsap from 'gsap'
 
 gsap.registerPlugin(PixiPlugin)
+
 const GameScene: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 

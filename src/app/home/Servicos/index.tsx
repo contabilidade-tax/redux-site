@@ -9,6 +9,7 @@ import { ServiceProps } from '@/types'
 
 import styles from './Servicos.module.scss'
 import services from '@/common/data/services.json'
+import mac from '../../../../public/assets/img/mac.png'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -44,7 +45,9 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
 
   const textAreaRef = useRef<HTMLDivElement>(null)
   const navRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLDivElement>(null)
+  const macRef = useRef<HTMLImageElement>(null)
+  const contentRef = useRef<HTMLImageElement>(null)
+  const imageRef = useRef<HTMLImageElement>(null)
 
   const switchTab = (newTabIndex: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -87,13 +90,19 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           gsap.fromTo(
             textAreaRef.current,
             { x: -100, autoAlpha: 0 },
-            { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.65 },
+            { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.55 },
+          )
+          // Animação do MAC
+          gsap.fromTo(
+            macRef.current,
+            { y: 100, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.15 },
           )
           // Imagem
           gsap.fromTo(
-            imageRef.current,
+            contentRef.current,
             { x: 100, autoAlpha: 0 },
-            { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.75 },
+            { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.65 },
           )
         },
       })
@@ -116,7 +125,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         // Animar a entrada da nova imagem
         gsap.fromTo(
           target.current,
-          { y: 500, autoAlpha: 0 },
+          { y: 300, autoAlpha: 0 },
           {
             y: 0,
             scaleX: 1,
@@ -124,7 +133,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             autoAlpha: 1,
             duration: 0.4,
             ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            delay: 0.2,
+            delay: 0.1,
             onComplete: () => {
               dispatch({
                 type: 'ANIMATE_END',
@@ -180,27 +189,40 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           ))}
         </ul>
       </nav>
-      <section className="infos relative my-8 flex max-h-max flex-1 gap-20">
-        <aside ref={textAreaRef} className="left w-1/3">
-          <div className="text-area bg-[#20202010] p-5 backdrop-blur-md">
+      <section className="infos relative mt-8 flex max-h-[22rem] w-full">
+        <aside ref={textAreaRef} className="left h-full w-[50%]">
+          <div className="text-area min-h-[20rem] bg-[#20202010] p-5 backdrop-blur-md">
             <h3 className="text-xl font-semibold">
               {state.selectedTab.subtitulo}
             </h3>
-            <div ref={textAreaRef} className="w-4/4 my-4 flex flex-col gap-10">
+            <div className="w-4/4 relative my-4 flex flex-col">
               {state.selectedTab.texto}
-              <ButtonBackgroundShine className="w-full" />
             </div>
+            <ButtonBackgroundShine className="relative bottom-0 w-full" />
           </div>
         </aside>
-
-        <aside className="right mr-10" ref={imageRef}>
-          <Image
-            src={state.selectedTab.image}
-            width={400}
-            height={400}
-            alt="Nav Big Image"
-            className="w-full"
-          />
+        <Image
+          ref={macRef}
+          src={mac}
+          width={600}
+          height={500}
+          alt="MAC"
+          className="z-1 absolute -top-8 right-[.92rem] w-[48rem] scale-90"
+        />
+        <aside className="right relative flex w-full scale-90 justify-center overflow-hidden">
+          <div
+            ref={contentRef}
+            className="relative w-auto overflow-hidden rounded-lg"
+          >
+            <Image
+              src={state.selectedTab.image}
+              width={400}
+              height={400}
+              ref={imageRef}
+              alt="Nav Big Image"
+              className="z-30 h-full w-[35rem]"
+            />
+          </div>
         </aside>
       </section>
     </section>
