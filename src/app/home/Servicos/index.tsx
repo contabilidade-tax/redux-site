@@ -28,6 +28,10 @@ function reducer(state: any, action: { type: string; tabIndex: number }) {
       return {
         ...state,
         selectedTab: services[action.tabIndex],
+      }
+    case 'ANIMATE_END':
+      return {
+        ...state,
         isAnimating: false,
       }
     default:
@@ -39,13 +43,12 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const textAreaRef = useRef<HTMLDivElement>(null)
-  const tituloRef = useRef<HTMLDivElement>(null)
-  const infoButtonRef = useRef<HTMLDivElement>(null)
   const navRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
 
   const switchTab = (newTabIndex: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
+    if (state.selectedTab === services[newTabIndex]) return // Ignore se for a mesma aba
 
     dispatch({
       type: 'ANIMATE_START',
@@ -63,6 +66,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     if (sectionElement && navRef.current) {
       // Adicionada verificação para navRef.current
       const navElement = navRef.current // Adicionada variável temporária
+
       ScrollTrigger.create({
         trigger: sectionElement,
         start: 'top 75%',
@@ -79,6 +83,18 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             },
           )
           // Adicione mais animações aqui
+          // Área do texto
+          gsap.fromTo(
+            textAreaRef.current,
+            { x: -100, autoAlpha: 0 },
+            { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.65 },
+          )
+          // Imagem
+          gsap.fromTo(
+            imageRef.current,
+            { x: 100, autoAlpha: 0 },
+            { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.75 },
+          )
         },
       })
     }
@@ -109,6 +125,12 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             duration: 0.4,
             ease: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
             delay: 0.2,
+            onComplete: () => {
+              dispatch({
+                type: 'ANIMATE_END',
+                tabIndex: newTabIndex,
+              })
+            }, // E aqui um onComplete mudando isAnimating para false
           },
         )
       },
@@ -139,7 +161,10 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
       <div className="my-8">
         <h1 className="text-5xl font-bold">Como podemos ajudar?</h1>
       </div>
-      <nav ref={navRef} className={`${styles['service-nav']} w-5/5 max-h-max`}>
+      <nav
+        ref={navRef}
+        className={`${styles['service-nav']} ${styles.notSelect} w-5/5 max-h-max`}
+      >
         <ul className="flex justify-start">
           {services.map((item, index) => (
             <li
@@ -156,16 +181,14 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         </ul>
       </nav>
       <section className="infos relative my-8 flex max-h-max flex-1 gap-20">
-        <aside className="left w-1/3">
+        <aside ref={textAreaRef} className="left w-1/3">
           <div className="text-area bg-[#20202010] p-5 backdrop-blur-md">
-            <h3 ref={tituloRef} className="text-xl font-semibold">
+            <h3 className="text-xl font-semibold">
               {state.selectedTab.subtitulo}
             </h3>
             <div ref={textAreaRef} className="w-4/4 my-4 flex flex-col gap-10">
               {state.selectedTab.texto}
-              <div ref={infoButtonRef}>
-                <ButtonBackgroundShine className="w-full" />
-              </div>
+              <ButtonBackgroundShine className="w-full" />
             </div>
           </div>
         </aside>
