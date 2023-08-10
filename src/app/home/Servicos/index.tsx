@@ -252,7 +252,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
       </nav>
       <section className="infos relative mb-20 mt-8 flex max-h-[22rem] w-full">
         {/* TextArea com conteúdo */}
-        <aside className="left h-full w-[50%]">
+        <aside className="left relative -top-4 h-full w-[50%]">
           <div className="text-area relative flex min-h-[20rem] flex-col justify-between bg-[#20202010] px-5 pt-5 backdrop-blur-md">
             <div ref={textAreaRef} className="text space-y-4 overflow-hidden">
               <h3 className="text-xl font-semibold">
@@ -267,31 +267,35 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             </Link>
           </div>
         </aside>
-        {/* Imagem do Notebook */}
-        <Image
-          ref={macRef}
-          src={mac}
-          width={600}
-          height={500}
-          alt="MAC"
-          className="z-1 absolute -top-8 right-[.92rem] w-[48rem] scale-90"
-        />
 
-        <aside className="image-area relative top-[0.20rem] flex w-full scale-90 justify-center overflow-hidden">
-          {/* Imagem do conteúdo */}
-          <div
-            ref={contentRef}
-            className="border-red h-[98%] w-[35rem] overflow-hidden rounded-lg border-2"
-          >
-            <Image
-              src={state.selectedTab.image}
-              width={400}
-              height={400}
-              ref={imageRef}
-              alt="Nav Big Image"
-              className="z-30 h-full w-[35rem] rounded-sm"
-            />
-          </div>
+        <aside className="image-area relative top-[0.20rem] w-full">
+          <section className="screen relative flex h-full w-full justify-center">
+            {/* Imagem do conteúdo */}
+            <div
+              ref={contentRef}
+              className="border-red relative z-30 h-[19.3rem] w-max overflow-hidden rounded-lg border-2"
+            >
+              <Image
+                src={state.selectedTab.image}
+                width={400}
+                height={400}
+                ref={imageRef}
+                alt="Nav Big Image"
+                className="h-full w-[28rem] rounded-sm"
+              />
+            </div>
+            {/* Imagem do Notebook */}
+            <div className="mac z-5 absolute h-auto w-full">
+              <Image
+                ref={macRef}
+                src={mac}
+                width={600}
+                height={600}
+                alt="MAC"
+                className="absolute -top-6 left-24 h-[28rem] w-[37rem]"
+              />
+            </div>
+          </section>
         </aside>
       </section>
     </section>
