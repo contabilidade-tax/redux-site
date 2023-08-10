@@ -101,8 +101,8 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           // Imagem
           gsap.fromTo(
             contentRef.current,
-            { x: 100, autoAlpha: 0 },
-            { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.65 },
+            { autoAlpha: 0 },
+            { autoAlpha: 1, duration: 0.5, delay: 0.65 },
           )
         },
       })
@@ -190,17 +190,21 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         </ul>
       </nav>
       <section className="infos relative mt-8 flex max-h-[22rem] w-full">
+        {/* TextArea com conteúdo */}
         <aside ref={textAreaRef} className="left h-full w-[50%]">
-          <div className="text-area min-h-[20rem] bg-[#20202010] p-5 backdrop-blur-md">
-            <h3 className="text-xl font-semibold">
-              {state.selectedTab.subtitulo}
-            </h3>
-            <div className="w-4/4 relative my-4 flex flex-col">
-              {state.selectedTab.texto}
+          <div className="text-area relative flex flex-col justify-between min-h-[20rem] bg-[#20202010] px-5 pt-5 backdrop-blur-md">
+            <div className="text space-y-4">
+              <h3 className="text-xl font-semibold">
+                {state.selectedTab.subtitulo}
+              </h3>
+              <span className="w-full flex flex-col">
+                {state.selectedTab.texto}
+              </span>
             </div>
-            <ButtonBackgroundShine className="relative bottom-0 w-full" />
+            <ButtonBackgroundShine className="w-full self-end mb-5" />
           </div>
         </aside>
+        {/* Imagem do Notebook */}
         <Image
           ref={macRef}
           src={mac}
@@ -209,10 +213,12 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           alt="MAC"
           className="z-1 absolute -top-8 right-[.92rem] w-[48rem] scale-90"
         />
-        <aside className="right relative flex w-full scale-90 justify-center overflow-hidden">
+
+        <aside className="content-area relative flex w-full top-[0.20rem] scale-90 justify-center overflow-hidden">
+          {/* Imagem do conteúdo */}
           <div
             ref={contentRef}
-            className="relative w-auto overflow-hidden rounded-lg"
+            className="rounded-lg"
           >
             <Image
               src={state.selectedTab.image}
@@ -220,11 +226,11 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               height={400}
               ref={imageRef}
               alt="Nav Big Image"
-              className="z-30 h-full w-[35rem]"
+              className="z-30 h-[98%] w-[35rem] rounded-sm"
             />
           </div>
         </aside>
       </section>
-    </section>
+    </section >
   )
 }
