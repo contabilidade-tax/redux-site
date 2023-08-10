@@ -3,20 +3,13 @@ import { gsap } from 'gsap'
 import React, { useEffect, useRef } from 'react'
 
 import styles from './Loading.module.scss'
+import { LoadingProps } from '@/types'
 
 // Variáveis de referência das imagens
 const reduAnimatedSvg = '/assets/img/loading/REDU_ANIMATED.svg'
 const reduSvg = '/assets/img/loading/REDU.svg'
 const XAnimatedSvg = '/assets/img/loading/X_ANIMATED_EASE.svg'
 const XSvg = '/assets/img/loading/X.svg'
-
-interface LoadingProps {
-  XRef: React.RefObject<HTMLImageElement>
-  XAnimatedRef: React.RefObject<HTMLImageElement>
-  reduRef: React.RefObject<HTMLImageElement>
-  reduAnimatedRef: React.RefObject<HTMLImageElement>
-  contabilidadeRef: React.RefObject<HTMLImageElement>
-}
 
 // Controle de classes das animações
 function MainLoading({
@@ -28,7 +21,6 @@ function MainLoading({
 }: LoadingProps) {
   // Usado para prevenir caching das animações svg
   const { value } = { value: Math.random() }
-
   const xSize = 150
 
   return (

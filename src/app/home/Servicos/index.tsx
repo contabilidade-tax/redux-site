@@ -196,16 +196,16 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     // Animação de texto e retorno ao estado inicial usando fromTo
     tl.fromTo(
       texto,
-      { y: 0, autoAlpha: 1 },
+      { x: 0, autoAlpha: 1 },
       {
-        y: -200,
+        x: -200,
         autoAlpha: 0,
         duration: 0.3,
         ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
         onComplete: () => {
           gsap.fromTo(
             texto,
-            { y: 45, autoAlpha: 0 },
+            { y: 45, x: 0, autoAlpha: 0 },
             {
               y: 0,
               autoAlpha: 1,
@@ -250,7 +250,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           ))}
         </ul>
       </nav>
-      <section className="infos relative -mb-2 mt-8 flex max-h-[22rem] w-full">
+      <section className="infos relative mb-20 mt-8 flex max-h-[22rem] w-full">
         {/* TextArea com conteúdo */}
         <aside className="left h-full w-[50%]">
           <div className="text-area relative flex min-h-[20rem] flex-col justify-between bg-[#20202010] px-5 pt-5 backdrop-blur-md">
@@ -277,7 +277,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           className="z-1 absolute -top-8 right-[.92rem] w-[48rem] scale-90"
         />
 
-        <aside className="content-area relative top-[0.20rem] flex w-full scale-90 justify-center overflow-hidden">
+        <aside className="image-area relative top-[0.20rem] flex w-full scale-90 justify-center overflow-hidden">
           {/* Imagem do conteúdo */}
           <div
             ref={contentRef}

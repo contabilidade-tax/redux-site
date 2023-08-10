@@ -25,10 +25,20 @@ interface ServiceProps extends HTMLAttributes<HTMLElement> {
 
 type Service = (typeof services)[0]
 
+interface LoadingProps extends HTMLAttributes<HTMLElement> {
+  XRef: React.RefObject<HTMLImageElement>
+  XAnimatedRef: React.RefObject<HTMLImageElement>
+  reduRef: React.RefObject<HTMLImageElement>
+  reduAnimatedRef: React.RefObject<HTMLImageElement>
+  contabilidadeRef: React.RefObject<HTMLImageElement>
+  propRef?: React.RefObject<HTMLDivElement>
+}
+
 export type {
   ButtonProps,
   IconProps,
   FullPageLayoutProps,
   Service,
   ServiceProps,
+  LoadingProps,
 }

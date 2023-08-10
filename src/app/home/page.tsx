@@ -20,7 +20,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 3200) // Aqui você define o tempo de duração da animação
+    }, 3250) // Aqui você define o tempo de duração da animação
 
     // Função para interceptar o evento keydown
     const onKeyDown = (event: {
@@ -81,7 +81,7 @@ export default function Home() {
                 </div>
               </section>
               <section className="right-area relative -left-4 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
-                <GameScene />
+                {/* <GameScene /> */}
               </section>
             </section>
             <Servicos className="servicos" />
