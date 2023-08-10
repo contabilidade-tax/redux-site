@@ -27,10 +27,6 @@ ul {
   color: $primary-color;
 }
 
-.bg-yellow {
-  background-color: $primary-color;
-}
-
 .theme {
   border-radius: 1.5rem;
   font-weight: 600;
@@ -40,4 +36,19 @@ ul {
   display: inline-flex;
   -webkit-backdrop-filter: blur(0.625rem);
   backdrop-filter: blur(0.625rem)
+}
+
+// Utilizando o mixin na classe .bgPrimaryColorGradient
+.bgPrimaryColorGradient {
+  @include primary-gradient;
+}
+
+.bg-yellow {
+  background-color: $primary-color;
+}
+
+
+::-webkit-scrollbar-thumb {
+  @include primary-gradient;
+  border-radius: 10px;
 }
