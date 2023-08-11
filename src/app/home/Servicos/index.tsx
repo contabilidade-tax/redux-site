@@ -250,10 +250,10 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           ))}
         </ul>
       </nav>
-      <section className="infos relative mb-20 mt-8 flex max-h-[22rem] w-full">
+      <section className="infos relative mb-20 mt-8 grid grid-cols-3 max-h-[22rem] w-full">
         {/* TextArea com conteúdo */}
-        <aside className="left relative -top-4 h-full w-[50%]">
-          <div className="text-area relative flex min-h-[20rem] flex-col justify-between bg-[#20202010] px-5 pt-5 backdrop-blur-md">
+        <aside className="col-span-1 relative h-full w-full">
+          <div className="text-area relative flex min-h-[22rem] flex-col justify-between bg-[#20202010] px-5 pt-5 backdrop-blur-md">
             <div ref={textAreaRef} className="text space-y-4 overflow-hidden">
               <h3 className="text-xl font-semibold">
                 {state.selectedTab.subtitulo}
@@ -268,31 +268,33 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           </div>
         </aside>
 
-        <aside className="image-area relative top-[0.20rem] w-full">
+        <aside className="col-span-2 image-area relative w-full">
           <section className="screen relative flex h-full w-full justify-center">
             {/* Imagem do conteúdo */}
-            <div
-              ref={contentRef}
-              className="border-red relative z-30 h-[19.3rem] w-max overflow-hidden rounded-lg border-2"
-            >
-              <Image
-                src={state.selectedTab.image}
-                width={400}
-                height={400}
+            <div ref={contentRef} className="min-h-[14rem] min-w-[18rem] h-[18rem] w-[28.5rem] z-30 overflow-hidden rounded-lg border-2">
+              <div
                 ref={imageRef}
-                alt="Nav Big Image"
-                className="h-full w-[28rem] rounded-sm"
+                className="w-full h-full"
+                style={{
+                  backgroundImage: `url(${state.selectedTab.image})`,
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  objectFit: 'fill'
+                }}
               />
             </div>
             {/* Imagem do Notebook */}
-            <div className="mac z-5 absolute h-auto w-full">
-              <Image
+            <div className="mac z-[-1] absolute -top-[4.25rem] left-[3.5rem] min-h-[18rem] min-w-[27rem] h-[32rem] w-[39.6rem]">
+              <div
                 ref={macRef}
-                src={mac}
-                width={600}
-                height={600}
-                alt="MAC"
-                className="absolute -top-6 left-24 h-[28rem] w-[37rem]"
+                className="w-full h-full"
+                style={{
+                  backgroundImage: `url('/assets/img/mac.png')`,
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                }}
               />
             </div>
           </section>

@@ -22,7 +22,7 @@ export default function Header() {
         src="/assets/img/redux-logo.svg"
         alt="Redux Logo"
         width={200}
-        height={200}
+        height={80}
       />
       <ul className="flew-row mx-10 flex items-center justify-between font-normal">
         {tabs.map((item) => (
