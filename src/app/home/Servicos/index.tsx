@@ -250,10 +250,20 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           ))}
         </ul>
       </nav>
-      <section className="infos relative mb-20 mt-8 grid grid-cols-3 max-h-[22rem] w-full">
+      <section
+        className={
+          'relative mb-20 mt-8 grid h-auto max-h-[25rem] min-h-[15rem] w-full grid-cols-3' +
+          ` ${styles.infos}`
+        }
+      >
         {/* TextArea com conteúdo */}
-        <aside className="col-span-1 relative h-full w-full">
-          <div className="text-area relative flex min-h-[22rem] flex-col justify-between bg-[#20202010] px-5 pt-5 backdrop-blur-md">
+        <aside className="relative col-span-1 h-full w-full">
+          <div
+            className={
+              'relative flex max-h-[22rem] flex-col justify-between bg-[#20202010] px-5 pt-5 backdrop-blur-md' +
+              ` ${styles.textArea}`
+            }
+          >
             <div ref={textAreaRef} className="text space-y-4 overflow-hidden">
               <h3 className="text-xl font-semibold">
                 {state.selectedTab.subtitulo}
@@ -268,27 +278,18 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           </div>
         </aside>
 
-        <aside className="col-span-2 image-area relative w-full">
-          <section className="screen relative flex h-full w-full justify-center">
-            {/* Imagem do conteúdo */}
-            <div ref={contentRef} className="min-h-[14rem] min-w-[18rem] h-[18rem] w-[28.5rem] z-30 overflow-hidden rounded-lg border-2">
-              <div
-                ref={imageRef}
-                className="w-full h-full"
-                style={{
-                  backgroundImage: `url(${state.selectedTab.image})`,
-                  backgroundSize: 'cover',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
-                  objectFit: 'fill'
-                }}
-              />
-            </div>
-            {/* Imagem do Notebook */}
-            <div className="mac z-[-1] absolute -top-[4.25rem] left-[3.5rem] min-h-[18rem] min-w-[27rem] h-[32rem] w-[39.6rem]">
+        <aside className="image-area relative col-span-2 h-full w-full">
+          <section className="screen relative flex h-full w-full justify-center border-2 border-green-500">
+            <div
+              className={
+                'absolute -left-[41%] -top-[6.1%] z-[-1] h-[120%] w-[179%]' +
+                ` ${styles.contentWrapper}`
+              }
+            >
+              {/* Imagem do Notebook */}
               <div
                 ref={macRef}
-                className="w-full h-full"
+                className="mac h-full w-full"
                 style={{
                   backgroundImage: `url('/assets/img/mac.png')`,
                   backgroundSize: 'contain',
@@ -296,6 +297,25 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                   backgroundPosition: 'center',
                 }}
               />
+              {/* Imagem do conteúdo */}
+              <div
+                ref={contentRef}
+                className={
+                  'absolute left-[34%] top-[6%] z-30 h-[67%] w-[33.5%] overflow-hidden rounded-lg border-2' +
+                  ` ${styles.content}`
+                }
+              >
+                <div
+                  ref={imageRef}
+                  className="h-full w-full"
+                  style={{
+                    backgroundImage: `url(${state.selectedTab.image})`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                  }}
+                />
+              </div>
             </div>
           </section>
         </aside>

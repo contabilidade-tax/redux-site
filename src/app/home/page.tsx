@@ -10,6 +10,7 @@ import Servicos from './Servicos'
 
 import { useLoading } from '@/common/context/LoadingContext'
 import Loading from 'src/components/Loading'
+import styles from './Home.module.scss'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -57,7 +58,11 @@ export default function Home() {
         isLoading ? (
           <Loading />
         ) : (
-          <FullPageLayout className="z-10 flex w-full flex-col px-24 pt-28">
+          <FullPageLayout
+            className={
+              'z-10 flex w-full flex-col px-24 pt-28' + ` ${styles.wrapper}`
+            }
+          >
             <section className="flex flex-1">
               <section className="left-area w-2/4">
                 <div className="w-5/5 text-7xl leading-none">
@@ -81,7 +86,7 @@ export default function Home() {
                 </div>
               </section>
               <section className="right-area relative -left-4 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
-                {/* <GameScene /> */}
+                <GameScene />
               </section>
             </section>
             <Servicos className="servicos" />

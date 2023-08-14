@@ -1,14 +1,5 @@
-@import 'tailwindcss/base.css';
-@import 'tailwindcss/components.css';
-@import 'tailwindcss/utilities.css';
+@import '@/styles/imports';
 
-@import '@/styles/variaveis';
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
 
 body {
   color: rgb(0 0 0);

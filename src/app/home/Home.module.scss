@@ -1,0 +1,20 @@
+@media (max-width:1024px) {
+    .wrapper {
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+}
+
+@media (max-width:768px) {
+    .wrapper {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}
+
+@media (max-width:640px) {
+    .wrapper {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}

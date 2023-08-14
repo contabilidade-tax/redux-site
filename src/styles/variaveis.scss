@@ -5,3 +5,7 @@ $primary-color: #D5A115;
 @mixin primary-gradient {
     background: linear-gradient(to right, #f12711, #f5af19);
 }
+
+@mixin none {
+    display: none;
+}
