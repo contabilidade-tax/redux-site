@@ -9,7 +9,6 @@ import { ServiceProps } from '@/types'
 
 import styles from './Servicos.module.scss'
 import services from '@/common/data/services.json'
-import mac from '../../../../public/assets/img/mac.png'
 import Link from 'next/link'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -233,7 +232,9 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
       </div>
       <nav
         ref={navRef}
-        className={`${styles['service-nav']} ${styles.notSelect} w-5/5 max-h-max`}
+        className={
+          'w-5/5 max-h-max' + ` ${styles.serviceNav} ${styles.notSelect}`
+        }
       >
         <ul className="flex justify-start">
           {services.map((item, index) => (
@@ -252,19 +253,22 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
       </nav>
       <section
         className={
-          'relative mb-20 mt-8 grid h-auto max-h-[25rem] min-h-[15rem] w-full grid-cols-3' +
+          'relative mb-28 mt-8 flex h-[15rem] w-full flex-1 grid-cols-1 flex-col gap-2' +
           ` ${styles.infos}`
         }
       >
         {/* TextArea com conteúdo */}
-        <aside className="relative col-span-1 h-full w-full">
+        <aside className="relative h-[5rem] w-full">
           <div
             className={
-              'relative flex max-h-[22rem] flex-col justify-between bg-[#20202010] px-5 pt-5 backdrop-blur-md' +
+              'relative flex justify-between bg-[#20202010] p-5 backdrop-blur-md' +
               ` ${styles.textArea}`
             }
           >
-            <div ref={textAreaRef} className="text space-y-4 overflow-hidden">
+            <div
+              ref={textAreaRef}
+              className="text flex items-center overflow-hidden"
+            >
               <h3 className="text-xl font-semibold">
                 {state.selectedTab.subtitulo}
               </h3>
@@ -273,16 +277,16 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               </span>
             </div>
             <Link href="/contato">
-              <ButtonBackgroundShine className="mb-5 w-full self-end" />
+              <ButtonBackgroundShine className="self-end p-5" />
             </Link>
           </div>
         </aside>
 
-        <aside className="image-area relative col-span-2 h-full w-full">
-          <section className="screen relative flex h-full w-full justify-center border-2 border-green-500">
+        <aside className="image-area relative h-full w-full border-2 border-green-500">
+          <section className="screen relative flex h-full w-full justify-center">
             <div
               className={
-                'absolute -left-[41%] -top-[6.1%] z-[-1] h-[120%] w-[179%]' +
+                'absolute -top-[0%] z-[-1] h-[180%] w-[100%]' +
                 ` ${styles.contentWrapper}`
               }
             >
@@ -301,7 +305,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               <div
                 ref={contentRef}
                 className={
-                  'absolute left-[34%] top-[6%] z-30 h-[67%] w-[33.5%] overflow-hidden rounded-lg border-2' +
+                  'absolute left-[23%] top-[6%] z-30 h-[67%] w-[56.8%] overflow-hidden rounded-lg border-2' +
                   ` ${styles.content}`
                 }
               >

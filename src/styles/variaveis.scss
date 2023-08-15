@@ -9,3 +9,27 @@ $primary-color: #D5A115;
 @mixin none {
     display: none;
 }
+
+@mixin sm() {
+    @media (min-width: 640px) {
+        @content;
+    }
+}
+
+@mixin md() {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin lg() {
+    @media (min-width: 1024px) {
+        @content;
+    }
+}
+
+@mixin xl() {
+    @media (min-width: 1280px) {
+        @content;
+    }
+}

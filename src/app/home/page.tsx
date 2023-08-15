@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 'use client'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import React, { useEffect } from 'react'
@@ -86,7 +87,7 @@ export default function Home() {
                 </div>
               </section>
               <section className="right-area relative -left-4 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
-                <GameScene />
+                {/* <GameScene /> */}
               </section>
             </section>
             <Servicos className="servicos" />
