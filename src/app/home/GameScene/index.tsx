@@ -86,6 +86,7 @@ const GameScene: React.FC = () => {
         })
 
         timeline.set(bg, { x: '+=0' }) // Mantém todas as animações de fundo na mesma posição inicial
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         bg.forEach((bgImage, index) => {
           const time = totalWidth / imageSpeed // tempo que levará para a imagem passar completamente pelo quadro
 
@@ -214,6 +215,7 @@ const GameScene: React.FC = () => {
               timeline.clear() // Limpar as animações existentes
 
               // Criar novas animações com a nova velocidade
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               bg.forEach((bgImage, index) => {
                 const time = totalWidth / imageSpeed // Novo tempo
                 timeline.to(
@@ -248,6 +250,7 @@ const GameScene: React.FC = () => {
                   timeline.clear() // Limpar as animações existentes
 
                   // Criar novas animações com a velocidade original
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   bg.forEach((bgImage, index) => {
                     const time = totalWidth / imageSpeed // Tempo com a velocidade original
                     timeline.to(

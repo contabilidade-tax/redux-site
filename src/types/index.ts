@@ -2,6 +2,8 @@ import React, { HTMLAttributes } from 'react'
 
 import services from '@/common/data/services.json'
 
+type Service = (typeof services)[0]
+
 interface ButtonProps {
   text?: string
   className?: string
@@ -23,15 +25,19 @@ interface ServiceProps extends HTMLAttributes<HTMLElement> {
   className?: string | undefined
 }
 
-type Service = (typeof services)[0]
-
 interface LoadingProps extends HTMLAttributes<HTMLElement> {
   XRef: React.RefObject<HTMLImageElement>
   XAnimatedRef: React.RefObject<HTMLImageElement>
   reduRef: React.RefObject<HTMLImageElement>
   reduAnimatedRef: React.RefObject<HTMLImageElement>
   contabilidadeRef: React.RefObject<HTMLImageElement>
-  propRef?: React.RefObject<HTMLDivElement>
+}
+
+interface ServiceNavProps {
+  navRef: React.RefObject<HTMLDivElement>
+  state: any
+  services: typeof services
+  switchTab: (index: number) => void
 }
 
 export type {
@@ -41,4 +47,5 @@ export type {
   Service,
   ServiceProps,
   LoadingProps,
+  ServiceNavProps,
 }

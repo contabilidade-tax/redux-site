@@ -10,26 +10,38 @@ $primary-color: #D5A115;
     display: none;
 }
 
-@mixin sm() {
+@mixin smScreen() {
     @media (min-width: 640px) {
         @content;
     }
 }
 
-@mixin md() {
+@mixin mdScreen() {
     @media (min-width: 768px) {
         @content;
     }
 }
 
-@mixin lg() {
+@mixin lgScreen() {
     @media (min-width: 1024px) {
         @content;
     }
 }
 
-@mixin xl() {
+@mixin xlScreen() {
     @media (min-width: 1280px) {
+        @content;
+    }
+}
+
+@mixin customScreen($width) {
+    @media (min-width: $width) {
+        @content;
+    }
+}
+
+@mixin customMedia($query) {
+    @media #{$query} {
         @content;
     }
 }

@@ -1,8 +1,9 @@
 'use client'
-import Image from 'next/image'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+
 import styles from './Header.module.scss'
 
 const tabs = [
@@ -23,6 +24,7 @@ export default function Header() {
         alt="Redux Logo"
         width={200}
         height={80}
+        priority={true}
       />
       <ul className="flew-row mx-10 flex items-center justify-between font-normal">
         {tabs.map((item) => (
@@ -39,7 +41,7 @@ export default function Header() {
         ))}
         <li>
           <Link href="/login" target="blank">
-            <button className="bg-yellow rounded-3xl px-4 py-1 hover:scale-105">
+            <button className="bg-primary-color rounded-3xl px-4 py-1 hover:scale-105">
               Login
             </button>
           </Link>

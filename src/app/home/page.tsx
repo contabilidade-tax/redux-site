@@ -61,7 +61,7 @@ export default function Home() {
         ) : (
           <FullPageLayout
             className={
-              'z-10 flex w-full flex-col px-24 pt-28' + ` ${styles.wrapper}`
+              'z-10 flex w-full flex-col px-8 pt-28' + ` ${styles.wrapper}`
             }
           >
             <section className="flex flex-1">

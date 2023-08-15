@@ -1,24 +1,20 @@
 /* eslint-disable no-unused-vars */
 import { RefObject, useEffect, useReducer, useRef } from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Image from 'next/image'
+import Link from 'next/link'
 import { gsap } from 'gsap'
 
-import { Icon, ButtonBackgroundShine } from 'src/components/Tools'
+import { ButtonBackgroundShine } from 'src/components/Tools'
 import { ServiceProps } from '@/types'
 
 import styles from './Servicos.module.scss'
+import { debounce } from '@/common/functions'
 import services from '@/common/data/services.json'
-import Link from 'next/link'
+import ServiceNav from '@/app/home/Servicos/ServiceNav'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const initialState = {
-  selectedTab: services[0],
-  isAnimating: false,
-}
-
-function reducer(state: any, action: { type: string; tabIndex: number }) {
+function reducer(state: any, action: { type: string; value?: number }) {
   switch (action.type) {
     case 'ANIMATE_START':
       return {
@@ -28,12 +24,18 @@ function reducer(state: any, action: { type: string; tabIndex: number }) {
     case 'CHANGE_TAB':
       return {
         ...state,
-        selectedTab: services[action.tabIndex],
+        actualIndex: action.value,
+        selectedTab: services[action.value!],
       }
     case 'ANIMATE_END':
       return {
         ...state,
         isAnimating: false,
+      }
+    case 'CLIENT_WIDTH_CHANGE':
+      return {
+        ...state,
+        clientInnerWidth: action.value,
       }
     default:
       return state
@@ -41,6 +43,12 @@ function reducer(state: any, action: { type: string; tabIndex: number }) {
 }
 
 export default function Servicos({ className, ...rest }: ServiceProps) {
+  const initialState = {
+    actualIndex: 0,
+    selectedTab: services[0],
+    isAnimating: false,
+    clientInnerWidth: window.innerWidth || document.documentElement.clientWidth,
+  }
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const textAreaRef = useRef<HTMLDivElement>(null)
@@ -55,7 +63,6 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
 
     dispatch({
       type: 'ANIMATE_START',
-      tabIndex: newTabIndex,
     })
 
     // Iniciar a animação de transição na imagem atual
@@ -64,8 +71,21 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
 
   // animação dos menus de navegação e seleção da área
   useEffect(() => {
-    const sectionElement = document.querySelector('.servicos')
+    // Listener do tamanho da tela
+    const handleResize = () => {
+      // debounce(() => {
+      console.log(window.innerWidth)
+      dispatch({
+        type: 'CLIENT_WIDTH_CHANGE',
+        value: window.innerWidth || document.documentElement.clientWidth,
+      })
+      // }, 300)
+    }
 
+    // Adiciona o EventListener
+    window.addEventListener('resize', handleResize)
+
+    const sectionElement = document.querySelector('.servicos')
     if (sectionElement && navRef.current) {
       // Adicionada verificação para navRef.current
       const navElement = navRef.current // Adicionada variável temporária
@@ -107,6 +127,11 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         },
       })
     }
+
+    // Remove o EventListener
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   const animateTransition = (
@@ -122,7 +147,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         // Alterar para a próxima imagem (causando renderização)
         dispatch({
           type: 'CHANGE_TAB',
-          tabIndex: newTabIndex,
+          value: newTabIndex,
         })
 
         // Animar a entrada da nova imagem
@@ -142,7 +167,6 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               // E aqui um onComplete mudando isAnimating para false
               dispatch({
                 type: 'ANIMATE_END',
-                tabIndex: newTabIndex,
               })
             },
           },
@@ -223,37 +247,22 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
       {...rest}
     >
       <div className="w-28 rounded-3xl bg-primary-color text-center">
-        <span className="bg-yellow theme rounded-full bg-primary-color p-10">
+        <span className="bgYellow-G theme-G rounded-full bg-primary-color p-10">
           Serviços
         </span>
       </div>
-      <div className="my-8">
-        <h1 className="text-5xl font-bold">Como podemos ajudar?</h1>
+      <div className="mb-6 mt-3 h-full w-full">
+        <h1 className="m-[0] text-5xl font-bold">Como podemos ajudar?</h1>
       </div>
-      <nav
-        ref={navRef}
-        className={
-          'w-5/5 max-h-max' + ` ${styles.serviceNav} ${styles.notSelect}`
-        }
-      >
-        <ul className="flex justify-start">
-          {services.map((item, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                switchTab(index)
-              }}
-              className={item === state.selectedTab ? styles.selectedItem : ''}
-            >
-              <Icon src={`/assets/img/icons/${item.icon}`} />
-              <span>{item.titulo}</span>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <ServiceNav
+        navRef={navRef}
+        switchTab={switchTab}
+        services={services}
+        state={state}
+      />
       <section
         className={
-          'relative mb-28 mt-8 flex h-[15rem] w-full flex-1 grid-cols-1 flex-col gap-2' +
+          'relative mb-28 mt-6 flex h-[15rem] w-full flex-1 grid-cols-1 flex-col gap-4' +
           ` ${styles.infos}`
         }
       >
@@ -272,7 +281,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               <h3 className="text-xl font-semibold">
                 {state.selectedTab.subtitulo}
               </h3>
-              <span className="flex w-full flex-col">
+              <span hidden className="flex w-full flex-col">
                 {state.selectedTab.texto}
               </span>
             </div>
@@ -282,7 +291,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           </div>
         </aside>
 
-        <aside className="image-area relative h-full w-full border-2 border-green-500">
+        <aside className="image-area relative h-full w-full">
           <section className="screen relative flex h-full w-full justify-center">
             <div
               className={
@@ -305,7 +314,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               <div
                 ref={contentRef}
                 className={
-                  'absolute left-[23%] top-[6%] z-30 h-[67%] w-[56.8%] overflow-hidden rounded-lg border-2' +
+                  'absolute left-[25.5%] top-[6%] z-30 h-[23vh] w-[34%] overflow-hidden rounded-lg border-2' +
                   ` ${styles.content}`
                 }
               >
