@@ -1,16 +1,30 @@
 /* eslint-disable no-unused-vars */
-import { RefObject, useEffect, useReducer, useRef } from 'react'
+import {
+  RefObject,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+} from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Link from 'next/link'
 import { gsap } from 'gsap'
 
-import { ButtonBackgroundShine } from 'src/components/Tools'
 import { ServiceProps } from '@/types'
-
+import { redir } from '@/common/functions'
+import { ButtonBackgroundShine } from 'src/components/Tools'
 import styles from './Servicos.module.scss'
-import { debounce } from '@/common/functions'
 import services from '@/common/data/services.json'
 import ServiceNav from '@/app/home/Servicos/ServiceNav'
+
+// Import Swiper React components
+// import required modules
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
+import { FreeMode, Scrollbar, Mousewheel } from 'swiper/modules'
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/scrollbar'
+import Link from 'next/link'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -32,10 +46,12 @@ function reducer(state: any, action: { type: string; value?: number }) {
         ...state,
         isAnimating: false,
       }
-    case 'CLIENT_WIDTH_CHANGE':
+    case 'CURRENT_CLIENT_SIZE':
       return {
         ...state,
-        clientInnerWidth: action.value,
+        isMobileDevice: action.value
+          ? action.value >= 300 && action.value <= 640
+          : false,
       }
     default:
       return state
@@ -47,15 +63,18 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     actualIndex: 0,
     selectedTab: services[0],
     isAnimating: false,
-    clientInnerWidth: window.innerWidth || document.documentElement.clientWidth,
+    isMobileDevice: false,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const textAreaRef = useRef<HTMLDivElement>(null)
+  const textAreaTituloRef = useRef<HTMLParagraphElement>(null)
+  const textAreaTextRef = useRef<HTMLParagraphElement>(null)
   const navRef = useRef<HTMLDivElement>(null)
   const macRef = useRef<HTMLImageElement>(null)
   const contentRef = useRef<HTMLImageElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
+
+  const currentWidth = window.innerWidth || document.documentElement.clientWidth
 
   const switchTab = (newTabIndex: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -69,21 +88,31 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     animateTransition(imageRef, newTabIndex)
   }
 
-  // animação dos menus de navegação e seleção da área
-  useEffect(() => {
+  const handleCurrentSize = () => {
+    dispatch({
+      type: 'CURRENT_CLIENT_SIZE',
+      value: currentWidth,
+    })
+  }
+
+  // LayoutEffect para mudança no tamanho de tela
+  useLayoutEffect(() => {
     // Listener do tamanho da tela
-    const handleResize = () => {
-      // debounce(() => {
-      console.log(window.innerWidth)
-      dispatch({
-        type: 'CLIENT_WIDTH_CHANGE',
-        value: window.innerWidth || document.documentElement.clientWidth,
-      })
-      // }, 300)
-    }
+    handleCurrentSize()
 
     // Adiciona o EventListener
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleCurrentSize)
+
+    // Remove o EventListener
+    return () => {
+      window.removeEventListener('resize', handleCurrentSize)
+    }
+  }, [currentWidth])
+
+  // animação dos menus de navegação e seleção da área
+  useEffect(() => {
+    // Verifica se é dispositivo móvel assim que é montado
+    handleCurrentSize()
 
     const sectionElement = document.querySelector('.servicos')
     if (sectionElement && navRef.current) {
@@ -108,7 +137,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           // Adicione mais animações aqui
           // Área do texto
           gsap.fromTo(
-            textAreaRef.current,
+            textAreaTituloRef.current,
             { x: -100, autoAlpha: 0 },
             { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.55 },
           )
@@ -127,19 +156,14 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         },
       })
     }
-
-    // Remove o EventListener
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
   }, [])
 
   const animateTransition = (
     target: RefObject<HTMLDivElement>,
     newTabIndex: number,
   ) => {
-    const titulo = [textAreaRef.current?.querySelectorAll(':scope > h3')]
-    const texto = [textAreaRef.current?.querySelectorAll(':scope > span')]
+    const titulo = textAreaTituloRef.current
+    const texto = textAreaTextRef.current
 
     // Criar uma timeline GSAP
     const tl = gsap.timeline({
@@ -261,37 +285,43 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         state={state}
       />
       <section
-        className={
-          'relative mb-28 mt-6 flex h-[15rem] w-full flex-1 grid-cols-1 flex-col gap-4' +
-          ` ${styles.infos}`
-        }
+        className={`${styles.infoSection} relative mb-28 mt-6 flex h-[15rem] w-full flex-1 flex-col gap-4`}
       >
         {/* TextArea com conteúdo */}
         <aside className="relative h-[5rem] w-full">
           <div
             className={
-              'relative flex justify-between bg-[#20202010] p-5 backdrop-blur-md' +
-              ` ${styles.textArea}`
+              `${styles.textArea} ` +
+              'relative flex justify-between bg-[#20202010] p-5 backdrop-blur-md'
             }
           >
             <div
-              ref={textAreaRef}
-              className="text flex items-center overflow-hidden"
+              className={
+                `${styles.text} ` +
+                'flex items-center justify-between overflow-hidden'
+              }
             >
-              <h3 className="text-xl font-semibold">
+              <h3 ref={textAreaTituloRef} className="text-xl font-semibold">
                 {state.selectedTab.subtitulo}
               </h3>
-              <span hidden className="flex w-full flex-col">
-                {state.selectedTab.texto}
-              </span>
+              {!state.isMobileDevice && (
+                <p hidden className={styles.desktopText}>
+                  {state.selectedTab.texto}
+                </p>
+              )}
             </div>
             <Link href="/contato">
-              <ButtonBackgroundShine className="self-end p-5" />
+              <ButtonBackgroundShine className="w-full self-end px-1 py-5" />
             </Link>
           </div>
         </aside>
 
-        <aside className="image-area relative h-full w-full">
+        <aside
+          className={
+            `${styles.imageArea} ` +
+            'relative h-full w-full border-2 border-red-500'
+          }
+        >
           <section className="screen relative flex h-full w-full justify-center">
             <div
               className={
@@ -332,6 +362,8 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             </div>
           </section>
         </aside>
+
+        {/* {state.isMobileDevice && } */}
       </section>
     </section>
   )

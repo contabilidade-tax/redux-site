@@ -1,23 +1,5 @@
 @import '@/styles/variaveis';
 
-//Dispositivos <= 1024px (Desktop)
-@include lgScreen() {
-    .textArea div span {
-        display: block;
-    }
-}
-
-// Dispositivos <= 768px e >= 570px(tablets)
-@include mdScreen() {
-    .contentWrapper {
-        .content {
-            width: 45%;
-
-            left: 28.5%;
-        }
-    }
-}
-
 @include smScreen() {
 
     //Estilização do nav e dos conteúdos dos menus
@@ -56,6 +38,89 @@
             img {
                 scale: .8;
             }
+        }
+    }
+}
+
+// Dispositivos <= 768px e >= 570px(tablets)
+@include mdScreen() {
+    .contentWrapper {
+        .content {
+            width: 45%;
+
+            left: 28.5%;
+        }
+    }
+}
+
+//Dispositivos >= 1024px (Desktop)
+@include lgScreen() {
+    .infoSection {
+        width: 100%;
+        height: 24rem;
+
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+
+        //Primeiro Aside
+        :nth-child(1) {
+            width: 50%;
+            height: 100%;
+
+            .textArea {
+                width: 100%;
+                height: 100%;
+
+                display: flex;
+                flex-direction: column;
+
+                .text {
+                    width: 100%;
+                    min-height: 15rem;
+
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: flex-start;
+
+                    gap: 1rem;
+
+                    h3 {
+                        width: 100%;
+                        height: max-content;
+                    }
+
+                    .desktopText {
+                        display: block;
+                    }
+
+                    .swiper {
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .swiperSlide {
+                        // font-size: 16px;
+                        height: auto;
+                        -webkit-box-sizing: border-box;
+                        box-sizing: border-box;
+                    }
+                }
+
+                a,
+                button {
+                    width: 100%;
+                }
+            }
+        }
+
+        //Segundo aside
+        .imageArea {
+            width: 100%;
+            height: 100%;
+
+            border: 2px solid black;
         }
     }
 }

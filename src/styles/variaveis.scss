@@ -10,14 +10,8 @@ $primary-color: #D5A115;
     display: none;
 }
 
-@mixin smScreen() {
-    @media (min-width: 640px) {
-        @content;
-    }
-}
-
-@mixin mdScreen() {
-    @media (min-width: 768px) {
+@mixin xlScreen() {
+    @media (min-width: 1280px) {
         @content;
     }
 }
@@ -28,8 +22,14 @@ $primary-color: #D5A115;
     }
 }
 
-@mixin xlScreen() {
-    @media (min-width: 1280px) {
+@mixin mdScreen() {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin smScreen() {
+    @media (min-width: 640px) {
         @content;
     }
 }

@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation'
+
 export function debounce<F extends (...args: any[]) => any>(
   func: F,
   wait: number,
@@ -13,4 +15,8 @@ export function debounce<F extends (...args: any[]) => any>(
       func(...args)
     }, wait)
   }
+}
+
+export function redir(path: string) {
+  return redirect(path)
 }

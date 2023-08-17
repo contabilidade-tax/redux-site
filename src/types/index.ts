@@ -4,7 +4,7 @@ import services from '@/common/data/services.json'
 
 type Service = (typeof services)[0]
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string
   className?: string
 }

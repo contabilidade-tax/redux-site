@@ -41,7 +41,7 @@ export default function Header() {
         ))}
         <li>
           <Link href="/login" target="blank">
-            <button className="bg-primary-color rounded-3xl px-4 py-1 hover:scale-105">
+            <button className="rounded-3xl bg-primary-color px-4 py-1 hover:scale-105">
               Login
             </button>
           </Link>
