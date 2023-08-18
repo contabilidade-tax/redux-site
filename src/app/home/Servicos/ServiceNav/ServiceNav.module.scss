@@ -5,20 +5,8 @@
     background-color: rgb(213, 161, 21) !important;
 }
 
-//Desativa seleção dos menus de seleção dos serviços
-.notSelect {
-    user-select: none;
-    /* padrão */
-    -webkit-user-select: none;
-    /* Safari */
-    -moz-user-select: none;
-    /* Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
-}
-
 .serviceNav {
-    @extend .notSelect;
+    @include notSelect;
 }
 
 .swiperModule {

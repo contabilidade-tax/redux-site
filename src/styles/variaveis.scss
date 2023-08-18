@@ -10,6 +10,18 @@ $primary-color: #D5A115;
     display: none;
 }
 
+//Desativa seleção dos menus de seleção dos serviços
+@mixin notSelect {
+    user-select: none;
+    /* padrão */
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+}
+
 @mixin xlScreen() {
     @media (min-width: 1280px) {
         @content;

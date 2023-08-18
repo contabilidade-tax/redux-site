@@ -27,7 +27,7 @@ import 'swiper/css/free-mode'
 import 'swiper/css/scrollbar'
 
 gsap.registerPlugin(ScrollTrigger)
-SwiperCore.use([FreeMode, Scrollbar, Mousewheel])
+
 
 function reducer(state: any, action: { type: string; value?: number }) {
   switch (action.type) {
@@ -51,10 +51,10 @@ function reducer(state: any, action: { type: string; value?: number }) {
       return {
         ...state,
         isSmallScreen: action.value
-          ? action.value >= 300 && action.value <= 1024
+          ? action.value >= 150 && action.value <= 1024
           : false,
         isMobileDevice: action.value
-          ? action.value >= 300 && action.value <= 640
+          ? action.value >= 150 && action.value <= 640
           : false,
       }
     default:
@@ -62,6 +62,7 @@ function reducer(state: any, action: { type: string; value?: number }) {
   }
 }
 
+SwiperCore.use([FreeMode, Scrollbar, Mousewheel])
 export default function Servicos({ className, ...rest }: ServiceProps) {
   const initialState = {
     actualIndex: 0,
@@ -353,15 +354,26 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               }
             >
               {state.isSmallScreen ? (
-                <div
+                <div ref={textAreaRef}
                   className={
                     `${styles.Text} ` +
-                    'h-full w-1/3 min-w-[195px] gap-4 overflow-hidden border-2 border-dashed border-black bg-[#202020]/10 p-4 backdrop-blur-md'
-                  }
-                >
-                  <div ref={textAreaRef} className={styles.text}>
-                    <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
-                  </div>
+                    'h-full w-1/3 min-w-[190px] gap-4 border-2 border-dashed border-black bg-[#202020]/10 p-4'
+                  }>
+                  <Swiper
+                    direction={'vertical'}
+                    slidesPerView={'auto'}
+                    freeMode={true}
+                    mousewheel={true}
+                    scrollbar={true}
+                    modules={[FreeMode, Scrollbar, Mousewheel]}
+                    className={`${styles.swiper} ` + 'h-full w-full'}
+                  >
+                    <SwiperSlide className={`${styles.text} ${styles.swiperSlide}`}>
+                      <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
+                      <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
+                      <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
+                    </SwiperSlide>
+                  </Swiper>
                 </div>
               ) : (
                 <></>
@@ -369,11 +381,10 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               <div
                 ref={macRef}
                 style={{
-                  backgroundImage: `url(${
-                    state.isSmallScreen
-                      ? '/assets/img/tablet.png'
-                      : '/assets/img/mac.png'
-                  })`,
+                  backgroundImage: `url(${state.isSmallScreen
+                    ? '/assets/img/tablet.png'
+                    : '/assets/img/mac.png'
+                    })`,
                   backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
@@ -387,7 +398,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                   ref={contentWrapperRef}
                   className={
                     `${styles.contentWrapper} ` +
-                    'top-[2%] mx-auto mt-[28.5px] h-[14.4rem] w-auto max-w-[173px] -translate-x-[0.4rem] overflow-hidden'
+                    'relative mx-auto mt-[28.5px] h-[14.4rem] w-auto max-w-[173px] -translate-x-[0.4rem] overflow-hidden'
                   }
                 >
                   <div
@@ -400,14 +411,24 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                       backgroundSize: 'cover',
                       backgroundRepeat: 'no-repeat',
                       backgroundPosition: 'center',
-                    }}
-                  />
+                    }} />
                 </section>
+                {state.isSmallScreen && (
+                  <div
+                    className={`${styles.caneta} ` + "relative -top-[200px] translate-x-[5.5rem] mx-auto -rotate-[4deg] z-50 w-[50px] h-[190px]"}
+                    style={{
+                      backgroundImage: "url('/assets/img/caneta.png')",
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                    }} />
+                )}
               </div>
             </div>
+
           </section>
         </aside>
-      </section>
-    </section>
+      </section >
+    </section >
   )
 }
