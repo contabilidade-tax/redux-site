@@ -9,7 +9,9 @@ export function Icon({
   width = 50,
   height = 50,
 }: IconProps) {
-  return <Image src={src} alt={alt} width={width} height={height} />
+  return (
+    <Image src={src} loading="lazy" alt={alt} width={width} height={height} />
+  )
 }
 export function ButtonBackgroundShine({
   text = 'Fale Conosco',
