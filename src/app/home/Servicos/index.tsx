@@ -1,25 +1,34 @@
 /* eslint-disable no-unused-vars */
-import { RefObject, useEffect, useReducer, useRef } from 'react'
+import {
+  RefObject,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+} from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Image from 'next/image'
 import { gsap } from 'gsap'
-
-import { Icon, ButtonBackgroundShine } from 'src/components/Tools'
-import { ServiceProps } from '@/types'
-
-import styles from './Servicos.module.scss'
-import services from '@/common/data/services.json'
-import mac from '../../../../public/assets/img/mac.png'
 import Link from 'next/link'
+
+import { ServiceProps } from '@/types'
+import { ButtonBackgroundShine } from 'src/components/Tools'
+import services from '@/common/data/services.json'
+import ServiceNav from '@/app/home/Servicos/ServiceNav'
+import styles from './Servicos.module.scss'
+
+// Import Swiper React components
+// import required modules
+import { FreeMode, Scrollbar, Mousewheel } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import SwiperCore from 'swiper'
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/scrollbar'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const initialState = {
-  selectedTab: services[0],
-  isAnimating: false,
-}
-
-function reducer(state: any, action: { type: string; tabIndex: number }) {
+function reducer(state: any, action: { type: string; value?: number }) {
   switch (action.type) {
     case 'ANIMATE_START':
       return {
@@ -29,26 +38,50 @@ function reducer(state: any, action: { type: string; tabIndex: number }) {
     case 'CHANGE_TAB':
       return {
         ...state,
-        selectedTab: services[action.tabIndex],
+        actualIndex: action.value,
+        selectedTab: services[action.value!],
       }
     case 'ANIMATE_END':
       return {
         ...state,
         isAnimating: false,
       }
+    case 'CURRENT_CLIENT_SIZE':
+      return {
+        ...state,
+        isSmallScreen: action.value
+          ? action.value >= 150 && action.value <= 1024
+          : false,
+        isMobileDevice: action.value
+          ? action.value >= 150 && action.value <= 640
+          : false,
+      }
     default:
       return state
   }
 }
 
+SwiperCore.use([FreeMode, Scrollbar, Mousewheel])
 export default function Servicos({ className, ...rest }: ServiceProps) {
+  const initialState = {
+    actualIndex: 0,
+    selectedTab: services[0],
+    isAnimating: false,
+    isSmallScreen: false,
+    isMobileDevice: false,
+  }
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const textAreaRef = useRef<HTMLDivElement>(null)
+  const textAreaTituloRef = useRef<HTMLParagraphElement>(null)
+  const textAreaTextRef = useRef<HTMLParagraphElement>(null)
   const navRef = useRef<HTMLDivElement>(null)
   const macRef = useRef<HTMLImageElement>(null)
-  const contentRef = useRef<HTMLImageElement>(null)
+  const contentWrapperRef = useRef<HTMLImageElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
+
+  // const currentWidth = window?.innerWidth || document.documentElement.clientWidth
+  const currentWidth = typeof window !== 'undefined' ? window.innerWidth : 0
 
   const switchTab = (newTabIndex: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -56,17 +89,40 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
 
     dispatch({
       type: 'ANIMATE_START',
-      tabIndex: newTabIndex,
     })
 
     // Iniciar a animação de transição na imagem atual
     animateTransition(imageRef, newTabIndex)
   }
 
+  const handleCurrentSize = () => {
+    dispatch({
+      type: 'CURRENT_CLIENT_SIZE',
+      value: currentWidth,
+    })
+  }
+
+  // LayoutEffect para mudança no tamanho de tela
+  useLayoutEffect(() => {
+    // Listener do tamanho da tela
+    handleCurrentSize()
+
+    // Adiciona o EventListener
+    window.addEventListener('resize', handleCurrentSize)
+
+    // Remove o EventListener
+    return () => {
+      window.removeEventListener('resize', handleCurrentSize)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWidth])
+
   // animação dos menus de navegação e seleção da área
   useEffect(() => {
-    const sectionElement = document.querySelector('.servicos')
+    // Verifica se é dispositivo móvel assim que é montado
+    handleCurrentSize()
 
+    const sectionElement = document.querySelector('.servicos')
     if (sectionElement && navRef.current) {
       // Adicionada verificação para navRef.current
       const navElement = navRef.current // Adicionada variável temporária
@@ -87,12 +143,25 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
             },
           )
           // Adicione mais animações aqui
-          // Área do texto
+          // Área do titulo do texto
           gsap.fromTo(
-            textAreaRef.current,
+            textAreaTituloRef.current,
             { x: -100, autoAlpha: 0 },
-            { x: 0, autoAlpha: 1, duration: 0.3, delay: 0.55 },
+            {
+              x: 0,
+              autoAlpha: 1,
+              duration: 0.3,
+              delay: 0.55,
+            },
           )
+
+          // Animação do texto
+          gsap.fromTo(
+            textAreaTextRef.current,
+            { y: 100, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.7 },
+          )
+
           // Animação do MAC
           gsap.fromTo(
             macRef.current,
@@ -101,21 +170,22 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
           )
           // Imagem
           gsap.fromTo(
-            contentRef.current,
+            contentWrapperRef.current,
             { autoAlpha: 0 },
             { autoAlpha: 1, duration: 0.5, delay: 0.65 },
           )
         },
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const animateTransition = (
     target: RefObject<HTMLDivElement>,
     newTabIndex: number,
   ) => {
-    const titulo = [textAreaRef.current?.querySelectorAll(':scope > h3')]
-    const texto = [textAreaRef.current?.querySelectorAll(':scope > span')]
+    const titulo = textAreaTituloRef.current
+    const texto = textAreaTextRef.current
 
     // Criar uma timeline GSAP
     const tl = gsap.timeline({
@@ -123,7 +193,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         // Alterar para a próxima imagem (causando renderização)
         dispatch({
           type: 'CHANGE_TAB',
-          tabIndex: newTabIndex,
+          value: newTabIndex,
         })
 
         // Animar a entrada da nova imagem
@@ -143,7 +213,6 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               // E aqui um onComplete mudando isAnimating para false
               dispatch({
                 type: 'ANIMATE_END',
-                tabIndex: newTabIndex,
               })
             },
           },
@@ -194,127 +263,173 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     )
 
     // Animação de texto e retorno ao estado inicial usando fromTo
-    tl.fromTo(
-      texto,
-      { x: 0, autoAlpha: 1 },
-      {
-        x: -200,
-        autoAlpha: 0,
-        duration: 0.3,
-        ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-        onComplete: () => {
-          gsap.fromTo(
-            texto,
-            { y: 45, x: 0, autoAlpha: 0 },
-            {
-              y: 0,
-              autoAlpha: 1,
-              duration: 0.5,
-              ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-            },
-          )
+    if (texto) {
+      tl.fromTo(
+        texto,
+        { x: 0, autoAlpha: 1 },
+        {
+          x: -200,
+          autoAlpha: 0,
+          duration: 0.3,
+          ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+          onComplete: () => {
+            gsap.fromTo(
+              texto,
+              { y: 45, x: 0, autoAlpha: 0 },
+              {
+                y: 0,
+                autoAlpha: 1,
+                duration: 0.5,
+                ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+              },
+            )
+          },
         },
-      },
-    )
+      )
+    }
   }
 
   return (
     <section
-      className={`${className} border-y-2 border-dashed border-zinc-950 p-1`}
+      className={`${className} border-zinc-950 border-y-2 border-dashed p-1`}
       {...rest}
     >
       <div className="w-28 rounded-3xl bg-primary-color text-center">
-        <span className="bg-yellow theme rounded-full bg-primary-color p-10">
+        <span className="bgYellow-G theme-G rounded-full bg-primary-color p-10">
           Serviços
         </span>
       </div>
-      <div className="my-8">
-        <h1 className="text-5xl font-bold">Como podemos ajudar?</h1>
+      <div className="mb-6 mt-3 h-full w-full">
+        <h1 className="m-[0] text-5xl font-bold">Como podemos ajudar?</h1>
       </div>
-      <nav
-        ref={navRef}
-        className={`${styles['service-nav']} ${styles.notSelect} w-5/5 max-h-max`}
-      >
-        <ul className="flex justify-start">
-          {services.map((item, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                switchTab(index)
-              }}
-              className={item === state.selectedTab ? styles.selectedItem : ''}
-            >
-              <Icon src={`/assets/img/icons/${item.icon}`} />
-              <span>{item.titulo}</span>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <ServiceNav
+        navRef={navRef}
+        switchTab={switchTab}
+        services={services}
+        state={state}
+      />
       <section
-        className={
-          'relative mb-20 mt-8 grid h-auto max-h-[25rem] min-h-[15rem] w-full grid-cols-3' +
-          ` ${styles.infos}`
-        }
+        className={`${styles.infoSection} relative mb-12 mt-8 flex h-auto min-h-[15rem] w-full flex-1 flex-col gap-6`}
       >
         {/* TextArea com conteúdo */}
-        <aside className="relative col-span-1 h-full w-full">
+        <aside className="relative h-[5rem] w-full">
           <div
             className={
-              'relative flex max-h-[22rem] flex-col justify-between bg-[#20202010] px-5 pt-5 backdrop-blur-md' +
-              ` ${styles.textArea}`
+              `${styles.textArea} ` +
+              'relative flex justify-between bg-[#20202010] p-5 backdrop-blur-md'
             }
           >
-            <div ref={textAreaRef} className="text space-y-4 overflow-hidden">
-              <h3 className="text-xl font-semibold">
+            <div
+              ref={textAreaRef}
+              className={
+                `${styles.text} ` +
+                'flex items-center justify-between overflow-hidden'
+              }
+            >
+              <h3 ref={textAreaTituloRef} className="text-xl font-semibold">
                 {state.selectedTab.subtitulo}
               </h3>
-              <span className="flex w-full flex-col">
-                {state.selectedTab.texto}
-              </span>
+              {!state.isSmallScreen && (
+                <p hidden ref={textAreaTextRef} className={styles.desktopText}>
+                  {state.selectedTab.texto}
+                </p>
+              )}
             </div>
             <Link href="/contato">
-              <ButtonBackgroundShine className="mb-5 w-full self-end" />
+              <ButtonBackgroundShine className="w-full self-end px-1 py-5" />
             </Link>
           </div>
         </aside>
 
-        <aside className="image-area relative col-span-2 h-full w-full">
-          <section className="screen relative flex h-full w-full justify-center border-2 border-green-500">
+        <aside className={`${styles.imageArea} ` + 'relative h-auto w-full'}>
+          <section
+            className={
+              `${styles.screen} ` + 'relative flex h-full w-full justify-center'
+            }
+          >
             <div
               className={
-                'absolute -left-[41%] -top-[6.1%] z-[-1] h-[120%] w-[179%]' +
-                ` ${styles.contentWrapper}`
+                `${styles.wrapper} ` + 'flex h-[18rem] w-full flex-1 flex-row'
               }
             >
-              {/* Imagem do Notebook */}
+              {state.isSmallScreen ? (
+                <div
+                  ref={textAreaRef}
+                  className={
+                    `${styles.Text} ` +
+                    'h-full w-1/3 min-w-[190px] gap-4 border-2 border-dashed border-black bg-[#202020]/10 p-4'
+                  }
+                >
+                  <Swiper
+                    direction={'vertical'}
+                    slidesPerView={'auto'}
+                    freeMode={true}
+                    scrollbar={true}
+                    mousewheel={true}
+                    modules={[FreeMode, Scrollbar, Mousewheel]}
+                    className={`${styles.swiper} ` + 'h-full w-full'}
+                  >
+                    <SwiperSlide
+                      className={`${styles.text} ${styles.swiperSlide}`}
+                    >
+                      <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
+                    </SwiperSlide>
+                  </Swiper>
+                </div>
+              ) : (
+                <></>
+              )}
               <div
                 ref={macRef}
-                className="mac h-full w-full"
                 style={{
-                  backgroundImage: `url('/assets/img/mac.png')`,
+                  backgroundImage: `url(${
+                    state.isSmallScreen
+                      ? '/assets/img/tablet.png'
+                      : '/assets/img/mac.png'
+                  })`,
                   backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
                 }}
-              />
-              {/* Imagem do conteúdo */}
-              <div
-                ref={contentRef}
                 className={
-                  'absolute left-[34%] top-[6%] z-30 h-[67%] w-[33.5%] overflow-hidden rounded-lg border-2' +
-                  ` ${styles.content}`
+                  `${styles.Image} ` +
+                  'relative z-10 mx-auto h-full w-3/5 scale-105'
                 }
               >
-                <div
-                  ref={imageRef}
-                  className="h-full w-full"
-                  style={{
-                    backgroundImage: `url(${state.selectedTab.image})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
-                  }}
-                />
+                <section
+                  ref={contentWrapperRef}
+                  className={
+                    `${styles.contentWrapper} ` +
+                    'relative mx-auto mt-[28.5px] h-[14.4rem] w-auto max-w-[173px] -translate-x-[0.4rem] overflow-hidden'
+                  }
+                >
+                  <div
+                    ref={imageRef}
+                    className={
+                      `${styles.content} ` + 'relative z-[-1] h-full w-full'
+                    }
+                    style={{
+                      backgroundImage: `url(${state.selectedTab.image})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                    }}
+                  />
+                </section>
+                {state.isSmallScreen && (
+                  <div
+                    className={
+                      `${styles.caneta} ` +
+                      'relative -top-[200px] z-50 mx-auto h-[190px] w-[50px] translate-x-[5.5rem] -rotate-[4deg]'
+                    }
+                    style={{
+                      backgroundImage: "url('/assets/img/caneta.png')",
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                    }}
+                  />
+                )}
               </div>
             </div>
           </section>

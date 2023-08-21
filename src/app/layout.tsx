@@ -1,12 +1,12 @@
-import { Montserrat_Alternates } from 'next/font/google'
+import { Montserrat } from 'next/font/google'
 import { ReactNode } from 'react'
 
-import './globals.scss'
+import '@/styles/globals.scss'
 
 import Header from 'src/components/Header'
 import { LoadingProvider } from '@/common/context/LoadingContext'
 
-const inter = Montserrat_Alternates({
+const inter = Montserrat({
   subsets: ['latin'],
   weight: '300',
 })

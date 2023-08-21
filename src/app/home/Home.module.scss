@@ -1,20 +1,25 @@
-@media (max-width:1024px) {
+@import '@/styles/variaveis';
+
+@include smScreen() {
     .wrapper {
-        padding-left: 5rem;
-        padding-right: 5rem;
+        @include applyPx($px-sm-screen)
     }
 }
 
-@media (max-width:768px) {
+@include mdScreen() {
     .wrapper {
-        padding-left: 3rem;
-        padding-right: 3rem;
+        @include applyPx($px-md-screen)
     }
 }
 
-@media (max-width:640px) {
+@include lgScreen() {
     .wrapper {
-        padding-left: 2rem;
-        padding-right: 2rem;
+        @include applyPx($px-lg-screen)
+    }
+}
+
+@include xlScreen() {
+    .wrapper {
+        @include applyPx($px-xl-screen)
     }
 }

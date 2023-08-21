@@ -1,10 +1,6 @@
 @import '@/styles/variaveis';
 
-.underline {
-    position: relative;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: $primary-color;
+
+.head {
+    @include applyPx($px-sm-screen);
 }

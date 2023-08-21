@@ -1,8 +1,16 @@
 import React, { HTMLAttributes } from 'react'
 
 import services from '@/common/data/services.json'
+import { Tab } from '@material-tailwind/react'
 
-interface ButtonProps {
+type Service = (typeof services)[0]
+
+type Tab = {
+  label: string
+  src: string
+}
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string
   className?: string
 }
@@ -23,15 +31,29 @@ interface ServiceProps extends HTMLAttributes<HTMLElement> {
   className?: string | undefined
 }
 
-type Service = (typeof services)[0]
-
 interface LoadingProps extends HTMLAttributes<HTMLElement> {
   XRef: React.RefObject<HTMLImageElement>
   XAnimatedRef: React.RefObject<HTMLImageElement>
   reduRef: React.RefObject<HTMLImageElement>
   reduAnimatedRef: React.RefObject<HTMLImageElement>
   contabilidadeRef: React.RefObject<HTMLImageElement>
-  propRef?: React.RefObject<HTMLDivElement>
+}
+
+interface ServiceNavProps {
+  navRef: React.RefObject<HTMLDivElement>
+  state: any
+  services: typeof services
+  switchTab: (index: number) => void
+}
+
+interface MenuItensProps {
+  tabs: Tab[]
+  state: any
+  setCurrentPage: (action: { type: string; value: Tab }) => void
+  setMenuOpen: (value: boolean) => void
+  style?: any
+  ref?: React.LegacyRef<HTMLUListElement>
+  className?: string
 }
 
 export type {
@@ -41,4 +63,7 @@ export type {
   Service,
   ServiceProps,
   LoadingProps,
+  ServiceNavProps,
+  MenuItensProps,
+  Tab,
 }

@@ -1,7 +1,6 @@
+/* eslint-disable no-unused-vars */
 'use client'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import React, { useEffect } from 'react'
-import { gsap } from 'gsap'
 
 import { ButtonBackgroundShine } from 'src/components/Tools'
 import FullPageLayout from '@/components/FullPageLayout'
@@ -11,8 +10,6 @@ import Servicos from './Servicos'
 import { useLoading } from '@/common/context/LoadingContext'
 import Loading from 'src/components/Loading'
 import styles from './Home.module.scss'
-
-gsap.registerPlugin(ScrollTrigger)
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
@@ -59,13 +56,11 @@ export default function Home() {
           <Loading />
         ) : (
           <FullPageLayout
-            className={
-              'z-10 flex w-full flex-col px-24 pt-28' + ` ${styles.wrapper}`
-            }
+            className={'flex w-full flex-col' + ` ${styles.wrapper}`}
           >
-            <section className="flex flex-1">
-              <section className="left-area w-2/4">
-                <div className="w-5/5 text-7xl leading-none">
+            <section className="ContentArea pt-10">
+              <section className={styles.leftArea + ' topArea'}>
+                <div className="w-full text-4xl leading-none">
                   <h1 className="w-full">Não somos obrigação,</h1>
                   <h1 className="w-full font-extrabold">
                     somos ferramenta
@@ -73,7 +68,7 @@ export default function Home() {
                   </h1>
                 </div>
                 <div className="flex flex-col">
-                  <div className="mt-28">
+                  <div className="mt-10">
                     <h2 className="text-3xl">
                       Soluções contábeis personalizadas <br />
                       para simplificar sua rotina.
@@ -81,12 +76,12 @@ export default function Home() {
                   </div>
                   <ButtonBackgroundShine
                     text="Fale com a gente! 🤙🏼"
-                    className="mt-8 w-2/4 rounded-full px-4 py-2 text-zinc-100"
+                    className="text-zinc-100 mt-8 w-full rounded-full px-4 py-2"
                   />
                 </div>
               </section>
               <section className="right-area relative -left-4 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
-                <GameScene />
+                {/* <GameScene /> */}
               </section>
             </section>
             <Servicos className="servicos" />

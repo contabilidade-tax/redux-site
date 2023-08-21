@@ -14,11 +14,11 @@ ul {
   }
 }
 
-.text-yellow {
+.textYellow-G {
   color: $primary-color;
 }
 
-.theme {
+.theme-G {
   border-radius: 1.5rem;
   font-weight: 600;
   font-size: 1rem;
@@ -34,7 +34,7 @@ ul {
   @include primary-gradient;
 }
 
-.bg-yellow {
+.bgYellow-G {
   background-color: $primary-color;
 }
 
