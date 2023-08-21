@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function Page404() {
   return (
-    <section className="absolute top-1/2 h-screen w-full -translate-y-1/2  overflow-auto bg-slate-200">
+    <section className="bg-slate-200·absolute·top-1/2·h-screen·w-full··-translate-y-1/2·overflow-auto">
       <div className="container">
         <div className="error404page">
           <div className="newcharacter404">

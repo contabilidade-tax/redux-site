@@ -34,7 +34,7 @@ export default function Home() {
               height={100}
             />
           </div>
-          <button className="mt-4 h-10 w-80 rounded-2xl bg-black p-2 font-semibold text-zinc-100">
+          <button className="text-zinc-100·mt-4·h-10·w-80·rounded-2xl·bg-black·p-2·font-semibold">
             Salva minha empresa! 😢
           </button>
         </div>
