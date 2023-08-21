@@ -1,9 +1,18 @@
 $px-li-itens: .2rem;
 $primary-color: #D5A115;
+$px-sm-screen: 0.8rem;
+$px-md-screen: 1.5rem;
+$px-lg-screen: 3rem;
+$px-xl-screen: 6rem;
 
 // Definindo o mixin
 @mixin primary-gradient {
     background: linear-gradient(to right, #f12711, #f5af19);
+}
+
+@mixin applyPx($value) {
+    padding-left: $value;
+    padding-right: $value;
 }
 
 @mixin none {

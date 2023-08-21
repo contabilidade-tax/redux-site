@@ -28,7 +28,6 @@ import 'swiper/css/scrollbar'
 
 gsap.registerPlugin(ScrollTrigger)
 
-
 function reducer(state: any, action: { type: string; value?: number }) {
   switch (action.type) {
     case 'ANIMATE_START':
@@ -292,7 +291,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
 
   return (
     <section
-      className={`${className} border-y-2 border-dashed border-zinc-950 p-1`}
+      className={`${className} border-zinc-950 border-y-2 border-dashed p-1`}
       {...rest}
     >
       <div className="w-28 rounded-3xl bg-primary-color text-center">
@@ -354,23 +353,25 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               }
             >
               {state.isSmallScreen ? (
-                <div ref={textAreaRef}
+                <div
+                  ref={textAreaRef}
                   className={
                     `${styles.Text} ` +
                     'h-full w-1/3 min-w-[190px] gap-4 border-2 border-dashed border-black bg-[#202020]/10 p-4'
-                  }>
+                  }
+                >
                   <Swiper
                     direction={'vertical'}
                     slidesPerView={'auto'}
                     freeMode={true}
-                    mousewheel={true}
                     scrollbar={true}
+                    mousewheel={true}
                     modules={[FreeMode, Scrollbar, Mousewheel]}
                     className={`${styles.swiper} ` + 'h-full w-full'}
                   >
-                    <SwiperSlide className={`${styles.text} ${styles.swiperSlide}`}>
-                      <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
-                      <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
+                    <SwiperSlide
+                      className={`${styles.text} ${styles.swiperSlide}`}
+                    >
                       <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
                     </SwiperSlide>
                   </Swiper>
@@ -381,10 +382,11 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               <div
                 ref={macRef}
                 style={{
-                  backgroundImage: `url(${state.isSmallScreen
-                    ? '/assets/img/tablet.png'
-                    : '/assets/img/mac.png'
-                    })`,
+                  backgroundImage: `url(${
+                    state.isSmallScreen
+                      ? '/assets/img/tablet.png'
+                      : '/assets/img/mac.png'
+                  })`,
                   backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
@@ -411,24 +413,28 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                       backgroundSize: 'cover',
                       backgroundRepeat: 'no-repeat',
                       backgroundPosition: 'center',
-                    }} />
+                    }}
+                  />
                 </section>
                 {state.isSmallScreen && (
                   <div
-                    className={`${styles.caneta} ` + "relative -top-[200px] translate-x-[5.5rem] mx-auto -rotate-[4deg] z-50 w-[50px] h-[190px]"}
+                    className={
+                      `${styles.caneta} ` +
+                      'relative -top-[200px] z-50 mx-auto h-[190px] w-[50px] translate-x-[5.5rem] -rotate-[4deg]'
+                    }
                     style={{
                       backgroundImage: "url('/assets/img/caneta.png')",
                       backgroundSize: 'contain',
                       backgroundRepeat: 'no-repeat',
                       backgroundPosition: 'center',
-                    }} />
+                    }}
+                  />
                 )}
               </div>
             </div>
-
           </section>
         </aside>
-      </section >
-    </section >
+      </section>
+    </section>
   )
 }

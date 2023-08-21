@@ -490,7 +490,7 @@ const GameScene: React.FC = () => {
   }, [])
 
   return (
-    <div className="relative h-[300px] w-[560px] border-collapse overflow-hidden border-2 border-slate-950">
+    <div className="border-slate-950 relative h-[300px] w-[560px] border-collapse overflow-hidden border-2">
       <canvas ref={canvasRef} className="gameScene absolute -top-[1.1rem]" />
     </div>
   )

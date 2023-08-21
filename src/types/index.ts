@@ -1,8 +1,14 @@
 import React, { HTMLAttributes } from 'react'
 
 import services from '@/common/data/services.json'
+import { Tab } from '@material-tailwind/react'
 
 type Service = (typeof services)[0]
+
+type Tab = {
+  label: string
+  src: string
+}
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string
@@ -40,6 +46,16 @@ interface ServiceNavProps {
   switchTab: (index: number) => void
 }
 
+interface MenuItensProps {
+  tabs: Tab[]
+  state: any
+  setCurrentPage: (action: { type: string; value: Tab }) => void
+  setMenuOpen: (value: boolean) => void
+  style?: any
+  ref?: React.LegacyRef<HTMLUListElement>
+  className?: string
+}
+
 export type {
   ButtonProps,
   IconProps,
@@ -48,4 +64,6 @@ export type {
   ServiceProps,
   LoadingProps,
   ServiceNavProps,
+  MenuItensProps,
+  Tab,
 }
