@@ -26,8 +26,26 @@
   opacity: 0;
 }
 
-@include customScreen("180px") {
+@include customScreen("100px") {
+  .wrapper {
+    scale: .6;
+  }
+}
+
+@include customScreen("100px") {
+  .wrapper {
+    scale: .7;
+  }
+}
+
+@include smScreen() {
   .wrapper {
     scale: .8;
+  }
+}
+
+@include mdScreen() {
+  .wrapper {
+    scale: 1;
   }
 }
