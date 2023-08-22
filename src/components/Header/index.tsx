@@ -82,7 +82,7 @@ export default function Header() {
               >
                 {tab.label}
               </Link>
-              {tab == state.currentPage && (
+              {tab === state.currentPage && (
                 <motion.div className={styles.underline} layoutId="underline" />
               )}
             </li>

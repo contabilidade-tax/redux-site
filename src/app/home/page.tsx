@@ -80,7 +80,7 @@ export default function Home() {
                   />
                 </div>
               </section>
-              <section className="col-span-1 relative h-auto w-full pt-3">
+              <section className="relative col-span-1 h-auto w-full pt-3">
                 <GameScene />
               </section>
             </section>
