@@ -1,6 +1,51 @@
 @import '@/styles/variaveis';
 
+.underline {
+    position: relative;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: $primary-color;
+}
 
 .head {
     @include applyPx($px-sm-screen);
+}
+
+@include lgScreen() {
+    .head {
+        display: block;
+    }
+
+    .hamburguerButton {
+        display: none;
+    }
+
+    .desktopTabs {
+        display: flex !important;
+    }
+}
+
+@include mdScreen() {
+    .head {
+        @include applyPx($px-md-screen);
+    }
+}
+
+@include lgScreen() {
+    .head {
+        @include applyPx($px-lg-screen);
+
+        .desktopTabs {
+            font-size: 18px;
+            font-weight: 700
+        }
+    }
+}
+
+@include xlScreen() {
+    .head {
+        @include applyPx($px-xl-screen);
+    }
 }
