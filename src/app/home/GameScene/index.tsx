@@ -489,9 +489,13 @@ const GameScene: React.FC = () => {
     }
   }, [])
 
+  function setupBackgroundAnimations(timeline: any, bg: any, imageSpeed: any, scaledImageWidth: any) { return }
+  function setupPeCiceroAnimation(timeline: any, peCicero: any, cw: any, peCiceroSpeed: any) { return }
+  function setupDinoAnimation(timeline: any, dino: any, dinoCar: any, imageSpeed: any, cw: any) { return }
+
   return (
-    <div className="border-slate-950 relative h-[300px] w-[560px] border-collapse overflow-hidden border-2">
-      <canvas ref={canvasRef} className="gameScene absolute -top-[1.1rem]" />
+    <div className="border-black relative h-[300px] w-full border-collapse overflow-hidden border-2">
+      {/* <canvas ref={canvasRef} className="gameScene" /> */}
     </div>
   )
 }

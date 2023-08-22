@@ -3,8 +3,7 @@ import Image from 'next/image'
 import { useReducer, useRef } from 'react'
 
 import styles from './Header.module.scss'
-import { Button, Tab, Tabs, TabsHeader } from '@material-tailwind/react'
-import type { TabsHeaderProps } from '@material-tailwind/react'
+import { Button } from '@material-tailwind/react'
 import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
 import MenuItens from './MenuItens'
 import Link from 'next/link'
@@ -60,7 +59,7 @@ export default function Header() {
     <header
       className={
         `${styles.head} ` +
-        'bg-zinc-50 sticky top-0 z-30 flex h-20 w-full items-center justify-between bg-[#fafafa] shadow-md'
+        'bg-zinc-50 sticky top-0 z-30 flex h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md'
       }
     >
       <Image
@@ -78,12 +77,12 @@ export default function Header() {
               <Link
                 href={tab.src}
                 onClick={() =>
-                  handleActualPage({ type: 'SWITCH_TAB', value: tab })
+                  handleActualPage({ type: 'SWITCH_PAGE', value: tab })
                 }
               >
                 {tab.label}
               </Link>
-              {tab === state.currentPage && (
+              {tab == state.currentPage && (
                 <motion.div className={styles.underline} layoutId="underline" />
               )}
             </li>

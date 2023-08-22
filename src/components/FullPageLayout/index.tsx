@@ -32,7 +32,7 @@ const FullPageLayout: React.FC<FullPageLayoutProps> = ({
   }, [children])
 
   return (
-    <div className={`h-scren ${styles.scrollContainer} ${className}`}>
+    <div className={`h-[90vh] ${styles.scrollContainer} ${className}`}>
       {React.Children.map(children, (child, index) => (
         <motion.div
           key={index}

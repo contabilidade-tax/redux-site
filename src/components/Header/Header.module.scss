@@ -13,19 +13,6 @@
     @include applyPx($px-sm-screen);
 }
 
-@include lgScreen() {
-    .head {
-        display: block;
-    }
-
-    .hamburguerButton {
-        display: none;
-    }
-
-    .desktopTabs {
-        display: flex !important;
-    }
-}
 
 @include mdScreen() {
     .head {
@@ -38,10 +25,17 @@
         @include applyPx($px-lg-screen);
 
         .desktopTabs {
-            font-size: 18px;
-            font-weight: 700
+            display: flex;
+
+            font-size: 16px;
+            font-weight: 400
         }
     }
+
+    .hamburguerButton {
+        display: none;
+    }
+
 }
 
 @include xlScreen() {
