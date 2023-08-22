@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import {
   RefObject,
+  useContext,
   useEffect,
   useLayoutEffect,
   useReducer,
@@ -15,6 +16,7 @@ import { ButtonBackgroundShine } from 'src/components/Tools'
 import services from '@/common/data/services.json'
 import ServiceNav from '@/app/home/Servicos/ServiceNav'
 import styles from './Servicos.module.scss'
+import { useMobileContext, MobileContextProvider } from '@/common/context/MobileDeviceContext'
 
 // Import Swiper React components
 // import required modules
@@ -46,16 +48,6 @@ function reducer(state: any, action: { type: string; value?: number }) {
         ...state,
         isAnimating: false,
       }
-    case 'CURRENT_CLIENT_SIZE':
-      return {
-        ...state,
-        isSmallScreen: action.value
-          ? action.value >= 150 && action.value <= 1024
-          : false,
-        isMobileDevice: action.value
-          ? action.value >= 150 && action.value <= 640
-          : false,
-      }
     default:
       return state
   }
@@ -67,10 +59,9 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     actualIndex: 0,
     selectedTab: services[0],
     isAnimating: false,
-    isSmallScreen: false,
-    isMobileDevice: false,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
+  const { dispatch: mobileDispatch, state: mobileState } = useMobileContext();
 
   const textAreaRef = useRef<HTMLDivElement>(null)
   const textAreaTituloRef = useRef<HTMLParagraphElement>(null)
@@ -96,10 +87,10 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
   }
 
   const handleCurrentSize = () => {
-    dispatch({
+    mobileDispatch({
       type: 'CURRENT_CLIENT_SIZE',
       value: currentWidth,
-    })
+    });
   }
 
   // LayoutEffect para mudança no tamanho de tela
@@ -290,151 +281,152 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
   }
 
   return (
-    <section
-      className={`${className} border-zinc-950 border-y-2 border-dashed p-1`}
-      {...rest}
-    >
-      <div className="w-28 rounded-3xl bg-primary-color text-center">
-        <span className="bgYellow-G theme-G rounded-full bg-primary-color p-10">
-          Serviços
-        </span>
-      </div>
-      <div className="mb-6 mt-3 h-full w-full">
-        <h1 className="m-[0] text-5xl font-bold">Como podemos ajudar?</h1>
-      </div>
-      <ServiceNav
-        navRef={navRef}
-        switchTab={switchTab}
-        services={services}
-        state={state}
-      />
+    <MobileContextProvider>
       <section
-        className={`${styles.infoSection} relative mb-12 mt-8 flex h-auto min-h-[15rem] w-full flex-1 flex-col gap-6`}
+        className={`${className} border-zinc-950 border-y-2 border-dashed p-1`}
+        {...rest}
       >
-        {/* TextArea com conteúdo */}
-        <aside className="relative h-[5rem] w-full">
-          <div
-            className={
-              `${styles.textArea} ` +
-              'relative flex justify-between bg-[#20202010] p-5 backdrop-blur-md'
-            }
-          >
-            <div
-              ref={textAreaRef}
-              className={
-                `${styles.text} ` +
-                'flex items-center justify-between overflow-hidden'
-              }
-            >
-              <h3 ref={textAreaTituloRef} className="text-xl font-semibold">
-                {state.selectedTab.subtitulo}
-              </h3>
-              {!state.isSmallScreen && (
-                <p hidden ref={textAreaTextRef} className={styles.desktopText}>
-                  {state.selectedTab.texto}
-                </p>
-              )}
-            </div>
-            <Link href="/contato">
-              <ButtonBackgroundShine className="w-full self-end px-1 py-5" />
-            </Link>
-          </div>
-        </aside>
-
-        <aside className={`${styles.imageArea} ` + 'relative h-auto w-full'}>
-          <section
-            className={
-              `${styles.screen} ` + 'relative flex h-full w-full justify-center'
-            }
-          >
+        <div className="w-28 rounded-3xl bg-primary-color text-center">
+          <span className="bgYellow-G theme-G rounded-full bg-primary-color p-10">
+            Serviços
+          </span>
+        </div>
+        <div className="mb-6 mt-3 h-full w-full">
+          <h1 className="m-[0] text-5xl font-bold">Como podemos ajudar?</h1>
+        </div>
+        <ServiceNav
+          navRef={navRef}
+          switchTab={switchTab}
+          services={services}
+          state={state}
+        />
+        <section
+          className={`${styles.infoSection} relative mb-12 mt-8 flex h-auto min-h-[15rem] w-full flex-1 flex-col gap-6`}
+        >
+          {/* TextArea com conteúdo */}
+          <aside className="relative h-[5rem] w-full">
             <div
               className={
-                `${styles.wrapper} ` + 'flex h-[18rem] w-full flex-1 flex-row'
+                `${styles.textArea} ` +
+                'relative flex justify-between bg-[#20202010] p-5 backdrop-blur-md'
               }
             >
-              {state.isSmallScreen ? (
-                <div
-                  ref={textAreaRef}
-                  className={
-                    `${styles.Text} ` +
-                    'h-full w-1/3 min-w-[190px] gap-4 border-2 border-dashed border-black bg-[#202020]/10 p-4'
-                  }
-                >
-                  <Swiper
-                    direction={'vertical'}
-                    slidesPerView={'auto'}
-                    freeMode={true}
-                    scrollbar={true}
-                    mousewheel={true}
-                    modules={[FreeMode, Scrollbar, Mousewheel]}
-                    className={`${styles.swiper} ` + 'h-full w-full'}
-                  >
-                    <SwiperSlide
-                      className={`${styles.text} ${styles.swiperSlide}`}
-                    >
-                      <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
-                    </SwiperSlide>
-                  </Swiper>
-                </div>
-              ) : (
-                <></>
-              )}
               <div
-                ref={macRef}
-                style={{
-                  backgroundImage: `url(${
-                    state.isSmallScreen
-                      ? '/assets/img/tablet.png'
-                      : '/assets/img/mac.png'
-                  })`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
-                }}
+                ref={textAreaRef}
                 className={
-                  `${styles.Image} ` +
-                  'relative z-10 mx-auto h-full w-3/5 scale-105'
+                  `${styles.text} ` +
+                  'flex items-center justify-between overflow-hidden'
                 }
               >
-                <section
-                  ref={contentWrapperRef}
-                  className={
-                    `${styles.contentWrapper} ` +
-                    'relative mx-auto mt-[28.5px] h-[14.4rem] w-auto max-w-[173px] -translate-x-[0.4rem] overflow-hidden'
-                  }
-                >
-                  <div
-                    ref={imageRef}
-                    className={
-                      `${styles.content} ` + 'relative z-[-1] h-full w-full'
-                    }
-                    style={{
-                      backgroundImage: `url(${state.selectedTab.image})`,
-                      backgroundSize: 'cover',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'center',
-                    }}
-                  />
-                </section>
-                {state.isSmallScreen && (
-                  <div
-                    className={
-                      `${styles.caneta} ` +
-                      'relative -top-[200px] z-50 mx-auto h-[190px] w-[50px] translate-x-[5.5rem] -rotate-[4deg]'
-                    }
-                    style={{
-                      backgroundImage: "url('/assets/img/caneta.png')",
-                      backgroundSize: 'contain',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'center',
-                    }}
-                  />
+                <h3 ref={textAreaTituloRef} className="text-xl font-semibold">
+                  {state.selectedTab.subtitulo}
+                </h3>
+                {!mobileState.isSmallScreen && (
+                  <p hidden ref={textAreaTextRef} className={styles.desktopText}>
+                    {state.selectedTab.texto}
+                  </p>
                 )}
               </div>
+              <Link href="/contato">
+                <ButtonBackgroundShine className="w-full self-end px-1 py-5" />
+              </Link>
             </div>
-          </section>
-        </aside>
+          </aside>
+
+          <aside className={`${styles.imageArea} ` + 'relative h-auto w-full'}>
+            <section
+              className={
+                `${styles.screen} ` + 'relative flex h-full w-full justify-center'
+              }
+            >
+              <div
+                className={
+                  `${styles.wrapper} ` + 'flex h-[18rem] w-full flex-1 flex-row'
+                }
+              >
+                {state.isSmallScreen ? (
+                  <div
+                    ref={textAreaRef}
+                    className={
+                      `${styles.Text} ` +
+                      'h-full w-1/3 min-w-[190px] gap-4 border-2 border-dashed border-black bg-[#202020]/10 p-4'
+                    }
+                  >
+                    <Swiper
+                      direction={'vertical'}
+                      slidesPerView={'auto'}
+                      freeMode={true}
+                      scrollbar={true}
+                      mousewheel={true}
+                      modules={[FreeMode, Scrollbar, Mousewheel]}
+                      className={`${styles.swiper} ` + 'h-full w-full'}
+                    >
+                      <SwiperSlide
+                        className={`${styles.text} ${styles.swiperSlide}`}
+                      >
+                        <p ref={textAreaTextRef}>{state.selectedTab.texto}</p>
+                      </SwiperSlide>
+                    </Swiper>
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <div
+                  ref={macRef}
+                  style={{
+                    backgroundImage: `url(${state.isSmallScreen
+                      ? '/assets/img/tablet.png'
+                      : '/assets/img/mac.png'
+                      })`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                  }}
+                  className={
+                    `${styles.Image} ` +
+                    'relative z-10 mx-auto h-full w-3/5 scale-105'
+                  }
+                >
+                  <section
+                    ref={contentWrapperRef}
+                    className={
+                      `${styles.contentWrapper} ` +
+                      'relative mx-auto mt-[28.5px] h-[14.4rem] w-auto max-w-[173px] -translate-x-[0.4rem] overflow-hidden'
+                    }
+                  >
+                    <div
+                      ref={imageRef}
+                      className={
+                        `${styles.content} ` + 'relative z-[-1] h-full w-full'
+                      }
+                      style={{
+                        backgroundImage: `url(${state.selectedTab.image})`,
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                      }}
+                    />
+                  </section>
+                  {mobileState.isSmallScreen && (
+                    <div
+                      className={
+                        `${styles.caneta} ` +
+                        'relative -top-[200px] z-50 mx-auto h-[190px] w-[50px] translate-x-[5.5rem] -rotate-[4deg]'
+                      }
+                      style={{
+                        backgroundImage: "url('/assets/img/caneta.png')",
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            </section>
+          </aside>
+        </section>
       </section>
-    </section>
+    </MobileContextProvider>
   )
 }
