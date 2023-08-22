@@ -4,6 +4,16 @@
     .wrapper {
         @include applyPx($px-sm-screen)
     }
+
+    .contentArea {
+
+        //Limpa toda margin dos h1 de contentArea
+        h1 {
+            margin: 0;
+
+            text-align: start;
+        }
+    }
 }
 
 @include mdScreen() {
@@ -15,6 +25,14 @@
 @include lgScreen() {
     .wrapper {
         @include applyPx($px-lg-screen)
+    }
+
+    .contentArea {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 1rem;
+
+        margin-top: 4rem;
     }
 }
 

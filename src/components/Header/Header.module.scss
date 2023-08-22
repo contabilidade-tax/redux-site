@@ -1,6 +1,45 @@
 @import '@/styles/variaveis';
 
+.underline {
+    position: relative;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: $primary-color;
+}
 
 .head {
     @include applyPx($px-sm-screen);
+}
+
+
+@include mdScreen() {
+    .head {
+        @include applyPx($px-md-screen);
+    }
+}
+
+@include lgScreen() {
+    .head {
+        @include applyPx($px-lg-screen);
+
+        .desktopTabs {
+            display: flex;
+
+            font-size: 16px;
+            font-weight: 400
+        }
+    }
+
+    .hamburguerButton {
+        display: none;
+    }
+
+}
+
+@include xlScreen() {
+    .head {
+        @include applyPx($px-xl-screen);
+    }
 }

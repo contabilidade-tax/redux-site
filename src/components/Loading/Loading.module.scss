@@ -1,3 +1,5 @@
+@import '@/styles/variaveis';
+
 @font-face {
   font-family: "LouisGeorgeCafe-Bold", "LouisGeorgeCafe";
   src: url("/assets/fonts/louis_george_cafe_bold-webfont.woff2") format("woff2"), url("/assets/fonts/louis_george_cafe-webfont.woff2") format("woff2");
@@ -22,4 +24,10 @@
   bottom: -.4rem;
 
   opacity: 0;
+}
+
+@include customScreen("180px") {
+  .wrapper {
+    scale: .8;
+  }
 }

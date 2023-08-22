@@ -58,8 +58,8 @@ export default function Home() {
           <FullPageLayout
             className={'flex w-full flex-col' + ` ${styles.wrapper}`}
           >
-            <section className="ContentArea pt-10">
-              <section className={styles.leftArea + ' topArea'}>
+            <section className={`${styles.contentArea}`}>
+              <section className={styles.leftArea + ' topArea col-span-1'}>
                 <div className="w-full text-4xl leading-none">
                   <h1 className="w-full">Não somos obrigação,</h1>
                   <h1 className="w-full font-extrabold">
@@ -80,11 +80,11 @@ export default function Home() {
                   />
                 </div>
               </section>
-              <section className="right-area relative -left-4 -top-[0.82rem] h-2/6 w-1/2 scale-90 p-2">
-                {/* <GameScene /> */}
+              <section className="relative col-span-1 h-auto w-full pt-3">
+                <GameScene />
               </section>
             </section>
-            <Servicos className="servicos" />
+            <Servicos className={styles.servicos} />
           </FullPageLayout>
         ) /* ou qualquer outro componente ou conteúdo quando não estiver carregando */
       }

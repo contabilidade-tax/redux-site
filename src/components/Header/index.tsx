@@ -1,11 +1,13 @@
 'use client'
 import Image from 'next/image'
-import { Dispatch, useEffect, useReducer, useRef } from 'react'
+import { useReducer, useRef } from 'react'
 
 import styles from './Header.module.scss'
-import { Button, Typography } from '@material-tailwind/react'
-import { Bars3Icon } from '@heroicons/react/24/solid'
+import { Button } from '@material-tailwind/react'
+import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
 import MenuItens from './MenuItens'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 const tabs = [
   { label: 'Home', src: '/home' },
@@ -54,11 +56,10 @@ export default function Header() {
   }
 
   return (
-    // <header className={`${styles.head} ` + "flex h-20 w-full justify-between items-center bg-zinc-50 shadow-md"}>
     <header
       className={
         `${styles.head} ` +
-        'bg-zinc-50 sticky top-0 z-30 flex h-20 w-full items-center justify-between shadow-md'
+        'bg-zinc-50 sticky top-0 z-30 flex h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md'
       }
     >
       <Image
@@ -69,11 +70,43 @@ export default function Header() {
         height={0}
         priority={true}
       />
+      <div className={`${styles.desktopTabs} ` + 'hidden h-auto w-max'}>
+        <ul className="flex items-center">
+          {tabs.map((tab, index) => (
+            <li key={index}>
+              <Link
+                href={tab.src}
+                onClick={() =>
+                  handleActualPage({ type: 'SWITCH_PAGE', value: tab })
+                }
+              >
+                {tab.label}
+              </Link>
+              {tab === state.currentPage && (
+                <motion.div className={styles.underline} layoutId="underline" />
+              )}
+            </li>
+          ))}
+          <li>
+            <Link href="/login">
+              <Button
+                variant="filled"
+                color="gray"
+                ripple={true}
+                className="flex items-center gap-3 text-lg hover:scale-105"
+              >
+                <UserIcon width={20} height={20} />
+                Login
+              </Button>
+            </Link>
+          </li>
+        </ul>
+      </div>
       <Button
         onClick={() => {
           setMenuOpen(true)
         }}
-        className="scale-90 p-1"
+        className={`${styles.hamburguerButton} ` + 'scale-90 p-1'}
       >
         <Bars3Icon width={50} height={50} />
       </Button>

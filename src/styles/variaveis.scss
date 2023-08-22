@@ -38,7 +38,7 @@ $px-xl-screen: 6rem;
 }
 
 @mixin lgScreen() {
-    @media (min-width: 1024px) {
+    @media (min-width: 1020px) {
         @content;
     }
 }

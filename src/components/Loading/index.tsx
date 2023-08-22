@@ -25,7 +25,12 @@ function MainLoading({
 
   return (
     <section className="absolute top-0 flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg-color">
-      <section className="relative flex h-max w-fit flex-wrap items-center justify-center">
+      <section
+        className={
+          `${styles.wrapper} ` +
+          'relative flex h-max w-fit flex-wrap items-center justify-center'
+        }
+      >
         {/* REDU */}
         <div className="relative">
           <img
