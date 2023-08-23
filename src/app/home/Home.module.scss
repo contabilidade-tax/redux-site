@@ -1,18 +1,27 @@
 @import '@/styles/variaveis';
 
+.contentArea {
+    @include applyPx($px-sm-screen);
+
+    //Limpa toda margin dos h1 de contentArea
+    h1 {
+        margin: 0;
+
+        text-align: start;
+    }
+
+    .rightArea {
+        margin: 0;
+
+        div {
+            scale: .9;
+        }
+    }
+}
+
 @include smScreen() {
     .wrapper {
         @include applyPx($px-sm-screen)
-    }
-
-    .contentArea {
-
-        //Limpa toda margin dos h1 de contentArea
-        h1 {
-            margin: 0;
-
-            text-align: start;
-        }
     }
 }
 

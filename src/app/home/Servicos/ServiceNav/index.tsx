@@ -13,12 +13,14 @@ import { Navigation } from 'swiper/modules'
 // Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
+import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
 
 SwiperCore.use([Navigation])
 
 export default function ServiceNav({
   navRef,
   state,
+  mobileState,
   services,
   switchTab,
 }: ServiceNavProps) {
@@ -41,7 +43,7 @@ export default function ServiceNav({
 
   return (
     <nav ref={navRef} className={`w-5/5 max-h-max ${styles.serviceNav}`}>
-      {state.isMobileDevice ? (
+      {mobileState.isMobileDevice ? (
         <div className="relative">
           <Swiper
             rewind={true}
@@ -69,9 +71,8 @@ export default function ServiceNav({
                 className="flex justify-center border-2 border-primary-color"
               >
                 <div
-                  className={`mx-auto flex w-3/4 min-w-[58px] items-center justify-center gap-3 px-5 py-2 ${
-                    styles[`item-${index}`]
-                  }`}
+                  className={`mx-auto flex w-3/4 min-w-[58px] items-center justify-center gap-3 px-5 py-2 ${styles[`item-${index}`]
+                    }`}
                 >
                   <Icon
                     src={`/assets/img/icons/${item.icon}`}
@@ -108,9 +109,8 @@ export default function ServiceNav({
             <li
               key={index}
               onClick={() => switchTab(index)}
-              className={`flex h-auto w-full justify-start ${
-                styles[`li-${index}`]
-              } ${item === state.selectedTab ? styles.selectedItem : ''}`}
+              className={`flex h-auto w-full justify-start ${styles[`li-${index}`]
+                } ${item === state.selectedTab ? styles.selectedItem : ''}`}
             >
               <Icon
                 src={`/assets/img/icons/${item.icon}`}

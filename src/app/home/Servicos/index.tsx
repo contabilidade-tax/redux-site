@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import {
   RefObject,
-  useEffect,
-  useLayoutEffect,
   useReducer,
   useRef,
 } from 'react'
@@ -15,6 +13,7 @@ import { ButtonBackgroundShine } from 'src/components/Tools'
 import services from '@/common/data/services.json'
 import ServiceNav from '@/app/home/Servicos/ServiceNav'
 import styles from './Servicos.module.scss'
+import { useMobileContext } from '@/common/context/MobileDeviceContext'
 
 // Import Swiper React components
 // import required modules
@@ -46,16 +45,6 @@ function reducer(state: any, action: { type: string; value?: number }) {
         ...state,
         isAnimating: false,
       }
-    case 'CURRENT_CLIENT_SIZE':
-      return {
-        ...state,
-        isSmallScreen: action.value
-          ? action.value >= 150 && action.value <= 1024
-          : false,
-        isMobileDevice: action.value
-          ? action.value >= 150 && action.value <= 640
-          : false,
-      }
     default:
       return state
   }
@@ -67,10 +56,9 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     actualIndex: 0,
     selectedTab: services[0],
     isAnimating: false,
-    isSmallScreen: false,
-    isMobileDevice: false,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
+  const { state: mobileState } = useMobileContext();
 
   const textAreaRef = useRef<HTMLDivElement>(null)
   const textAreaTituloRef = useRef<HTMLParagraphElement>(null)
@@ -80,8 +68,6 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
   const contentWrapperRef = useRef<HTMLImageElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
-  // const currentWidth = window?.innerWidth || document.documentElement.clientWidth
-  const currentWidth = typeof window !== 'undefined' ? window.innerWidth : 0
 
   const switchTab = (newTabIndex: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -94,91 +80,6 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     // Iniciar a animação de transição na imagem atual
     animateTransition(imageRef, newTabIndex)
   }
-
-  const handleCurrentSize = () => {
-    dispatch({
-      type: 'CURRENT_CLIENT_SIZE',
-      value: currentWidth,
-    })
-  }
-
-  // LayoutEffect para mudança no tamanho de tela
-  useLayoutEffect(() => {
-    // Listener do tamanho da tela
-    handleCurrentSize()
-
-    // Adiciona o EventListener
-    window.addEventListener('resize', handleCurrentSize)
-
-    // Remove o EventListener
-    return () => {
-      window.removeEventListener('resize', handleCurrentSize)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWidth])
-
-  // animação dos menus de navegação e seleção da área
-  useEffect(() => {
-    // Verifica se é dispositivo móvel assim que é montado
-    handleCurrentSize()
-
-    const sectionElement = document.querySelector('.servicos')
-    if (sectionElement && navRef.current) {
-      // Adicionada verificação para navRef.current
-      const navElement = navRef.current // Adicionada variável temporária
-
-      ScrollTrigger.create({
-        trigger: sectionElement,
-        start: 'top 75%',
-        onEnter: () => {
-          gsap.fromTo(
-            navElement.querySelectorAll('li'), // Usando a variável temporária aqui
-            { x: '100%', opacity: 0 },
-            {
-              duration: 0.5,
-              x: '0%',
-              opacity: 1,
-              ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-              stagger: 0.1,
-            },
-          )
-          // Adicione mais animações aqui
-          // Área do titulo do texto
-          gsap.fromTo(
-            textAreaTituloRef.current,
-            { x: -100, autoAlpha: 0 },
-            {
-              x: 0,
-              autoAlpha: 1,
-              duration: 0.3,
-              delay: 0.55,
-            },
-          )
-
-          // Animação do texto
-          gsap.fromTo(
-            textAreaTextRef.current,
-            { y: 100, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.7 },
-          )
-
-          // Animação do MAC
-          gsap.fromTo(
-            macRef.current,
-            { y: 100, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.15 },
-          )
-          // Imagem
-          gsap.fromTo(
-            contentWrapperRef.current,
-            { autoAlpha: 0 },
-            { autoAlpha: 1, duration: 0.5, delay: 0.65 },
-          )
-        },
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const animateTransition = (
     target: RefObject<HTMLDivElement>,
@@ -307,6 +208,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         switchTab={switchTab}
         services={services}
         state={state}
+        mobileState={mobileState}
       />
       <section
         className={`${styles.infoSection} relative mb-12 mt-8 flex h-auto min-h-[15rem] w-full flex-1 flex-col gap-6`}
@@ -329,7 +231,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               <h3 ref={textAreaTituloRef} className="text-xl font-semibold">
                 {state.selectedTab.subtitulo}
               </h3>
-              {!state.isSmallScreen && (
+              {!mobileState.isSmallScreen && (
                 <p hidden ref={textAreaTextRef} className={styles.desktopText}>
                   {state.selectedTab.texto}
                 </p>
@@ -352,7 +254,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                 `${styles.wrapper} ` + 'flex h-[18rem] w-full flex-1 flex-row'
               }
             >
-              {state.isSmallScreen ? (
+              {mobileState.isSmallScreen ? (
                 <div
                   ref={textAreaRef}
                   className={
@@ -382,11 +284,10 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               <div
                 ref={macRef}
                 style={{
-                  backgroundImage: `url(${
-                    state.isSmallScreen
-                      ? '/assets/img/tablet.png'
-                      : '/assets/img/mac.png'
-                  })`,
+                  backgroundImage: `url(${mobileState.isSmallScreen
+                    ? '/assets/img/tablet.png'
+                    : '/assets/img/mac.png'
+                    })`,
                   backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
@@ -416,7 +317,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                     }}
                   />
                 </section>
-                {state.isSmallScreen && (
+                {mobileState.isSmallScreen && (
                   <div
                     className={
                       `${styles.caneta} ` +

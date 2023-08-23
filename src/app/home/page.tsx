@@ -58,17 +58,17 @@ export default function Home() {
           <FullPageLayout
             className={'flex w-full flex-col' + ` ${styles.wrapper}`}
           >
-            <section className={`${styles.contentArea}`}>
-              <section className={styles.leftArea + ' topArea col-span-1'}>
-                <div className="w-full text-4xl leading-none">
+            <section className={styles.contentArea}>
+              <section className={styles.leftArea + ' topArea col-span-1 mt-4'}>
+                <div className="w-full text-[22px] leading-tight">
                   <h1 className="w-full">Não somos obrigação,</h1>
-                  <h1 className="w-full font-extrabold">
-                    somos ferramenta
-                    <span className="text-yellow">.</span>
+                  <h1 className="w-full h-max font-extrabold">
+                    somos<br /> ferramenta
+                    <span className="textYellow-G text-5xl">.</span>
                   </h1>
                 </div>
                 <div className="flex flex-col">
-                  <div className="mt-10">
+                  <div className="mt-4">
                     <h2 className="text-3xl">
                       Soluções contábeis personalizadas <br />
                       para simplificar sua rotina.
@@ -76,11 +76,11 @@ export default function Home() {
                   </div>
                   <ButtonBackgroundShine
                     text="Fale com a gente! 🤙🏼"
-                    className="text-zinc-100 mt-8 w-full rounded-full px-4 py-2"
+                    className="text-zinc-100 mt-4 w-1/2 rounded-full px-4 py-2"
                   />
                 </div>
               </section>
-              <section className="relative col-span-1 h-auto w-full pt-3">
+              <section className={`${styles.rightArea} ` + "relative col-span-1 h-auto w-full"}>
                 <GameScene />
               </section>
             </section>

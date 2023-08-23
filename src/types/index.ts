@@ -41,7 +41,8 @@ interface LoadingProps extends HTMLAttributes<HTMLElement> {
 
 interface ServiceNavProps {
   navRef: React.RefObject<HTMLDivElement>
-  state: any
+  state: any,
+  mobileState: any,
   services: typeof services
   switchTab: (index: number) => void
 }
