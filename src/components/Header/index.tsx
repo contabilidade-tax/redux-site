@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useReducer, useRef } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 
 import styles from './Header.module.scss'
 import { Button } from '@material-tailwind/react'
@@ -54,6 +54,14 @@ export default function Header() {
       dispatch({ type: 'CLOSE' })
     }
   }
+
+  // Não permite scroll na tela enquanto o menu está aberto
+  useEffect(() => {
+    // Verificar se o código está sendo executado no lado do cliente
+    if (typeof window !== 'undefined') {
+      document.body.style.overflow = state.isMenuOpen ? 'hidden' : 'auto'
+    }
+  }, [state.isMenuOpen]) // A função no useEffect será executada sempre que isLoading mudar
 
   return (
     <header
