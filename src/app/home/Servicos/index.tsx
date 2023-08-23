@@ -58,7 +58,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
     isAnimating: false,
   }
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { state: mobileState } = useMobileContext();
+  const { mobileState } = useMobileContext();
 
   const textAreaRef = useRef<HTMLDivElement>(null)
   const textAreaTituloRef = useRef<HTMLParagraphElement>(null)

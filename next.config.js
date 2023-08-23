@@ -6,7 +6,6 @@ const nextConfig = {
       'images.pexels.com',
       'images.unsplash.com',
       'www.flaticon.com',
-      '*',
     ],
     dangerouslyAllowSVG: true,
   },

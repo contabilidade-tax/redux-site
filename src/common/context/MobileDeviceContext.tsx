@@ -1,7 +1,7 @@
 "use client"
 import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect } from 'react';
 
-const MobileContext = createContext<{ state: { isSmallScreen: boolean; isMobileDevice: boolean; } } | undefined>(undefined);
+const MobileContext = createContext<{ mobileState: { isSmallScreen: boolean; isMobileDevice: boolean; } } | undefined>(undefined);
 
 function reducer(state: any, action: { type: string, value?: number }) {
     switch (action.type) {
@@ -33,7 +33,7 @@ export const MobileContextProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
     const initialState = { isSmallScreen: false, isMobileDevice: false };
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [mobileState, dispatch] = useReducer(reducer, initialState);
     const currentWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
 
     const handleCurrentSize = () => {
@@ -59,7 +59,7 @@ export const MobileContextProvider: React.FC<{ children: ReactNode }> = ({
     }, [currentWidth])
 
     return (
-        <MobileContext.Provider value={{ state }}>
+        <MobileContext.Provider value={{ mobileState }}>
             {children}
         </MobileContext.Provider>
     );
