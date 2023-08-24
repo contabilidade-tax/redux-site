@@ -1,6 +1,6 @@
 @import '@/styles/variaveis';
 
-@include customScreen("150px") {
+@include customScreen("100px") {
     .Text {
         .swiper {
             width: 100%;
@@ -19,6 +19,29 @@
             }
         }
     }
+
+    .textArea {
+        padding: .3rem;
+    }
+
+    .infoSection {
+        margin-bottom: .8rem;
+        margin-top: .8rem;
+    }
+
+    .Image {
+        scale: .98;
+
+        transform: translateX(5px);
+    }
+
+}
+
+@include customScreen("150px") {
+    .textArea {
+        padding: 1.25rem !important;
+    }
+
 }
 
 // Dispositivos <= 768px e >= 570px(tablets)

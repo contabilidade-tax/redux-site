@@ -5,7 +5,7 @@ import gsap from 'gsap'
 
 gsap.registerPlugin(PixiPlugin)
 
-const GameScene: React.FC = () => {
+function GameScene({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   // Array para armazenar os IDs dos timeouts
   const timeoutIds: any = []
@@ -550,7 +550,7 @@ const GameScene: React.FC = () => {
   }
 
   return (
-    <div className="relative h-[300px] w-full max-w-[550px] overflow-hidden border-2 border-black">
+    <div className={`${className} ` + "relative h-[300px] w-full max-w-[550px] overflow-hidden"}>
       <canvas ref={canvasRef} className="gameScene" />
     </div>
   )

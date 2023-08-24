@@ -201,7 +201,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         </span>
       </div>
       <div className="mb-6 mt-3 h-full w-full">
-        <h1 className="m-[0] text-5xl font-bold">Como podemos ajudar?</h1>
+        <h1 className="m-[0] text-3xl font-bold">Como podemos ajudar?</h1>
       </div>
       <ServiceNav
         navRef={navRef}
@@ -211,7 +211,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         mobileState={mobileState}
       />
       <section
-        className={`${styles.infoSection} relative mb-12 mt-8 flex h-auto min-h-[15rem] w-full flex-1 flex-col gap-6`}
+        className={`${styles.infoSection} relative my-5 flex h-auto min-h-[15rem] w-full flex-1 flex-col gap-6`}
       >
         {/* TextArea com conteúdo */}
         <aside className="relative h-[5rem] w-full">
@@ -259,7 +259,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                   ref={textAreaRef}
                   className={
                     `${styles.Text} ` +
-                    'h-full w-1/3 min-w-[190px] gap-4 border-2 border-dashed border-black bg-[#202020]/10 p-4'
+                    'h-full w-1/3 min-w-[170px] gap-2 border-2 border-dashed border-black bg-[#202020]/10 p-2'
                   }
                 >
                   <Swiper
@@ -294,7 +294,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                 }}
                 className={
                   `${styles.Image} ` +
-                  'relative z-10 mx-auto h-full w-3/5 scale-105'
+                  'relative z-10 mx-auto h-full max-w-3/5 min-w-[52%] w-auto scale-105'
                 }
               >
                 <section

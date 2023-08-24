@@ -10,9 +10,11 @@ import Servicos from './Servicos'
 import { useLoading } from '@/common/context/LoadingContext'
 import Loading from 'src/components/Loading'
 import styles from './Home.module.scss'
+import { useMobileContext } from '@/common/context/MobileDeviceContext'
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
+  const { mobileState } = useMobileContext()
 
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function Home() {
             className={'flex w-full flex-col' + ` ${styles.wrapper}`}
           >
             <section className={styles.contentArea}>
-              <section className={styles.leftArea + ' topArea col-span-1 mt-4'}>
+              <div className={styles.leftArea + ' topArea col-span-1 mt-4'}>
                 <div className="w-full text-[22px] leading-tight">
                   <h1 className="w-full">Não somos obrigação,</h1>
                   <h1 className="w-full h-max font-extrabold">
@@ -67,6 +69,9 @@ export default function Home() {
                     <span className="textYellow-G text-5xl">.</span>
                   </h1>
                 </div>
+                {mobileState.isSmallScreen && (
+                  <GameScene className={styles.mobileGameScene} />
+                )}
                 <div className="flex flex-col">
                   <div className="mt-4">
                     <h2 className="text-3xl">
@@ -79,10 +84,12 @@ export default function Home() {
                     className="text-zinc-100 mt-4 w-1/2 rounded-full px-4 py-2"
                   />
                 </div>
-              </section>
-              <section className={`${styles.rightArea} ` + "relative col-span-1 h-auto w-full"}>
-                <GameScene />
-              </section>
+              </div>
+              {!mobileState.isSmallScreen &&
+                <div className={`${styles.rightArea} ` + "relative col-span-1 h-auto w-full"}>
+                  <GameScene />
+                </div>
+              }
             </section>
             <Servicos className={styles.servicos} />
           </FullPageLayout>

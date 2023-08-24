@@ -1,8 +1,10 @@
 .fullPageSection {
     /* Definir a altura mínima como 100% da altura da janela */
-    min-height: 100vh;
+    min-height: 100%;
     width: 100%;
     overflow: hidden;
+
+    scale: .97 !important;
     /* Esconder qualquer conteúdo que ultrapasse os limites */
 }
 

@@ -10,11 +10,11 @@
         text-align: start;
     }
 
-    .rightArea {
-        margin: 0;
+    .leftArea .mobileGameScene {
+        margin: 2rem auto;
 
         div {
-            scale: .9;
+            transform: scaleY(0.5) !important;
         }
     }
 }
