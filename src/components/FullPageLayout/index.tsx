@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const FullPageLayout: React.FC<FullPageLayoutProps> = ({
   className,
+  id,
   children,
 }) => {
   // Função para adicionar efeito parallax
@@ -32,7 +33,7 @@ const FullPageLayout: React.FC<FullPageLayoutProps> = ({
   }, [children])
 
   return (
-    <div className={`h-[90vh] ${styles.scrollContainer} ${className}`}>
+    <div id={id} className={`h-[90vh] ${styles.scrollContainer} ${className}`}>
       {React.Children.map(children, (child, index) => (
         <motion.div
           key={index}

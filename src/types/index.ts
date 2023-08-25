@@ -24,6 +24,7 @@ interface IconProps {
 
 interface FullPageLayoutProps {
   className?: string
+  id?: string,
   children: React.ReactNode
 }
 
@@ -44,6 +45,7 @@ interface ServiceNavProps {
   state: any,
   mobileState: any,
   services: typeof services
+  className?: string
   switchTab: (index: number) => void
 }
 

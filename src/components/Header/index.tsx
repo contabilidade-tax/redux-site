@@ -1,13 +1,13 @@
 'use client'
-import Image from 'next/image'
+import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
 import { useEffect, useReducer, useRef } from 'react'
+import { Button } from '@material-tailwind/react'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 import styles from './Header.module.scss'
-import { Button } from '@material-tailwind/react'
-import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
 import MenuItens from './MenuItens'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 
 const tabs = [
   { label: 'Home', src: '/home' },

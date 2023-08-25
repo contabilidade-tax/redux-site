@@ -58,6 +58,7 @@ export default function Home() {
           <Loading />
         ) : (
           <FullPageLayout
+            id="PageScroller"
             className={'flex w-full flex-col' + ` ${styles.wrapper}`}
           >
             <section className={styles.contentArea}>

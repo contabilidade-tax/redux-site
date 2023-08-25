@@ -1,9 +1,5 @@
-import styles from './ServiceNav.module.scss'
-import { Icon } from '@/components/Tools'
-import { ServiceNavProps } from '@/types'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -13,7 +9,11 @@ import { Navigation } from 'swiper/modules'
 // Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
-import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
+
+import { ServiceNavProps } from '@/types'
+import { Icon } from '@/components/Tools'
+import styles from './ServiceNav.module.scss'
+
 
 SwiperCore.use([Navigation])
 
@@ -23,6 +23,7 @@ export default function ServiceNav({
   mobileState,
   services,
   switchTab,
+  className,
 }: ServiceNavProps) {
   const SERVICES_LEN = services.length - 1
 
@@ -41,8 +42,9 @@ export default function ServiceNav({
     }
   }
 
+
   return (
-    <nav ref={navRef} className={`w-5/5 max-h-max ${styles.serviceNav}`}>
+    <nav ref={navRef} className={`w-5/5 max-h-max ${styles.serviceNav} ${className}`}>
       {mobileState.isMobileDevice ? (
         <div className="relative">
           <Swiper

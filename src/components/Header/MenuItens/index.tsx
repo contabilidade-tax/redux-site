@@ -22,10 +22,9 @@ export default function MenuItens({
   const navRef = useRef<HTMLUListElement>(null)
   const xRef = useRef<SVGSVGElement>(null)
   const loginRef = useRef<HTMLButtonElement>(null)
-  // const navRef = useRef<HTMLUListElement>(null)
+
   useEffect(() => {
     if (navRef.current) {
-      const ref = navRef.current
       const tl = gsap.timeline({ delay: 0 })
 
       tl.fromTo(
@@ -36,7 +35,7 @@ export default function MenuItens({
       )
 
       tl.fromTo(
-        ref.querySelectorAll('li'),
+        navRef.current.querySelectorAll('li'),
         { x: (index) => (index % 2 === 0 ? '100%' : '-100%'), autoAlpha: 0 },
         {
           duration: 0.5,
@@ -57,6 +56,42 @@ export default function MenuItens({
         },
         0,
       )
+    }
+
+    return () => {
+      if (navRef.current) {
+        const tl = gsap.timeline({ delay: 0 })
+
+        tl.fromTo(
+          loginRef.current,
+          { x: 0, autoAlpha: 0 },
+          { x: -1000, autoAlpha: 1, duration: 0.5 },
+          0,
+        )
+
+        tl.fromTo(
+          navRef.current.querySelectorAll('li'),
+          { y: (index) => (index % 2 === 0 ? '100%' : '-100%'), autoAlpha: 0 },
+          {
+            duration: 0.5,
+            x: '0%',
+            autoAlpha: 1,
+            ease: 'power4.out',
+            stagger: 0.1,
+          },
+          0,
+        )
+
+        tl.to(
+          xRef.current,
+          {
+            rotation: 360,
+            duration: 1,
+            ease: 'power2.out',
+          },
+          0,
+        )
+      }
     }
   }, [])
 

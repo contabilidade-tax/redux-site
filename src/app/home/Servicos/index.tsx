@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import {
   RefObject,
+  useEffect,
   useReducer,
   useRef,
 } from 'react'
@@ -26,6 +27,7 @@ import 'swiper/css/free-mode'
 import 'swiper/css/scrollbar'
 
 gsap.registerPlugin(ScrollTrigger)
+SwiperCore.use([FreeMode, Scrollbar, Mousewheel])
 
 function reducer(state: any, action: { type: string; value?: number }) {
   switch (action.type) {
@@ -50,7 +52,6 @@ function reducer(state: any, action: { type: string; value?: number }) {
   }
 }
 
-SwiperCore.use([FreeMode, Scrollbar, Mousewheel])
 export default function Servicos({ className, ...rest }: ServiceProps) {
   const initialState = {
     actualIndex: 0,
@@ -68,6 +69,67 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
   const contentWrapperRef = useRef<HTMLImageElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
 
+  // animação dos menus de navegação e seleção da área
+  useEffect(() => {
+
+    const sectionElement = document.querySelector('.serviceNav')
+    if (sectionElement && navRef.current) {
+      const navElement = navRef.current.querySelector("ul")! // Adicionada variável temporária
+
+      ScrollTrigger.create({
+        trigger: sectionElement,
+        scroller: '#PageScroller',
+        //significa quando o topo do trigger
+        //atingir 70% do scroller (default=100vh)
+        start: 'center 70%',
+        onEnter: () => {
+          gsap.fromTo(
+            navElement.querySelectorAll('li'), // Usando a variável temporária aqui
+            { x: '100%', opacity: 0 },
+            {
+              duration: 0.5,
+              x: '0%',
+              opacity: 1,
+              ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+              stagger: 0.1,
+            },
+          )
+          // Adicione mais animações aqui
+          // Área do titulo do texto
+          gsap.fromTo(
+            textAreaTituloRef.current,
+            { x: -100, autoAlpha: 0 },
+            {
+              x: 0,
+              autoAlpha: 1,
+              duration: 0.3,
+              delay: 0.55,
+            },
+          )
+
+          // Animação do texto
+          gsap.fromTo(
+            textAreaTextRef.current,
+            { y: 100, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.7 },
+          )
+
+          // Animação do MAC
+          gsap.fromTo(
+            macRef.current,
+            { y: 100, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.15 },
+          )
+          // Imagem
+          gsap.fromTo(
+            contentWrapperRef.current,
+            { autoAlpha: 0 },
+            { autoAlpha: 1, duration: 0.5, delay: 0.65 },
+          )
+        },
+      })
+    }
+  }, [])
 
   const switchTab = (newTabIndex: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -209,6 +271,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         services={services}
         state={state}
         mobileState={mobileState}
+        className={styles.serviceNav + ' serviceNav'}
       />
       <section
         className={`${styles.infoSection} relative my-5 flex h-auto min-h-[15rem] w-full flex-1 flex-col gap-6`}
