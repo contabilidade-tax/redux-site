@@ -8,6 +8,7 @@ import Image from 'next/image'
 import styles from './Header.module.scss'
 import MenuItens from './MenuItens'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const tabs = [
   { label: 'Home', src: '/home' },
@@ -38,6 +39,7 @@ function reducer(state: any, action: { type: string; value?: any }) {
 }
 
 export default function Header() {
+  const currentPage = usePathname()
   const initialReducerState = {
     currentPage: tabs[0],
     menuIsOpen: false,
@@ -62,6 +64,17 @@ export default function Header() {
       document.body.style.overflow = state.isMenuOpen ? 'hidden' : 'auto'
     }
   }, [state.isMenuOpen]) // A função no useEffect será executada sempre que isLoading mudar
+
+  useEffect(() => {
+    if (currentPage != state.currentPage.src) {
+      // Se a página atual for diferente da página no estado, atualize a página atual no estado
+      // Isso mudará o estado para refletir a página atual e atualizará o indicador no menu
+      const newCurrentPage = tabs.find(tab => tab.src === currentPage)
+      if (newCurrentPage) {
+        dispatch({ type: 'SWITCH_PAGE', value: newCurrentPage })
+      }
+    }
+  }, [currentPage])
 
   return (
     <header
