@@ -1,52 +1,42 @@
 'use client'
-import { gsap } from 'gsap'
-import { motion } from 'framer-motion'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
+
 import { FullPageLayoutProps } from '@/types'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import styles from './FullPageLayout.module.scss'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination, Mousewheel } from 'swiper/modules'
 
-gsap.registerPlugin(ScrollTrigger)
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
 
-const FullPageLayout: React.FC<FullPageLayoutProps> = ({
-  className,
-  id,
-  children,
-}) => {
-  // Função para adicionar efeito parallax
-  const addParallaxEffect = (index: number) => {
-    gsap.to(`.section-${index}`, {
-      y: (i, target) => -ScrollTrigger.maxScroll(window) * 0.1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: `.section-${index}`,
-        scrub: true,
-      },
-    })
-  }
+function FullPageLayout({ className, id, children }: FullPageLayoutProps) {
 
-  useEffect(() => {
-    // Converter children em um array real para usar forEach
-    React.Children.toArray(children).forEach((_, index) =>
-      addParallaxEffect(index),
-    )
-  }, [children])
+  useLayoutEffect(() => {
+    //Converter children em um array real para usar forEach
+    React.Children.toArray(children)
+  })
+
 
   return (
-    <div id={id} className={`h-[90vh] ${styles.scrollContainer} ${className}`}>
+    <Swiper
+      id={id}
+      className={`h-[90vh] ${className}`}
+      pagination={{
+        type: 'progressbar',
+      }}
+      slidesPerView={1}
+      mousewheel={true}
+      modules={[Mousewheel, Pagination]}
+      direction={'vertical'}
+      spaceBetween={30}
+      onAnimationStart={() => console.log("Animou")}
+    >
       {React.Children.map(children, (child, index) => (
-        <motion.div
-          key={index}
-          className={`section-${index} ${styles.fullPageSection} ${styles.scrollSection}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.9 }}
-        >
+        <SwiperSlide key={index} className='overflow-hidden'>
           {child}
-        </motion.div>
+        </SwiperSlide>
       ))}
-    </div>
+    </Swiper>
   )
 }
 
