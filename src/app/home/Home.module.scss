@@ -13,9 +13,36 @@
 }
 
 @include xlScreen() {
-    // .servicosWrapper {
-    //     margin: $xl-padding;
-    // }
+    .contentArea {
+        display: grid;
+        grid-template-columns: repeat(1fr, 2fr);
+        column-gap: 1rem;
+
+        margin: auto auto;
+        height: 75%;
+
+        transform: translateY(50px);
+
+        .leftArea {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 0;
+
+            .introText {
+                font-size: 10rem;
+
+                line-height: 4.5rem;
+            }
+
+        }
+
+        .rightArea {
+            .gameScene {
+                width: 80%;
+            }
+        }
+    }
 }
 
 @include lgScreen() {
