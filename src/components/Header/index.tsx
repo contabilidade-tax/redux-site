@@ -1,13 +1,14 @@
 'use client'
-import Image from 'next/image'
+import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
 import { useEffect, useReducer, useRef } from 'react'
+import { Button } from '@material-tailwind/react'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 import styles from './Header.module.scss'
-import { Button } from '@material-tailwind/react'
-import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
 import MenuItens from './MenuItens'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 
 const tabs = [
   { label: 'Home', src: '/home' },
@@ -38,6 +39,7 @@ function reducer(state: any, action: { type: string; value?: any }) {
 }
 
 export default function Header() {
+  const currentPage = usePathname()
   const initialReducerState = {
     currentPage: tabs[0],
     menuIsOpen: false,
@@ -63,6 +65,17 @@ export default function Header() {
     }
   }, [state.isMenuOpen]) // A função no useEffect será executada sempre que isLoading mudar
 
+  useEffect(() => {
+    if (currentPage !== state.currentPage.src) {
+      // Se a página atual for diferente da página no estado, atualize a página atual no estado
+      // Isso mudará o estado para refletir a página atual e atualizará o indicador no menu
+      const newCurrentPage = tabs.find(tab => tab.src === currentPage)
+      if (newCurrentPage) {
+        dispatch({ type: 'SWITCH_PAGE', value: newCurrentPage })
+      }
+    }
+  }, [currentPage, state.currentPage.src])
+
   return (
     <header
       className={
@@ -71,7 +84,7 @@ export default function Header() {
       }
     >
       <Image
-        className="h-[50px] w-[200px]"
+        className={`h-[50px] w-[200px] ${styles.logo}`}
         src="/assets/img/redux-logo.svg"
         alt="Redux Logo"
         width={0}

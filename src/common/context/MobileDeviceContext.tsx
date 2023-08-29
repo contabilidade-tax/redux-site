@@ -1,7 +1,16 @@
 "use client"
 import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect } from 'react';
 
-const MobileContext = createContext<{ state: { isSmallScreen: boolean; isMobileDevice: boolean; } } | undefined>(undefined);
+interface MobileContextProps {
+    mobileState: {
+        isSmallScreen: boolean;
+        isMobileDevice: boolean;
+        homePageindex: number;
+    }
+    handleHomePageIndex: (index: number) => void;
+}
+
+const MobileContext = createContext<MobileContextProps | undefined>(undefined);
 
 function reducer(state: any, action: { type: string, value?: number }) {
     switch (action.type) {
@@ -14,6 +23,11 @@ function reducer(state: any, action: { type: string, value?: number }) {
                 isMobileDevice: action.value
                     ? action.value >= 150 && action.value <= 639
                     : false,
+            }
+        case 'HOME_PAGE_INDEX':
+            return {
+                ...state,
+                homePageindex: action.value,
             }
         default:
             return state;
@@ -32,14 +46,21 @@ export const useMobileContext = () => {
 export const MobileContextProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const initialState = { isSmallScreen: false, isMobileDevice: false };
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const initialState = { isSmallScreen: false, isMobileDevice: false, homePageindex: 0 };
+    const [mobileState, dispatch] = useReducer(reducer, initialState);
     const currentWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
 
     const handleCurrentSize = () => {
         dispatch({
             type: 'CURRENT_CLIENT_SIZE',
             value: currentWidth,
+        })
+    }
+
+    const handleHomePageIndex = (index: number) => {
+        dispatch({
+            type: 'HOME_PAGE_INDEX',
+            value: index,
         })
     }
 
@@ -59,7 +80,7 @@ export const MobileContextProvider: React.FC<{ children: ReactNode }> = ({
     }, [currentWidth])
 
     return (
-        <MobileContext.Provider value={{ state }}>
+        <MobileContext.Provider value={{ mobileState, handleHomePageIndex }}>
             {children}
         </MobileContext.Provider>
     );

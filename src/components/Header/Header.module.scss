@@ -10,19 +10,37 @@
 }
 
 .head {
-    @include applyPx($px-sm-screen);
+    padding: $xsm-padding;
 }
 
+@include customMedia("max-width: 450px") {
+    .head {
+        height: 8vh;
+    }
+
+    .logo {
+        width: 100%;
+        height: 90%;
+
+        transform: translateX(-55px);
+    }
+}
+
+@include smScreen() {
+    .head {
+        padding: $sm-padding;
+    }
+}
 
 @include mdScreen() {
     .head {
-        @include applyPx($px-md-screen);
+        padding: $md-padding;
     }
 }
 
 @include lgScreen() {
     .head {
-        @include applyPx($px-lg-screen);
+        padding: $lg-padding;
 
         .desktopTabs {
             display: flex;
@@ -40,6 +58,6 @@
 
 @include xlScreen() {
     .head {
-        @include applyPx($px-xl-screen);
+        padding: $xl-padding;
     }
 }

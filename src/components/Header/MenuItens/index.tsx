@@ -15,28 +15,50 @@ export default function MenuItens({
   state,
   setCurrentPage,
   setMenuOpen,
-  ref,
   className,
   style,
 }: MenuItensProps) {
   const navRef = useRef<HTMLUListElement>(null)
   const xRef = useRef<SVGSVGElement>(null)
   const loginRef = useRef<HTMLButtonElement>(null)
-  // const navRef = useRef<HTMLUListElement>(null)
+
+  const animateOut = () => {
+    const tl = gsap.timeline({ delay: 0 });
+
+    tl.to(
+      loginRef.current,
+      { x: -1000, autoAlpha: 0, duration: 0.5 },
+      0
+    );
+
+    // if (navRef.current) {
+    //   tl.to(
+    //     navRef.current.querySelectorAll('li'),
+    //     { y: '-100%', autoAlpha: 0, duration: 0.5, stagger: 0.1 },
+    //     0
+    //   );
+    // }
+
+    tl.to(
+      xRef.current,
+      { rotation: 360, duration: 1, ease: 'power2.out' },
+      0
+    );
+  };
+
   useEffect(() => {
-    if (navRef.current) {
-      const ref = navRef.current
-      const tl = gsap.timeline({ delay: 0 })
+    if (state.menuIsOpen && navRef.current) {
+      const tl = gsap.timeline({ delay: 0 });
 
       tl.fromTo(
         loginRef.current,
         { y: -550, autoAlpha: 0 },
         { y: 0, autoAlpha: 1, duration: 0.5 },
-        0,
-      )
+        0
+      );
 
       tl.fromTo(
-        ref.querySelectorAll('li'),
+        navRef.current.querySelectorAll('li'),
         { x: (index) => (index % 2 === 0 ? '100%' : '-100%'), autoAlpha: 0 },
         {
           duration: 0.5,
@@ -45,20 +67,19 @@ export default function MenuItens({
           ease: 'power4.out',
           stagger: 0.1,
         },
-        0,
-      )
+        0
+      );
 
       tl.to(
         xRef.current,
-        {
-          rotation: 360,
-          duration: 1,
-          ease: 'power2.out',
-        },
-        0,
-      )
+        { rotation: 360, duration: 1, ease: 'power2.out' },
+        0
+      );
+    } else {
+      animateOut();
     }
-  }, [])
+  }, [state.menuIsOpen]);
+
 
   return (
     <div

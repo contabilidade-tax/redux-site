@@ -3,7 +3,6 @@ import { ReactNode } from 'react'
 
 import '@/styles/globals.scss'
 
-import Header from 'src/components/Header'
 import { LoadingProvider } from '@/common/context/LoadingContext'
 import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
 
@@ -24,7 +23,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <LoadingProvider>
         <html lang="pt-BR">
           <body className={inter.className}>
-            <Header />
             <main className="min-h-screeen flex w-full flex-col items-center justify-center">
               {children}
             </main>

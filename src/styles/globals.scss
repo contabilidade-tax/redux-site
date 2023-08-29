@@ -1,5 +1,5 @@
+@import '@/styles/variaveis';
 @import '@/styles/imports';
-
 
 body {
   color: rgb(0 0 0);
@@ -9,7 +9,7 @@ body {
 /* Espaçamento entre itens li num menu */
 ul {
   li {
-    margin: 0 $px-li-itens;
+    margin: $px-li-itens;
     padding: 0 .7rem;
   }
 }

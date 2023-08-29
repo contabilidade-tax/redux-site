@@ -1,9 +1,14 @@
+import Header from "@/components/Header";
+
 export default function Servicos() {
   return (
-    <div>
+    <>
+      <Header />
       <div>
-        <h1 className="text-slate-950">Fazemos tudo meu patrão</h1>
+        <div>
+          <h1 className="text-slate-950">Fazemos tudo meu patrão</h1>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

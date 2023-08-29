@@ -3,6 +3,7 @@
 import { useLoading } from '@/common/context/LoadingContext'
 import Loading from 'src/components/Loading'
 import { useEffect } from 'react'
+import Header from '@/components/Header'
 
 export default function TrabalheConosco() {
   const { isLoading, setIsLoading } = useLoading()
@@ -45,11 +46,14 @@ export default function TrabalheConosco() {
       {isLoading ? (
         <Loading />
       ) : (
-        <div>
-          <h1 className="text-slate-950">
-            Venha fazer parte desta equipe nota 10
-          </h1>
-        </div>
+        <>
+          <Header />
+          <div>
+            <h1 className="text-slate-950">
+              Venha fazer parte desta equipe nota 10
+            </h1>
+          </div>
+        </>
       )}
     </>
   )

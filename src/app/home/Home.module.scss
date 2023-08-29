@@ -1,52 +1,52 @@
 @import '@/styles/variaveis';
 
+.servicos,
 .contentArea {
-    @include applyPx($px-sm-screen);
+    width: auto;
+    height: auto;
+}
 
-    //Limpa toda margin dos h1 de contentArea
-    h1 {
-        margin: 0;
-
-        text-align: start;
-    }
-
-    .rightArea {
-        margin: 0;
-
-        div {
-            scale: .9;
-        }
+.contentArea {
+    .leftArea .mobileGameScene {
+        margin: 2rem auto;
     }
 }
 
-@include smScreen() {
-    .wrapper {
-        @include applyPx($px-sm-screen)
-    }
-}
-
-@include mdScreen() {
-    .wrapper {
-        @include applyPx($px-md-screen)
-    }
+@include xlScreen() {
+    // .servicosWrapper {
+    //     margin: $xl-padding;
+    // }
 }
 
 @include lgScreen() {
-    .wrapper {
-        @include applyPx($px-lg-screen)
-    }
-
     .contentArea {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         column-gap: 1rem;
 
-        margin-top: 4rem;
-    }
-}
+        margin: auto auto;
+        height: 75%;
 
-@include xlScreen() {
-    .wrapper {
-        @include applyPx($px-xl-screen)
+        transform: translateY(50px);
+
+        .leftArea {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 0;
+
+            .introText {
+                font-size: 4rem;
+
+                line-height: 4.5rem;
+            }
+
+        }
+
+        .rightArea {
+            .gameScene {
+                width: 80%;
+            }
+        }
     }
 }
