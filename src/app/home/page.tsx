@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 'use client'
-import React, { useEffect } from 'react'
+import React, { Ref, useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 import { ButtonBackgroundShine } from '@/components/Tools'
@@ -48,29 +48,28 @@ export default function Home() {
           <>
             <Header />
             <FullPageLayout
-              id="PageScroller"
-              className={'flex w-full flex-col' + ` ${styles.wrapper}`}
+              className={` ${styles.wrapper}`}
             >
               <section className={styles.contentArea}>
-                <div className={styles.leftArea + ' topArea col-span-1 mt-4'}>
-                  <div className="w-full text-[22px] leading-tight">
-                    <h1 className="w-full">Não somos obrigação,</h1>
-                    <h1 className="w-full h-max font-extrabold">
-                      somos<br /> ferramenta
+                <div className={styles.leftArea + ' topArea col-span-1 mt-2'}>
+                  <div className={`${styles.introText} w-full leading-none text-3xl`}>
+                    <p className="w-full h-max">
+                      Não somos obrigação
+                      <span className='font-extrabold textYellow-G'>{' '}somos ferramenta</span>
                       <span className="textYellow-G text-5xl">.</span>
-                    </h1>
+                    </p>
                   </div>
                   {mobileState.isSmallScreen && (
                     <GameScene className={styles.mobileGameScene} />
                   )}
-                  <div className="flex flex-col">
+                  <div className={`${styles.bottomTextContent} flex flex-col md:gap-8`}>
                     <div className="mt-4">
-                      <h2 className="text-3xl">
-                        Soluções contábeis personalizadas <br />
-                        para simplificar sua rotina.
+                      <h2 className="text-2xl">
+                        Soluções personalizadas
+                        <span className='textYellow-G font-bold'> para simplificar</span> sua rotina.
                       </h2>
                     </div>
-                    <Link href='/contato' className='h-auto w-1/2'>
+                    <Link href='/contato' className='h-auto w-full'>
                       <ButtonBackgroundShine
                         text="Fale com a gente! 🤙🏼"
                         className="text-zinc-100 mt-4 w-full rounded-full px-4 py-2"
@@ -80,7 +79,7 @@ export default function Home() {
                 </div>
                 {!mobileState.isSmallScreen &&
                   <div className={`${styles.rightArea} ` + "relative col-span-1 h-auto w-full"}>
-                    <GameScene />
+                    <GameScene className={`mx-auto ${styles.gameScene}`} />
                   </div>
                 }
               </section>

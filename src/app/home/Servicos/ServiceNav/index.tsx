@@ -44,7 +44,7 @@ export default function ServiceNav({
 
 
   return (
-    <nav ref={navRef} className={`w-5/5 max-h-max ${styles.serviceNav} ${className}`}>
+    <nav ref={navRef} id='navRef' className={`w-5/5 max-h-max ${styles.serviceNav} ${className}`}>
       {mobileState.isMobileDevice ? (
         <div className="relative">
           <Swiper
@@ -73,7 +73,7 @@ export default function ServiceNav({
                 className="flex justify-center border-2 border-primary-color"
               >
                 <div
-                  className={`mx-auto flex w-3/4 min-w-[58px] items-center justify-center gap-3 px-5 py-2 ${styles[`item-${index}`]
+                  className={`mx-auto flex w-3/4 min-w-[60px] items-center justify-center gap-3 px-5 py-2 ${styles[`item-${index}`]
                     }`}
                 >
                   <Icon

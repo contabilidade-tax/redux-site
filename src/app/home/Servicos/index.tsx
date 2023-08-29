@@ -25,6 +25,7 @@ import SwiperCore from 'swiper'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/scrollbar'
+import { type } from 'os'
 
 gsap.registerPlugin(ScrollTrigger)
 SwiperCore.use([FreeMode, Scrollbar, Mousewheel])
@@ -52,7 +53,7 @@ function reducer(state: any, action: { type: string; value?: number }) {
   }
 }
 
-export default function Servicos({ className, ...rest }: ServiceProps) {
+export default function Servicos({ scrollerRef, className, ...rest }: ServiceProps) {
   const initialState = {
     actualIndex: 0,
     selectedTab: services[0],
@@ -71,65 +72,59 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
 
   // animação dos menus de navegação e seleção da área
   useEffect(() => {
-
-    const sectionElement = document.querySelector('.serviceNav')
+    const sectionElement = document.querySelector('#navRef')
     if (sectionElement && navRef.current) {
-      const navElement = navRef.current.querySelector("ul")! // Adicionada variável temporária
+      if (mobileState.homePageindex === 1 && !mobileState.isSmallScreen) {
+        const navElement = navRef.current.querySelector("ul")! // Adicionada variável temporária
+        const tl = gsap.timeline()
+        tl.fromTo(
+          navElement.querySelectorAll('li'), // Usando a variável temporária aqui
+          { x: '100%', opacity: 0 },
+          {
+            duration: 0.5,
+            x: '0%',
+            opacity: 1,
+            ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+            stagger: 0.1,
+          },
+          0
+        )
 
-      ScrollTrigger.create({
-        trigger: sectionElement,
-        scroller: '#PageScroller',
-        //significa quando o topo do trigger
-        //atingir 70% do scroller (default=100vh)
-        start: 'center 70%',
-        onEnter: () => {
-          gsap.fromTo(
-            navElement.querySelectorAll('li'), // Usando a variável temporária aqui
-            { x: '100%', opacity: 0 },
-            {
-              duration: 0.5,
-              x: '0%',
-              opacity: 1,
-              ease: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
-              stagger: 0.1,
-            },
-          )
-          // Adicione mais animações aqui
-          // Área do titulo do texto
-          gsap.fromTo(
-            textAreaTituloRef.current,
-            { x: -100, autoAlpha: 0 },
-            {
-              x: 0,
-              autoAlpha: 1,
-              duration: 0.3,
-              delay: 0.55,
-            },
-          )
+        // Adicione mais animações aqui
+        // Área do titulo do texto
+        tl.fromTo(
+          textAreaTituloRef.current,
+          { x: -100, autoAlpha: 0 },
+          {
+            x: 0,
+            autoAlpha: 1,
+            duration: 0.3,
+            delay: 0.55,
+          }, 0
+        )
 
-          // Animação do texto
-          gsap.fromTo(
-            textAreaTextRef.current,
-            { y: 100, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.7 },
-          )
+        // Animação do texto
+        tl.fromTo(
+          textAreaTextRef.current,
+          { y: 100, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.7 }, 0
+        )
 
-          // Animação do MAC
-          gsap.fromTo(
-            macRef.current,
-            { y: 100, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.15 },
-          )
-          // Imagem
-          gsap.fromTo(
-            contentWrapperRef.current,
-            { autoAlpha: 0 },
-            { autoAlpha: 1, duration: 0.5, delay: 0.65 },
-          )
-        },
-      })
+        // Animação do MAC
+        tl.fromTo(
+          macRef.current,
+          { y: 100, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.3, delay: 0.15 }, 0
+        )
+        // Imagem
+        tl.fromTo(
+          contentWrapperRef.current,
+          { autoAlpha: 0 },
+          { autoAlpha: 1, duration: 0.5, delay: 0.65 }, 0
+        )
+      }
     }
-  }, [])
+  }, [mobileState.homePageindex, mobileState.isSmallScreen])
 
   const switchTab = (newTabIndex: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -254,7 +249,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
 
   return (
     <section
-      className={`${className} border-zinc-950 border-y-2 border-dashed p-1`}
+      className={`${className} ${styles.servicosWrapper} h-full border-black border-y-2 border-dashed py-5 px-1`}
       {...rest}
     >
       <div className="w-28 rounded-3xl bg-primary-color text-center">
@@ -263,7 +258,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         </span>
       </div>
       <div className="mb-6 mt-3 h-full w-full">
-        <h1 className="m-[0] text-3xl font-bold">Como podemos ajudar?</h1>
+        <h1 className="m-[0] text-2xl font-bold">Como podemos ajudar?</h1>
       </div>
       <ServiceNav
         navRef={navRef}
@@ -271,17 +266,17 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
         services={services}
         state={state}
         mobileState={mobileState}
-        className={styles.serviceNav + ' serviceNav'}
+        className={styles.serviceNav}
       />
       <section
-        className={`${styles.infoSection} relative my-5 flex h-auto min-h-[15rem] w-full flex-1 flex-col gap-6`}
+        className={`${styles.infoSection} relative my-5 flex h-auto lg:!min-h-[18rem] w-full flex-1 flex-col gap-6`}
       >
         {/* TextArea com conteúdo */}
-        <aside className="relative h-[5rem] w-full">
+        <aside className="relative h-[4rem] w-full">
           <div
             className={
               `${styles.textArea} ` +
-              'relative flex justify-between bg-[#20202010] p-5 backdrop-blur-md'
+              'relative flex justify-between bg-[#20202010] p-3 backdrop-blur-md'
             }
           >
             <div
@@ -301,12 +296,12 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
               )}
             </div>
             <Link href="/contato">
-              <ButtonBackgroundShine className="w-full self-end px-1 py-5" />
+              <ButtonBackgroundShine className="w-full min-h-[50px] self-end p-5 rounded-full" />
             </Link>
           </div>
         </aside>
 
-        <aside className={`${styles.imageArea} ` + 'relative h-auto w-full'}>
+        <aside className={`${styles.imageArea} ` + 'relative h-auto w-full m-0 p-0'}>
           <section
             className={
               `${styles.screen} ` + 'relative flex h-full w-full justify-center'
@@ -322,7 +317,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                   ref={textAreaRef}
                   className={
                     `${styles.Text} ` +
-                    'h-full w-1/3 min-w-[170px] gap-2 border-2 border-dashed border-black bg-[#202020]/10 p-2'
+                    'h-auto w-1/3 min-w-[160px] gap-2 border-2 border-dashed border-black bg-[#202020]/10 p-2'
                   }
                 >
                   <Swiper
@@ -332,7 +327,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                     scrollbar={true}
                     mousewheel={true}
                     modules={[FreeMode, Scrollbar, Mousewheel]}
-                    className={`${styles.swiper} ` + 'h-full w-full'}
+                    className={`${styles.swiper} ` + 'h-full w-full z-30'}
                   >
                     <SwiperSlide
                       className={`${styles.text} ${styles.swiperSlide}`}
@@ -357,7 +352,7 @@ export default function Servicos({ className, ...rest }: ServiceProps) {
                 }}
                 className={
                   `${styles.Image} ` +
-                  'relative z-10 mx-auto h-full max-w-3/5 min-w-[52%] w-auto scale-105'
+                  'relative z-10 mx-auto h-auto max-w-[40rem] min-w-[52%] w-auto scale-100'
                 }
               >
                 <section

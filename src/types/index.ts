@@ -1,7 +1,8 @@
-import React, { HTMLAttributes } from 'react'
+import React, { HTMLAttributes, Ref } from 'react'
 
 import services from '@/common/data/services.json'
 import { Tab } from '@material-tailwind/react'
+import { SwiperRef } from 'swiper/react'
 
 type Service = (typeof services)[0]
 
@@ -26,10 +27,12 @@ interface FullPageLayoutProps {
   className?: string
   id?: string,
   children: React.ReactNode
+  homePageIndex?: number
 }
 
 interface ServiceProps extends HTMLAttributes<HTMLElement> {
   className?: string | undefined
+  scrollerRef?: Ref<SwiperRef> | undefined
 }
 
 interface LoadingProps extends HTMLAttributes<HTMLElement> {

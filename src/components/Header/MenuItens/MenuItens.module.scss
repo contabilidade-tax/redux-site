@@ -10,7 +10,7 @@
 }
 
 .headMenuMobile {
-    @include applyPx($px-sm-screen);
+    margin: $xsm-padding;
 }
 
 .ulWrapper {

@@ -66,7 +66,7 @@ export default function Header() {
   }, [state.isMenuOpen]) // A função no useEffect será executada sempre que isLoading mudar
 
   useEffect(() => {
-    if (currentPage != state.currentPage.src) {
+    if (currentPage !== state.currentPage.src) {
       // Se a página atual for diferente da página no estado, atualize a página atual no estado
       // Isso mudará o estado para refletir a página atual e atualizará o indicador no menu
       const newCurrentPage = tabs.find(tab => tab.src === currentPage)
@@ -74,7 +74,7 @@ export default function Header() {
         dispatch({ type: 'SWITCH_PAGE', value: newCurrentPage })
       }
     }
-  }, [currentPage])
+  }, [currentPage, state.currentPage.src])
 
   return (
     <header
@@ -84,7 +84,7 @@ export default function Header() {
       }
     >
       <Image
-        className="h-[50px] w-[200px]"
+        className={`h-[50px] w-[200px] ${styles.logo}`}
         src="/assets/img/redux-logo.svg"
         alt="Redux Logo"
         width={0}
