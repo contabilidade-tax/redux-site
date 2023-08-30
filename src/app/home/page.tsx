@@ -13,6 +13,7 @@ import { useLoading } from '@/common/context/LoadingContext'
 import Header from '@/components/Header'
 import Loading from '@/components/Loading'
 import styles from './Home.module.scss'
+import InstaRecentPosts from '@/components/InstaRecentPosts'
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
@@ -84,6 +85,7 @@ export default function Home() {
                 }
               </section>
               <Servicos className={styles.servicos} />
+              <InstaRecentPosts className='w-full h-full flex justify-center items-start' />
             </FullPageLayout>
           </>
         )
