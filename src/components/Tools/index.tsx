@@ -8,9 +8,10 @@ export function Icon({
   alt = 'icon',
   width = 50,
   height = 50,
+  className
 }: IconProps) {
   return (
-    <Image src={src} loading="lazy" alt={alt} width={width} height={height} />
+    <Image src={src} loading="lazy" alt={alt} width={width} height={height} className={className} />
   )
 }
 export function ButtonBackgroundShine({

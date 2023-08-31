@@ -8,8 +8,7 @@ export default function RecentPosts({ className }: RecentPostsProps) {
             <iframe
                 src='https://www.juicer.io/api/feeds/hiveoficial_/iframe'
                 frameBorder={0}
-                width='1000'
-                className='h-[90%]'
+                className='h-[90%] w-full'
                 // height='1000'
                 style={{ display: 'block', margin: '0 auto' }}>
             </iframe>

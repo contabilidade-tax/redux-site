@@ -1,9 +1,11 @@
 'use client'
 import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
-import { useEffect, useReducer, useRef } from 'react'
-import { Button } from '@material-tailwind/react'
+import { useEffect, useReducer, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+
+import { Icon } from '../Tools'
 
 import styles from './Header.module.scss'
 import MenuItens from './MenuItens'
@@ -45,6 +47,7 @@ export default function Header() {
     menuIsOpen: false,
   }
   const [state, dispatch] = useReducer(reducer, initialReducerState)
+  const [isHovered, setIsHovered] = useState(false);
   const menuRef = useRef<HTMLUListElement>(null)
   const handleActualPage = (action: { type: string; value: any }) => {
     return dispatch(action)
@@ -75,6 +78,10 @@ export default function Header() {
       }
     }
   }, [currentPage, state.currentPage.src])
+
+  useEffect(() => {
+
+  }, [isHovered])
 
   return (
     <header
@@ -108,21 +115,22 @@ export default function Header() {
               )}
             </li>
           ))}
-          <li>
-            <Link href="/login">
-              <Button
-                variant="filled"
-                color="gray"
-                ripple={true}
-                className="flex items-center gap-3 text-lg hover:scale-105"
-              >
-                <UserIcon width={20} height={20} />
-                Login
-              </Button>
-            </Link>
-          </li>
         </ul>
       </div>
+      <Link href="/login" className={styles.link}>
+        <Button
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="flex items-center gap-3 text-lg font-semibold text-white bg-black hover:bg-primary-color rounded-full"
+        >
+          <Icon
+            src={isHovered ? '/assets/img/dino-smile.png' : '/assets/img/dino-serio.png'}
+            width={30}
+            height={30}
+            className={`${styles.dinoSerio}` + ' relative top-[.29rem]'} />
+          Login
+        </Button>
+      </Link>
       <Button
         onClick={() => {
           setMenuOpen(true)

@@ -2,10 +2,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { PixiPlugin } from 'gsap/PixiPlugin'
 import gsap from 'gsap'
+import { GameSceneProps } from '@/types'
 
 gsap.registerPlugin(PixiPlugin)
 
-function GameScene({ className }: { className?: string }) {
+function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   // Array para armazenar os IDs dos timeouts
   const timeoutIds: any = []
@@ -15,14 +16,14 @@ function GameScene({ className }: { className?: string }) {
     if (canvasRef.current) {
       const canvas = canvasRef.current
       const ctx = canvas.getContext('2d')!
-      const cw = (canvas.width = 550)
-      const ch = (canvas.height = 500)
+      const cw = (canvas.width = cwProp)
+      const ch = (canvas.height = chProp)
       const peCicero = { img: new Image(), x: 0, y: -5 } // Defina a posição y de acordo com a posição onde você quer desenhar o carro
       const dino = {
         img: new Image(),
         spriteOffsetX: 0,
-        x: cw / 5,
-        y: -248,
+        x: rest.dinoX,
+        y: rest.dinoY,
         visible: true,
         isJumping: false,
       }
@@ -35,8 +36,8 @@ function GameScene({ className }: { className?: string }) {
       const dinoPaused = {
         img: new Image(),
         spriteOffsetX: 0,
-        x: cw / 5,
-        y: 250,
+        x: rest.dinoPausedX,
+        y: rest.dinoPausedY,
       }
       const bg = [
         { img: new Image(), x: cw / 2 },
@@ -64,7 +65,7 @@ function GameScene({ className }: { className?: string }) {
       dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
 
       // Wrapper da animação
-      const startAnimation = (speed = 200, scale = 0.6) => {
+      const startAnimation = (speed = 200, scale = scaleProp) => {
         const scaledImageWidth = 1000 * scale // largura da imagem reescalonada
         const scaledImageHeight = ch * scale
         const totalWidth = bg.length * scaledImageWidth // largura total do cenário
@@ -111,7 +112,7 @@ function GameScene({ className }: { className?: string }) {
           peCicero,
           undefined,
           undefined,
-          scaledImageWidth,
+          scaledImageWidth * 1.2,
           scaledImageHeight,
         )
 
@@ -251,7 +252,7 @@ function GameScene({ className }: { className?: string }) {
     const animateDino = () => {
       gsap.to(dino, {
         duration: 0.25,
-        spriteOffsetX: 150,
+        spriteOffsetX: 148,
         ease: 'steps(2)',
         repeat: -1,
       })
@@ -271,13 +272,13 @@ function GameScene({ className }: { className?: string }) {
           .then(() => {
             gsap.to(dino, {
               duration: 0.3,
-              y: 248,
+              y: rest.dinoY,
               x: '-=20',
               ease: 'power2.in',
             })
             createTimeout(() => {
               dino.isJumping = false
-            }, 350)
+            }, 350 * scaleProp)
           })
       } else if (dinoCar.visible) {
         gsap
@@ -303,7 +304,7 @@ function GameScene({ className }: { className?: string }) {
 
     const dinoFall = () => {
       gsap.to(dino, {
-        y: 248,
+        y: rest.dinoY,
         duration: 1.1,
         ease: 'bounce',
       })
@@ -319,10 +320,10 @@ function GameScene({ className }: { className?: string }) {
             dinoJump()
             createTimeout(() => {
               dinoJump()
-            }, 2950) // quarto pulo
-          }, 2900) // terceiro pulo
-        }, 3150) // segundo pulo
-      }, 3600) // primeiro pulo
+            }, 2950 * scaleProp) // quarto pulo
+          }, 2900 * scaleProp) // terceiro pulo
+        }, 3150 * scaleProp) // segundo pulo
+      }, 3600 * scaleProp) // primeiro pulo
     }
 
     // Adicione a animação do dino ao timeline
@@ -368,7 +369,7 @@ function GameScene({ className }: { className?: string }) {
 
         createTimeout(() => {
           dinoCar.visible = true
-        }, 1500)
+        }, 1500 * scaleProp)
 
         createTimeout(() => {
           bgSpeed = 200
@@ -390,13 +391,13 @@ function GameScene({ className }: { className?: string }) {
           const progress = timeline.progress()
           timeline.play()
           timeline.progress(progress)
-        }, 2500)
-      }, 1700)
+        }, 2500 * scaleProp)
+      }, 1700 * scaleProp)
     }
 
     const startTimeline = () => {
-      createTimeout(pauseTimeline, 15250)
-      createTimeout(changeSpeedAndAnimations, 16750)
+      createTimeout(pauseTimeline, 15250 * scaleProp)
+      createTimeout(changeSpeedAndAnimations, 16750 * scaleProp)
     }
 
     timeline.add(startTimeline, 0)
@@ -516,15 +517,16 @@ function GameScene({ className }: { className?: string }) {
 
         // Reiniciar as configurações do dino
         objects.dino.spriteOffsetX = 0
-        objects.dino.y = -248
+        objects.dino.y = rest.dinoPausedY
+        objects.dino.x = rest.dinoPausedX
         objects.dino.visible = true
 
         // Reiniciar as configurações do dinoPaused
         objects.dinoPaused.spriteOffsetX = 0
-        objects.dinoPaused.y = 250
+        objects.dinoPaused.y = rest.dinoPausedY
 
         // Reiniciar as configurações do dinoCar
-        objects.dinoCar.x = cw / 5 - 30
+        objects.dinoCar.x = rest.dinoX - 30
         objects.dinoCar.y = 195
         objects.dinoCar.visible = false
 
@@ -537,7 +539,7 @@ function GameScene({ className }: { className?: string }) {
 
         // Iniciar a animação novamente
         startAnimation()
-      }, 24000)
+      }, 24000 * scaleProp)
     }
 
     timeline.add(restart, 0)
@@ -550,8 +552,12 @@ function GameScene({ className }: { className?: string }) {
   }
 
   return (
-    <div className={`${className} ` + "relative h-[300px] w-full max-w-[550px] overflow-hidden"}>
-      <canvas ref={canvasRef} className="gameScene" />
+    <div className={`${className} `}>
+      <canvas
+        width={cwProp}
+        height={chProp}
+        ref={canvasRef}
+        className="gameScene mx-auto" />
     </div>
   )
 }

@@ -12,68 +12,24 @@
     }
 }
 
-@include xlScreen() {
-    .contentArea {
-        display: grid;
-        grid-template-columns: repeat(1fr, 2fr);
-        column-gap: 1rem;
-
-        margin: auto auto;
-        height: 75%;
-
-        transform: translateY(50px);
-
-        .leftArea {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            margin-top: 0;
-
-            .introText {
-                font-size: 10rem;
-
-                line-height: 4.5rem;
-            }
-
-        }
-
-        .rightArea {
-            .gameScene {
-                width: 80%;
-            }
-        }
+@include customMedia("max-width: 450px") {
+    .introText {
+        font-size: 2rem;
     }
 }
 
-@include lgScreen() {
-    .contentArea {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 1rem;
+@include lgScreen {
+    .introText {
+        padding: 1rem 21rem;
+        margin: 2rem 0;
 
-        margin: auto auto;
-        height: 75%;
+        font-size: 4.5rem;
+        line-height: 4.8rem;
+        letter-spacing: .3rem;
 
-        transform: translateY(50px);
-
-        .leftArea {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            margin-top: 0;
-
-            .introText {
-                font-size: 4rem;
-
-                line-height: 4.5rem;
-            }
-
-        }
-
-        .rightArea {
-            .gameScene {
-                width: 80%;
-            }
+        .grosso {
+            font-weight: 900;
+            font-stretch: condensed !important;
         }
     }
 }
