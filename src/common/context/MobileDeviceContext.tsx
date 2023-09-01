@@ -17,10 +17,10 @@ function reducer(state: any, action: { type: string, value?: number }) {
         case 'CURRENT_CLIENT_SIZE':
             return {
                 ...state,
-                isSmallScreen: action.value
+                isMobileDevice: action.value
                     ? action.value >= 150 && action.value <= 1023
                     : false,
-                isMobileDevice: action.value
+                isSmallScreen: action.value
                     ? action.value >= 150 && action.value <= 639
                     : false,
             }

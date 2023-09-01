@@ -18,7 +18,7 @@
     }
 }
 
-@include customMedia("max-width: 640px") {
+@include customMedia("min-width: 640px") {
     .contentArea {
         .leftArea {
             height: 90vh !important;
@@ -34,8 +34,8 @@
         margin: 0;
         padding: 0;
 
-        font-size: 3rem;
-        line-height: 4.5rem;
+        font-size: 2rem;
+        line-height: 3.5rem;
         letter-spacing: .1rem;
 
         .grosso {
@@ -54,11 +54,11 @@
 
 @include mdScreen() {
     .introText {
-        padding: .2rem;
-        margin: .5rem 0;
+        // padding: .2rem;
+        // margin: .5rem 0;
 
-        font-size: 4rem;
-        line-height: 4.5rem;
+        font-size: 3rem;
+        line-height: 3.5rem;
         letter-spacing: .2rem;
     }
 
@@ -75,8 +75,8 @@
     }
 
     .introText {
-        padding: 1rem 4.9rem;
-        margin: .5rem 0;
+        // padding: 1rem 4.9rem;
+        // margin: .5rem 0;
 
         font-size: 4.3rem;
         line-height: 4.5rem;

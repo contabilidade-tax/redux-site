@@ -643,12 +643,12 @@ function GameScene({ className, chProp, cwProp, scaleProp, speedProp, ...props }
   }
 
   return (
-    <div className={`${className} `}>
+    <div className={`${className} h-${chProp}`}>
       <canvas
         width={cwProp}
         height={chProp}
         ref={canvasRef}
-        className="gameScene mx-auto" />
+      />
     </div>
   )
 }

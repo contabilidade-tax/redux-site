@@ -28,11 +28,11 @@ export default function Home() {
     },
     dinoMobile: {
       X: 200,
-      Y: 235
+      Y: 160
     },
     dinoCarMobile: {
       X: 200,
-      Y: 180
+      Y: 105
     }
   }
 
@@ -67,7 +67,7 @@ export default function Home() {
             <Header />
             <main className={` ${styles.wrapper} h-max max-w-full overflow-hidden`}>
               <section className={`${styles.contentArea} min-h-[90vh]`}>
-                <div className={styles.leftArea + ' mt-2 sm:h-[90vh] h-full w-full'}>
+                <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
                   <div className={`${styles.introText} w-full leading-none text-[2.5rem] text-center p-0 my-5`}>
                     <p className="w-full h-max font-medium">
                       Não somos obrigação,
@@ -77,16 +77,16 @@ export default function Home() {
                       <span className="textYellow-G">.</span>
                     </p>
                   </div>
-                  <section data-mobile={mobileState.isSmallScreen} className="w-full relative max-h-[380px] data-[mobile=true]:h-[280px] mx-auto my-10 overflow-hidden object-center">
+                  <section data-mobile={mobileState.isMobileDevice} className="w-full relative h-[550px] data-[mobile=true]:h-[300px] mx-auto overflow-hidden">
                     <GameScene
-                      chProp={mobileState.isSmallScreen ? 400 : 550}
+                      chProp={mobileState.isMobileDevice ? 300 : 550}
                       cwProp={1580}
-                      scaleProp={.7}
+                      scaleProp={mobileState.isMobileDevice ? .65 : .7}
                       speedProp={200}
                       timeToReset={26.5}
-                      dino={mobileState.isSmallScreen ? dinoPositions.dinoMobile : dinoPositions.dino}
-                      dinoPaused={mobileState.isSmallScreen ? dinoPositions.dinoMobile : dinoPositions.dino}
-                      dinoCar={mobileState.isSmallScreen ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
+                      dino={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
+                      dinoPaused={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
+                      dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
                       className={`${styles.gameScene} mx-auto w-full`}
                     />
                   </section>
