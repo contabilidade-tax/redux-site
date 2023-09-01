@@ -1,19 +1,21 @@
 'use client'
+import { Bars3Icon } from '@heroicons/react/24/solid'
+import { useEffect, useReducer, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { useReducer, useRef } from 'react'
+
+import { Icon } from '../Tools'
 
 import styles from './Header.module.scss'
-import { Button } from '@material-tailwind/react'
-import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
 import MenuItens from './MenuItens'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 
 const tabs = [
   { label: 'Home', src: '/home' },
   { label: 'Sobre', src: '/sobre' },
   { label: 'Serviços', src: '/servicos' },
-  { label: 'Contato', src: '/contato' },
   { label: 'Trabalhe Conosco', src: '/trabalhe-conosco' },
 ]
 
@@ -38,11 +40,13 @@ function reducer(state: any, action: { type: string; value?: any }) {
 }
 
 export default function Header() {
+  const currentPage = usePathname()
   const initialReducerState = {
     currentPage: tabs[0],
     menuIsOpen: false,
   }
   const [state, dispatch] = useReducer(reducer, initialReducerState)
+  const [isHovered, setIsHovered] = useState(false);
   const menuRef = useRef<HTMLUListElement>(null)
   const handleActualPage = (action: { type: string; value: any }) => {
     return dispatch(action)
@@ -55,6 +59,29 @@ export default function Header() {
     }
   }
 
+  // Não permite scroll na tela enquanto o menu está aberto
+  useEffect(() => {
+    // Verificar se o código está sendo executado no lado do cliente
+    if (typeof window !== 'undefined') {
+      document.body.style.overflow = state.isMenuOpen ? 'hidden' : 'auto'
+    }
+  }, [state.isMenuOpen]) // A função no useEffect será executada sempre que isLoading mudar
+
+  useEffect(() => {
+    if (currentPage !== state.currentPage.src) {
+      // Se a página atual for diferente da página no estado, atualize a página atual no estado
+      // Isso mudará o estado para refletir a página atual e atualizará o indicador no menu
+      const newCurrentPage = tabs.find(tab => tab.src === currentPage)
+      if (newCurrentPage) {
+        dispatch({ type: 'SWITCH_PAGE', value: newCurrentPage })
+      }
+    }
+  }, [currentPage, state.currentPage.src])
+
+  useEffect(() => {
+
+  }, [isHovered])
+
   return (
     <header
       className={
@@ -63,7 +90,7 @@ export default function Header() {
       }
     >
       <Image
-        className="h-[50px] w-[200px]"
+        className={`h-[50px] w-[200px] ${styles.logo}`}
         src="/assets/img/redux-logo.svg"
         alt="Redux Logo"
         width={0}
@@ -82,33 +109,34 @@ export default function Header() {
               >
                 {tab.label}
               </Link>
-              {tab === state.currentPage && (
+              {tab === state.currentPage ? (
                 <motion.div className={styles.underline} layoutId="underline" />
-              )}
+              ) : (null)}
             </li>
           ))}
-          <li>
-            <Link href="/login">
-              <Button
-                variant="filled"
-                color="gray"
-                ripple={true}
-                className="flex items-center gap-3 text-lg hover:scale-105"
-              >
-                <UserIcon width={20} height={20} />
-                Login
-              </Button>
-            </Link>
-          </li>
         </ul>
       </div>
+      <Link href="/login" className={`${styles.link} hidden`}>
+        <Button
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="flex items-center gap-3 text-lg font-semibold text-white bg-black hover:bg-primary-color rounded-full"
+        >
+          <Icon
+            src={isHovered ? '/assets/img/dino-smile.png' : '/assets/img/dino-serio.png'}
+            width={30}
+            height={30}
+            className={' relative top-[.29rem]'} />
+          Login
+        </Button>
+      </Link>
       <Button
         onClick={() => {
           setMenuOpen(true)
         }}
-        className={`${styles.hamburguerButton} ` + 'scale-90 p-1'}
+        className={`${styles.hamburguerButton} ` + 'scale-90 w-1/6 h-full bg-primary-color !p-2'}
       >
-        <Bars3Icon width={50} height={50} />
+        <Bars3Icon width={40} height={40} />
       </Button>
       {state.menuIsOpen && (
         <MenuItens

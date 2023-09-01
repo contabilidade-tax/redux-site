@@ -1,45 +1,53 @@
 /* eslint-disable no-unused-vars */
 'use client'
 import React, { useEffect } from 'react'
+import Link from 'next/link'
 
-import { ButtonBackgroundShine } from 'src/components/Tools'
-import FullPageLayout from '@/components/FullPageLayout'
+import { ButtonBackgroundShine } from '@/components/Tools'
 import GameScene from './GameScene'
 import Servicos from './Servicos'
 
+import { useMobileContext } from '@/common/context/MobileDeviceContext'
 import { useLoading } from '@/common/context/LoadingContext'
-import Loading from 'src/components/Loading'
+import Header from '@/components/Header'
+import Loading from '@/components/Loading'
 import styles from './Home.module.scss'
+import InstaRecentPosts from '@/components/InstaRecentPosts'
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
+  const { mobileState } = useMobileContext()
+  const dinoPositions = {
+    dino: {
+      X: 200,
+      Y: 324
+    },
+    dinoCar: {
+      X: 200,
+      Y: 269
+    },
+    dinoMobile: {
+      X: 200,
+      Y: 160
+    },
+    dinoCarMobile: {
+      X: 200,
+      Y: 105
+    }
+  }
 
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 3250) // Aqui você define o tempo de duração da animação
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+      }, 3250) // Aqui você define o tempo de duração da animação
 
-    // Função para interceptar o evento keydown
-    const onKeyDown = (event: {
-      keyCode: number
-      preventDefault: () => void
-    }) => {
-      // 32 é o código da tecla para a tecla de espaço
-      if (event.keyCode === 32) {
-        event.preventDefault()
+      return () => {
+        clearTimeout(timer)
       }
     }
-
-    // Adiciona o listener ao objeto window
-    window.addEventListener('keydown', onKeyDown)
-
-    return () => {
-      clearTimeout(timer) // Limpa o timer se o componente for desmontado antes do tempo acabar
-      window.removeEventListener('keydown', onKeyDown) // Remove o listener quando o componente é desmontado
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Sem dependências, então só é executado no mount e unmount
+  })
 
   // Não permite scroll na tela durante o loading
   useEffect(() => {
@@ -55,38 +63,53 @@ export default function Home() {
         isLoading ? (
           <Loading />
         ) : (
-          <FullPageLayout
-            className={'flex w-full flex-col' + ` ${styles.wrapper}`}
-          >
-            <section className={`${styles.contentArea}`}>
-              <section className={styles.leftArea + ' topArea col-span-1'}>
-                <div className="w-full text-4xl leading-none">
-                  <h1 className="w-full">Não somos obrigação,</h1>
-                  <h1 className="w-full font-extrabold">
-                    somos ferramenta
-                    <span className="text-yellow">.</span>
-                  </h1>
-                </div>
-                <div className="flex flex-col">
-                  <div className="mt-10">
-                    <h2 className="text-3xl">
-                      Soluções contábeis personalizadas <br />
-                      para simplificar sua rotina.
-                    </h2>
+          <>
+            <Header />
+            <main className={` ${styles.wrapper} h-max max-w-full overflow-hidden`}>
+              <section className={`${styles.contentArea} min-h-[90vh]`}>
+                <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
+                  <div className={`${styles.introText} w-full leading-none text-[2.5rem] text-center p-0 my-5`}>
+                    <p className="w-full h-max font-medium">
+                      Não somos obrigação,
+                    </p>
+                    <p className={styles.grosso}>
+                      <span className='textYellow-G'> somos ferramenta</span>
+                      <span className="textYellow-G">.</span>
+                    </p>
                   </div>
-                  <ButtonBackgroundShine
-                    text="Fale com a gente! 🤙🏼"
-                    className="text-zinc-100 mt-8 w-full rounded-full px-4 py-2"
-                  />
+                  <section data-mobile={mobileState.isMobileDevice} className="w-full relative h-[550px] data-[mobile=true]:h-[300px] mx-auto overflow-hidden">
+                    <GameScene
+                      chProp={mobileState.isMobileDevice ? 300 : 550}
+                      cwProp={1580}
+                      scaleProp={mobileState.isMobileDevice ? .65 : .7}
+                      speedProp={200}
+                      timeToReset={26.5}
+                      dino={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
+                      dinoPaused={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
+                      dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
+                      className={`${styles.gameScene} mx-auto w-full`}
+                    />
+                  </section>
+                  <div className={`${styles.bottomTextContent} flex flex-col my-12`}>
+                    <div className="text-center">
+                      <h2 className="text-2xl">
+                        A <span className='textYellow-G font-black'>melhor solução</span> para sua empresa.
+                      </h2>
+                    </div>
+                    <Link href='/contato' className='h-auto w-1/2 min-w-[261px] mx-auto text-lg lg:w-1/6'>
+                      <ButtonBackgroundShine
+                        text="Fale com a gente! 🤙🏼"
+                        className="text-zinc-100 mt-4 w-full rounded-full px-4 py-2"
+                      />
+                    </Link>
+                  </div>
                 </div>
               </section>
-              <section className="relative col-span-1 h-auto w-full pt-3">
-                <GameScene />
-              </section>
-            </section>
-            <Servicos className={styles.servicos} />
-          </FullPageLayout>
-        ) /* ou qualquer outro componente ou conteúdo quando não estiver carregando */
+              <Servicos className={`${styles.servicos} min-h-[90vh]`} />
+              {/* <InstaRecentPosts className='w-full h-full flex justify-center items-start' /> */}
+            </main>
+          </>
+        )
       }
     </>
   )

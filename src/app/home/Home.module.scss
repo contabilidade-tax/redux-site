@@ -1,43 +1,96 @@
 @import '@/styles/variaveis';
 
-@include smScreen() {
-    .wrapper {
-        @include applyPx($px-sm-screen)
+@font-face {
+    font-family: 'Montserrat-Black';
+    src: url('/fonts/Montserrat-Black.otf') format('otf');
+    src: url('/fonts/Montserrat-SemiBold.otf') format('otf');
+}
+
+.servicos,
+.contentArea {
+    width: auto;
+    height: auto;
+}
+
+.contentArea {
+    .leftArea .mobileGameScene {
+        margin: 2rem auto;
+    }
+}
+
+@include customMedia("min-width: 640px") {
+    .contentArea {
+        .leftArea {
+            height: 90vh !important;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
 
-    .contentArea {
+    .introText {
+        margin: 0;
+        padding: 0;
 
-        //Limpa toda margin dos h1 de contentArea
-        h1 {
-            margin: 0;
+        font-size: 2rem;
+        line-height: 3.5rem;
+        letter-spacing: .1rem;
 
-            text-align: start;
+        .grosso {
+            font-family: 'Montserrat-Black' 'poppins';
+            font-stretch: expanded;
+            font-weight: bolder;
         }
     }
 }
 
-@include mdScreen() {
-    .wrapper {
-        @include applyPx($px-md-screen)
+@include smScreen() {
+    .gameScene {
+        margin: auto 0;
     }
+}
+
+@include mdScreen() {
+    .introText {
+        // padding: .2rem;
+        // margin: .5rem 0;
+
+        font-size: 3rem;
+        line-height: 3.5rem;
+        letter-spacing: .2rem;
+    }
+
 }
 
 @include lgScreen() {
-    .wrapper {
-        @include applyPx($px-lg-screen)
+    .contentArea {
+        .leftArea {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
 
-    .contentArea {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 1rem;
+    .introText {
+        // padding: 1rem 4.9rem;
+        // margin: .5rem 0;
 
-        margin-top: 4rem;
+        font-size: 4.3rem;
+        line-height: 4.5rem;
+        letter-spacing: .3rem;
     }
 }
 
-@include xlScreen() {
-    .wrapper {
-        @include applyPx($px-xl-screen)
+@include xlScreen {
+    .introText {
+        padding: 1rem 8rem;
+        margin: 0 0;
+
+        font-size: 4.5rem;
+        line-height: 4.8rem;
+        letter-spacing: .3rem;
     }
 }

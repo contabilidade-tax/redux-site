@@ -1,68 +1,9 @@
-$px-li-itens: .2rem;
+@import '@/styles/mixins';
+
+$px-li-itens: 0 .2rem;
 $primary-color: #D5A115;
-$px-sm-screen: 0.8rem;
-$px-md-screen: 1.5rem;
-$px-lg-screen: 3rem;
-$px-xl-screen: 6rem;
-
-// Definindo o mixin
-@mixin primary-gradient {
-    background: linear-gradient(to right, #f12711, #f5af19);
-}
-
-@mixin applyPx($value) {
-    padding-left: $value;
-    padding-right: $value;
-}
-
-@mixin none {
-    display: none;
-}
-
-//Desativa seleção dos menus de seleção dos serviços
-@mixin notSelect {
-    user-select: none;
-    /* padrão */
-    -webkit-user-select: none;
-    /* Safari */
-    -moz-user-select: none;
-    /* Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
-}
-
-@mixin xlScreen() {
-    @media (min-width: 1280px) {
-        @content;
-    }
-}
-
-@mixin lgScreen() {
-    @media (min-width: 1020px) {
-        @content;
-    }
-}
-
-@mixin mdScreen() {
-    @media (min-width: 768px) {
-        @content;
-    }
-}
-
-@mixin smScreen() {
-    @media (min-width: 640px) {
-        @content;
-    }
-}
-
-@mixin customScreen($width) {
-    @media (min-width: $width) {
-        @content;
-    }
-}
-
-@mixin customMedia($query) {
-    @media #{$query} {
-        @content;
-    }
-}
+$xsm-padding: 0.5rem 1rem;
+$sm-padding: 0 1.5rem;
+$md-padding: 0 3rem;
+$lg-padding: 0 4rem;
+$xl-padding: 0 8rem;

@@ -26,15 +26,10 @@
   opacity: 0;
 }
 
-@include customScreen("100px") {
-  .wrapper {
-    scale: .6;
-  }
-}
 
 @include customScreen("100px") {
   .wrapper {
-    scale: .7;
+    scale: .6;
   }
 }
 
