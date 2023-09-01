@@ -9,6 +9,7 @@ import { gsap } from 'gsap'
 import { MenuItensProps } from '@/types'
 import styles from './MenuItens.module.scss'
 import { useEffect, useRef } from 'react'
+import { Icon } from '@/components/Tools'
 
 export default function MenuItens({
   tabs,
@@ -123,13 +124,13 @@ export default function MenuItens({
         >
           <Link href="/login" target="blank">
             <Button
-              ref={loginRef}
-              variant="filled"
-              color="gray"
-              ripple={true}
-              className="flex items-center gap-3 text-lg hover:scale-105"
+              className="flex items-center gap-3 text-lg font-semibold text-white bg-black hover:bg-primary-color rounded-full"
             >
-              <UserIcon width={20} height={20} />
+              <Icon
+                src='/assets/img/dino-smile.png'
+                width={35}
+                height={35}
+                className='relative top-[.29rem]' />
               Login
             </Button>
           </Link>
@@ -143,6 +144,6 @@ export default function MenuItens({
           />
         </div>
       </div>
-    </div>
+    </div >
   )
 }

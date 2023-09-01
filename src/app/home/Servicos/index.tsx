@@ -249,8 +249,8 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
 
   return (
     <section
-      className={`${className} ${styles.servicosWrapper} h-full border-black border-y-2 border-dashed py-5 px-1`}
       {...rest}
+      className={`${className} ${styles.contentWrapper} h-full border-black border-y-2 border-dashed py-5 px-1`}
     >
       <div className="w-28 rounded-3xl bg-primary-color text-center">
         <span className="bgYellow-G theme-G rounded-full bg-primary-color p-10">
@@ -269,7 +269,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
         className={styles.serviceNav}
       />
       <section
-        className={`${styles.infoSection} relative my-5 flex h-auto lg:!min-h-[18rem] w-full flex-1 flex-col gap-6`}
+        className={`${styles.infoSection} relative my-5 flex h-auto lg:!min-h-[18rem] w-full flex-1 flex-col gap-6 lg:mx-auto`}
       >
         {/* TextArea com conteúdo */}
         <aside className="relative h-[4rem] w-full">

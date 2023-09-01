@@ -1,8 +1,9 @@
-import React, { HTMLAttributes, Ref } from 'react'
+import React, { ComponentProps, HTMLAttributes, Ref } from 'react'
 
 import services from '@/common/data/services.json'
 import { Tab } from '@material-tailwind/react'
 import { SwiperRef } from 'swiper/react'
+import Image, { StaticImageData } from 'next/image'
 
 type Service = (typeof services)[0]
 
@@ -11,16 +12,38 @@ type Tab = {
   src: string
 }
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type AnimationTrigger = {
+  points: {
+    bgIndex: number
+    trigger: number
+  }[],
+  action: () => void
+  plusAction?: () => void
+}
+
+interface ButtonProps extends ComponentProps<'button'> {
   text?: string
   className?: string
 }
 
-interface IconProps {
-  src: string
+interface GameSceneProps {
+  className?: string,
+  scaleProp: number,
+  speedProp: number,
+  cwProp: number,
+  chProp: number,
+  dino: { X: number, Y: number },
+  dinoPaused: { X: number, Y: number },
+  dinoCar: { X: number, Y: number },
+  timeToReset: number
+}
+
+interface IconProps extends ComponentProps<'image'> {
+  src: string | StaticImageData
   alt?: string
   width?: number
   height?: number
+  className?: string
 }
 
 interface FullPageLayoutProps {
@@ -72,4 +95,6 @@ export type {
   ServiceNavProps,
   MenuItensProps,
   Tab,
+  GameSceneProps,
+  AnimationTrigger
 }

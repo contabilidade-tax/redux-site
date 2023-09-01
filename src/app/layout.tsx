@@ -8,7 +8,7 @@ import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
 
 const inter = Montserrat({
   subsets: ['latin'],
-  weight: '300',
+  weight: '400',
 })
 
 export const metadata = {

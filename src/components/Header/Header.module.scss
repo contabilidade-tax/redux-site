@@ -48,11 +48,27 @@
             font-size: 16px;
             font-weight: 400
         }
+
+        .link {
+            display: block;
+        }
+
+        .link:hover button .iconContainer {
+            .dinoSerio {
+                display: hidden;
+            }
+
+            .dinoSorrindo {
+                display: block !important;
+            }
+        }
+
     }
 
     .hamburguerButton {
         display: none;
     }
+
 
 }
 
