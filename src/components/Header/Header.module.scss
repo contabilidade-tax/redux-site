@@ -49,6 +49,10 @@
             font-weight: 400
         }
 
+        .link {
+            display: block;
+        }
+
         .link:hover button .iconContainer {
             .dinoSerio {
                 display: hidden;
@@ -64,6 +68,7 @@
     .hamburguerButton {
         display: none;
     }
+
 
 }
 

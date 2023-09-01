@@ -28,6 +28,7 @@
     "framer-motion": "^10.15.0",
     "global": "^4.4.0",
     "gsap": "^3.12.2",
+    "lucide-react": "^0.274.0",
     "next": "^13.4.12",
     "postcss": "^7",
     "react": "18.2.0",

@@ -2,11 +2,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { PixiPlugin } from 'gsap/PixiPlugin'
 import gsap from 'gsap'
-import { GameSceneProps } from '@/types'
+import { GameSceneProps, AnimationTrigger } from '@/types'
 
 gsap.registerPlugin(PixiPlugin)
 
-function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneProps) {
+function GameScene({ className, chProp, cwProp, scaleProp, speedProp, ...props }: GameSceneProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   // Array para armazenar os IDs dos timeouts
   const timeoutIds: any = []
@@ -22,22 +22,22 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
       const dino = {
         img: new Image(),
         spriteOffsetX: 0,
-        x: rest.dinoX,
-        y: rest.dinoY,
+        x: props.dino.X,
+        y: -props.dino.Y,
         visible: true,
         isJumping: false,
       }
       const dinoCar = {
         img: new Image(),
-        x: dino.x - 10,
-        y: 195,
+        x: props.dinoCar.X - 10,
+        y: props.dinoCar.Y,
         visible: false,
       }
       const dinoPaused = {
         img: new Image(),
         spriteOffsetX: 0,
-        x: rest.dinoPausedX,
-        y: rest.dinoPausedY,
+        x: props.dinoPaused.X,
+        y: props.dinoPaused.Y,
       }
       const bg = [
         { img: new Image(), x: cw / 2 },
@@ -65,23 +65,41 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
       dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
 
       // Wrapper da animação
-      const startAnimation = (speed = 200, scale = scaleProp) => {
+      const startAnimation = (speed = speedProp, scale = scaleProp) => {
         const scaledImageWidth = 1000 * scale // largura da imagem reescalonada
         const scaledImageHeight = ch * scale
         const totalWidth = bg.length * scaledImageWidth // largura total do cenário
         const timeline = gsap.timeline({ delay: 1.5 })
         const bgSpeed = speed // velocidade das imagens
+        // maior = mais rapido menor = mais lento
+        const jumpTrigger = 600
+        const dinoTrigger: AnimationTrigger = {
+          points: [
+            { bgIndex: 2, trigger: jumpTrigger },
+            { bgIndex: 3, trigger: jumpTrigger },
+            { bgIndex: 4, trigger: jumpTrigger },
+            { bgIndex: 5, trigger: jumpTrigger },
+          ],
+          action: () => { },
+        }
+        const taxTrigger: AnimationTrigger = {
+          points: [
+            { bgIndex: 6, trigger: 722 }
+          ],
+          action: () => { },
+        }
 
+        setupDinoAnimation(timeline, dino, dinoCar, dinoTrigger)
         setupBackgroundAnimations(
           timeline,
           bg,
           bgSpeed,
           scaledImageWidth,
           totalWidth,
+          [dinoTrigger, taxTrigger]
         )
         setupPeCiceroAnimation(timeline, peCicero, cw)
-        setupDinoAnimation(timeline, dino, dinoCar)
-        setupTimelineControl(timeline, bg, bgSpeed, totalWidth, dino, dinoCar)
+        setupTimelineControl(timeline, bg, bgSpeed, totalWidth, dino, dinoCar, taxTrigger)
         setupResetAndRestart(
           timeline,
           bg,
@@ -91,12 +109,13 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
           ch,
           { dino, dinoCar, peCicero, dinoPaused },
           startAnimation,
+          props.timeToReset
         )
 
         // função do gsap que é acionada a cada quadro do canvas desenhando os elementos em tela
-        gsap.ticker.add(() =>
-          drawCanvas(timeline, scaledImageWidth, scaledImageHeight),
-        )
+        gsap.ticker.add(() => {
+          drawCanvas(timeline, scaledImageWidth, scaledImageHeight)
+        })
       }
 
       const drawCanvas = (
@@ -114,6 +133,7 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
           undefined,
           scaledImageWidth * 1.2,
           scaledImageHeight,
+          false
         )
 
         // Seta as imagens do fundo na tela
@@ -125,6 +145,7 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
             0,
             scaledImageWidth,
             scaledImageHeight,
+            false
           )
         })
 
@@ -181,6 +202,21 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
             95,
           )
         }
+
+        // const step = 100; // a cada 100 pixels
+        // for (let x = 0; x <= canvas.width; x += step) {
+        //   ctx.beginPath();
+        //   ctx.moveTo(x, 0);
+        //   ctx.lineTo(x, canvas.height);
+        //   ctx.stroke();
+        //   ctx.strokeStyle = 'black'
+        // }
+        // for (let y = 0; y <= canvas.height; y += step) {
+        //   ctx.beginPath();
+        //   ctx.moveTo(0, y);
+        //   ctx.lineTo(canvas.width, y);
+        //   ctx.stroke();
+        // }
       }
 
       startAnimation()
@@ -196,6 +232,7 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
     imageSpeed: number,
     scaledImageWidth: number,
     totalWidth: number,
+    triggerList: AnimationTrigger[]
   ) {
     // Ajuste a posição inicial das imagens de acordo com a nova escala
     bg.forEach((bgImage, index) => {
@@ -220,6 +257,27 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
           x: '-=' + totalWidth,
           duration: time,
           ease: 'none',
+          onUpdate: () => {
+            // const isCloseToTrigger = dinoTrigger.points.some(point => {
+            //   return index === point.bgIndex && Math.abs(point.trigger - bgImage.x) < 2.2;
+            // });
+            // if (isCloseToTrigger) {
+            //   dinoTrigger.action();
+            // }
+            triggerList.forEach(trigger => {
+              const isCloseToTrigger = trigger.points.some(point => {
+                return index === point.bgIndex && Math.abs(point.trigger - bgImage.x) <= 2.2;
+              });
+
+              if (isCloseToTrigger) {
+                if (trigger === triggerList[1]) {
+                  trigger.action()
+                  createTimeout(trigger.plusAction, 1500)
+                }
+                trigger.action();
+              }
+            });
+          },
         },
         0,
       ) // Começa todas as animações simultaneamente
@@ -247,89 +305,68 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
     ) // Começa a animação da imagem de teste simultaneamente com as imagens de fundo
   }
 
-  function setupDinoAnimation(timeline: any, dino: any, dinoCar: any) {
+  function setupDinoAnimation(timeline: any, dino: any, dinoCar: any, dinoTrigger: AnimationTrigger) {
     // Crie uma função de animação personalizada
     const animateDino = () => {
       gsap.to(dino, {
         duration: 0.25,
-        spriteOffsetX: 148,
+        spriteOffsetX: 150.5,
         ease: 'steps(2)',
         repeat: -1,
       })
     }
 
     // Função do pulo do dino
-    const dinoJump = () => {
+    function dinoJump() {
       dino.isJumping = true
       if (dino.visible) {
         gsap
           .to(dino, {
             duration: 0.3,
+            x: '+=40',
             y: '-=120',
-            x: '+=20',
             ease: 'power2.out',
           })
           .then(() => {
             gsap.to(dino, {
               duration: 0.3,
-              y: rest.dinoY,
+              y: props.dino.Y,
               x: '-=20',
               ease: 'power2.in',
+              onComplete: () => {
+                gsap.to(dino, {
+                  x: '-=20',
+                  duration: 0.3,
+                })
+                dino.isJumping = false
+              }
             })
-            createTimeout(() => {
-              dino.isJumping = false
-            }, 350 * scaleProp)
-          })
-      } else if (dinoCar.visible) {
-        gsap
-          .to(dinoCar, {
-            duration: 0.4,
-            y: '-=120',
-            x: '+=20',
-            ease: 'power2.out',
-          })
-          .then(() => {
-            gsap.to(dinoCar, {
-              duration: 0.2,
-              y: 195,
-              x: '-=20',
-              ease: 'power2.in',
-            })
-            createTimeout(() => {
-              dino.isJumping = false
-            }, 350)
+            // createTimeout(() => {
+            // }, 350)
           })
       }
     }
 
     const dinoFall = () => {
-      gsap.to(dino, {
-        y: rest.dinoY,
-        duration: 1.1,
-        ease: 'bounce',
-      })
+      gsap.to(dino,
+        {
+          y: props.dino.Y,
+          duration: 1.1,
+          ease: 'bounce',
+        }
+      )
     }
 
-    const jumps = () => {
-      // Pulos
-      createTimeout(() => {
-        dinoJump()
-        createTimeout(() => {
-          dinoJump()
-          createTimeout(() => {
-            dinoJump()
-            createTimeout(() => {
-              dinoJump()
-            }, 2950 * scaleProp) // quarto pulo
-          }, 2900 * scaleProp) // terceiro pulo
-        }, 3150 * scaleProp) // segundo pulo
-      }, 3600 * scaleProp) // primeiro pulo
+    const setDinoTriggerPoints = (triggers: typeof dinoTrigger.points = [{ bgIndex: 5, trigger: 120 }]) => {
+      dinoTrigger.points = !dinoTrigger.points ? triggers : dinoTrigger.points
+      dinoTrigger.action = dinoJump
     }
 
     // Adicione a animação do dino ao timeline
+    timeline.add(dinoFall, -.5)
     timeline.add(animateDino, 0)
-    timeline.add(dinoFall, -1.2)
-    timeline.add(jumps, 0)
+    timeline.add(setDinoTriggerPoints, 0)
+    // timeline.add(jumps, 0)
   }
 
   function setupTimelineControl(
@@ -339,6 +376,7 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
     totalWidth: number,
     dino: any,
     dinoCar: any,
+    taxTrigger: AnimationTrigger
   ) {
     const pauseTimeline = () => {
       timeline.pause()
@@ -369,7 +407,7 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
 
         createTimeout(() => {
           dinoCar.visible = true
-        }, 1500 * scaleProp)
+        }, 1500)
 
         createTimeout(() => {
           bgSpeed = 200
@@ -391,13 +429,15 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
           const progress = timeline.progress()
           timeline.play()
           timeline.progress(progress)
-        }, 2500 * scaleProp)
-      }, 1700 * scaleProp)
+        }, 2500)
+      }, 1700)
     }
 
     const startTimeline = () => {
-      createTimeout(pauseTimeline, 15250 * scaleProp)
-      createTimeout(changeSpeedAndAnimations, 16750 * scaleProp)
+      // createTimeout(pauseTimeline, 15250)
+      // createTimeout(changeSpeedAndAnimations, 16750)
+      taxTrigger.action = pauseTimeline
+      taxTrigger.plusAction = changeSpeedAndAnimations
     }
 
     timeline.add(startTimeline, 0)
@@ -410,10 +450,42 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
     y: number | undefined,
     width: number,
     height: number,
+    drawBord?: boolean
   ) {
+    const drawBorder = (x: number, y: number, width: number, height: number) => {
+      const borderWidth = 5; // ajuste conforme necessário
+      const borderColor = 'red'; // ajuste conforme necessário
+
+      ctx.lineWidth = borderWidth;
+      ctx.strokeStyle = borderColor;
+      ctx.strokeRect(x, y, width, height);
+    };
+    //   // Desenha o Padre cícero
+    //   if (objImg.img.complete) {
+    //     // Desenha a imagem com um tamanho escalonado.
+    //     // Desenha a imagem com um tamanho escalonado.
+    //     ctx.drawImage(
+    //       objImg.img,
+    //       x !== undefined ? x : objImg.x,
+    //       y !== undefined ? y : objImg.y,
+    //       width,
+    //       height,
+    //     )
+    //   } else {
+    //     objImg.img.onload = () => {
+    //       // Desenha a imagem com um tamanho escalonado.
+    //       ctx.drawImage(
+    //         objImg.img,
+    //         x !== undefined ? x : objImg.x,
+    //         y !== undefined ? y : objImg.y,
+    //         width, // Largura da imagem do teste
+    //         height, // Altura da imagem do teste
+    //       )
+    //     }
+    //   }
+    // }
     // Desenha o Padre cícero
     if (objImg.img.complete) {
-      // Desenha a imagem com um tamanho escalonado.
       // Desenha a imagem com um tamanho escalonado.
       ctx.drawImage(
         objImg.img,
@@ -421,7 +493,15 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
         y !== undefined ? y : objImg.y,
         width,
         height,
-      )
+      );
+      if (drawBord) {
+        drawBorder(
+          x !== undefined ? x : objImg.x,
+          y !== undefined ? y : objImg.y,
+          width,
+          height
+        );
+      }
     } else {
       objImg.img.onload = () => {
         // Desenha a imagem com um tamanho escalonado.
@@ -429,9 +509,18 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
           objImg.img,
           x !== undefined ? x : objImg.x,
           y !== undefined ? y : objImg.y,
-          width, // Largura da imagem do teste
-          height, // Altura da imagem do teste
-        )
+          width,
+          height,
+        );
+        if (drawBord) {
+
+          drawBorder(
+            x !== undefined ? x : objImg.x,
+            y !== undefined ? y : objImg.y,
+            width,
+            height
+          );
+        }
       }
     }
   }
@@ -488,6 +577,7 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
     ch: number,
     objects: any,
     startAnimation: () => void,
+    timetoReset: number
   ) {
     const clearAllTimeoutsAndReset = (timeline: any) => {
       timeline.pause()
@@ -517,17 +607,17 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
 
         // Reiniciar as configurações do dino
         objects.dino.spriteOffsetX = 0
-        objects.dino.y = rest.dinoPausedY
-        objects.dino.x = rest.dinoPausedX
+        objects.dino.x = props.dino.X
+        objects.dino.y = -props.dino.Y
         objects.dino.visible = true
 
         // Reiniciar as configurações do dinoPaused
         objects.dinoPaused.spriteOffsetX = 0
-        objects.dinoPaused.y = rest.dinoPausedY
+        objects.dinoPaused.y = props.dinoPaused.Y
 
         // Reiniciar as configurações do dinoCar
-        objects.dinoCar.x = rest.dinoX - 30
-        objects.dinoCar.y = 195
+        objects.dinoCar.x = props.dinoCar.X - 30
+        objects.dinoCar.y = props.dinoCar.Y
         objects.dinoCar.visible = false
 
         // Reiniciar as configurações do peCicero
@@ -539,8 +629,9 @@ function GameScene({ className, chProp, cwProp, scaleProp, ...rest }: GameSceneP
 
         // Iniciar a animação novamente
         startAnimation()
-      }, 24000 * scaleProp)
+      }, timetoReset * 1000)
     }
+
 
     timeline.add(restart, 0)
   }

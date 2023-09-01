@@ -3,14 +3,22 @@ import React, { ComponentProps, HTMLAttributes, Ref } from 'react'
 import services from '@/common/data/services.json'
 import { Tab } from '@material-tailwind/react'
 import { SwiperRef } from 'swiper/react'
-import { StaticImageData } from 'next/image'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 
 type Service = (typeof services)[0]
 
 type Tab = {
   label: string
   src: string
+}
+
+type AnimationTrigger = {
+  points: {
+    bgIndex: number
+    trigger: number
+  }[],
+  action: () => void
+  plusAction?: () => void
 }
 
 interface ButtonProps extends ComponentProps<'button'> {
@@ -21,12 +29,13 @@ interface ButtonProps extends ComponentProps<'button'> {
 interface GameSceneProps {
   className?: string,
   scaleProp: number,
+  speedProp: number,
   cwProp: number,
   chProp: number,
-  dinoX: number,
-  dinoY: number
-  dinoPausedX?: number,
-  dinoPausedY?: number,
+  dino: { X: number, Y: number },
+  dinoPaused: { X: number, Y: number },
+  dinoCar: { X: number, Y: number },
+  timeToReset: number
 }
 
 interface IconProps extends ComponentProps<'image'> {
@@ -86,5 +95,6 @@ export type {
   ServiceNavProps,
   MenuItensProps,
   Tab,
-  GameSceneProps
+  GameSceneProps,
+  AnimationTrigger
 }

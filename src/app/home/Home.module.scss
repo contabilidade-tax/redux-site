@@ -1,5 +1,11 @@
 @import '@/styles/variaveis';
 
+@font-face {
+    font-family: 'Montserrat-Black';
+    src: url('/fonts/Montserrat-Black.otf') format('otf');
+    src: url('/fonts/Montserrat-SemiBold.otf') format('otf');
+}
+
 .servicos,
 .contentArea {
     width: auto;
@@ -12,24 +18,79 @@
     }
 }
 
-@include customMedia("max-width: 450px") {
+@include customMedia("max-width: 640px") {
+    .contentArea {
+        .leftArea {
+            height: 90vh !important;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
     .introText {
-        font-size: 2rem;
+        margin: 0;
+        padding: 0;
+
+        font-size: 3rem;
+        line-height: 4.5rem;
+        letter-spacing: .1rem;
+
+        .grosso {
+            font-family: 'Montserrat-Black' 'poppins';
+            font-stretch: expanded;
+            font-weight: bolder;
+        }
     }
 }
 
-@include lgScreen {
+@include smScreen() {
+    .gameScene {
+        margin: auto 0;
+    }
+}
+
+@include mdScreen() {
     .introText {
-        padding: 1rem 21rem;
-        margin: 2rem 0;
+        padding: .2rem;
+        margin: .5rem 0;
+
+        font-size: 4rem;
+        line-height: 4.5rem;
+        letter-spacing: .2rem;
+    }
+
+}
+
+@include lgScreen() {
+    .contentArea {
+        .leftArea {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    .introText {
+        padding: 1rem 4.9rem;
+        margin: .5rem 0;
+
+        font-size: 4.3rem;
+        line-height: 4.5rem;
+        letter-spacing: .3rem;
+    }
+}
+
+@include xlScreen {
+    .introText {
+        padding: 1rem 8rem;
+        margin: 0 0;
 
         font-size: 4.5rem;
         line-height: 4.8rem;
         letter-spacing: .3rem;
-
-        .grosso {
-            font-weight: 900;
-            font-stretch: condensed !important;
-        }
     }
 }

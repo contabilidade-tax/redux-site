@@ -1,5 +1,5 @@
 'use client'
-import { Bars3Icon, UserIcon } from '@heroicons/react/24/solid'
+import { Bars3Icon } from '@heroicons/react/24/solid'
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
@@ -16,7 +16,6 @@ const tabs = [
   { label: 'Home', src: '/home' },
   { label: 'Sobre', src: '/sobre' },
   { label: 'Serviços', src: '/servicos' },
-  { label: 'Contato', src: '/contato' },
   { label: 'Trabalhe Conosco', src: '/trabalhe-conosco' },
 ]
 
@@ -110,14 +109,14 @@ export default function Header() {
               >
                 {tab.label}
               </Link>
-              {tab === state.currentPage && (
+              {tab === state.currentPage ? (
                 <motion.div className={styles.underline} layoutId="underline" />
-              )}
+              ) : (null)}
             </li>
           ))}
         </ul>
       </div>
-      <Link href="/login" className={styles.link}>
+      <Link href="/login" className={`${styles.link} hidden`}>
         <Button
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -127,7 +126,7 @@ export default function Header() {
             src={isHovered ? '/assets/img/dino-smile.png' : '/assets/img/dino-serio.png'}
             width={30}
             height={30}
-            className={`${styles.dinoSerio}` + ' relative top-[.29rem]'} />
+            className={' relative top-[.29rem]'} />
           Login
         </Button>
       </Link>
@@ -135,9 +134,9 @@ export default function Header() {
         onClick={() => {
           setMenuOpen(true)
         }}
-        className={`${styles.hamburguerButton} ` + 'scale-90 p-1'}
+        className={`${styles.hamburguerButton} ` + 'scale-90 w-1/6 h-full bg-primary-color !p-2'}
       >
-        <Bars3Icon width={50} height={50} />
+        <Bars3Icon width={40} height={40} />
       </Button>
       {state.menuIsOpen && (
         <MenuItens

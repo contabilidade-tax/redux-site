@@ -27,15 +27,16 @@
 
     .infoSection {
         scale: .95;
-
-        // margin-bottom: .5rem;
-        // margin-top: .5rem;
     }
 
 }
 
 //Dispositivos >= 1024px (Desktop)
 @include lgScreen() {
+    .contentWrapper {
+        margin: $lg-padding;
+    }
+
     .infoSection {
         width: 100%;
         height: 24rem;
