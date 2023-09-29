@@ -1,0 +1,161 @@
+"use client"
+import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect, useEffect } from 'react';
+import { InstaPostData, InstaTokenData } from '@/types';
+import axios from 'axios';
+import { setCookie, parseCookies } from 'nookies'
+
+const initialState = {
+    data: null,
+    token: {
+        access_token: "IGQWROWXowcm1qalpkYm5lbmJqQzM0ZA3VYdlhxekdKaVhvLWJZARDVYOGNiM1ZAESXdYWGdUYkhCdkZAMdnlVTFlxX2VKc2JGX1MxSk9WWXJXNXBnSmJfbHVOc0lnWlZA1ZATN1cVJoSUh2c1pzUQZDZD",
+        token_type: "bearer",
+        expires_in: 5182660,
+        generated_at: 1696008201887
+    }
+};
+type ActionType = {
+    type: string;
+    value: InstaPostData[] | InstaTokenData;
+};
+type InstaPostsContextValue = {
+    state: InstaPostData | null;
+}
+
+
+const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(undefined);
+
+
+async function renewToken(old_token: string) {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token`, {
+            params: {
+                grant_type: 'ig_refresh_token',
+                access_token: old_token
+            },
+        });
+
+        // Adicionando o campo generated_at à resposta
+        const responseDataWithTimestamp = {
+            ...response.data,
+            generated_at: Date.now()
+        };
+
+        console.log('SUCESSO, TOKEN ATUALIZADO')
+        return responseDataWithTimestamp; // Retorna os dados do novo token com generated_at
+
+    } catch (error) {
+        console.error('Erro ao renovar o token:', error);
+        throw error; // Rejeita a promessa com o erro ocorrido
+    }
+}
+
+
+function reducer(state: any, action: ActionType) {
+    switch (action.type) {
+        case 'UPDATE_TOKEN':
+            return {
+                ...state,
+                token: action.value,
+            }
+        case 'UPDATE_POSTS_DATA':
+            return {
+                ...state,
+                data: action.value,
+            }
+        default:
+            return state;
+    }
+}
+
+export const useInstaPostsContext = () => {
+    const context = useContext(InstaPostsContext);
+    if (!context) {
+        throw new Error('useInstaPostsContext must be used within a InstaPostsContextProvider');
+    }
+    return context;
+};
+
+function setCookieFunction(data: InstaPostData[]) {
+    console.log("RECEBI A SOLICITAÇÃO DO COOKIE")
+    setCookie(null, 'last_insta_posts', JSON.stringify(data), {
+        maxAge: 60 * 60 * 24 * 30,
+        path: '/'
+    })
+}
+
+export const InstaPostsContextProvider: React.FC<{ children: ReactNode }> = ({
+    children,
+}) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const cookies = parseCookies(null)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!cookies.last_insta_posts) {
+                const tokenData = state.token;
+
+                if (Date.now() >= (tokenData.generated_at + tokenData.expires_in * 1000)) {
+                    try {
+                        const newTokenData = await renewToken(tokenData.access_token);
+                        const actualTimestampTokenData = {
+                            ...newTokenData,
+                            generated_at: Date.now(),
+                        };
+
+                        dispatch({
+                            type: 'UPDATE_TOKEN',
+                            value: actualTimestampTokenData,
+                        });
+                    } catch (error) {
+                        console.error('Erro ao renovar o token:', error);
+                        // Lide com o erro conforme necessário, por exemplo, configurando um estado de erro
+                    }
+                }
+
+                try {
+                    let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
+                    let allData: any = [];
+
+                    for (let i = 0; i < 2; i++) { // Limite de 3 requisições
+                        if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
+
+                        const response = await axios.get(url, {
+                            params: {
+                                fields: 'id,caption,media_type,media_url,permalink,timestamp',
+                                access_token: tokenData.access_token,
+                            },
+                        });
+
+                        // Juntar os dados de cada requisição
+                        if (response.data && response.data.data) {
+                            allData = [...allData, ...response.data.data];
+                        }
+
+                        // Atualiza a URL para a próxima página, se existir
+                        url = response.data.paging && response.data.paging.next ? response.data.paging.next : null;
+                    }
+
+                    // Após o loop, atualizar o estado com os dados acumulados
+                    dispatch({
+                        type: 'UPDATE_POSTS_DATA',
+                        value: allData,
+                    });
+                    //Criar o cookie com os dados
+                    setCookie(allData)
+
+                } catch (error: any) {
+                    console.error('Erro ao buscar os posts:', error.message);
+                    // Lide com o erro conforme necessário
+                }
+            }
+        };
+
+        fetchData(); // Chama a função assíncrona definida
+    }, [state]);
+
+    return (
+        <InstaPostsContext.Provider value={{ state: state }}>
+            {children}
+        </InstaPostsContext.Provider>
+    );
+};

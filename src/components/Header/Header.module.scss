@@ -35,6 +35,8 @@
 @include mdScreen() {
     .head {
         padding: $md-padding;
+
+        height: 9vh;
     }
 }
 

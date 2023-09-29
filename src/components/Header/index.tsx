@@ -89,14 +89,17 @@ export default function Header() {
         'bg-zinc-50 sticky top-0 z-30 flex h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md'
       }
     >
-      <Image
-        className={`h-[50px] w-[200px] ${styles.logo}`}
-        src="/assets/img/redux-logo.svg"
-        alt="Redux Logo"
-        width={0}
-        height={0}
-        priority={true}
-      />
+      <Link href={'/'} className={`h-[50px] w-[200px] ${styles.logo}`} >
+        <Image
+          className='w-full h-full'
+          // src="/assets/img/redux-logo.svg"
+          src="/assets/img/logo-patrocinio.svg"
+          alt="Redux Logo"
+          width={0}
+          height={0}
+          priority={true}
+        />
+      </Link>
       <div className={`${styles.desktopTabs} ` + 'hidden h-auto w-max'}>
         <ul className="flex items-center">
           {tabs.map((tab, index) => (

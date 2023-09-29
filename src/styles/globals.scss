@@ -43,8 +43,8 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      // background-color: #fff#D5A115;
-      background-color: #D5A115;
+      // background-color: #D5A115;
+      background-color: #037367;
       border-radius: 100px;
     }
   }
@@ -92,6 +92,10 @@ ul {
     margin: $px-li-itens;
     padding: 0 .7rem;
   }
+}
+
+.child-G {
+  margin: 0.5rem auto;
 }
 
 .textYellow-G {

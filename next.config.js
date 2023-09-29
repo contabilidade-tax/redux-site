@@ -6,6 +6,7 @@ const nextConfig = {
       'images.pexels.com',
       'images.unsplash.com',
       'www.flaticon.com',
+      'scontent.cdninstagram.com'
     ],
     dangerouslyAllowSVG: true,
   },
@@ -18,6 +19,11 @@ const nextConfig = {
       {
         source: '/',
         destination: '/home',
+        permanent: true,
+      },
+      {
+        source: '/contato',
+        destination: 'https://wa.me/5588997890526?text=Teste2',
         permanent: true,
       },
     ]

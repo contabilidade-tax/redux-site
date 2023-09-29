@@ -1,15 +1,15 @@
 [
     {
-        "titulo": "Quer abrir sua empresa?",
+        "titulo": "Abertura de empresa",
         "subtitulo": "Abrir empresa",
-        "texto": "Abra sua empresa e transforme seu sonho em realidade. Seja seu próprio chefe, conquiste a independência financeira e deixe sua marca no mercado. Venha fazer parte do mundo empreendedor e abrir as portas para um futuro promissor!",
+        "texto": "Cada negócio tem uma alma, uma essência. Em nossa consultoria, nos dedicamos a entender e capturar a sua. Vá além de um simples registro; descubra um serviço feito sob medida para o seu sonho empresarial.",
         "icon": "companhia.png",
         "image": "https://images.unsplash.com/photo-1594402919317-9e67dca0a305?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
     },
     {
-        "titulo": "Relatórios Gerenciais",
-        "subtitulo": "Relatórios",
-        "texto": "A gestão do Financeiro de forma profissional pode definir o futuro de sua empresa. Emissão de relatórios, notas fiscais, conciliação de contas, fluxo de caixa, fechamento de caixa e muito mais. Terceirização do setor financeiro é uma tendência.",
+        "titulo": "Setor Societário",
+        "subtitulo": "Regularização",
+        "texto": "Repense o que você espera de uma contabilidade. Aqui, cada registro de funcionário é só o começo de uma jornada de cuidado, precisão e dedicação inabaláveis.",
         "icon": "relatorio.png",
         "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=815&q=80"
     },

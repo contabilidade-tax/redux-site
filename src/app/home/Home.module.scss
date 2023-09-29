@@ -12,6 +12,24 @@
     height: auto;
 }
 
+.wrapper {
+    @include smScreen() {
+        margin: $sm-padding;
+    }
+
+    @include mdScreen() {
+        margin: $md-padding;
+    }
+
+    @include lgScreen() {
+        margin: lg-padding;
+    }
+
+    @include xlScreen() {
+        margin: $xl-padding;
+    }
+}
+
 .contentArea {
     .leftArea .mobileGameScene {
         margin: 2rem auto;

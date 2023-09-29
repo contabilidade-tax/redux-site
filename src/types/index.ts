@@ -12,6 +12,39 @@ type Tab = {
   src: string
 }
 
+type InstaPostData = {
+  data: {
+    id: string | null
+    caption: string | null
+    media_type: string | null
+    media_url: string | null
+    permalink: string | null
+    timestamp: string | null
+  }[]
+}
+
+type InstaTokenData = {
+  access_token: string | null
+  token_type: string | null
+  expires_in: number | null
+  generated_at: number | null
+}
+
+type SeletorProps = {
+  className?: string
+  styles?: any
+  state: any
+  services: typeof services
+  switchTab: (index: number) => void
+}
+
+type AnimationProps = {
+  className?: string
+  title?: string
+  width?: number
+  height?: number
+}
+
 type AnimationTrigger = {
   points: {
     bgIndex: number
@@ -96,5 +129,9 @@ export type {
   MenuItensProps,
   Tab,
   GameSceneProps,
-  AnimationTrigger
+  AnimationTrigger,
+  AnimationProps,
+  SeletorProps,
+  InstaPostData,
+  InstaTokenData
 }

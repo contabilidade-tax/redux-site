@@ -66,15 +66,15 @@ export default function Home() {
           <>
             <Header />
             <main className={` ${styles.wrapper} h-max max-w-full overflow-hidden`}>
-              <section className={`${styles.contentArea} min-h-[90vh]`}>
+              <section className={`${styles.contentArea} min-h-[90vh] child-G`}>
                 <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
                   <div className={`${styles.introText} w-full leading-none text-[2.5rem] text-center p-0 my-5`}>
                     <p className="w-full h-max font-medium">
                       Não somos obrigação,
                     </p>
                     <p className={styles.grosso}>
-                      <span className='textYellow-G'> somos ferramenta</span>
-                      <span className="textYellow-G">.</span>
+                      <span className='text-primary-color'> somos ferramenta</span>
+                      <span className="text-primary-color">.</span>
                     </p>
                   </div>
                   <section data-mobile={mobileState.isMobileDevice} className="w-full relative h-[550px] data-[mobile=true]:h-[300px] mx-auto overflow-hidden">
@@ -93,7 +93,7 @@ export default function Home() {
                   <div className={`${styles.bottomTextContent} flex flex-col my-12`}>
                     <div className="text-center">
                       <h2 className="text-2xl">
-                        A <span className='textYellow-G font-black'>melhor solução</span> para sua empresa.
+                        A <span className='text-primary-color font-black'>melhor solução</span> para sua empresa.
                       </h2>
                     </div>
                     <Link href='/contato' className='h-auto w-1/2 min-w-[261px] mx-auto text-lg lg:w-1/6'>

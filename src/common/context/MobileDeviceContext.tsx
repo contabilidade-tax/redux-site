@@ -18,7 +18,7 @@ function reducer(state: any, action: { type: string, value?: number }) {
             return {
                 ...state,
                 isMobileDevice: action.value
-                    ? action.value >= 150 && action.value <= 1023
+                    ? action.value >= 150 && action.value <= 1024
                     : false,
                 isSmallScreen: action.value
                     ? action.value >= 150 && action.value <= 639
