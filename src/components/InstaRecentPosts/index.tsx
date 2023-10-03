@@ -6,6 +6,7 @@ import styles from './InstaRecentPosts.module.scss'
 import Midia from './Midia';
 import { cn } from '@/lib/utils';
 import Caption from './Caption';
+import { Card } from './Card';
 
 const InstaRecentPosts = () => {
     const { state } = useInstaPostsContext();
@@ -21,19 +22,18 @@ const InstaRecentPosts = () => {
                     <div className={cn(
                         styles.instaPost,
                         'bg-[#eee] rounded-xl border-2 border-primary-color',
-                        'flex flex-col justify-center items-start relative'
+                        'flex flex-col justify-start items-center relative px-4 pt-10'
                     )}>
-                        <Midia key={index}
-                            post={post}
-                            index={index}
-                            styles={styles}
-                            className={cn(
-                                styles.__instaMidia,
-                                'relative top-2 py-2 my-auto'
-                            )} />
-                        <Caption text={post.caption!}>
-
-                        </Caption>
+                        <Card.Root>
+                            <Card.Post
+                                post={post}
+                                index={index}
+                                className={cn(
+                                    styles.__instaMidia,
+                                    'relative top-2 py-2 my-auto'
+                                )} />
+                            <Card.Caption text={post.caption!} title={post.timestamp!} />
+                        </Card.Root>
                     </div>
                 )) : `Não veio nada ${posts}`
             }

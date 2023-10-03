@@ -4,14 +4,14 @@ import VideoPlayer from '@/components/InstaRecentPosts/VideoPlayer';
 import { InstaMidiaProps } from '@/types';
 import Link from 'next/link';
 import { Instagram } from 'lucide-react';
-import Caption from '../Caption';
+import styles from './Midia.module.scss'
 
-export default function Midia({ post, index, styles, className }: InstaMidiaProps) {
+export default function Midia({ post, index, className }: InstaMidiaProps) {
 
     return (
         <div className={cn('relative', className)}>
             <div className={styles.postImage}>
-                <div className={cn(styles.__goToInstagram, 'absolute top-3 right-3 z-10')}>
+                <div className={cn(styles.goToInstagram, 'absolute top-3 right-3 z-10')}>
                     <Link href={post.permalink!} target='_blank' className={styles.__postLink}>
                         <Instagram
                             className='text-white shadow-md'
@@ -23,7 +23,7 @@ export default function Midia({ post, index, styles, className }: InstaMidiaProp
                 {post.media_type !== 'VIDEO' ?
                     <Image
                         className={cn(
-                            styles.__postMidia,
+                            styles.postMidia,
                             'object-contain',
                             { '!object-cover': index === 0 }
                         )}
@@ -37,7 +37,7 @@ export default function Midia({ post, index, styles, className }: InstaMidiaProp
                     :
                     <VideoPlayer
                         src={post.media_url!}
-                        className={cn(styles.__postMidia, styles.__postMidiaVideo)}
+                        className={cn(styles.postMidia, styles.postMidiaVideo)}
                     />
                 }
             </div>

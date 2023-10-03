@@ -1,19 +1,19 @@
 .instaPost {
     width: 30%;
-    min-height: 28rem;
+    min-height: 25.5rem;
     height: inherit;
-    display: flex;
-    justify-content: center;
 
     overflow: hidden;
 
     .__instaMidia {
-        width: 100%;
-        min-height: 28rem;
+        width: 90%;
+        max-height: 25.5rem;
     }
+}
 
-    .__postMidiaVideo {
-        width: 100%;
-        max-height: 29rem;
+.instaPostsWrapper {
+    ::-webkit-scrollbar-track {
+        background-color: #fff !important;
+        border-radius: 100px;
     }
 }
