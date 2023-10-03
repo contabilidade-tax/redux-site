@@ -2,7 +2,6 @@
 import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect, useEffect } from 'react';
 import { InstaPostData, InstaTokenData } from '@/types';
 import axios from 'axios';
-import { setCookie, parseCookies } from 'nookies'
 
 const initialState = {
     data: null,
@@ -27,25 +26,22 @@ const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(unde
 
 async function renewToken(old_token: string) {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token`, {
-            params: {
-                grant_type: 'ig_refresh_token',
-                access_token: old_token
-            },
-        });
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${old_token}`);
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
 
         // Adicionando o campo generated_at à resposta
         const responseDataWithTimestamp = {
-            ...response.data,
+            ...data,
             generated_at: Date.now()
         };
-
-        console.log('SUCESSO, TOKEN ATUALIZADO')
         return responseDataWithTimestamp; // Retorna os dados do novo token com generated_at
 
     } catch (error) {
         console.error('Erro ao renovar o token:', error);
-        throw error; // Rejeita a promessa com o erro ocorrido
+        throw error;
     }
 }
 
@@ -75,23 +71,48 @@ export const useInstaPostsContext = () => {
     return context;
 };
 
-function setCookieFunction(data: InstaPostData[]) {
-    console.log("RECEBI A SOLICITAÇÃO DO COOKIE")
-    setCookie(null, 'last_insta_posts', JSON.stringify(data), {
-        maxAge: 60 * 60 * 24 * 30,
-        path: '/'
-    })
+function getRedisData() {
+    let data;
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/instaData`)
+        .then(resultado => {
+            data = resultado.json();
+            console.log("NÉ QUE SALVOU RAPAZ??")
+        }).catch(error => {
+            console.log("TEM NADA SALVO AQUI NÃO")
+            if (error.message.includes('No cached data')) {
+                return false;
+            }
+        })
+    return data;
 }
 
-export const InstaPostsContextProvider: React.FC<{ children: ReactNode }> = ({
-    children,
-}) => {
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const cookies = parseCookies(null)
 
-    useEffect(() => {
+function setRedisData(data: InstaPostData[]) {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createInstaData`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data }),
+    }).then(
+        resultado => {
+            const responseData = resultado.json();
+            return responseData;
+        }
+    ).catch(
+        error => {
+            console.error(`HTTP error! status: ${error.message}`);
+        }
+    )
+}
+
+export function InstaPostsContextProvider({ children }: { children: ReactNode }) {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const cached_data = getRedisData()
+
+    useLayoutEffect(() => {
         const fetchData = async () => {
-            if (!cookies.last_insta_posts) {
+            if (!cached_data) {
                 const tokenData = state.token;
 
                 if (Date.now() >= (tokenData.generated_at + tokenData.expires_in * 1000)) {
@@ -116,24 +137,24 @@ export const InstaPostsContextProvider: React.FC<{ children: ReactNode }> = ({
                     let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
                     let allData: any = [];
 
-                    for (let i = 0; i < 2; i++) { // Limite de 3 requisições
-                        if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
+                    // for (let i = 0; i < 2; i++) { // Limite de 3 requisições
+                    //     if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
 
-                        const response = await axios.get(url, {
-                            params: {
-                                fields: 'id,caption,media_type,media_url,permalink,timestamp',
-                                access_token: tokenData.access_token,
-                            },
-                        });
+                    const response = await axios.get(url, {
+                        params: {
+                            fields: 'id,caption,media_type,media_url,permalink,timestamp',
+                            access_token: tokenData.access_token,
+                        },
+                    });
+                    allData = [...allData, ...response.data.data]
+                    //     // Juntar os dados de cada requisição
+                    //     if (response.data && response.data.data) {
+                    //         allData = [...allData, ...response.data.data];
+                    //     }
 
-                        // Juntar os dados de cada requisição
-                        if (response.data && response.data.data) {
-                            allData = [...allData, ...response.data.data];
-                        }
-
-                        // Atualiza a URL para a próxima página, se existir
-                        url = response.data.paging && response.data.paging.next ? response.data.paging.next : null;
-                    }
+                    //     // Atualiza a URL para a próxima página, se existir
+                    //     url = response.data.paging && response.data.paging.next ? response.data.paging.next : null;
+                    // }
 
                     // Após o loop, atualizar o estado com os dados acumulados
                     dispatch({
@@ -141,8 +162,7 @@ export const InstaPostsContextProvider: React.FC<{ children: ReactNode }> = ({
                         value: allData,
                     });
                     //Criar o cookie com os dados
-                    setCookie(allData)
-
+                    setRedisData(allData)
                 } catch (error: any) {
                     console.error('Erro ao buscar os posts:', error.message);
                     // Lide com o erro conforme necessário
@@ -151,11 +171,11 @@ export const InstaPostsContextProvider: React.FC<{ children: ReactNode }> = ({
         };
 
         fetchData(); // Chama a função assíncrona definida
-    }, [state]);
+    }, []);
 
     return (
         <InstaPostsContext.Provider value={{ state: state }}>
             {children}
         </InstaPostsContext.Provider>
     );
-};
+}

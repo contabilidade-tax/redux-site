@@ -7,6 +7,13 @@ import Image, { StaticImageData } from 'next/image'
 
 type Service = (typeof services)[0]
 
+type InstaMidiaProps = {
+  post: InstaPostData["data"][0];
+  index: number
+  styles?: any
+  className?: string
+}
+
 type Tab = {
   label: string
   src: string
@@ -21,6 +28,13 @@ type InstaPostData = {
     permalink: string | null
     timestamp: string | null
   }[]
+}
+
+interface VideoPlayerProps extends ComponentProps<'video'> {
+  className?: string
+  src: string
+  // width?: number
+  // height?: number
 }
 
 type InstaTokenData = {
@@ -133,5 +147,7 @@ export type {
   AnimationProps,
   SeletorProps,
   InstaPostData,
-  InstaTokenData
+  InstaTokenData,
+  VideoPlayerProps,
+  InstaMidiaProps
 }

@@ -1,0 +1,39 @@
+.button,
+.input,
+.select,
+.textarea {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+}
+
+.modal-container {
+    max-height: 400px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 600px) {
+    .modal-container {
+        width: 90%;
+    }
+}
+
+.modal-container-body {
+    padding: 15px 30px;
+    overflow-y: auto;
+    height: fit-content;
+    width: 100%;
+
+    max-height: 12rem;
+    text-align: justify;
+}

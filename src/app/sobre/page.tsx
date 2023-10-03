@@ -7,7 +7,7 @@ export default function Sobre() {
         <>
             <Header />
             <main className={cn('w-full h-[90vh] flex items-center justify-center')}>
-                <section className='border-2 border-black w-1/2 h-1/2 flex justify-center items-center'>
+                <section className='overflow-y-scroll border-2 border-black w-2/3 h-4/5 flex justify-center items-center'>
                     <InstaRecentPosts />
                 </section>
             </main>
