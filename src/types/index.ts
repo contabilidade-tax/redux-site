@@ -8,6 +8,7 @@ import Image, { StaticImageData } from 'next/image'
 type Service = (typeof services)[0]
 
 type InstaMidiaProps = {
+  // eslint-disable-next-line no-use-before-define
   post: InstaPostData["data"][0];
   index: number
   styles?: any

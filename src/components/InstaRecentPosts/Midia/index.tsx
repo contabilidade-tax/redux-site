@@ -10,6 +10,7 @@ export default function Midia({ post, index, className }: InstaMidiaProps) {
 
     return (
         <div className={cn('relative', className)}>
+            {/* <div className={cn('relative md:!h-[80%]', className)}> */}
             <div className={styles.postImage}>
                 <div className={cn(styles.goToInstagram, 'absolute top-3 right-3 z-10')}>
                     <Link href={post.permalink!} target='_blank' className={styles.__postLink}>
@@ -24,7 +25,7 @@ export default function Midia({ post, index, className }: InstaMidiaProps) {
                     <Image
                         className={cn(
                             styles.postMidia,
-                            'object-contain',
+                            'object-contain rounded-2xl',
                             { '!object-cover': index === 0 }
                         )}
                         key={index}

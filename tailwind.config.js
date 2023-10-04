@@ -21,7 +21,20 @@ module.exports = withMT({
         'primary-color': '#037367',
         // 'primary-color': '#D5A115',
       },
-    },
+      keyframes: {
+        'fade-in': {
+          '0%': {
+            opacity: 0,
+          },
+          '100%': {
+            opacity: 1,
+          },
+        },
+      },
+      animation: {
+        'entrada': 'fade-in 1s ease-in-out forwards',
+      }
+    }
   },
   plugins: [],
 })

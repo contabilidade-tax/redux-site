@@ -1,13 +1,16 @@
 .instaPost {
     width: 30%;
-    min-height: 25.5rem;
+    max-height: 37.5em;
+    min-height: 32em;
     height: inherit;
+    min-width: 350px;
 
     overflow: hidden;
 
     .__instaMidia {
         width: 90%;
-        max-height: 25.5rem;
+        // max-height: 25.5rem;
+        height: max-content;
     }
 }
 

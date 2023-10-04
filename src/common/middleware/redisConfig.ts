@@ -20,6 +20,7 @@ function getRedisConfiguration(): {
 class createRedisInstance {
     private static instance: Redis | null = null;
 
+    // eslint-disable-next-line no-useless-constructor
     private constructor() {
         // Private constructor to prevent instantiation from outside
     }

@@ -2,13 +2,15 @@ import { cn } from "@/lib/utils";
 
 type CardRootProps = {
     children: React.ReactNode;
+    className?: string;
 }
 
-export function CardRoot({ children }: CardRootProps) {
+export function CardRoot({ children, className }: CardRootProps) {
     return (
         <div className={cn(
-            "relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md",
-            "justify-center items-start"
+            "relative bg-white text-gray-700",
+            "flex flex-col justify-center gap-2 py-2",
+            className
         )}
         >
             {children}

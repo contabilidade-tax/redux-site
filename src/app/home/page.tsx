@@ -13,6 +13,7 @@ import Header from '@/components/Header'
 import Loading from '@/components/Loading'
 import styles from './Home.module.scss'
 import InstaRecentPosts from '@/components/InstaRecentPosts'
+import { cn } from '@/lib/utils'
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
@@ -66,7 +67,7 @@ export default function Home() {
           <>
             <Header />
             <main className={` ${styles.wrapper} h-max max-w-full overflow-hidden`}>
-              <section className={`${styles.contentArea} min-h-[90vh] child-G`}>
+              <section className={`${styles.contentArea} h-[90vh] child-G`}>
                 <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
                   <div className={`${styles.introText} w-full leading-none text-[2.5rem] text-center p-0 my-5`}>
                     <p className="w-full h-max font-medium">
@@ -105,7 +106,10 @@ export default function Home() {
                   </div>
                 </div>
               </section>
-              <Servicos className={`${styles.servicos} min-h-[90vh]`} />
+              <Servicos className={`${styles.servicos} h-[90vh]`} />
+              <section className='overflow-y-scroll w-2/3 h-[90vh] flex justify-center items-center relative mx-auto child-G'>
+                <InstaRecentPosts />
+              </section>
               {/* <InstaRecentPosts className='w-full h-full flex justify-center items-start' /> */}
             </main>
           </>

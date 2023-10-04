@@ -72,13 +72,12 @@ export const useInstaPostsContext = () => {
 };
 
 function getRedisData() {
+    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
     let data;
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/instaData`)
+    fetch(`${home}/api/instaData`)
         .then(resultado => {
             data = resultado.json();
-            console.log("NÉ QUE SALVOU RAPAZ??")
         }).catch(error => {
-            console.log("TEM NADA SALVO AQUI NÃO")
             if (error.message.includes('No cached data')) {
                 return false;
             }
@@ -88,7 +87,8 @@ function getRedisData() {
 
 
 function setRedisData(data: InstaPostData[]) {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/createInstaData`, {
+    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
+    fetch(`${home}/api/createInstaData`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -137,31 +137,31 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
                     let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
                     let allData: any = [];
 
-                    // for (let i = 0; i < 2; i++) { // Limite de 3 requisições
-                    //     if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
+                    for (let i = 0; i <= 1; i++) { // Limite de 1 requisições
+                        if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
 
-                    const response = await axios.get(url, {
-                        params: {
-                            fields: 'id,caption,media_type,media_url,permalink,timestamp',
-                            access_token: tokenData.access_token,
-                        },
-                    });
-                    allData = [...allData, ...response.data.data]
-                    //     // Juntar os dados de cada requisição
-                    //     if (response.data && response.data.data) {
-                    //         allData = [...allData, ...response.data.data];
-                    //     }
+                        const response = await axios.get(url, {
+                            params: {
+                                fields: 'id,caption,media_type,media_url,permalink,timestamp',
+                                access_token: tokenData.access_token,
+                            },
+                        });
+                        allData = [...allData, ...response.data.data]
+                        // Juntar os dados de cada requisição
+                        if (response.data && response.data.data) {
+                            allData = [...allData, ...response.data.data];
+                        }
 
-                    //     // Atualiza a URL para a próxima página, se existir
-                    //     url = response.data.paging && response.data.paging.next ? response.data.paging.next : null;
-                    // }
+                        // Atualiza a URL para a próxima página, se existir
+                        url = response.data.paging && response.data.paging.next ? response.data.paging.next : null;
+                    }
 
                     // Após o loop, atualizar o estado com os dados acumulados
                     dispatch({
                         type: 'UPDATE_POSTS_DATA',
                         value: allData,
                     });
-                    //Criar o cookie com os dados
+                    // Criar o cookie com os dados
                     setRedisData(allData)
                 } catch (error: any) {
                     console.error('Erro ao buscar os posts:', error.message);
@@ -174,7 +174,7 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
     }, []);
 
     return (
-        <InstaPostsContext.Provider value={{ state: state }}>
+        <InstaPostsContext.Provider value={{ state }}>
             {children}
         </InstaPostsContext.Provider>
     );

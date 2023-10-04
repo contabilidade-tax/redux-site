@@ -71,8 +71,8 @@ function CriarEmpresa({ className, title, height: heightProp = 500, width: width
     }
 
     useEffect(() => {
-        let iconDuration = 1
-        let predioDuration = 1.8
+        const iconDuration = 1
+        const predioDuration = 1.8
         if (divRef.current) {
             const timeline = gsap.timeline({
                 repeat: -1,
@@ -102,7 +102,7 @@ function CriarEmpresa({ className, title, height: heightProp = 500, width: width
                         scaleY: 1,
                         ease: 'power4.out',
                         duration: predioDuration,
-                        delay: delay,
+                        delay,
                         onComplete: () => {
                             gsap.to(predio, {
                                 opacity: 0,
@@ -116,8 +116,8 @@ function CriarEmpresa({ className, title, height: heightProp = 500, width: width
                 return gsap.to(ballon,
                     {
                         opacity: 1,
-                        duration: duration,
-                        delay: delay,
+                        duration,
+                        delay,
                         ease: 'elastic.out(1, 0.3)',
                         onComplete: () => {
                             gsap.to(ballon, {
@@ -161,7 +161,7 @@ function CriarEmpresa({ className, title, height: heightProp = 500, width: width
                     isStopped={state.isStopped}
                     isPaused={state.isPaused}
                     isClickToPauseDisabled={true}
-                    title={title ? title : ''}
+                    title={title || ''}
                 />
             </div>
             <div className="predios z-10 w-full h-full absolute flex justify-center items-center">
@@ -335,7 +335,7 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
             duration: animationDelayPosition.runEsteira.duration,
             // delay: animationDelayPosition.runEsteira.delay,
             onComplete: () => {
-                let outAnimation = gsap.to(dino, { opacity: 0, ease: 'none' })
+                const outAnimation = gsap.to(dino, { opacity: 0, ease: 'none' })
 
 
                 outAnimation.eventCallback('onStart', () => {
