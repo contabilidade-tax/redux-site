@@ -11,6 +11,7 @@ const reduSvg = '/assets/img/loading/REDU.svg'
 const XAnimatedSvg = '/assets/img/loading/X_ANIMATED_EASE.svg'
 const XSvg = '/assets/img/loading/X.svg'
 
+
 // Controle de classes das animações
 function MainLoading({
   XRef,
