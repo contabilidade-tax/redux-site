@@ -3,13 +3,14 @@ import { getRedisValue, getDate } from '@/common/middleware/redisConfig';
 
 export async function GET(req: NextRequest) {
     try {
-        const cached_data = await getRedisValue(`last_insta_posts-${getDate()}`);
+        const customKey = req.nextUrl.searchParams.get('key');
+        const cached_data = customKey ? await getRedisValue(customKey) : await getRedisValue(`last_insta_posts-${getDate()}`);
 
         if (cached_data) {
             return NextResponse.json(JSON.parse(cached_data), { status: 200 });
         }
 
-        throw new Error('No cached data');
+        throw new Error(`No cached data for key ${customKey ?? 'last_insta_posts'}`);
     } catch (error: any) {
         return NextResponse.json({ error: 'Internal Server Error', message: error.message }, { status: 500 });
     }

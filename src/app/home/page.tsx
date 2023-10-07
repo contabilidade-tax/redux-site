@@ -3,17 +3,19 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link'
 
-import { ButtonBackgroundShine } from '@/components/Tools'
 import GameScene from './GameScene'
 import Servicos from './Servicos'
 
+import { ButtonBackgroundShine } from '@/components/Tools'
+import FullPageLayout from '@/components/FullPageLayout'
 import { useMobileContext } from '@/common/context/MobileDeviceContext'
 import { useLoading } from '@/common/context/LoadingContext'
+import { cn } from '@/lib/utils'
 import Header from '@/components/Header'
 import Loading from '@/components/Loading'
-import styles from './Home.module.scss'
 import InstaRecentPosts from '@/components/InstaRecentPosts'
-import { cn } from '@/lib/utils'
+
+import styles from './Home.module.scss'
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
@@ -106,11 +108,12 @@ export default function Home() {
                   </div>
                 </div>
               </section>
-              <Servicos className={`${styles.servicos} h-[90vh]`} />
+              <section className="servicos">
+                <Servicos className={cn(styles.servicos, 'h-full')} />
+              </section>
               <section className='overflow-y-scroll w-2/3 h-[90vh] flex justify-center items-center relative mx-auto child-G'>
                 <InstaRecentPosts />
               </section>
-              {/* <InstaRecentPosts className='w-full h-full flex justify-center items-start' /> */}
             </main>
           </>
         )

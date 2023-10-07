@@ -4,6 +4,7 @@ import { setRedisRegister, } from '@/common/middleware/redisConfig';
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json()
+        const customKey = req.nextUrl.searchParams.get('key');
 
         // Verifica se o objeto 'data' está vazio
         if (Object.keys(data).length === 0) {
@@ -11,8 +12,8 @@ export async function POST(req: NextRequest) {
         }
 
         if (data) {
-            const cached_data = await setRedisRegister(data);
-            return NextResponse.json({ cached_data, message: "Created Succesfully" }, { status: 201 });
+            const cached_data = customKey ? await setRedisRegister(data, customKey) : await setRedisRegister(data);
+            return NextResponse.json({ cached_data, message: "Created Succesfully for key: " + customKey ?? "last_insta_posts" }, { status: 201 });
         }
     } catch (error) {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

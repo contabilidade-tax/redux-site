@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect, useEffect } from 'react';
+import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect, useEffect, Dispatch } from 'react';
 import { InstaPostData, InstaTokenData } from '@/types';
 import axios from 'axios';
 
@@ -71,10 +71,37 @@ export const useInstaPostsContext = () => {
     return context;
 };
 
+function getTokenData() {
+    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
+    let data: InstaTokenData | undefined | never | any;
+    fetch(`${home}/api/instaData?key=token`, {
+        method: 'GET',
+        cache: 'force-cache',
+        headers: {
+            'Accept': 'application/json',
+        },
+    })
+        .then(resultado => {
+            data = resultado.json();
+        })
+        .catch(error => {
+            if (error.message.includes('No cached data')) {
+                return false;
+            }
+        })
+    return data;
+}
+
 function getRedisData() {
     const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
-    let data;
-    fetch(`${home}/api/instaData`)
+    let data: InstaPostData | undefined | never | any;
+    fetch(`${home}/api/instaData`, {
+        method: 'GET',
+        cache: 'force-cache',
+        headers: {
+            'Accept': 'application/json',
+        },
+    })
         .then(resultado => {
             data = resultado.json();
         }).catch(error => {
@@ -85,6 +112,25 @@ function getRedisData() {
     return data;
 }
 
+function setTokenData(data: InstaTokenData): InstaTokenData | undefined | never | any {
+    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
+    fetch(`${home}/api/createInstaData?key=token`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data }),
+    }).then(
+        resultado => {
+            const responseData = resultado.json();
+            return responseData;
+        }
+    ).catch(
+        error => {
+            console.error(`HTTP error! status: ${error.message}`);
+        }
+    )
+}
 
 function setRedisData(data: InstaPostData[]) {
     const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
@@ -106,11 +152,29 @@ function setRedisData(data: InstaPostData[]) {
     )
 }
 
+function updateTokenData(token: InstaTokenData, dispatch: Dispatch<ActionType>) {
+    const newToken = setTokenData(token);
+    dispatch({
+        type: 'UPDATE_TOKEN',
+        value: newToken,
+    });
+
+    return newToken
+}
+
 export function InstaPostsContextProvider({ children }: { children: ReactNode }) {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const cached_token = getTokenData()
     const cached_data = getRedisData()
 
     useLayoutEffect(() => {
+        const fetchToken = async () => {
+            if (!cached_token) {
+                updateTokenData(state.token, dispatch)
+            } else {
+                return cached_token
+            }
+        }
         const fetchData = async () => {
             if (!cached_data) {
                 const tokenData = state.token;
@@ -123,10 +187,8 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
                             generated_at: Date.now(),
                         };
 
-                        dispatch({
-                            type: 'UPDATE_TOKEN',
-                            value: actualTimestampTokenData,
-                        });
+                        updateTokenData(actualTimestampTokenData, dispatch);
+
                     } catch (error) {
                         console.error('Erro ao renovar o token:', error);
                         // Lide com o erro conforme necessário, por exemplo, configurando um estado de erro
@@ -146,7 +208,6 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
                                 access_token: tokenData.access_token,
                             },
                         });
-                        allData = [...allData, ...response.data.data]
                         // Juntar os dados de cada requisição
                         if (response.data && response.data.data) {
                             allData = [...allData, ...response.data.data];
@@ -170,7 +231,8 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
             }
         };
 
-        fetchData(); // Chama a função assíncrona definida
+        fetchToken()
+        fetchData() // Chama a função assíncrona definida
     }, []);
 
     return (

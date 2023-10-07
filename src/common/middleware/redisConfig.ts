@@ -26,7 +26,7 @@ class createRedisInstance {
     }
 
     public static getInstance(config = getRedisConfiguration()): Redis {
-        if (this.instance === null) {
+        if (!this.instance) {
             try {
                 const options: RedisOptions = {
                     host: config.host,
@@ -75,26 +75,27 @@ export function getDate(date = new Date()): string {
 
     return `${year}/${month}/${day}`
 }
-export async function setRedisRegister(data: InstaPostData[] | string) {
-    const key = `last_insta_posts-${getDate()}`
+export async function setRedisRegister(data: InstaPostData[] | string, customKey?: string) {
+    const key = customKey ?? `last_insta_posts-${getDate()}`
     const MAX_AGE = 60_000 * 60 * 24; // 1 hour
     const EXPIRY_MS = `PX`; // milliseconds
 
     return await redis.set(key, JSON.stringify(data), EXPIRY_MS, MAX_AGE)
 }
 
-export async function getRedisValue(key: string): Promise<string | null> {
+export async function getRedisValue(key: string) {
     try {
         const value = await redis.get(key);
         return value;
     } catch (error) {
         console.error('Erro ao obter valor do Redis', error);
-        throw error; // Ou você pode optar por retornar null ou algum valor padrão
+        return undefined; // Ou você pode optar por retornar null ou algum valor padrão
     }
 }
 
-export async function clearCache() {
-    redis.del(`last_insta_posts-${getDate()}`)
+export async function clearCache(customKey?: string) {
+    const key = customKey ?? `last_insta_posts-${getDate()}`;
+    redis.del(key)
 }
 
 function getRandomRedisKey(): string {

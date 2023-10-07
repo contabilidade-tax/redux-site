@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { FullPageLayoutProps } from '@/types'
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Mousewheel, EffectCreative } from 'swiper/modules'
 import { gsap } from 'gsap'
 
@@ -21,10 +21,7 @@ function FullPageLayout({ className, children }: FullPageLayoutProps) {
   const isHomePage = usePathname() === '/home'
 
   useEffect(() => {
-    // Converter children em um array real para usar forEach
     React.Children.toArray(children)
-
-    gsap.fromTo('.Layout', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1 })
   })
 
   return (
@@ -52,7 +49,7 @@ function FullPageLayout({ className, children }: FullPageLayoutProps) {
     >
       {
         React.Children.map(children, (child, index) => (
-          <SwiperSlide key={index} className={'h-full w-full hidden mt-2'}>
+          <SwiperSlide key={index} className={'h-full w-full block mt-2'}>
             {child}
           </SwiperSlide>
         ))
