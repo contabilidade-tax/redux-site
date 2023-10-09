@@ -6,6 +6,7 @@
     src: url('/fonts/Montserrat-SemiBold.otf') format('otf');
 }
 
+
 .servicos,
 .contentArea {
     width: auto;
@@ -14,19 +15,19 @@
 
 .wrapper {
     @include smScreen() {
-        margin: $sm-padding;
+        padding: $sm-padding;
     }
 
     @include mdScreen() {
-        margin: $md-padding;
+        padding: $md-padding;
     }
 
     @include lgScreen() {
-        margin: lg-padding;
+        padding: $lg-padding;
     }
 
     @include xlScreen() {
-        margin: $xl-padding;
+        padding: $xl-padding;
     }
 }
 
@@ -72,9 +73,6 @@
 
 @include mdScreen() {
     .introText {
-        // padding: .2rem;
-        // margin: .5rem 0;
-
         font-size: 3rem;
         line-height: 3.5rem;
         letter-spacing: .2rem;

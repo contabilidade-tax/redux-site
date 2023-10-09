@@ -25,14 +25,13 @@ export default function Midia({ post, index, className }: InstaMidiaProps) {
                     <Image
                         className={cn(
                             styles.postMidia,
-                            'object-contain rounded-2xl',
-                            { '!object-cover': index === 0 }
+                            'object-contain rounded-2xl object-center',
                         )}
                         key={index}
                         src={post.media_url!}
                         alt={post.permalink!}
                         width={1000}
-                        height={1000}
+                        height={800}
                         loading='eager'
                     />
                     :

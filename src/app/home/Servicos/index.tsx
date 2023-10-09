@@ -79,7 +79,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
   return (
     <section className={cn(styles.servicos, "py-2 w-full", className)} {...rest}>
       <section className={cn('space-y-20 h-full w-full my-4 mx-auto', styles.wrapper)}>
-        <h1 className={cn("title-G font-black text-4xl text-center !mt-4 !mb-1")}>Como podemos ajudar<span className={cn('font-black text-5xl', 'textYellow-G')}>?</span></h1>
+        <h1 className={cn("title-G font-black text-4xl text-center !mt-4 !mb-1", styles.title)}>Como podemos ajudar<span className={cn('font-black text-5xl', 'textYellow-G')}>?</span></h1>
         {mobileState.isMobileDevice &&
           <div className='relative flex flex-row justify-around items-center mx-auto !m-0'>
             <Seletores
@@ -97,27 +97,27 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
             </div>
           </div>
         }
-        <div className={cn('flex flex-1 flex-col h-full w-full justify-center items-center !mt-0', styles.asideWrapper)}>
-          <Seletores
-            services={services}
-            state={state}
-            switchTab={switchTab}
-            styles={styles}
-            className='hidden'
-          />
+        <div className={cn(styles.contentWrapper, 'flex flex-1 flex-col h-full w-full justify-center items-center')}>
           <aside className={cn(styles.textArea, 'w-3/5 flex flex-col', 'order-3')}>
+            <Seletores
+              services={services}
+              state={state}
+              switchTab={switchTab}
+              styles={styles}
+              className={cn(styles.seletoresDesktop, 'hidden')}
+            />
             <div className={cn(
-              "relative bg-[#202020] min-h-[300px] h-full w-full rounded-xl  flex flex-col justify-between",
-              'min-h-[120px]',
+              'relative bg-primary-color rounded-full w-4/5 h-10 mx-auto -translate-y-1/2 justify-center hidden',
+              styles.subtitle
+            )}>
+              <p className={cn('font-black text-base self-center text-white')}>{state.selectedTab.titulo}</p>
+            </div>
+            <div className={cn(
+              "relative bg-[#202020] max-h-[300px] h-full w-full rounded-xl  flex flex-col justify-between",
+              // 'min-h-[120px]',
               styles.text
             )}>
-              <div className={cn(
-                'relative bg-primary-color rounded-full w-4/5 h-10 mx-auto -translate-y-1/2 justify-center hidden',
-                styles.subtitle
-              )}>
-                <p className={cn('font-black text-base self-center text-white')}>{state.selectedTab.titulo}</p>
-              </div>
-              <div className={cn('px-6 flex flex-col gap-6 text-white', styles.selectedText)}>
+              <div className={cn(styles.selectedText, 'px-6 flex flex-col gap-6 text-white')}>
                 {mobileState.isMobileDevice ?
                   <p className={cn('text-justify', styles.paragraph)}>{state.selectedTab.texto}</p>
                   :
@@ -128,7 +128,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
               </div>
 
             </div>
-            <Link href={'/contato'} className='mx-auto w-2/5'>
+            <Link href={'/contato'} className={cn(styles.contactButton, 'mx-auto w-2/5')}>
               <Button className={cn('bg-white shadow-xl text-black w-full font-bold p-4 relative rounded-full -translate-y-1/2 !mx-auto', styles.textButton)}>
                 Fale com a gente! 🤙🏼
               </Button>
@@ -141,9 +141,9 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
             backgroundOrigin: 'content-box',
             backgroundRepeat: 'no-repeat',
           } : {}}
-            className={cn('w-full h-full flex overflow-hidden', styles.animationArea)}
+            className={cn('w-full h-full flex overflow-hidden', styles.animationContainer)}
           >
-            <div className='w-max mx-auto'>
+            <div className={cn(styles.animationArea, 'w-max mx-auto')}>
               {animations.map((Animation, index) => (
                 index === state.actualIndex &&
                 (<Animation

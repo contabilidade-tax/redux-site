@@ -1,16 +1,39 @@
+$instaPostHeight: 30em;
+
+// .instaPost {
+//     width: 30%;
+//     max-width: 400px !important;
+//     max-height: $instaPostHeight;
+//     min-width: 300px;
+
+//     overflow: hidden;
+// }
+
+// .instaMidia {
+//     width: 85%;
+//     height: auto;
+//     max-height: $instaPostHeight !important;
+// }
+
+// .instaPostsWrapper {
+//     ::-webkit-scrollbar-track {
+//         background-color: #202020 !important;
+//         border-radius: 100px;
+//     }
+// }
+
 .instaPost {
     width: 30%;
-    max-height: 37.5em;
-    min-height: 32em;
-    height: inherit;
+    max-width: 400px;
     min-width: 350px;
 
     overflow: hidden;
 
-    .__instaMidia {
-        width: 90%;
-        // max-height: 25.5rem;
-        height: max-content;
+    .instaMidia {
+        width: 85%;
+        height: inherit;
+        // height: 70%;
+        max-height: $instaPostHeight;
     }
 }
 

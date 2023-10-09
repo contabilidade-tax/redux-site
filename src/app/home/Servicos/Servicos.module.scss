@@ -1,128 +1,50 @@
 @import '@/styles/variaveis';
 
-@include xlScreen() {
+
+@include lgScreen() {
+    .title {
+        text-align: left;
+    }
+
+    .contentWrapper {
+        display: flex;
+        flex-direction: row !important;
+        justify-content: space-between;
+
+        gap: 5%;
+    }
+
     .textArea {
-        width: 30%;
+        width: 50%;
+        order: 0;
+
+        .subtitle {
+            position: relative;
+            display: flex;
+            transform: translateY(50%);
+
+            z-index: 2;
+        }
+
+        .text {
+            padding: 2rem 0;
+        }
+
+        .contactButton {
+            width: 50%;
+        }
+
+        .seletoresDesktop {
+            display: block !important;
+            margin-bottom: 5px;
+        }
+    }
+
+    .animationContainer {
+        margin: 0 auto;
+
+        .animationArea {
+            margin: 0;
+        }
     }
 }
-
-// @include mdScreen() {
-//     .wrapper {
-//         width: 90%;
-
-//         margin-top: 0;
-//         margin-bottom: 2em;
-
-//         h1 {
-//             text-align: center;
-//         }
-//     }
-
-//     .asideWrapper {
-//         display: flex;
-//         flex-direction: column;
-//         justify-content: center;
-//         align-items: center;
-
-//         margin-top: 0 !important;
-
-//         min-height: fit-content;
-
-//         .textArea {
-//             order: 3;
-
-//             width: 60%;
-//             height: fit-content;
-
-
-//             .text {
-//                 min-height: 120px;
-//                 justify-content: center;
-
-//                 .paragraph {
-//                     transform: translateY(10px);
-//                 }
-
-//                 .textButtons {
-//                     justify-self: end;
-//                 }
-//             }
-
-//             .seletores {
-//                 display: none;
-//             }
-
-//             .subtitle {
-//                 display: none;
-//             }
-//         }
-//     }
-
-//     .animationArea {
-//         scale: .85;
-//         height: max-content;
-//     }
-// }
-
-
-// BACKUP DO LAYOUT DESKTOP
-// <section className={cn(styles.servicos, "py-6 w-full", className)} {...rest}>
-//       <section className={cn('space-y-20 h-full w-full my-12 mx-auto', styles.wrapper)}>
-//         <h1 className={cn("title-G font-black text-5xl text-left", 'md:text-4xl')}>Como podemos ajudar<span className={cn('font-black text-6xl', 'textYellow-G')}>?</span></h1>
-//         <div className={cn('flex flex-1 h-full w-full justify-between mx-auto', styles.asideWrapper)}>
-//           <aside className={cn(styles.textArea, 'h-full w-1/5')}>
-//             <Seletores services={services} state={state} switchTab={switchTab} styles={styles} />
-//             <div className={cn(
-//               "relative bg-[#202020] min-h-[300px] h-full w-full rounded-xl  flex flex-col justify-between",
-//               styles.text
-//             )}>
-//               <div className={cn(
-//                 'relative bg-primary-color rounded-full w-4/5 h-10 mx-auto -translate-y-1/2 flex justify-center',
-//                 styles.subtitle
-//               )}>
-//                 <p className={cn('font-black text-base self-center text-white')}>{state.selectedTab.titulo}</p>
-//               </div>
-//               <div className={cn('px-6 flex flex-col gap-6 text-white', styles.selectedText)}>
-//                 {mobileState.isMobileDevice ?
-//                   <p className={cn('text-justify', styles.paragraph)}>{state.selectedTab.texto}</p>
-//                   :
-//                   formatTextToArray(state.selectedTab.texto).map((sentence, index) => (
-//                     <p key={index}>{sentence}.</p>
-//                   ))
-//                 }
-//               </div>
-//               <Link href={'/contato'} className='mx-auto w-4/5'>
-//                 <Button className={cn('bg-white shadow-xl text-black w-full font-bold p-4 relative rounded-full translate-y-1/2', styles.textButton)}>
-//                   Fale com a gente! 🤙🏼
-//                 </Button>
-//               </Link>
-//             </div>
-//           </aside>
-//           <aside style={state.actualIndex === 1 ? {
-//             backgroundImage: `url('/assets/img/animations/2/piso.png')`,
-//             backgroundSize: '150%',
-//             backgroundPosition: 'center 88.5%',
-//             backgroundOrigin: 'content-box',
-//             backgroundRepeat: 'no-repeat',
-//           } : {}}
-//             className={cn('w-full h-full flex overflow-hidden', styles.animationArea)}
-//           >
-//             <div className='w-max mx-auto'>
-//               {animations.map((Animation, index) => (
-//                 index === state.actualIndex &&
-//                 (<Animation
-//                   title={state.selectedTab.subtitulo}
-//                   width={800}
-//                   height={index === 1 ? 400 : 450}
-//                   key={index}
-//                   className={cn(
-//                     'relative cursor-default'
-//                   )}
-//                 />
-//                 )
-//               ))}
-//             </div>
-//           </aside>
-//         </div>
-//       </section>
-//     </section>

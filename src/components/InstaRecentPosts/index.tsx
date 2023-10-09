@@ -29,9 +29,9 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
 
     return (
         <section className={cn(
-            'relative w-full h-full flex flex-1 flex-wrap flex-basis-1/3 gap-4 py-4 justify-center items-center',
+            'relative w-full h-full flex flex-wrap gap-4 py-4 justify-center items-center',
             styles.instaPostsWrapper,
-            // className
+            className
         )}
         >
             {isLoading ?
@@ -44,15 +44,15 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
                 posts.map((post, index) => (
                     <div key={index} className={cn(
                         styles.instaPost,
-                        'flex flex-col justify-start items-center relative px-4 pb-1 entrada'
+                        'flex flex-col relative px-4 pb-1 self-start mb-5'
                     )}>
-                        <Card.Root className='rounded-3xl overflow-hidden shadow-xl'>
+                        <Card.Root className='rounded-3xl overflow-hidden shadow-xl w-full h-full'>
                             <Card.Post
                                 post={post}
                                 index={index}
                                 className={cn(
-                                    styles.__instaMidia,
-                                    'relative top-2 py-2 my-auto'
+                                    styles.instaMidia,
+                                    'relative top-2 w-1/2'
                                 )} />
                             <Card.Caption text={post.caption!} timestamp={post.timestamp!} />
                         </Card.Root>

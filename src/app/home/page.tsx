@@ -7,7 +7,6 @@ import GameScene from './GameScene'
 import Servicos from './Servicos'
 
 import { ButtonBackgroundShine } from '@/components/Tools'
-import FullPageLayout from '@/components/FullPageLayout'
 import { useMobileContext } from '@/common/context/MobileDeviceContext'
 import { useLoading } from '@/common/context/LoadingContext'
 import { cn } from '@/lib/utils'
@@ -69,7 +68,7 @@ export default function Home() {
           <>
             <Header />
             <main className={` ${styles.wrapper} h-max max-w-full overflow-hidden`}>
-              <section className={`${styles.contentArea} h-[90vh] child-G`}>
+              <section className={cn(styles.contentArea, 'h-[90vh]')}>
                 <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
                   <div className={`${styles.introText} w-full leading-none text-[2.5rem] text-center p-0 my-5`}>
                     <p className="w-full h-max font-medium">
@@ -108,11 +107,14 @@ export default function Home() {
                   </div>
                 </div>
               </section>
-              <section className="servicos">
+              <section className="servicos h-[90vh]">
                 <Servicos className={cn(styles.servicos, 'h-full')} />
               </section>
-              <section className='overflow-y-scroll w-2/3 h-[90vh] flex justify-center items-center relative mx-auto child-G'>
-                <InstaRecentPosts />
+              <section className='h-[90vh] relative mx-auto flex flex-col justify-center gap-4'>
+                <h1 className='text-center text-5xl font-extrabold text-primary-color'>Confira os posts mais recentes!</h1>
+                <section className='posts overflow-y-scroll max-h-[38rem] min-h-[450px]'>
+                  <InstaRecentPosts />
+                </section>
               </section>
             </main>
           </>
