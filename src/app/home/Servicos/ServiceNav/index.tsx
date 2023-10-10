@@ -18,7 +18,6 @@ import styles from './ServiceNav.module.scss'
 SwiperCore.use([Navigation])
 
 export default function ServiceNav({
-  navRef,
   state,
   mobileState,
   services,
@@ -44,7 +43,7 @@ export default function ServiceNav({
 
 
   return (
-    <nav ref={navRef} id='navRef' className={`w-5/5 max-h-max ${styles.serviceNav} ${className}`}>
+    <nav id='navRef' className={`w-5/5 max-h-max ${styles.serviceNav} ${className}`}>
       {mobileState.isMobileDevice ? (
         <div className="relative">
           <Swiper

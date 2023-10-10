@@ -1,5 +1,46 @@
 @import '@/styles/variaveis';
 
+@include customScreen('375px') {
+    .contentWrapper {
+        margin-top: 0 !important;
+    }
+
+    .textArea {
+        width: 100% !important;
+
+        .selectedText {
+            padding: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .animationArea {
+        width: 100%;
+        height: 18em !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 0;
+
+        .animation {
+            scale: .75;
+
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    .contactButton {
+        width: 70% !important;
+    }
+}
+
+@include mdScreen() {
+    .animation {
+        scale: 1 !important;
+    }
+}
 
 @include lgScreen() {
     .title {
@@ -16,7 +57,9 @@
 
     .textArea {
         width: 50%;
+        margin-top: 2rem;
         order: 0;
+        max-width: 25rem;
 
         .subtitle {
             position: relative;

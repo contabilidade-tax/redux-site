@@ -1,10 +1,13 @@
 {
-  "extends": ["next/core-web-vitals", "@rocketseat/eslint-config/react"],
+  "extends": [
+    "next/core-web-vitals",
+    "@rocketseat/eslint-config/react"
+  ],
   "rules": {
     "react/no-unescaped-entities": "off",
     "react/react-in-jsx-scope": "off",
     "@next/next/no-page-custom-font": "off",
-    "camelcase":0,
+    "camelcase": 0,
     "@next/next/no-img-element": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-explicit-any": "off",
@@ -12,6 +15,7 @@
     "@typescript-eslint/eqeqeq": "off",
     "@typescript-eslint/no-empty-function": "off",
     "prettier/prettier": "off", // Desativando a regra prettier/prettier
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "react/no-unknown-property": "off"
   }
 }

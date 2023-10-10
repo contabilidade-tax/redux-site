@@ -5,7 +5,7 @@ import '@/styles/globals.scss'
 
 import { LoadingProvider } from '@/common/context/LoadingContext'
 import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
-
+import { Toaster } from "@/components/ui/toaster"
 const inter = Montserrat({
   subsets: ['latin'],
   weight: '400',
@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <main className="min-h-screeen flex w-full flex-col items-center justify-center">
               {children}
             </main>
+            <Toaster />
           </body>
         </html>
       </LoadingProvider>

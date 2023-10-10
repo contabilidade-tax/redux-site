@@ -115,7 +115,7 @@ interface LoadingProps extends HTMLAttributes<HTMLElement> {
 }
 
 interface ServiceNavProps {
-  navRef: React.RefObject<HTMLDivElement>
+  navRef?: React.RefObject<HTMLDivElement>
   state: any,
   mobileState: any,
   services: typeof services

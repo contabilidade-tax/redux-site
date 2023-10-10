@@ -68,7 +68,7 @@ export default function Home() {
           <>
             <Header />
             <main className={` ${styles.wrapper} h-max max-w-full overflow-hidden`}>
-              <section className={cn(styles.contentArea, 'h-[90vh]')}>
+              <section className={cn(styles.contentArea, 'min-h-[90vh]')}>
                 <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
                   <div className={`${styles.introText} w-full leading-none text-[2.5rem] text-center p-0 my-5`}>
                     <p className="w-full h-max font-medium">
@@ -89,7 +89,7 @@ export default function Home() {
                       dino={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
                       dinoPaused={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
                       dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
-                      className={`${styles.gameScene} mx-auto w-full`}
+                      className={cn(styles.gameScene, 'mx-auto w-full')}
                     />
                   </section>
                   <div className={`${styles.bottomTextContent} flex flex-col my-12`}>
@@ -107,7 +107,7 @@ export default function Home() {
                   </div>
                 </div>
               </section>
-              <section className="servicos h-[90vh]">
+              <section className="servicos h-[90vh] mb-4">
                 <Servicos className={cn(styles.servicos, 'h-full')} />
               </section>
               <section className='h-[90vh] relative mx-auto flex flex-col justify-center gap-4'>

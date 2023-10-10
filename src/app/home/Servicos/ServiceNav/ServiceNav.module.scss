@@ -84,29 +84,29 @@
     }
 }
 
-@include lgScreen() {
-    @include customMedia('(min-width: 1024px) and (max-width: 1070px)') {
-        .serviceNav .navItens {
-            gap: 1px !important;
-            scale: .98;
-        }
-    }
+// @include lgScreen() {
+//     @include customMedia('(min-width: 1024px) and (max-width: 1070px)') {
+//         .serviceNav .navItens {
+//             gap: 1px !important;
+//             scale: .98;
+//         }
+//     }
 
-    .serviceNav {
-        .navItens {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+//     .serviceNav {
+//         .navItens {
+//             display: flex;
+//             justify-content: center;
+//             align-items: center;
 
-            gap: 0.2rem;
-        }
+//             gap: 0.2rem;
+//         }
 
-        li {
-            width: 100%;
+//         li {
+//             width: 100%;
 
-            padding: .3rem .3rem .3rem 1rem;
+//             padding: .3rem .3rem .3rem 1rem;
 
-            font-size: 15px;
-        }
-    }
-}
+//             font-size: 15px;
+//         }
+//     }
+// }

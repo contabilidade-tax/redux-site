@@ -95,8 +95,8 @@ export default function Header() {
           // src="/assets/img/redux-logo.svg"
           src="/assets/img/logo-patrocinio.svg"
           alt="Redux Logo"
-          width={0}
-          height={0}
+          width={1000}
+          height={1000}
           priority={true}
         />
       </Link>
@@ -137,20 +137,22 @@ export default function Header() {
         onClick={() => {
           setMenuOpen(true)
         }}
-        className={`${styles.hamburguerButton} ` + 'scale-90 w-1/6 h-full bg-primary-color !p-2'}
+        className={`${styles.hamburguerButton} ` + 'w-[4em] h-[3em] bg-primary-color'}
       >
         <Bars3Icon width={40} height={40} />
       </Button>
-      {state.menuIsOpen && (
-        <MenuItens
-          ref={menuRef}
-          state={state}
-          className="items-center justify-center bg-black/90 p-4 text-3xl text-white backdrop-blur-sm"
-          tabs={tabs}
-          setCurrentPage={handleActualPage}
-          setMenuOpen={setMenuOpen}
-        />
-      )}
-    </header>
+      {
+        state.menuIsOpen && (
+          <MenuItens
+            ref={menuRef}
+            state={state}
+            className="items-center justify-center bg-black/90 p-4 text-3xl text-white backdrop-blur-sm"
+            tabs={tabs}
+            setCurrentPage={handleActualPage}
+            setMenuOpen={setMenuOpen}
+          />
+        )
+      }
+    </header >
   )
 }

@@ -79,9 +79,9 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
   return (
     <section className={cn(styles.servicos, "py-2 w-full", className)} {...rest}>
       <section className={cn('space-y-20 h-full w-full my-4 mx-auto', styles.wrapper)}>
-        <h1 className={cn("title-G font-black text-4xl text-center !mt-4 !mb-1", styles.title)}>Como podemos ajudar<span className={cn('font-black text-5xl', 'textYellow-G')}>?</span></h1>
-        {mobileState.isMobileDevice &&
-          <div className='relative flex flex-row justify-around items-center mx-auto !m-0'>
+        <h1 className={cn("title-G font-black text-4xl text-center !mt-3 !mb-1", styles.title)}>Como podemos ajudar<span className={cn('font-black text-5xl', 'textYellow-G')}>?</span></h1>
+        {mobileState.isMobileDevice && !mobileState.isSmallScreen ?
+          <div className='relative flex flex-row justify-around items-center mx-auto'>
             <Seletores
               services={services}
               state={state}
@@ -96,6 +96,15 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
               <div className='w-full h-fit'><p className={cn('font-black text-base text-center text-white w-full')}>{state.selectedTab.titulo}!</p></div>
             </div>
           </div>
+          : mobileState.isMobileDevice && (
+            <ServiceNav
+              className={cn(styles.serviceNav, '!mt-2')}
+              mobileState={mobileState}
+              state={state}
+              switchTab={switchTab}
+              services={services}
+            />
+          )
         }
         <div className={cn(styles.contentWrapper, 'flex flex-1 flex-col h-full w-full justify-center items-center')}>
           <aside className={cn(styles.textArea, 'w-3/5 flex flex-col', 'order-3')}>
@@ -152,6 +161,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
                   height={index === 1 ? 400 : 400}
                   key={index}
                   className={cn(
+                    styles.animation,
                     'relative cursor-default scale-[.85]'
                   )}
                 />
@@ -161,6 +171,6 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
           </aside>
         </div>
       </section>
-    </section>
+    </section >
   )
 }
