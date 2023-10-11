@@ -33,11 +33,11 @@ export default function TrabalheConosco() {
           return <SwiperSlide className='w-full h-full' key={index}><img src={`${image}/${index + 1}.${extension}`} alt='slide' className='w-full h-full brightness-[.4] object-cover' /></SwiperSlide>;
         })}
       </Swiper>
-      <div className="container bg-[#ffffff10] backdrop-blur-md max-w-[550px] right-20 rounded-xl absolute mx-auto z-50 my-10 border-[0.5px] w-1/4 max-h-2/3 min-h-1/2 px-6 py-2 border-white flex justify-between">
+      <div className="container drop-shadow-customPrimary bg-[#ffffff10] backdrop-blur-md max-w-[550px] right-20 rounded-xl absolute mx-auto z-50 my-10 border-[0.5px] w-1/4 max-h-2/3 min-h-1/2 px-6 py-2 border-white flex justify-between">
         <ContactForm className="flex flex-col justify-center gap-1 text-white" />
       </div>
       <div className='h-max w-1/2 absolute left-20 my-auto z-50'>
-        <h1 className='font-bold text-8xl text-white '>Aqui é top! E isto é uma frase de efeito!!!</h1>
+        <h1 className='font-bold text-8xl text-white'>Aqui é top! E isto é uma frase de efeito!!!</h1>
       </div>
     </>
   )

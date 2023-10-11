@@ -12,9 +12,9 @@ import { Toaster } from "@/components/ui/toaster"
 // })
 
 export const metadata = {
-  title: 'Redux Contabilidade',
+  title: 'TAX Contabilidade',
   description: 'Não somos obrigação. Somos ferramenta!',
-  favicon: '/src/app/favicon.ico',
+  favicon: '/src/app/x.png',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <html lang="pt-BR">
           {/* <body className={inter.className}> */}
           <body>
-            <main className="min-h-screeen flex w-full flex-col items-center justify-center relative">
+            <main className="min-h-screeen flex w-full flex-col items-center justify-center relative Wrapper">
               {children}
             </main>
             <Toaster />

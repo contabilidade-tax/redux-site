@@ -70,17 +70,32 @@
         }
 
         .text {
-            padding: 2rem 0;
+            font-size: 1.3rem;
+            line-height: 2rem;
         }
 
         .contactButton {
-            width: 50%;
+            display: none;
         }
 
         .seletoresDesktop {
             display: block !important;
             margin-bottom: 5px;
         }
+    }
+
+    .right {
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;
+        gap: 2rem;
+
+        height: inherit !important;
+
+        // .fraseStyle {
+        //     font-size: 2rem;
+        //     line-height: 2rem;
+        // }
     }
 
     .animationContainer {

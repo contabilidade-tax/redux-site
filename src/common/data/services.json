@@ -4,27 +4,31 @@
         "subtitulo": "Abrir empresa",
         "texto": "Cada negócio tem uma alma, uma essência. Em nossa consultoria, nos dedicamos a entender e capturar a sua. Vá além de um simples registro; descubra um serviço feito sob medida para o seu sonho empresarial.",
         "icon": "companhia.png",
-        "image": "https://images.unsplash.com/photo-1594402919317-9e67dca0a305?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+        "image": "https://images.unsplash.com/photo-1594402919317-9e67dca0a305?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        "frase": "Abrimos \\ sua empresa"
     },
     {
         "titulo": "Setor Pessoal",
         "subtitulo": "Regularização do profissional",
         "texto": "Repense o que você espera de uma contabilidade. Aqui, cada registro de funcionário é só o começo de uma jornada de cuidado, precisão e dedicação inabaláveis.",
         "icon": "relatorio.png",
-        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=815&q=80"
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=815&q=80",
+        "frase": "Regularizamos \\ sua empresa"
     },
     {
         "titulo": "Setor Tributário",
         "subtitulo": "Notas",
         "texto": "Não se limite ao cálculo padrão de impostos. Com nossa ajuda, identifique caminhos para minimizar sua carga tributária, sempre de forma legítima.",
         "icon": "nota.png",
-        "image": "https://images.unsplash.com/photo-1634733988138-bf2c3a2a13fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+        "image": "https://images.unsplash.com/photo-1634733988138-bf2c3a2a13fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+        "frase": "Reduzimos tributos na \\ sua empresa"
     },
     {
         "titulo": "Setor Contábil",
         "subtitulo": "Contabilidade Tributária",
         "texto": "Abrange o planejamento estratégico acompanhando, de forma singular, cada segmento e atividade empresarial. Utiliza-se da Elisão Fiscal como forma de redução tributária de forma Licita. Organizando o pagamento de impostos e definindo as melhores estratégias para gerenciá-los",
         "icon": "companhia-icon.png",
-        "image": "https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80"
+        "image": "https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80",
+        "frase": "Contabilizamos \\ sua empresa"
     }
 ]

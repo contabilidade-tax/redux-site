@@ -27,7 +27,20 @@ const nextConfig = {
         permanent: true,
       },
     ]
-  }
+  },
+  async headers() {
+    return [
+      {
+        source: '/favicon.ico',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache', // Configura o cabeçalho de controle de cache para evitar o cache.
+          },
+        ],
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig
