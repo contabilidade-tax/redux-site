@@ -100,22 +100,37 @@ function GameScene({ className, chProp, cwProp, scaleProp, speedProp, ...props }
         )
         setupPeCiceroAnimation(timeline, peCicero, cw)
         setupTimelineControl(timeline, bg, bgSpeed, totalWidth, dino, dinoCar, taxTrigger)
-        setupResetAndRestart(
-          timeline,
-          bg,
-          ctx,
-          scaledImageWidth,
-          cw,
-          ch,
-          { dino, dinoCar, peCicero, dinoPaused },
-          startAnimation,
-          props.timeToReset
-        )
+        reset({ dino, dinoCar, peCicero, dinoPaused }, timeline, bg, ctx, cw, ch, scaledImageWidth, props.timeToReset)
+
+        // setupResetAndRestart(
+        //   timeline,
+        //   bg,
+        //   ctx,
+        //   scaledImageWidth,
+        //   cw,
+        //   ch,
+        //   { dino, dinoCar, peCicero, dinoPaused },
+        //   startAnimation,
+        //   props.timeToReset
+        // )
 
         // função do gsap que é acionada a cada quadro do canvas desenhando os elementos em tela
         gsap.ticker.add(() => {
           drawCanvas(timeline, scaledImageWidth, scaledImageHeight)
         })
+
+        // Após a conclusão das animações existentes, chame a função resetAnimation
+        timeline.call(() => {
+          resetAnimation(
+            { dino, dinoCar, peCicero, dinoPaused },
+            timeline,
+            bg,
+            ctx,
+            cw,
+            ch,
+            scaledImageWidth
+          )
+        });
       }
 
       const drawCanvas = (
@@ -218,10 +233,11 @@ function GameScene({ className, chProp, cwProp, scaleProp, speedProp, ...props }
         //   ctx.stroke();
         // }
       }
-
       startAnimation()
     }
-  })
+
+  }, [])
+
 
   function setupBackgroundAnimations(
     timeline: gsap.core.Timeline,
@@ -460,44 +476,21 @@ function GameScene({ className, chProp, cwProp, scaleProp, speedProp, ...props }
       ctx.strokeStyle = borderColor;
       ctx.strokeRect(x, y, width, height);
     };
-    //   // Desenha o Padre cícero
-    //   if (objImg.img.complete) {
-    //     // Desenha a imagem com um tamanho escalonado.
-    //     // Desenha a imagem com um tamanho escalonado.
-    //     ctx.drawImage(
-    //       objImg.img,
-    //       x !== undefined ? x : objImg.x,
-    //       y !== undefined ? y : objImg.y,
-    //       width,
-    //       height,
-    //     )
-    //   } else {
-    //     objImg.img.onload = () => {
-    //       // Desenha a imagem com um tamanho escalonado.
-    //       ctx.drawImage(
-    //         objImg.img,
-    //         x !== undefined ? x : objImg.x,
-    //         y !== undefined ? y : objImg.y,
-    //         width, // Largura da imagem do teste
-    //         height, // Altura da imagem do teste
-    //       )
-    //     }
-    //   }
-    // }
+
     // Desenha o Padre cícero
     if (objImg.img.complete) {
       // Desenha a imagem com um tamanho escalonado.
       ctx.drawImage(
         objImg.img,
-        x !== undefined ? x : objImg.x,
-        y !== undefined ? y : objImg.y,
+        x ?? objImg.x,
+        y ?? objImg.y,
         width,
         height,
       );
       if (drawBord) {
         drawBorder(
-          x !== undefined ? x : objImg.x,
-          y !== undefined ? y : objImg.y,
+          x ?? objImg.x,
+          y ?? objImg.y,
           width,
           height
         );
@@ -507,16 +500,16 @@ function GameScene({ className, chProp, cwProp, scaleProp, speedProp, ...props }
         // Desenha a imagem com um tamanho escalonado.
         ctx.drawImage(
           objImg.img,
-          x !== undefined ? x : objImg.x,
-          y !== undefined ? y : objImg.y,
+          x ?? objImg.x,
+          y ?? objImg.y,
           width,
           height,
         );
         if (drawBord) {
 
           drawBorder(
-            x !== undefined ? x : objImg.x,
-            y !== undefined ? y : objImg.y,
+            x ?? objImg.x,
+            y ?? objImg.y,
             width,
             height
           );
@@ -610,6 +603,7 @@ function GameScene({ className, chProp, cwProp, scaleProp, speedProp, ...props }
         objects.dino.x = props.dino.X
         objects.dino.y = -props.dino.Y
         objects.dino.visible = true
+        objects.dino.isJumping = false
 
         // Reiniciar as configurações do dinoPaused
         objects.dinoPaused.spriteOffsetX = 0
@@ -628,13 +622,97 @@ function GameScene({ className, chProp, cwProp, scaleProp, speedProp, ...props }
         clearAllTimeoutsAndReset(timeline)
 
         // Iniciar a animação novamente
-        startAnimation()
+        // startAnimation()
+        timeline.restart()
       }, timetoReset * 1000)
     }
 
-
-    timeline.add(restart, 0)
+    restart()
   }
+
+  function reset(objects: any, timeline: any, bg: any, ctx: any, cw: any, ch: any, scaledImageWidth: any, timeToReset: any) {
+    createTimeout(() => {
+      // Após a conclusão das animações existentes, chame a função resetAnimation
+      timeline.call(() => {
+        resetAnimation(
+          objects,
+          timeline,
+          bg,
+          ctx,
+          cw,
+          ch,
+          scaledImageWidth
+        )
+      });
+    }, timeToReset * 1000)
+  }
+
+  function resetAnimation(
+    objects: any,
+    timeline: gsap.core.Timeline,
+    bg: {
+      img: HTMLImageElement
+      x: number
+    }[],
+    ctx: any,
+    scaledImageWidth: any,
+    cw: number,
+    ch: number,
+  ) {
+
+    const clearAllTimeoutsAndReset = (timeline: any) => {
+      timeline.pause()
+      timeline.clear()
+
+      timeoutIds.forEach((timeoutId: any) => {
+        clearTimeout(timeoutId)
+      })
+
+      timeoutIds.splice(0, timeoutIds.length)
+    }
+
+    ctx.clearRect(0, 0, cw, ch)
+
+    // Reiniciar as configurações das imagens
+    bg.forEach((bgImage, index) => {
+      if (index === 0) {
+        bgImage.x = 0
+      } else {
+        bgImage.x = index * scaledImageWidth
+      }
+    })
+
+    // Reiniciar as configurações do dino
+    objects.dino.spriteOffsetX = 0
+    objects.dino.x = props.dino.X
+    objects.dino.y = -props.dino.Y
+    objects.dino.visible = true
+    objects.dino.isJumping = false
+
+    // Reiniciar as configurações do dinoPaused
+    objects.dinoPaused.spriteOffsetX = 0
+    objects.dinoPaused.y = props.dinoPaused.Y
+
+    // Reiniciar as configurações do dinoCar
+    objects.dinoCar.x = props.dinoCar.X - 30
+    objects.dinoCar.y = props.dinoCar.Y
+    objects.dinoCar.visible = false
+
+    // Reiniciar as configurações do peCicero
+    objects.peCicero.x = 0
+    objects.peCicero.y = -5
+
+    // Limpar a timeline e iniciar a animação novamente
+    clearAllTimeoutsAndReset(timeline)
+
+    // Iniciar a animação novamente
+    // Reinicie a timeline
+    timeline.restart();
+
+    // Configure o loop infinito
+    timeline.repeat(-1); // -1 indica um loop infinito
+  }
+
 
   // Função para criar timeouts e armazenar seus IDs
   function createTimeout(callback: any, delay: number) {

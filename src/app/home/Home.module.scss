@@ -56,12 +56,6 @@
         font-size: 2rem;
         line-height: 3.5rem;
         letter-spacing: .1rem;
-
-        .grosso {
-            font-family: 'Montserrat-Black' 'poppins';
-            font-stretch: expanded;
-            font-weight: bolder;
-        }
     }
 }
 
@@ -92,11 +86,10 @@
 
     .introText {
         // padding: 1rem 4.9rem;
-        // margin: .5rem 0;
+        margin-top: 1rem !important;
 
-        font-size: 4.3rem;
+        font-size: 5rem !important;
         line-height: 4.5rem;
-        letter-spacing: .3rem;
     }
 }
 

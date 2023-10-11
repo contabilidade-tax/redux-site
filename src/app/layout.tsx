@@ -1,4 +1,4 @@
-import { Montserrat } from 'next/font/google'
+// import { Montserrat } from 'next/font/google'
 import { ReactNode } from 'react'
 
 import '@/styles/globals.scss'
@@ -6,10 +6,10 @@ import '@/styles/globals.scss'
 import { LoadingProvider } from '@/common/context/LoadingContext'
 import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
 import { Toaster } from "@/components/ui/toaster"
-const inter = Montserrat({
-  subsets: ['latin'],
-  weight: '400',
-})
+// const inter = Montserrat({
+//   subsets: ['latin'],
+//   weight: '400',
+// })
 
 export const metadata = {
   title: 'Redux Contabilidade',
@@ -22,8 +22,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <MobileContextProvider>
       <LoadingProvider>
         <html lang="pt-BR">
-          <body className={inter.className}>
-            <main className="min-h-screeen flex w-full flex-col items-center justify-center">
+          {/* <body className={inter.className}> */}
+          <body>
+            <main className="min-h-screeen flex w-full flex-col items-center justify-center relative">
               {children}
             </main>
             <Toaster />

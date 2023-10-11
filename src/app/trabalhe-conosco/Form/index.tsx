@@ -71,32 +71,35 @@ export default function ContactForm({ className }: { className?: string }) {
     // 2. Define a submit handler.
     function onSubmit(data: z.infer<typeof formSchema>) {
         toast({
-            title: "You submitted the following values:",
+            title: "Você enviou os seguintes valores:",
+            className: "mt-2 rounded-md bg-slate-800 p-4 text-white",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-800 p-4">
-                    <code className="text-black">{JSON.stringify(data, null, 2)}</code>
+                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
                 </pre>
             ),
         })
     }
 
     const errorMessageStyle = 'text-red-500 font-bold text-sm'
+    const labelStyle = 'font-white font-bold'
+    const placeHolderStyle = 'font-[#222020] font-bold placeholder:text-muted-foreground'
 
     return (
         <Form {...form}>
             <form className={className} onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField control={form.control} name="name" render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Nome</FormLabel>
+                        <FormLabel className={labelStyle}>Nome</FormLabel>
                         <FormControl>
-                            <Input {...field} id="name" placeholder="Digite seu nome" />
+                            <Input {...field} id="name" className={placeHolderStyle} placeholder="Digite seu nome" />
                         </FormControl>
                         <FormMessage className={errorMessageStyle} />
                     </FormItem>
                 )} />
                 <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel className={labelStyle}>Email</FormLabel>
                         <FormControl>
                             <Input {...field} id="email" placeholder="Informe seu email principal" />
                         </FormControl>
@@ -105,7 +108,7 @@ export default function ContactForm({ className }: { className?: string }) {
                 )} />
                 <FormField control={form.control} name="whatsapp" render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Whatsapp</FormLabel>
+                        <FormLabel className={labelStyle}>Whatsapp</FormLabel>
                         <FormControl>
                             <Input {...field} id="whatsapp" placeholder="Telefone para contato" />
                         </FormControl>
@@ -115,7 +118,7 @@ export default function ContactForm({ className }: { className?: string }) {
                 <div className="flex items-center w-full gap-8">
                     <FormField control={form.control} name="cidade" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Cidade</FormLabel>
+                            <FormLabel className={labelStyle}>Cidade</FormLabel>
                             <FormControl>
                                 <Input {...field} id="cidade" placeholder="Onde você reside?" />
                             </FormControl>
@@ -124,7 +127,7 @@ export default function ContactForm({ className }: { className?: string }) {
                     )} />
                     <FormField control={form.control} name="estado" render={({ field }) => (
                         <FormItem className="flex flex-col gap-1 mt-2">
-                            <FormLabel>Estado</FormLabel>
+                            <FormLabel className={labelStyle}>Estado</FormLabel>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <FormControl>
@@ -181,14 +184,14 @@ export default function ContactForm({ className }: { className?: string }) {
                 </div>
                 <FormField control={form.control} name="message" render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Mensagem</FormLabel>
+                        <FormLabel className={labelStyle}>Mensagem</FormLabel>
                         <FormControl>
                             <Textarea {...field} id="message" placeholder="Digite sua mensagem..." />
                         </FormControl>
                         <FormMessage className={errorMessageStyle} />
                     </FormItem>
                 )} />
-                <Button type="submit" className="mt-8 bg-black text-gray-300 font-bold">Enviar</Button>
+                <Button type="submit" className="self-center my-4 w-1/3 bg-white text-black font-bold !rounded-2xl">Enviar</Button>
             </form>
         </Form>
     )

@@ -11,6 +11,9 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
+      dropShadow: {
+        'custom': '10px -5px 1px #000000',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

@@ -11,6 +11,7 @@ import styles from './Header.module.scss'
 import MenuItens from './MenuItens'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 const tabs = [
   { label: 'Home', src: '/home' },
@@ -39,7 +40,7 @@ function reducer(state: any, action: { type: string; value?: any }) {
   }
 }
 
-export default function Header() {
+export default function Header({ className }: { className?: string }) {
   const currentPage = usePathname()
   const initialReducerState = {
     currentPage: tabs[0],
@@ -85,8 +86,11 @@ export default function Header() {
   return (
     <header
       className={
-        `${styles.head} ` +
-        'bg-zinc-50 sticky top-0 z-30 flex h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md'
+        cn(
+          styles.head,
+          'bg-zinc-50 sticky top-0 z-30 flex h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md',
+          className,
+        )
       }
     >
       <Link href={'/'} className={`h-[50px] w-[200px] ${styles.logo}`} >
