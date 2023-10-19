@@ -1,10 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, {
-  Fragment,
-  RefObject,
-  useEffect,
   useReducer,
-  useRef,
 } from 'react'
 import Link from 'next/link'
 
@@ -16,7 +12,7 @@ import { useMobileContext } from '@/common/context/MobileDeviceContext'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
-import { CriarEmpresa, Societario } from '@/components/Animation'
+import { CriarEmpresa, Societario, Fiscal } from '@/components/Animation'
 import Seletores from '@/components/ui/seletores'
 import { ButtonBackgroundShine } from '@/components/Tools'
 
@@ -61,7 +57,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
   }
   const [state, dispatch] = useReducer(reducer, initialState)
   const { mobileState } = useMobileContext();
-  const animations = [CriarEmpresa, Societario]
+  const animations = [CriarEmpresa, Societario, Fiscal];
 
   const switchTab = (index: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -84,101 +80,78 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
   }
 
   return (
-    <section className={cn(styles.servicos, "py-2 w-full", className)} {...rest}>
-      <section className={cn('space-y-20 h-full w-full my-4 mx-auto', styles.wrapper)}>
-        <h1 className={cn("title-G font-semibold text-4xl text-center !mt-3 !mb-1", styles.title)}>Como podemos ajudar<span className={cn('font-black text-5xl', 'textYellow-G')}>?</span></h1>
-        {mobileState.isMobileDevice && !mobileState.isSmallScreen ?
-          <div className='relative flex flex-row justify-around items-center mx-auto'>
-            <Seletores
-              services={services}
-              state={state}
-              switchTab={switchTab}
-              styles={styles}
-              className='!m-0'
-            />
-            <div className={cn(
-              'relative bg-primary-color flex items-center rounded-full w-1/5 h-10 mx-auto !m-0',
-              styles.subtitle
-            )}>
-              <div className='w-full h-fit'><p className={cn('font-black text-base text-center text-white w-full')}>{state.selectedTab.titulo}!</p></div>
-            </div>
-          </div>
-          : mobileState.isMobileDevice && (
-            <ServiceNav
-              className={cn(styles.serviceNav, '!mt-2')}
-              mobileState={mobileState}
-              state={state}
-              switchTab={switchTab}
-              services={services}
-            />
-          )
-        }
-        <div className={cn(styles.contentWrapper, 'flex h-max w-full !mt-6')}>
-          <div className={cn(styles.left, '')}>
-            <div className={cn(styles.textArea, 'w-3/5 flex flex-col relative', 'order-3')}>
+    <section className={cn(styles.servicos, className)} {...rest}>
+      <section className={cn('h-full w-full flex flex-col justify-center items-center')}>
+        <h1 className={cn("m-0 p-0 title-G font-semibold text-4xl text-center !w-max !h-max", styles.title)}>Como podemos ajudar<span className={cn('font-black text-5xl', 'text-primary-color')}>?</span></h1>
+        <div className={cn(styles.contentWrapper, 'mt-2 flex h-[75%] w-full', 'xl:h-[65%]')}>
+          {/* LEFT AREA */}
+          <div className={cn(styles.left, 'w-1/3 h-full')}>
+            <div className={cn(styles.textArea, 'w-full h-full flex flex-col relative justify-center items-center')}>
               <Seletores
                 services={services}
                 state={state}
                 switchTab={switchTab}
                 styles={styles}
-                className={cn(styles.seletoresDesktop, 'hidden')}
+                className={cn(styles.seletores)}
               />
+              {/* TEXTO */}
               <div className={cn(
-                'absolute bg-primary-color rounded-full w-4/5 h-10 mx-auto -translate-y-1/2 justify-center hidden',
-                styles.subtitle
+                styles.text,
+                "bg-[#202020] w-full max-h-full max-w-[25rem] rounded-xl flex-1 flex flex-col justify-between",
               )}>
-                <p className={cn('font-black text-base self-center text-white')}>{state.selectedTab.titulo}</p>
-              </div>
-              <div className={cn(
-                "bg-[#202020] max-h-[500px] h-max w-full rounded-xl  flex flex-col justify-between",
-                styles.text
-              )}>
-                <div className={cn(styles.selectedText, 'px-6 flex flex-col gap-4 text-white')}>
-                  {mobileState.isMobileDevice ?
-                    <p className={cn('text-justify', styles.paragraph)}>{state.selectedTab.texto}</p>
+                {/* SUBTITULO */}
+                <div className={cn(
+                  'bg-primary-color rounded-full w-4/5 h-10 mx-auto relative -translate-y-1/2 justify-center items-center hidden md:flex',
+                  styles.subtitle
+                )}>
+                  <p className={cn('font-semibold text-base text-center text-white', 'w-max h-max')}>{state.selectedTab.titulo}</p>
+                </div>
+                {/* TEXTO SELECIONADO */}
+                <div className={cn(
+                  styles.selectedText,
+                  'flex px-3 text-white text-lg xl:text-2xl',
+                  'md:px-6 md:flex-col md:gap-4'
+                )}>
+                  {mobileState.isSmallScreen ?
+                    <p className={cn('text-left leading-snug', styles.paragraph)}>{state.selectedTab.texto}</p>
                     :
                     formatTextToArray(state.selectedTab.texto).map((sentence, index) => (
-                      <p key={index}>{sentence}.</p>
+                      <p className='text-left' key={index}>{sentence}.</p>
                     ))
                   }
                 </div>
-
+                {/* COISA INVISIVEL PRA CENTRALIZAR O TEXTO */}
+                <div className={cn(
+                  'bg-primary-color rounded-full w-4/5 h-10 mx-auto relative justify-center items-center opacity-0',
+                )} />
               </div>
-              <Link href={'/contato'} className={cn(styles.contactButton, 'mx-auto w-2/5')}>
-                <Button className={cn('bg-white shadow-xl text-black w-full font-bold p-4 relative rounded-full -translate-y-1/2 !mx-auto', styles.textButton)}>
-                  Fale com a gente! 🤙🏼
-                </Button>
-              </Link>
             </div>
           </div>
-          <div className={cn(styles.right, ' flex-1')}>
-            <aside style={state.actualIndex === 1 ? {
-              backgroundImage: `url('/assets/img/animations/2/piso.png')`,
-              backgroundSize: '150%',
-              backgroundPosition: 'center 88.5%',
-              backgroundOrigin: 'content-box',
-              backgroundRepeat: 'no-repeat',
-            } : {}}
-              className={cn('w-full h-full flex overflow-hidden', styles.animationContainer)}
-            >
-              <div className={cn(styles.animationArea, 'w-max mx-auto')}>
+          {/* RIGHT AREA */}
+          <div className={cn(styles.right, 'flex-1 h-full flex flex-col justify-center items-center')}>
+            <div className={cn(
+              styles.animationContainer,
+              'w-full h-[75%]',
+            )}>
+              <div className={cn(styles.animationArea, 'w-full h-full')}>
                 {animations.map((Animation, index) => (
                   index === state.actualIndex &&
-                  (<Animation
-                    title={state.selectedTab.subtitulo}
-                    width={800}
-                    height={index === 1 ? 400 : 400}
-                    key={index}
-                    className={cn(
-                      styles.animation,
-                      'relative cursor-default scale-[.85]'
-                    )}
-                  />
+                  (
+                    <Animation
+                      title={state.selectedTab.subtitulo}
+                      width={400}
+                      height={mobileState.isSmallScreen ? 300 : 400}
+                      key={index}
+                      className={cn(
+                        styles.animation,
+                        'relative cursor-default w-full h-full lg:w-5/6 overflow-hidden mx-auto',
+                      )} />
                   )
                 ))}
               </div>
-            </aside>
-            <div className={cn(styles.footer, 'w-full h-max flex justify-between items-center')}>
+            </div>
+            {/* FOOTER TEXT AREA */}
+            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center hidden', 'xl:flex xl:flex-1')}>
               <div className={cn(styles.fraseStyle, 'max-w-[80%] max-h-[200px] text-7xl')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
                   <h1
@@ -190,7 +163,9 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
                   </h1>
                 ))}
               </div>
-              <ButtonBackgroundShine text='Fale com a gente' className='w-full max-w-[30%] h-12 self-end relative bottom-5 rounded-3xl mx-auto' />
+              <Link className='w-full max-w-[30%] h-12 self-end relative bottom-5  mx-auto' href={'/contato'}>
+                <ButtonBackgroundShine text='Fale com a gente! 🤙🏼' className='rounded-3xl w-full h-full' />
+              </Link>
             </div>
           </div>
         </div>

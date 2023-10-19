@@ -16,6 +16,7 @@ import InstaRecentPosts from '@/components/InstaRecentPosts'
 
 import styles from './Home.module.scss'
 import Midia from '@/components/InstaRecentPosts/Midia'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
@@ -68,20 +69,19 @@ export default function Home() {
         ) : (
           <>
             <Header />
-            <main className={` ${styles.wrapper} h-max max-w-full overflow-hidden`}>
-              <section className={cn(styles.contentArea, 'min-h-[90vh]')}>
-                <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
-                  <div className={`${styles.introText} w-full !tracking-wide text-[2.5rem] text-center p-0 my-5`}>
-                    <p className="w-full h-max font-normal">
-                      Não somos obrigação,
-                    </p>
-                    <p className='font-black'>
-                      <span className='text-primary-color'> somos ferramenta</span>
-                      <span className="text-primary-color">.</span>
-                    </p>
-                  </div>
-                  <section data-mobile={mobileState.isMobileDevice} className="w-full relative h-[550px] data-[mobile=true]:h-[300px] mx-auto overflow-hidden">
-                    {/* <GameScene
+            <section className={cn(styles.contentArea, 'min-h-[90vh] w-full')}>
+              <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
+                <div className={`${styles.introText} w-full !tracking-wide text-[2.5rem] text-center p-0 my-5`}>
+                  <p className="w-full h-max font-normal">
+                    Não somos obrigação,
+                  </p>
+                  <p className='font-black'>
+                    <span className='text-primary-color'> somos ferramenta</span>
+                    <span className="text-primary-color">.</span>
+                  </p>
+                </div>
+                <section data-mobile={mobileState.isMobileDevice} className="w-full relative h-[550px] data-[mobile=true]:h-[300px] mx-auto overflow-hidden">
+                  {/* <GameScene
                       chProp={mobileState.isMobileDevice ? 300 : 550}
                       cwProp={1580}
                       scaleProp={mobileState.isMobileDevice ? .65 : .7}
@@ -92,33 +92,32 @@ export default function Home() {
                       dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
                       className={cn(styles.gameScene, 'mx-auto w-full')}
                     /> */}
-                    <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted className="w-full h-full object-cover"></video>
-                  </section>
-                  <div className={`${styles.bottomTextContent} flex flex-col my-12`}>
-                    <div className="text-center">
-                      <h2 className="text-2xl">
-                        A <span className='text-primary-color font-black'>melhor solução</span> para sua empresa.
-                      </h2>
-                    </div>
-                    <Link href='/contato' className='h-auto w-1/2 min-w-[261px] mx-auto text-lg lg:w-1/6'>
-                      <ButtonBackgroundShine
-                        text="Fale com a gente! 🤙🏼"
-                        className="text-zinc-100 mt-4 w-full rounded-full px-4 py-2"
-                      />
-                    </Link>
-                  </div>
-                </div>
-              </section>
-              <section className="servicos h-[90vh] mb-4">
-                <Servicos className={cn(styles.servicos, 'h-full')} />
-              </section>
-              <section className='h-[90vh] relative mx-auto flex flex-col justify-center gap-4'>
-                <h1 className='text-center text-5xl font-extrabold text-primary-color'>Confira os posts mais recentes!</h1>
-                <section className='posts overflow-y-scroll max-h-[38rem] min-h-[450px]'>
-                  <InstaRecentPosts />
+                  <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted className="w-full h-full object-cover"></video>
                 </section>
+                <div className={`${styles.bottomTextContent} flex flex-col mt-12 mb-6`}>
+                  <div className="text-center">
+                    <h2 className="text-2xl">
+                      A <span className='text-primary-color font-black'>melhor solução</span> para sua empresa.
+                    </h2>
+                  </div>
+                  <Link href='/contato' className='h-auto w-1/2 min-w-[261px] mx-auto text-lg lg:w-1/6'>
+                    <ButtonBackgroundShine
+                      text="Fale com a gente! 🤙🏼"
+                      className="text-zinc-100 mt-4 w-full rounded-full px-4 py-2"
+                    />
+                  </Link>
+                </div>
+              </div>
+            </section>
+            <section className={cn(styles.wrapper, 'w-full min-h-[90vh]', "flex justify-center items-center servicos")}>
+              <Servicos className={cn('h-full w-full')} />
+            </section>
+            <section className={cn(styles.wrapper, 'min-h-[90vh] max-w-full', 'flex flex-col justify-center notSelected-G')}>
+              <h1 className='text-center text-5xl font-extrabold text-primary-color'>Confira os posts mais recentes!</h1>
+              <section className='posts max-h-[38rem] min-h-[450px] w-full'>
+                <InstaRecentPosts />
               </section>
-            </main>
+            </section>
           </>
         )
       }

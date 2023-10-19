@@ -1,108 +1,108 @@
-@import '@/styles/variaveis';
+// @import '@/styles/variaveis';
 
-@include customScreen('375px') {
-    .contentWrapper {
-        margin-top: 0 !important;
-    }
+// @include customScreen('375px') {
+//     .contentWrapper {
+//         margin-top: 0 !important;
+//     }
 
-    .textArea {
-        width: 100% !important;
+//     .textArea {
+//         width: 100% !important;
 
-        .selectedText {
-            padding: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-    }
+//         .selectedText {
+//             padding: 1.5rem;
+//             margin-bottom: 0.5rem;
+//         }
+//     }
 
-    .animationArea {
-        width: 100%;
-        height: 18em !important;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+//     .animationArea {
+//         width: 100%;
+//         height: 18em !important;
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
 
-        padding: 0;
+//         padding: 0;
+// // 
+//         .animation {
+//             scale: .75;
 
-        .animation {
-            scale: .75;
+//             padding: 0;
+//             margin: 0;
+//         }
+//     }
 
-            padding: 0;
-            margin: 0;
-        }
-    }
+//     .contactButton {
+//         width: 70% !important;
+//     }
+// }
 
-    .contactButton {
-        width: 70% !important;
-    }
-}
+// @include mdScreen() {
+//     .animation {
+//         scale: 1 !important;
+//     }
+// }
 
-@include mdScreen() {
-    .animation {
-        scale: 1 !important;
-    }
-}
+// @include lgScreen() {
+//     .title {
+//         text-align: left;
+//     }
 
-@include lgScreen() {
-    .title {
-        text-align: left;
-    }
+//     .contentWrapper {
+//         display: flex;
+//         flex-direction: row !important;
+//         justify-content: space-between;
 
-    .contentWrapper {
-        display: flex;
-        flex-direction: row !important;
-        justify-content: space-between;
+//         gap: 5%;
+//     }
 
-        gap: 5%;
-    }
+//     .textArea {
+//         width: 50%;
+//         margin-top: 2rem;
+//         order: 0;
+//         max-width: 25rem;
 
-    .textArea {
-        width: 50%;
-        margin-top: 2rem;
-        order: 0;
-        max-width: 25rem;
+//         .subtitle {
+//             position: relative;
+//             display: flex;
+//             transform: translateY(50%);
 
-        .subtitle {
-            position: relative;
-            display: flex;
-            transform: translateY(50%);
+//             z-index: 2;
+//         }
 
-            z-index: 2;
-        }
+//         .text {
+//             font-size: 1.3rem;
+//             line-height: 2rem;
+//         }
 
-        .text {
-            font-size: 1.3rem;
-            line-height: 2rem;
-        }
+//         .contactButton {
+//             display: none;
+//         }
 
-        .contactButton {
-            display: none;
-        }
+//         .seletoresDesktop {
+//             display: block !important;
+//             margin-bottom: 5px;
+//         }
+//     }
 
-        .seletoresDesktop {
-            display: block !important;
-            margin-bottom: 5px;
-        }
-    }
+//     .right {
+//         display: flex;
+//         flex-flow: column wrap;
+//         align-items: center;
+//         gap: 2rem;
 
-    .right {
-        display: flex;
-        flex-flow: column wrap;
-        align-items: center;
-        gap: 2rem;
+//         height: inherit !important;
 
-        height: inherit !important;
+//         // .fraseStyle {
+//         //     font-size: 2rem;
+//         //     line-height: 2rem;
+//         // }
+//     }
 
-        // .fraseStyle {
-        //     font-size: 2rem;
-        //     line-height: 2rem;
-        // }
-    }
+//     .animationContainer {
+//         margin: 0 auto;
 
-    .animationContainer {
-        margin: 0 auto;
-
-        .animationArea {
-            margin: 0;
-        }
-    }
-}
+//         .animationArea {
+//             margin: 0;
+//         }
+//     }
+// }

@@ -68,15 +68,16 @@ class createRedisInstance {
 
 const redis = createRedisInstance.getInstance()
 
-export function getDate(date = new Date()): string {
-    const day = date.getDate().toString().padStart(2, '0')
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const year = date.getFullYear()
+export function getDateTime(date = new Date()): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
 
-    return `${year}/${month}/${day}`
+    return `${year}/${month}/${day} H${hours}`;
 }
 export async function setRedisRegister(data: InstaPostData[] | string, customKey?: string) {
-    const key = customKey ?? `last_insta_posts-${getDate()}`
+    const key = customKey ?? `last_insta_posts-${getDateTime()}`
     const MAX_AGE = 60_000 * 60 * 24; // 1 hour
     const EXPIRY_MS = `PX`; // milliseconds
 
@@ -94,7 +95,7 @@ export async function getRedisValue(key: string) {
 }
 
 export async function clearCache(customKey?: string) {
-    const key = customKey ?? `last_insta_posts-${getDate()}`;
+    const key = customKey ?? `last_insta_posts-${getDateTime()}`;
     redis.del(key)
 }
 

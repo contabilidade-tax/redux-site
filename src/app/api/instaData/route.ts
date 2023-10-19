@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRedisValue, getDate } from '@/common/middleware/redisConfig';
+import { getRedisValue, getDateTime } from '@/common/middleware/redisConfig';
 
 export async function GET(req: NextRequest) {
     try {
         const customKey = req.nextUrl.searchParams.get('key');
-        const cached_data = customKey ? await getRedisValue(customKey) : await getRedisValue(`last_insta_posts-${getDate()}`);
+        const cached_data = customKey ? await getRedisValue(customKey) : await getRedisValue(`last_insta_posts-${getDateTime()}`);
 
         if (cached_data) {
             return NextResponse.json(JSON.parse(cached_data), { status: 200 });

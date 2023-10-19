@@ -8,6 +8,9 @@ import animationData1 from '@/common/data/animation/criarempresaSemBalao.json'
 import './animation.scss'
 import { AnimationProps } from "@/types"
 import { cn } from "@/lib/utils"
+import PixiPlugin from "gsap/PixiPlugin"
+
+gsap.registerPlugin(PixiPlugin)
 
 /**
  * Shuffles an array in a random order.
@@ -25,8 +28,12 @@ function shuffleArray<T>(array: T[]): T[] {
     return newArray
 }
 
+const size = {
+    innerHeight: 500,
+    innerWidth: 800,
+}
 
-function CriarEmpresa({ className, title, height: heightProp = 500, width: widthProp = 800 }: AnimationProps) {
+function CriarEmpresa({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
     const [state, setState] = useState({ isPaused: false, isStopped: false })
     const divRef = useRef<HTMLDivElement>(null)
     const p1Ref = useRef<HTMLDivElement>(null);
@@ -146,11 +153,8 @@ function CriarEmpresa({ className, title, height: heightProp = 500, width: width
             style={{
                 backgroundImage: `url('/assets/img/animations/1/piso.png')`,
                 backgroundSize: 'contain',
-                backgroundPosition: 'center 95%',
+                backgroundPosition: 'center 80%',
                 backgroundRepeat: 'no-repeat',
-                height: heightProp,
-                width: widthProp
-
             }}
             ref={divRef}
             className={cn("animation flex flex-col items-center", className)}>
@@ -232,7 +236,7 @@ function CriarEmpresa({ className, title, height: heightProp = 500, width: width
     )
 }
 
-function Societario({ className, title, height: heightProp = 500, width: widthProp = 800 }: AnimationProps) {
+function Societario({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
     const [raioXAnimation, setRaioXAnimation] = useState(false);
     const refs = {
         dino: {
@@ -269,10 +273,10 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
         const animation = gsap.fromTo(dino,
             {
                 x: '-=250px',
-                y: -48,
+                y: 0
             },
             {
-                x: -100,
+                x: 40,
                 duration: animationDelayPosition.entry.duration,
                 // delay: animationDelayPosition.entry.delay
             })
@@ -284,13 +288,14 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
         const animation = gsap.to(dino,
             {
                 y: '-=100px',
-                x: '+=50px',
+                x: '+=60px',
                 duration: animationDelayPosition.jump.duration,
                 // delay: animationDelayPosition.jump.delay,
                 ease: 'Power1.easeIn',
                 onComplete: () => {
                     gsap.to(dino, {
-                        y: -110,
+                        x: "+=40px",
+                        y: -50,
                         duration: animationDelayPosition.jump.duration - 0.1,
                         // ease: 'Power4.easeOut',
                         ease: 'CustomEase.create("custom", "M0,1,C0,1,0.332,0.845,0.52,0.657,0.809,0.368,1,0,1,0")',
@@ -312,8 +317,8 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
                 onComplete: () => {
                     gsap.to(dino,
                         {
-                            x: "+=120px",
-                            y: -50,
+                            x: "+=60px",
+                            y: 0,
                             duration: animationDelayPosition.jump.duration - 0.1,
                             ease: 'CustomEase.create("custom", "M0,1,C0,1,0.332,0.845,0.52,0.657,0.809,0.368,1,0,1,0")',
                             onComplete: () => {
@@ -331,12 +336,11 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
 
     const runDinoNaEsteira = (dino: HTMLDivElement | null) => {
         const animation = gsap.to(dino, {
-            x: 360,
+            x: 420,
             duration: animationDelayPosition.runEsteira.duration,
             // delay: animationDelayPosition.runEsteira.delay,
             onComplete: () => {
                 const outAnimation = gsap.to(dino, { opacity: 0, ease: 'none' })
-
 
                 outAnimation.eventCallback('onStart', () => {
                     setRaioXAnimation(true)
@@ -349,7 +353,7 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
 
     function dinoRegularizado(dino: HTMLDivElement | null) {
         const animation = gsap.fromTo(dino,
-            { x: 360, y: -110, opacity: 1 },
+            { x: 420, y: -50, opacity: 1 },
             {
                 x: `+=320px`,
                 duration: animationDelayPosition.regularizado.duration,
@@ -420,18 +424,19 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
         <section
             ref={refs.cena}
             style={{
-                backgroundImage: `url('/assets/img/animations/2/esteira-sem-linha.png')`,
+                backgroundImage: `url('/assets/img/animations/2/esteira.png')`,
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center 65%',
-                width: widthProp,
-                height: heightProp,
+                backgroundPosition: 'center',
+                // width: widthProp,
+                // height: heightProp,
                 zIndex: 50,
                 scale: 1
             }}
             title={title ?? ''}
-            className={cn('cena flex items-end justify-center', className)}
+            className={cn('flex items-end justify-center', className)}
         >
+            {/* DINOS */}
             <section className="dinosArea absolute w-full h-full flex -z-30">
                 <div
                     ref={refs.dino.desempregado}
@@ -456,16 +461,17 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
                     }}
                     className="regularizado absolute bottom-0" />
             </section>
+            {/* Portal */}
             <div className="portalWrapper absolute w-full h-full flex justify-center items-center">
                 <div
                     style={{
                         backgroundImage: `url('/assets/img/animations/2/portal.png')`,
                         backgroundSize: 'contain',
                         backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center center',
-                        scale: 1.2
+                        backgroundPosition: 'center 5px',
+                        scale: 1
                     }}
-                    className="portal w-2/5 h-2/5 relative flex items-end -translate-x-[1.75%] -translate-y-[5.1%]"
+                    className="portal w-2/5 h-[42%] relative flex items-end translate-y-[38%]"
                 >
                     <div className="blockRaioX bg-black w-1/4 h-[76%] mx-auto translate-y-[1%]">
                         <div
@@ -474,8 +480,8 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
                                 backgroundSize: 'contain',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center center',
-                                width: widthProp / 30,
-                                height: heightProp / 12,
+                                width: '25%',
+                                height: '25%',
                                 scale: 1
                             }}
                             className="button mx-auto -translate-y-[56%] cursor-pointer"
@@ -487,4 +493,58 @@ function Societario({ className, title, height: heightProp = 500, width: widthPr
     )
 }
 
-export { CriarEmpresa, Societario }
+function Fiscal({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
+    const dinoRef = useRef<HTMLDivElement>(null);
+
+    function dinoEntry(dino: any) {
+        const animation = gsap.fromTo(dino,
+            { x: '-=150px', autoAlpha: 0 },
+            {
+                x: '+=400',
+                autoAlpha: 1,
+                duration: 2,
+                onComplete: () => {
+                    gsap.to(
+                        dino,
+                        {
+                            x: '+=45px',
+                            y: '-=5px',
+                            duration: 1
+                        }
+                    )
+                }
+            }
+        )
+
+        return animation
+    }
+
+    useEffect(() => {
+        if (dinoRef.current) {
+            const timeline = gsap.timeline({})
+
+            dinoEntry(dinoRef.current)
+
+        }
+    })
+
+    return (
+        <div
+            style={{
+                backgroundImage: `url('/assets/img/animations/3/predio.png')`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'bottom center',
+            }}
+            className={cn(className, "w-full h-full animation z-1 relative", "border-2 border-amber-500")}
+        >
+            <div ref={dinoRef} className="absolute bottom-0 left-10 z-30 w-[73px] h-[81px] overflow-hidden">
+                <div className="animate-sprite -translate-x-[2px]" />
+            </div>
+        </div>
+
+
+    )
+}
+
+export { CriarEmpresa, Societario, Fiscal }

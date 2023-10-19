@@ -11,10 +11,15 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
+      screens: {
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1400px',
+      },
       dropShadow: {
         'custom': '#00000050 10px 7px 5px',
-        'customPrimary': '#03736750 10px 7px 5px',
-        'customBlack': '10px -5px 1px #000000',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -22,8 +27,11 @@ module.exports = withMT({
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        'bg-color': '#fafafa',
-        'primary-color': '#037367',
+        'background': '#DDD',
+        'primary-color': 'rgb(49,188,175)',
+        'secondary-color': '#202020',
+        // 'primary-color': '#666',
+        // 'primary-color': '#037367',
         // 'primary-color': '#D5A115',
       },
       keyframes: {
@@ -35,11 +43,16 @@ module.exports = withMT({
             opacity: 1,
           },
         },
+        'sprite': {
+          '0%': {
+            backgroundPosition: '100%',
+          },
+          '100%': {
+            backgroundPosition: '-100%'
+          }
+        }
       },
-      animation: {
-        'entrada': 'fade-in 1s ease-in-out forwards',
-      }
     }
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 })

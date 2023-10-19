@@ -1,16 +1,12 @@
 @import '@/styles/variaveis';
 
-@font-face {
-    font-family: 'Montserrat-Black';
-    src: url('/fonts/Montserrat-Black.otf') format('otf');
-    src: url('/fonts/Montserrat-SemiBold.otf') format('otf');
-}
-
 
 .servicos,
 .contentArea {
     width: auto;
     height: auto;
+
+    // border: 1px solid rgb(255 235 59);
 }
 
 .wrapper {

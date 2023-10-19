@@ -1,0 +1,26 @@
+@import '@/styles/variaveis';
+
+
+@include smScreen() {
+    .footer {
+        padding: $sm-padding;
+    }
+}
+
+@include mdScreen() {
+    .footer {
+        padding: $md-padding;
+    }
+}
+
+@include lgScreen() {
+    .footer {
+        padding: $lg-padding;
+    }
+}
+
+@include xlScreen() {
+    .footer {
+        padding: $xl-padding;
+    }
+}

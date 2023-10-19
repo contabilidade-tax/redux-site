@@ -95,7 +95,7 @@ export default function Header({ className }: { className?: string }) {
     >
       <Link href={'/'} className={`h-[50px] w-[200px] ${styles.logo}`} >
         <Image
-          className='w-full h-full'
+          className='w-full h-full object-contain'
           // src="/assets/img/redux-logo.svg"
           src="/assets/img/logo-patrocinio.svg"
           alt="Redux Logo"
@@ -117,7 +117,7 @@ export default function Header({ className }: { className?: string }) {
                 {tab.label}
               </Link>
               {tab === state.currentPage ? (
-                <motion.div className={styles.underline} layoutId="underline" />
+                <motion.div className={cn(styles.underline, '!bg-primary-color')} layoutId="underline" />
               ) : (null)}
             </li>
           ))}
