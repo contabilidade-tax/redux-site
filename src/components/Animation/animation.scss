@@ -5,15 +5,22 @@
 }
 
 .animate-sprite {
-    width: 220px;
-    height: 160px;
-    margin: 2% auto;
-    background: url('/assets/img/animations/3/dino-predio.png') no-repeat;
+    margin: auto;
     animation: play .3s steps(2) infinite;
+}
+
+.animate-wheel {
+    animation: rotate 1s linear infinite;
 }
 
 @keyframes play {
     100% {
         background-position-x: -150px;
+    }
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
     }
 }

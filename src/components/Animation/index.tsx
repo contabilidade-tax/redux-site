@@ -2,13 +2,14 @@
 import React, { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import Lottie from "react-lottie"
-// import animationData from '@/common/data/animation/criarempresa.json'
+import animation from '@/common/data/animation/whells.json'
 import animationData1 from '@/common/data/animation/criarempresaSemBalao.json'
 
 import './animation.scss'
-import { AnimationProps } from "@/types"
+import { AnimationProps, GameSceneProps } from "@/types"
 import { cn } from "@/lib/utils"
 import PixiPlugin from "gsap/PixiPlugin"
+import { timeline } from "@material-tailwind/react"
 
 gsap.registerPlugin(PixiPlugin)
 
@@ -387,6 +388,15 @@ function Societario({ className, title, height: heightProp = size.innerHeight, w
         timeline.repeat(-1); // -1 indica um loop infinito
     }
 
+    const defaultWheelsOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animation,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice',
+        },
+    }
+
     useEffect(() => {
         animationDelayPosition.jump = {
             ...animationDelayPosition.jump,
@@ -489,27 +499,53 @@ function Societario({ className, title, height: heightProp = size.innerHeight, w
                     </div>
                 </div>
             </div>
+            {/* Wheels */}
+            <div className="wheels absolute w-full h-full border-2 border-orange-500">
+                <div className={cn(
+                    "container w-[80%] max-w-[680px] h-[6.5%] max-h-[20px] relative -bottom-[88%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
+                    "z-50 flex justify-center items-center ",
+                    "rounded-full translate-x-[0.35rem] mx-auto",
+                )}>
+                    {Array(20).fill(0).map((_, index) => (
+                        <img className="object-contain w-full h-full animate-wheel" src="/assets/img/animations/3/wheel.png" alt="wheel" key={index} />
+                    ))}
+                </div>
+            </div>
         </section>
     )
 }
 
 function Fiscal({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
     const dinoRef = useRef<HTMLDivElement>(null);
+    const spriteRef = useRef<HTMLDivElement>(null);
+    const dinoParado = useRef<HTMLDivElement>(null);
 
-    function dinoEntry(dino: any) {
-        const animation = gsap.fromTo(dino,
-            { x: '-=150px', autoAlpha: 0 },
+    function dinoEntry(dino: HTMLDivElement | null, sprite: HTMLDivElement | null) {
+        const tl = gsap.timeline()
+
+        const animation = tl.fromTo(dino,
+            { x: -150, y: 0, autoAlpha: 0 },
             {
-                x: '+=400',
                 autoAlpha: 1,
                 duration: 2,
                 onComplete: () => {
                     gsap.to(
                         dino,
                         {
-                            x: '+=45px',
+                            x: '+=28px',
                             y: '-=5px',
                             duration: 1
+                        },
+                    ).then(
+                        () => gsap.to(dino,
+                            {
+                                x: '+=30px',
+                            }
+                        )
+                    ).then(
+                        () => {
+                            gsap.fromTo(sprite, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.6 })
+                            gsap.fromTo(dinoParado.current, { opacity: 0 }, { opacity: 1, delay: 0.15, duration: 0 })
                         }
                     )
                 }
@@ -519,12 +555,19 @@ function Fiscal({ className, title, height: heightProp = size.innerHeight, width
         return animation
     }
 
+    function startAnimation(timeline: gsap.core.Timeline, dino: any, sprite: any) {
+        const entrance = dinoEntry(dino, sprite)
+
+        timeline.add(entrance, 0)
+    }
+
     useEffect(() => {
         if (dinoRef.current) {
             const timeline = gsap.timeline({})
+            const dino = dinoRef.current
+            const sprite = spriteRef.current
 
-            dinoEntry(dinoRef.current)
-
+            startAnimation(timeline, dino, sprite)
         }
     })
 
@@ -538,9 +581,41 @@ function Fiscal({ className, title, height: heightProp = size.innerHeight, width
             }}
             className={cn(className, "w-full h-full animation z-1 relative", "border-2 border-amber-500")}
         >
-            <div ref={dinoRef} className="absolute bottom-0 left-10 z-30 w-[73px] h-[81px] overflow-hidden">
-                <div className="animate-sprite -translate-x-[2px]" />
+            <div className={cn("stagger", "w-24 h-full bg-black z-50 absolute left-1/3")} />
+            {/* DINO */}
+            <div ref={dinoRef} className="absolute bottom-0 left-10 z-30 w-[73px] h-[81px] ">
+                <div
+                    ref={dinoParado}
+                    style={{
+                        backgroundImage: `url('/assets/img/animations/3/dino-parado.png')`,
+                        width: '73px',
+                        height: '81px',
+                        opacity: 0
+                    }}
+                    className="!z-10 absolute"
+                />
+                <div
+                    style={{
+                        backgroundImage: `url('/assets/img/animations/3/dino-predio.png')`,
+                        width: '73px',
+                        height: '81px',
+                    }}
+                    ref={spriteRef}
+                    className="animate-sprite -translate-x-[3px] !z-40 absolute" />
+                {/* LASER */}
+                <div style={{
+                    backgroundImage: `url('/assets/img/animations/3/laser.png')`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    width: '500%',
+                    height: '500%',
+                    opacity: 1
+                }}
+                    className="z-50 absolute w-full h-full -right-[480%] -top-[65%]"
+                />
             </div>
+
+
         </div>
 
 
