@@ -4,6 +4,27 @@
     transform: translateY(-50%);
 }
 
+/* Estilize o ponto de origem com CSS */
+.origin-point {
+    width: 5px;
+    /* Largura do ponto de origem */
+    height: 5px;
+    /* Altura do ponto de origem */
+    background-color: red;
+    /* Cor do ponto de origem */
+    position: absolute;
+    /* Posicionamento absoluto na tela */
+    top: 39%;
+    /* Posição vertical (ajuste conforme necessário) */
+    left: 0%;
+    /* Posição horizontal (ajuste conforme necessário) */
+    border-radius: 50%;
+    /* Forma de um círculo (opcional) */
+    z-index: 9999;
+    /* Garante que o ponto de origem esteja acima de outros elementos */
+}
+
+
 .animate-sprite {
     margin: auto;
     animation: play .3s steps(2) infinite;
@@ -11,6 +32,47 @@
 
 .animate-wheel {
     animation: rotate 1s linear infinite;
+}
+
+.balao {
+    background: url('/assets/img/animations/3/matrix.gif') center/cover no-repeat;
+    /* background-color: #fff; */
+    width: 150px;
+    height: 120px;
+}
+
+.balao::before {
+    content: '';
+    position: absolute;
+    background: url('/assets/img/animations/3/balao-teste.png') center/cover no-repeat;
+    background-size: 100% 100%;
+    width: 150px;
+    height: 120px;
+    mix-blend-mode: screen;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+        display: absolute;
+        z-index: 50;
+    }
+
+    100% {
+        opacity: 0 !important;
+        display: none;
+        z-index: -1;
+    }
+}
+
+@keyframes appear {
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes play {
@@ -22,5 +84,20 @@
 @keyframes rotate {
     100% {
         transform: rotate(360deg);
+        transform-origin: center;
     }
+}
+
+// ANIMAÇÃO 4
+
+.balaoLeft {
+    background: url('/assets/img/animations/4/balaoEsq.png') center/contain no-repeat;
+    width: 120px;
+    height: 100px;
+}
+
+.balaoRight {
+    background: url('/assets/img/animations/4/balaoDir.png') center/contain no-repeat;
+    width: 120px;
+    height: 100px;
 }

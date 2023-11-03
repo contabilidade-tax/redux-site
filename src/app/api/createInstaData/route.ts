@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { setRedisRegister, } from '@/common/middleware/redisConfig';
+import { setCookie } from '@/common/middleware/midleware';
 
 export async function POST(req: NextRequest) {
     try {
@@ -12,7 +13,13 @@ export async function POST(req: NextRequest) {
         }
 
         if (data) {
-            const cached_data = customKey ? await setRedisRegister(data, customKey) : await setRedisRegister(data);
+            let cached_data;
+            if (customKey) {
+                cached_data = await setRedisRegister(data, customKey)
+            } else {
+                cached_data = await setRedisRegister(data);
+                // await setCookie('tax.instaPostData', data);
+            }
             return NextResponse.json({ cached_data, message: "Created Succesfully for key: " + customKey ?? "last_insta_posts" }, { status: 201 });
         }
     } catch (error) {

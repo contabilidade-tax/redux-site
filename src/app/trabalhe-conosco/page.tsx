@@ -1,22 +1,42 @@
 'use client'
 import Header from '@/components/Header'
 import ContactForm from './Form'
+import Image from 'next/image'
 
 import { useEffect } from 'react'
+import { cn } from '@/lib/utils'
 
 export default function TrabalheConosco() {
 
   useEffect(() => {
-    document.getElementsByTagName('main')[0].style.backgroundColor = '#CCC'
+    const style = document.getElementsByTagName('main')[0].style
+
+    style.backgroundColor = '#CCC'
+
     return () => {
-      document.getElementsByTagName('main')[0].style.backgroundColor = '#FAFAFA'
+      style.backgroundColor = '#FAFAFA'
     }
   })
 
   return (
     <>
       <Header />
-      <ContactForm className='bg-[#ffffff] p-6 rounded-2xl drop-shadow-customPrimary' />
+      <ContactForm className='bg-[#ffffff] p-6 rounded-2xl drop-shadow-customPrimary z-50 max-h-[40rem]' />
+      <div className={cn(
+        'absolute w-full min-h-[76vh]',
+        'flex items-center',
+        'border-2 border-yellow-400',
+        "mt-[9vh]"
+      )}>
+        <img
+          alt='dinoBG'
+          className={cn(
+            'object-contain w-max h-[85%] absolute left-10',
+            'border-2 border-cyan-500'
+          )}
+          src='/assets/img/bg/dinoDesempregado.png'
+        />
+      </div>
     </>
   )
 }

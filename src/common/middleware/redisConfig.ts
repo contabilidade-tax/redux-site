@@ -78,7 +78,7 @@ export function getDateTime(date = new Date()): string {
 }
 export async function setRedisRegister(data: InstaPostData[] | string, customKey?: string) {
     const key = customKey ?? `last_insta_posts-${getDateTime()}`
-    const MAX_AGE = 60_000 * 60 * 24; // 1 hour
+    const MAX_AGE = 60_000 * 60; // 1 hour
     const EXPIRY_MS = `PX`; // milliseconds
 
     return await redis.set(key, JSON.stringify(data), EXPIRY_MS, MAX_AGE)

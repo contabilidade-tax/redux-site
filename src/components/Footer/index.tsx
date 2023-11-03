@@ -11,7 +11,7 @@ export default function Footer({ className }: { className?: string }) {
         <footer className={cn(
             style.footer,
             className,
-            "md:min-h-[150px] w-full text-white bg-[#202020] shadow-2xl shadow-black",
+            "md:min-h-[15vh] w-full text-white bg-[#202020] shadow-2xl shadow-black",
             "flex flex-col justify-around font-medium text-sm",
         )}>
             <div className="wrapper flex flex-col w-full h-full justify-center items-center gap-5">

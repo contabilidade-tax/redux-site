@@ -12,7 +12,7 @@ import { useMobileContext } from '@/common/context/MobileDeviceContext'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
-import { CriarEmpresa, Societario, Fiscal } from '@/components/Animation'
+import { CriarEmpresa, Societario, Fiscal, Contabil } from '@/components/Animation'
 import Seletores from '@/components/ui/seletores'
 import { ButtonBackgroundShine } from '@/components/Tools'
 
@@ -57,7 +57,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
   }
   const [state, dispatch] = useReducer(reducer, initialState)
   const { mobileState } = useMobileContext();
-  const animations = [CriarEmpresa, Societario, Fiscal];
+  const animations = [CriarEmpresa, Societario, Fiscal, Contabil];
 
   const switchTab = (index: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -131,20 +131,20 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
           <div className={cn(styles.right, 'flex-1 h-full flex flex-col justify-center items-center')}>
             <div className={cn(
               styles.animationContainer,
-              'w-full h-[75%]',
+              'w-full h-[75%] min-h-[421px]',
             )}>
-              <div className={cn(styles.animationArea, 'w-full h-full')}>
+              <div className={cn(styles.animationArea, 'w-full h-full relative')}>
                 {animations.map((Animation, index) => (
                   index === state.actualIndex &&
                   (
                     <Animation
                       title={state.selectedTab.subtitulo}
                       width={400}
-                      height={mobileState.isSmallScreen ? 300 : 400}
+                      height={mobileState.isSmallScreen ? 400 : 400}
                       key={index}
                       className={cn(
                         styles.animation,
-                        'relative cursor-default w-full h-full lg:w-5/6 overflow-hidden mx-auto',
+                        'relative cursor-default w-full h-full lg:w-5/6 overflow-hidden background-cover',
                       )} />
                   )
                 ))}

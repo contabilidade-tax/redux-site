@@ -15,7 +15,7 @@
 
 @include customMedia("max-width: 450px") {
     .head {
-        height: 8vh;
+        min-height: 8vh;
     }
 
     .logo {
@@ -36,7 +36,7 @@
     .head {
         padding: $md-padding;
 
-        height: 9vh;
+        min-height: 9vh;
     }
 }
 

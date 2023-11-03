@@ -10,6 +10,7 @@ import { MenuItensProps } from '@/types'
 import styles from './MenuItens.module.scss'
 import { useEffect, useRef } from 'react'
 import { Icon } from '@/components/Tools'
+import { TLSSocket } from 'tls'
 
 export default function MenuItens({
   tabs,
@@ -28,14 +29,14 @@ export default function MenuItens({
 
     tl.to(
       loginRef.current,
-      { x: -1000, autoAlpha: 0, duration: 0.5 },
+      { x: -1000, opacity: 0, duration: 0.5 },
       0
     );
 
     // if (navRef.current) {
     //   tl.to(
     //     navRef.current.querySelectorAll('li'),
-    //     { y: '-100%', autoAlpha: 0, duration: 0.5, stagger: 0.1 },
+    //     { y: '-100%', opacity: 0, duration: 0.5, stagger: 0.1 },
     //     0
     //   );
     // }
@@ -53,18 +54,18 @@ export default function MenuItens({
 
       tl.fromTo(
         loginRef.current,
-        { y: -550, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, duration: 0.5 },
+        { y: -550, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5 },
         0
       );
 
       tl.fromTo(
         navRef.current.querySelectorAll('li'),
-        { x: (index) => (index % 2 === 0 ? '100%' : '-100%'), autoAlpha: 0 },
+        { x: (index) => (index % 2 === 0 ? '100%' : '-100%'), opacity: 0 },
         {
           duration: 0.5,
           x: '0%',
-          autoAlpha: 1,
+          opacity: 1,
           ease: 'power4.out',
           stagger: 0.1,
         },

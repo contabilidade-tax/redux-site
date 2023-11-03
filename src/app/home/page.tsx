@@ -15,8 +15,6 @@ import Loading from '@/components/Loading'
 import InstaRecentPosts from '@/components/InstaRecentPosts'
 
 import styles from './Home.module.scss'
-import Midia from '@/components/InstaRecentPosts/Midia'
-import Footer from '@/components/Footer'
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
@@ -109,7 +107,7 @@ export default function Home() {
                 </div>
               </div>
             </section>
-            <section className={cn(styles.wrapper, 'w-full min-h-[90vh]', "flex justify-center items-center servicos")}>
+            <section id='servicos' className={cn(styles.wrapper, 'w-full min-h-[90vh]', "flex justify-center items-center servicos")}>
               <Servicos className={cn('h-full w-full')} />
             </section>
             <section className={cn(styles.wrapper, 'min-h-[90vh] max-w-full', 'flex flex-col justify-center notSelected-G')}>

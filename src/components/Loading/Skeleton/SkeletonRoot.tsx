@@ -15,8 +15,8 @@ export default function SkeletonRoot({ children, className }: SkeletonRootProps)
     useEffect(() => {
         return () => {
             gsap.fromTo(divRef,
-                { autoAlpha: 0 },
-                { autoAlpha: 1, duration: 3 }
+                { opacity: 0 },
+                { opacity: 1, duration: 3 }
             )
         }
     })

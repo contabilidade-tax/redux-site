@@ -19,8 +19,6 @@ type ActionType = {
 type InstaPostsContextValue = {
     state: InstaPostData | null;
 }
-
-
 const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(undefined);
 
 
@@ -95,17 +93,20 @@ function getTokenData() {
 function getRedisData() {
     const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
     let data: InstaPostData | undefined | never | any;
+
+    // Verifica se tem localStorage
+    // const storage = getLocalStorageData('tax.instaPostData', localStorage)
+    // if (storage) {
+    //     return storage
+    // }
+
     fetch(`${home}/api/instaData`, {
         method: 'GET',
-        cache: 'force-cache',
-        headers: {
-            'Accept': 'application/json',
-        },
     })
-        .then(resultado => {
-            data = resultado.json();
+        .then(async resultado => {
+            data = await resultado.json();
         }).catch(error => {
-            if (error.message.includes('No cached data')) {
+            if (error.message.includes('cacheado')) {
                 return false;
             }
         })
@@ -143,6 +144,10 @@ function setRedisData(data: InstaPostData[]) {
     }).then(
         resultado => {
             const responseData = resultado.json();
+
+            // Adicionando o localStorage
+            // setLocalStorageData('tax.instaPostData', responseData, 3600);
+
             return responseData;
         }
     ).catch(
@@ -164,10 +169,11 @@ function updateTokenData(token: InstaTokenData, dispatch: Dispatch<ActionType>) 
 
 export function InstaPostsContextProvider({ children }: { children: ReactNode }) {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const cached_token = getTokenData()
-    const cached_data = getRedisData()
 
     useLayoutEffect(() => {
+        const cached_token = getTokenData()
+        const cached_data = getRedisData()
+
         const fetchToken = async () => {
             if (!cached_token) {
                 updateTokenData(state.token, dispatch)
@@ -222,8 +228,9 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
                         type: 'UPDATE_POSTS_DATA',
                         value: allData,
                     });
-                    // Criar o cookie com os dados
+                    // Criar o cache com os dados
                     setRedisData(allData)
+
                 } catch (error: any) {
                     console.error('Erro ao buscar os posts:', error.message);
                     // Lide com o erro conforme necessário
@@ -232,7 +239,7 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
         };
 
         fetchToken()
-        fetchData() // Chama a função assíncrona definida
+        fetchData()
     }, []);
 
     return (

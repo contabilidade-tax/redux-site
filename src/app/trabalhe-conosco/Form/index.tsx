@@ -21,12 +21,12 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-
-
+import InputMask from 'react-input-mask';
 import estados from '@/common/data/estadosBrasil.json'
 import { cn } from "@/lib/utils"
 import { CheckIcon } from "lucide-react"
 import { CaretSortIcon } from "@radix-ui/react-icons"
+import { useState } from "react"
 
 const formSchema: any = z.object({
     name: z.string().min(2, {
@@ -36,10 +36,14 @@ const formSchema: any = z.object({
         message: "Email não é válido",
     }),
     whatsapp: z.string().min(11, {
-        message: "WhatsApp precisa ter no mínimo 11 dígitos no formato 99999999999",
-    }).regex(/^\d{11}$/, {
-        message: "WhatsApp não está no formato correto 99999999999",
-    }),
+        message: "WhatsApp precisa ter no mínimo 11 dígitos no formato (99) 99999-9999",
+    })
+        .regex(/^[0-9]+$/, {
+            message: "Forneça apenas números, não letras!",
+        })
+        .regex(/^\d{11}$/, {
+            message: "WhatsApp não está no formato correto (99) 99999-9999",
+        }),
     cidade: z.string().toLowerCase().refine((value) => value.trim() !== '', {
         message: "Informe sua cidade",
     }),
@@ -56,6 +60,7 @@ const formSchema: any = z.object({
 })
 
 export default function ContactForm({ className }: { className?: string }) {
+    const [whatsappValue, setWhatsappValue] = useState('');
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -91,43 +96,71 @@ export default function ContactForm({ className }: { className?: string }) {
                 <FormField control={form.control} name="name" render={({ field }) => (
                     <FormItem>
                         <FormLabel className={labelStyle}>Nome</FormLabel>
+                        <FormMessage className={errorMessageStyle} />
                         <FormControl>
                             <Input {...field} id="name" className={placeHolderStyle} placeholder="Digite seu nome" />
                         </FormControl>
-                        <FormMessage className={errorMessageStyle} />
                     </FormItem>
                 )} />
                 <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
                         <FormLabel className={labelStyle}>Email</FormLabel>
+                        <FormMessage className={errorMessageStyle} />
                         <FormControl>
                             <Input {...field} id="email" placeholder="Informe seu email principal" />
                         </FormControl>
-                        <FormMessage className={errorMessageStyle} />
                     </FormItem>
                 )} />
                 <FormField control={form.control} name="whatsapp" render={({ field }) => (
                     <FormItem>
                         <FormLabel className={labelStyle}>Whatsapp</FormLabel>
-                        <FormControl>
-                            <Input {...field} id="whatsapp" placeholder="Telefone para contato" />
-                        </FormControl>
                         <FormMessage className={errorMessageStyle} />
+                        <FormControl>
+                            <InputMask
+                                mask="(99) 9 9999-9999"
+                                // value={field.value}
+                                value={whatsappValue}
+                                // onChange={field.onChange}
+                                onChange={
+                                    (e) => {
+                                        // Remove todos os caracteres não numéricos
+                                        const numericValue = e.target.value.replace(/\D/g, '');
+                                        // Formata o valor para a máscara
+                                        const formattedValue =
+                                            numericValue.replace(/(\d{2})(\d{1})(\d{4})(\d{4})/, '($1) $2 $3-$4');
+                                        // Atualiza o estado local
+                                        setWhatsappValue(formattedValue);
+                                        // Atualiza o valor no react-hook-form
+                                        field.onChange(numericValue);
+                                    }
+                                }
+                                maskChar=""
+                            >
+                                {
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-ignore
+                                    (field) => (
+                                        <Input {...field} id="whatsapp" placeholder="Telefone para contato" />
+                                    )
+                                }
+                            </InputMask>
+                        </FormControl>
                     </FormItem>
                 )} />
                 <div className="flex items-center w-full gap-8">
                     <FormField control={form.control} name="cidade" render={({ field }) => (
                         <FormItem>
                             <FormLabel className={labelStyle}>Cidade</FormLabel>
+                            <FormMessage className={errorMessageStyle} />
                             <FormControl>
                                 <Input {...field} id="cidade" placeholder="Onde você reside?" />
                             </FormControl>
-                            <FormMessage className={errorMessageStyle} />
                         </FormItem>
                     )} />
                     <FormField control={form.control} name="estado" render={({ field }) => (
                         <FormItem className="flex flex-col gap-1 mt-2">
                             <FormLabel className={labelStyle}>Estado</FormLabel>
+                            <FormMessage className={errorMessageStyle} />
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <FormControl>
@@ -178,17 +211,16 @@ export default function ContactForm({ className }: { className?: string }) {
                                     </Command>
                                 </PopoverContent>
                             </Popover>
-                            <FormMessage className={errorMessageStyle} />
                         </FormItem>
                     )} />
                 </div>
                 <FormField control={form.control} name="message" render={({ field }) => (
                     <FormItem>
                         <FormLabel className={labelStyle}>Mensagem</FormLabel>
-                        <FormControl>
+                        <FormMessage className={errorMessageStyle} />
+                        <FormControl className="max-h-[230px]">
                             <Textarea {...field} id="message" placeholder="Digite sua mensagem..." />
                         </FormControl>
-                        <FormMessage className={errorMessageStyle} />
                     </FormItem>
                 )} />
                 <Button type="submit" className="self-center my-4 w-1/3 bg-white text-black font-bold !rounded-2xl">Enviar</Button>

@@ -1,15 +1,17 @@
 'use client'
 import React, { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
-import Lottie from "react-lottie"
+import Lottie, { Options } from "react-lottie"
 import animation from '@/common/data/animation/whells.json'
-import animationData1 from '@/common/data/animation/criarempresaSemBalao.json'
+import animationData1 from '@/common/data/animation/criarEmpresas.json'
+import graph from '@/common/data/animation/graph.json'
+import chart from '@/common/data/animation/chart.json'
+import fogos from '@/common/data/animation/fogos.json'
 
 import './animation.scss'
 import { AnimationProps, GameSceneProps } from "@/types"
 import { cn } from "@/lib/utils"
 import PixiPlugin from "gsap/PixiPlugin"
-import { timeline } from "@material-tailwind/react"
 
 gsap.registerPlugin(PixiPlugin)
 
@@ -27,6 +29,27 @@ function shuffleArray<T>(array: T[]): T[] {
     const newArray = [...array].sort(compareRandom)
     // Return the shuffled array
     return newArray
+}
+
+function generateLootieOptions(data: any, autoplay = true): Options {
+    const defaultOptions = {
+        loop: true,
+        autoplay,
+        animationData: data,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice',
+        },
+    }
+    return { ...defaultOptions }
+}
+
+function getLottie(data: any, autoplay?: boolean | undefined, title?: string) {
+    return <Lottie
+        style={{ width: '100%', height: '100%' }}
+        options={generateLootieOptions(data, autoplay ?? true)}
+        isClickToPauseDisabled={true}
+        title={title || ''}
+    />
 }
 
 const size = {
@@ -65,10 +88,6 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
         ]
     }
     const refArray = [p1Ref, p2Ref, p3Ref, p4Ref, p5Ref];
-    const icons = [
-        'icone-1', 'icone-2', 'icone-3', 'icone-4', 'icone-5', 'icone-6', 'icone-7', 'icone-8'
-    ];
-
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -79,7 +98,7 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
     }
 
     useEffect(() => {
-        const iconDuration = 1
+        const iconDuration = 1.5
         const predioDuration = 1.8
         if (divRef.current) {
             const timeline = gsap.timeline({
@@ -90,12 +109,15 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
             })
             // Use o método map para acessar o valor atual (.current) de cada referência.
             let predios = refArray.map(ref => ref.current)
-            let ballonsLeft = iconRefs.left.map(ref => ref.current)
-            let ballonsRight = iconRefs.right.map(ref => ref.current)
+            // Extrair os valores das refs
+            // let leftArray = Object.values(iconRefs.left).map(obj => obj.current);
+            let leftArray = iconRefs.left.map(obj => obj.current);
+            let rightArray = iconRefs.right.map(obj => obj.current);
 
-            ballonsLeft = shuffleArray(ballonsLeft)
-            ballonsRight = shuffleArray(ballonsRight)
-            predios = shuffleArray(predios)
+            // leftArray = gsap.utils.shuffle(leftArray)
+            leftArray = shuffleArray(leftArray)
+            rightArray = gsap.utils.shuffle(rightArray)
+            predios = gsap.utils.shuffle(predios)
 
             // Função para criar uma animação individual para um prédio
             const createPredioAnimation = (predio: any, delay: number) => {
@@ -119,13 +141,14 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
                     }
                 );
             }
-            // Adicione os balloens na timeline
-            const ballonsAnimation = (ballon: any, delay: number, duration: number = iconDuration) => {
+
+            // Adicione os ballons na timeline
+            const ballonsAnimation = (ballon: any, delay: number, dd = 0) => {
                 return gsap.to(ballon,
                     {
                         opacity: 1,
-                        duration,
-                        delay,
+                        duration: iconDuration,
+                        delay: delay + dd,
                         ease: 'elastic.out(1, 0.3)',
                         onComplete: () => {
                             gsap.to(ballon, {
@@ -138,14 +161,18 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
 
             // Crie uma sequência de animações para os prédios usando map
             const animations = predios.map((predio, index) => createPredioAnimation(predio, index * (predioDuration + 0.5)));
-            const ballonsLeftAnimations = ballonsLeft.map((ballon, index) => ballonsAnimation(ballon, index * (iconDuration + 0.5)));
-            const ballonsRightAnimations = ballonsRight.map((ballon, index) => ballonsAnimation(ballon, index * (iconDuration + 0.8)));
+            const ballonsLeftAnimations = leftArray.map((ballon, index) => ballonsAnimation(ballon, (index * iconDuration), 0.5));
+            const ballonsRightAnimations = rightArray.map((ballon, index) => ballonsAnimation(ballon, (index * iconDuration), 0.2));
 
             // Adicione as animações à linha do tempo
             timeline.add(animations, 0); // 2.5 segundos de atraso entre cada prédio
             timeline.add(ballonsLeftAnimations, 0); // 2.5 segundos de atraso entre cada prédio
-            timeline2.add(ballonsRightAnimations, 0); // 2.5 segundos de atraso entre cada prédio
+            timeline.add(ballonsRightAnimations, 0); // 2.5 segundos de atraso entre cada prédio
 
+            return () => {
+                timeline.kill();
+                timeline2.kill();
+            }
         }
     }, [])
 
@@ -154,7 +181,7 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
             style={{
                 backgroundImage: `url('/assets/img/animations/1/piso.png')`,
                 backgroundSize: 'contain',
-                backgroundPosition: 'center 80%',
+                backgroundPosition: 'center 100%',
                 backgroundRepeat: 'no-repeat',
             }}
             ref={divRef}
@@ -187,51 +214,58 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
                     )
                 })}
             </div>
-            <section className="absolute -top-1/2 -translate-y-[10%] w-[70%] h-[400px]">
-                <div
-                    className="baloes absolute mx-auto w-full h-full"
-                    style={{
-                        backgroundImage: `url('/assets/img/animations/balao/balao.png')`,
-                        backgroundSize: 'contain',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPositionY: 'bottom',
-                        opacity: 1
-                    }}
-                >
+            <section className={cn("baloesWrapper absolute w-full h-fit", "flex justify-between px-[10%]", "top-[18%]")}>
+                <div className="balaoLeft relative">
+                    <div className={cn(
+                        "icons",
+                        "h-[65px] w-[100px] relative top-[8px] mx-auto",
+                    )} >
+                        {iconRefs.left.map((ref, index) =>
+                            <div
+                                key={index + 1}
+                                ref={ref}
+                                className={cn(
+                                    `${index}`,
+                                    "w-1/2 h-full z-50 absolute",
+                                    "top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2",
+                                )}
+                                style={{
+                                    backgroundImage: `url('/assets/img/animations/balao/icone-${index + 1}.svg')`,
+                                    backgroundColor: '#FAFAFA',
+                                    backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPositionY: 'center',
+                                    opacity: 0,
+                                }}
+                            />
+                        )}
+                    </div>
                 </div>
-                <section style={{ height: heightProp / 8, opacity: 1 }} className="icones absolute bottom-8 px-12 flex w-full justify-between items-center">
-                    <div style={{ width: widthProp / 15 }} className={cn(
-                        "ballons flex justify-center items-center",
-                        "h-full"
+                <div className="balaoRight relative">
+                    <div className={cn(
+                        "h-[65px] w-[100px] relative top-[8px] mx-auto",
                     )} >
-                        {icons.map((icon, index) =>
-                            <div key={index} ref={iconRefs.left[index]} className="-translate-x-2 -translate-y-3 w-full h-full absolute flex justify-center items-center" style={{
-                                backgroundImage: `url('/assets/img/animations/balao/${icon}.svg')`,
-                                backgroundSize: 'contain',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPositionY: 'center',
-                                opacity: 0,
-                                width: widthProp / 15
-                            }} />
+                        {iconRefs.right.map((ref, index) =>
+                            <div
+                                key={index + 1}
+                                ref={ref}
+                                className={cn(
+                                    `${index}`,
+                                    "w-1/2 h-full z-50 absolute",
+                                    "top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2",
+                                )}
+                                style={{
+                                    backgroundImage: `url('/assets/img/animations/balao/icone-${index + 1}.svg')`,
+                                    backgroundColor: '#FAFAFA',
+                                    backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPositionY: 'center',
+                                    opacity: 0,
+                                }}
+                            />
                         )}
                     </div>
-                    <div style={{ width: widthProp / 20 }} className={cn(
-                        "ballon flex justify-center items-center",
-                        "h-full"
-                    )} >
-                        {icons.map((icon, index) =>
-                            <div key={index} ref={iconRefs.right[index]} className="-translate-y-1 w-full h-full absolute flex justify-center items-center" style={{
-                                backgroundImage: `url('/assets/img/animations/balao/${icon}.svg')`,
-                                backgroundSize: 'contain',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPositionY: 'center',
-                                opacity: 0,
-                                width: widthProp / 15
-                            }} />
-                        )}
-                    </div>
-                </section>
-
+                </div>
             </section>
         </section >
     )
@@ -249,7 +283,7 @@ function Societario({ className, title, height: heightProp = size.innerHeight, w
     }
     const animationDelayPosition = {
         entry: {
-            duration: .8,
+            duration: .5,
             delay: 0
         },
         jump: {
@@ -257,11 +291,11 @@ function Societario({ className, title, height: heightProp = size.innerHeight, w
             delay: 0
         },
         runEsteira: {
-            duration: 5,
+            duration: 2,
             delay: 0
         },
         regularizado: {
-            duration: 6,
+            duration: 3,
             delay: 0
         },
         jumpRegularizado: {
@@ -500,7 +534,7 @@ function Societario({ className, title, height: heightProp = size.innerHeight, w
                 </div>
             </div>
             {/* Wheels */}
-            <div className="wheels absolute w-full h-full border-2 border-orange-500">
+            <div className="wheels absolute w-full h-full">
                 <div className={cn(
                     "container w-[80%] max-w-[680px] h-[6.5%] max-h-[20px] relative -bottom-[88%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
                     "z-50 flex justify-center items-center ",
@@ -516,58 +550,195 @@ function Societario({ className, title, height: heightProp = size.innerHeight, w
 }
 
 function Fiscal({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
-    const dinoRef = useRef<HTMLDivElement>(null);
-    const spriteRef = useRef<HTMLDivElement>(null);
-    const dinoParado = useRef<HTMLDivElement>(null);
+    const ref = {
+        dinoRef: useRef<HTMLDivElement>(null),
+        spriteRef: useRef<HTMLDivElement>(null),
+        laserRef: useRef<HTMLDivElement>(null),
+        dinoParado: useRef<HTMLDivElement>(null),
+        balaoRef: useRef<HTMLDivElement>(null),
+        balaoRef2: useRef<HTMLDivElement>(null),
+        balaoRef3: useRef<HTMLDivElement>(null),
+        carteira: useRef<HTMLDivElement>(null),
+        fogos: useRef<HTMLDivElement>(null),
+        text: useRef<HTMLDivElement>(null),
+    }
+    const frases = ["Redução Tributária Concluída"]
 
     function dinoEntry(dino: HTMLDivElement | null, sprite: HTMLDivElement | null) {
         const tl = gsap.timeline()
+        const trigger: any = document.getElementById('trigger')
 
-        const animation = tl.fromTo(dino,
-            { x: -150, y: 0, autoAlpha: 0 },
+        tl.set(dino, { x: -110, y: 0 })
+        const animation = tl.to(
+            dino,
             {
-                autoAlpha: 1,
-                duration: 2,
+                x: trigger.offsetLeft,
+                opacity: 1,
+                duration: 3,
                 onComplete: () => {
-                    gsap.to(
-                        dino,
-                        {
-                            x: '+=28px',
-                            y: '-=5px',
-                            duration: 1
-                        },
-                    ).then(
-                        () => gsap.to(dino,
-                            {
-                                x: '+=30px',
-                            }
-                        )
-                    ).then(
-                        () => {
-                            gsap.fromTo(sprite, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.6 })
-                            gsap.fromTo(dinoParado.current, { opacity: 0 }, { opacity: 1, delay: 0.15, duration: 0 })
-                        }
-                    )
+                    gsap.fromTo(sprite, { opacity: 1 }, { opacity: 0, duration: 0.6 })
+                    gsap.fromTo(ref.dinoParado.current, { opacity: 0 }, { opacity: 1, delay: 0.15, duration: 0 })
                 }
             }
         )
 
-        return animation
+        return tl
     }
 
-    function startAnimation(timeline: gsap.core.Timeline, dino: any, sprite: any) {
+    function greetings() {
+        const tl = gsap.timeline({ delay: 9.3 })
+
+
+        tl.to(ref.fogos.current, { opacity: 1 })
+        tl.fromTo(
+            ref.text.current,
+            { y: '+=100' },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.5,
+            }
+        )
+        tl.to([ref.text.current, ref.fogos.current], { opacity: 0, duration: 1.5, delay: 0.5 })
+
+        return tl.play()
+    }
+
+    function laserEntry(laser: any) {
+        const baloes = [ref.balaoRef.current, ref.balaoRef2.current, ref.balaoRef3.current]
+        const tl = gsap.timeline({
+            delay: 3.2,
+            onStart: () => {
+                gsap.to(
+                    ref.carteira.current,
+                    {
+                        opacity: 1,
+                        duration: 5.5,
+                        delay: 2,
+                        onComplete: () => {
+                            gsap.to(
+                                ref.carteira.current,
+                                {
+                                    opacity: 0,
+                                    duration: .5,
+                                    delay: .5,
+                                }
+                            )
+                        }
+                    }
+                )
+            },
+        })
+
+        const laserAnim = gsap.timeline({
+            repeat: 3, // Repete a animação 5 vezes
+        });
+
+        laserAnim.to(
+            laser,
+            {
+                duration: .5, // Duração total da animação (1.5 segundos)
+                rotation: 0,
+                transformOrigin: '0 39%',
+                ease: 'linear', // Função de temporização linear para manter a mesma velocidade
+            }
+        )
+            .to(
+                laser,
+                {
+                    duration: 0.5, // Duração total da animação (1.5 segundos)
+                    rotation: -45,
+                    transformOrigin: '0 39%',
+                    ease: 'linear', // Função de temporização linear para manter a mesma velocidade
+                }
+            ).to(
+                laser,
+                {
+                    duration: .5, // Duração total da animação (1.5 segundos)
+                    rotation: 0,
+                    transformOrigin: '0 39%',
+                    ease: 'linear', // Função de temporização linear para manter a mesma velocidade
+                }
+            );
+
+
+        const entrance = gsap.to(laser, {
+            opacity: 1,
+            duration: .8
+        })
+
+        const balaoEntrance = gsap.to(baloes, {
+            opacity: 1,
+            duration: .5,
+            stagger: 0.2,
+        })
+
+        tl.add(entrance, 0)
+        tl.add(laserAnim, 1)
+        tl.add(balaoEntrance, 1.2)
+
+        return tl.play()
+    }
+
+    function text() {
+        const baloes = [ref.balaoRef.current, ref.balaoRef2.current, ref.balaoRef3.current]
+        const tl = gsap.timeline({ delay: 9.2 })
+        const animationBallon = tl.to(
+            baloes,
+            {
+                opacity: 0,
+            }
+        )
+
+        tl.add(animationBallon, 0)
+
+        return tl.play()
+    }
+
+    function startAnimation(timeline: gsap.core.Timeline, dino: any, sprite: any, laser: any) {
         const entrance = dinoEntry(dino, sprite)
+        const laserEntrance = laserEntry(laser)
+        const ballonOut = text()
+        const textAnimation = greetings()
 
         timeline.add(entrance, 0)
+        timeline.add(laserEntrance, 0)
+        timeline.add(ballonOut, 0)
+        timeline.add(textAnimation, 0)
+    }
+
+    function resetAnimation(timeline: any, sprite: any, laser: any) {
+
+        // Defina as posições iniciais e outras configurações iniciais aqui
+        gsap.set(ref.dinoParado.current, { opacity: 0 });
+        gsap.set(sprite, { opacity: 1 });
+        gsap.set(laser, { opacity: 0 });
+        gsap.set(ref.balaoRef.current, { opacity: 0 });
+        gsap.set(ref.balaoRef2.current, { opacity: 0 });
+        gsap.set(ref.balaoRef3.current, { opacity: 0 });
+        gsap.set(ref.fogos.current, { opacity: 0 });
+        gsap.set(ref.text.current, { opacity: 0 });
+
+        // Reinicie a timeline
+        timeline.restart();
+
+        // Configure o loop infinito
+        timeline.repeat(-1); // -1 indica um loop infinito
     }
 
     useEffect(() => {
-        if (dinoRef.current) {
+        if (ref.dinoRef.current) {
             const timeline = gsap.timeline({})
-            const dino = dinoRef.current
-            const sprite = spriteRef.current
+            const dino = ref.dinoRef.current
+            const sprite = ref.spriteRef.current
+            const laser = ref.laserRef.current
 
-            startAnimation(timeline, dino, sprite)
+            startAnimation(timeline, dino, sprite, laser)
+
+            // Após a conclusão das animações existentes, chame a função resetAnimation
+            timeline.call(() => {
+                resetAnimation(timeline, sprite, laser)
+            });
         }
     })
 
@@ -579,20 +750,24 @@ function Fiscal({ className, title, height: heightProp = size.innerHeight, width
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'bottom center',
             }}
-            className={cn(className, "w-full h-full animation z-1 relative", "border-2 border-amber-500")}
+            className={cn(className, "w-full h-full animation z-1 relative")}
         >
-            <div className={cn("stagger", "w-24 h-full bg-black z-50 absolute left-1/3")} />
+            <div id="trigger" className={cn("w-24 h-full bg-black/50 z-50 relative left-[20%] opacity-0")} />
+            {/* CARTEIRA */}
+            {/* <div ref={ref.carteira} style={{ opacity: 0 }} className="absolute w-48 h-28 top-0 left-0 border-2 border-orange-500">
+                {getLottie(carteira)}
+            </div> */}
             {/* DINO */}
-            <div ref={dinoRef} className="absolute bottom-0 left-10 z-30 w-[73px] h-[81px] ">
+            <div ref={ref.dinoRef} className="absolute bottom-0 left-10 z-30 w-[73px] h-[81px] ">
                 <div
-                    ref={dinoParado}
+                    ref={ref.dinoParado}
                     style={{
                         backgroundImage: `url('/assets/img/animations/3/dino-parado.png')`,
                         width: '73px',
                         height: '81px',
                         opacity: 0
                     }}
-                    className="!z-10 absolute"
+                    className="!z-10 absolute bottom-[2%]"
                 />
                 <div
                     style={{
@@ -600,21 +775,48 @@ function Fiscal({ className, title, height: heightProp = size.innerHeight, width
                         width: '73px',
                         height: '81px',
                     }}
-                    ref={spriteRef}
+                    ref={ref.spriteRef}
                     className="animate-sprite -translate-x-[3px] !z-40 absolute" />
                 {/* LASER */}
                 <div style={{
                     backgroundImage: `url('/assets/img/animations/3/laser.png')`,
                     backgroundSize: 'contain',
                     backgroundRepeat: 'no-repeat',
-                    width: '500%',
-                    height: '500%',
-                    opacity: 1
+                    width: '400px',
+                    height: '170px',
+                    opacity: 0
                 }}
-                    className="z-50 absolute w-full h-full -right-[480%] -top-[65%]"
-                />
+                    ref={ref.laserRef}
+                    // className="animate-lase z-50 absolute -right-[480%] -top-[65%] border-2 border-red-500"
+                    className="animate-laser z-50 absolute left-[78%] -top-[73%]"
+                >
+                    {/* <div className="origin-point"></div> */}
+                </div>
+                {/* BALÃO */}
+                <div style={{ opacity: 0 }} ref={ref.balaoRef} className="balao relative -top-[195%] -left-[190%]">
+                    <div ref={ref.balaoRef2} style={{
+                        backgroundImage: `url('/assets/img/animations/3/balao-teste-2.png')`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        width: '32px',
+                        height: '32px',
+                        opacity: 0
+                    }} className="balao1 absolute z-50 -bottom-7 right-0" />
+                    <div ref={ref.balaoRef3} style={{
+                        backgroundImage: `url('/assets/img/animations/3/balao-teste-3.png')`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        width: '20px',
+                        height: '20px',
+                        opacity: 0
+                    }} className="balao2 absolute z-50 -bottom-10 -right-5" />
+                </div>
+                {/* FOGOS */}
+                <div ref={ref.fogos} style={{ opacity: 0 }} className="absolute w-48 h-28 -top-[135%] -right-[100%]">
+                    {getLottie(fogos)}
+                    <p ref={ref.text} className="w-64 text-center font-lg text-primary font-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{frases[0]}</p>
+                </div>
             </div>
-
 
         </div>
 
@@ -622,4 +824,207 @@ function Fiscal({ className, title, height: heightProp = size.innerHeight, width
     )
 }
 
-export { CriarEmpresa, Societario, Fiscal }
+function Contabil({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
+    const graphArray = [graph, chart]
+    const divRef = useRef<HTMLDivElement>(null)
+    const prediosRef = [
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+        useRef<HTMLDivElement>(null),
+    ]
+    const iconRefs = {
+        left: [
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+        ],
+        right: [
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+            useRef<HTMLDivElement>(null),
+        ]
+    }
+
+    useEffect(() => {
+        const iconDuration = 1.5
+        if (divRef.current) {
+            const randomPredio = gsap.utils.random(prediosRef.map(obj => obj.current))
+            console.log(randomPredio)
+            // const randomPredio = prediosRef.map(obj => obj.current).find(numeroAleatorio)
+            const timeline = gsap.timeline({ repeat: -1 })
+            const timelinePredio = gsap.timeline({})
+            // let leftArray = Object.values(iconRefs.left).map(obj => obj.current);
+            let leftArray = iconRefs.left.map(obj => obj.current);
+            let rightArray = iconRefs.right.map(obj => obj.current);
+
+            // leftArray = gsap.utils.shuffle(leftArray)
+            leftArray = shuffleArray(leftArray)
+            rightArray = gsap.utils.shuffle(rightArray)
+
+            // Função para criar uma animação individual para um prédio
+
+            // Adicione os ballons na timeline
+            const ballonsAnimation = (ballon: any, delay: number, dd = 0) => {
+                return gsap.to(ballon,
+                    {
+                        opacity: 1,
+                        duration: iconDuration,
+                        delay: delay + dd,
+                        ease: 'elastic.out(1, 0.3)',
+                        onComplete: () => {
+                            gsap.to(ballon, {
+                                opacity: 0,
+                            });
+                        },
+                    }
+                )
+            }
+
+            const predioAnimation = (predio: any) => {
+                return gsap.fromTo(predio,
+                    {
+                        opacity: 0,
+                        scaleY: 0,
+                        transformOrigin: 'bottom',
+                    },
+                    {
+                        opacity: 1,
+                        scaleY: 1,
+                        ease: 'power4.out',
+                        duration: 2,
+                        delay: 0,
+                    }
+                );
+            }
+
+            // Crie uma sequência de animações para os prédios usando map
+            const ballonsLeftAnimations = leftArray.map((ballon, index) => ballonsAnimation(ballon, (index * iconDuration), 0.5));
+            const ballonsRightAnimations = rightArray.map((ballon, index) => ballonsAnimation(ballon, (index * iconDuration), 0.2));
+            const predio = predioAnimation(randomPredio)
+            // Adicione as animações à linha do tempo
+            timeline.add(ballonsLeftAnimations, 0);
+            timeline.add(ballonsRightAnimations, 0);
+            timelinePredio.add(predio, 0)
+
+            return () => {
+                timeline.kill()
+                timelinePredio.kill()
+            }
+        }
+    }, [])
+
+    return (
+        <section
+            style={{
+                backgroundImage: `url('/assets/img/animations/1/piso.png')`,
+                backgroundSize: 'contain',
+                backgroundPosition: 'center 100%',
+                backgroundRepeat: 'no-repeat',
+            }}
+            ref={divRef}
+            className={cn("animation flex flex-col items-center", className)}>
+            <div
+                className="w-full h-full z-50">
+                {getLottie(animationData1, false)}
+            </div>
+            <section className={cn("baloesWrapper absolute w-full h-fit", "flex justify-between px-[10%]", "top-[18%] hidden")}>
+                <div className="balaoLeft relative">
+                    <div className={cn(
+                        "icons",
+                        "h-[65px] w-[100px] relative top-[8px] mx-auto",
+                    )} >
+                        {iconRefs.left.map((ref, index) =>
+                            <div
+                                key={index + 1}
+                                ref={ref}
+                                className={cn(
+                                    `${index}`,
+                                    "w-1/2 h-full z-50 absolute",
+                                    "top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2",
+                                )}
+                                style={{
+                                    backgroundImage: `url('/assets/img/animations/balao/icone-${index + 1}.svg')`,
+                                    backgroundColor: '#FAFAFA',
+                                    backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPositionY: 'center',
+                                    opacity: 0,
+                                }}
+                            />
+                        )}
+                    </div>
+                </div>
+                <div className="balaoRight relative">
+                    <div className={cn(
+                        "h-[65px] w-[100px] relative top-[8px] mx-auto",
+                    )} >
+                        {iconRefs.right.map((ref, index) =>
+                            <div
+                                key={index + 1}
+                                ref={ref}
+                                className={cn(
+                                    `${index}`,
+                                    "w-1/2 h-full z-50 absolute",
+                                    "top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2",
+                                )}
+                                style={{
+                                    backgroundImage: `url('/assets/img/animations/balao/icone-${index + 1}.svg')`,
+                                    backgroundColor: '#FAFAFA',
+                                    backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPositionY: 'center',
+                                    opacity: 0,
+                                }}
+                            />
+                        )}
+                    </div>
+                </div>
+            </section>
+            <section className="predio w-full h-24 flex justify-center items-end absolute top-40">
+                {
+                    prediosRef.map((_, index) => (
+                        <div
+                            key={index}
+                            ref={_}
+                            style={{
+                                backgroundImage: `url('/assets/img/animations/1/p${index + 1}.png')`,
+                                backgroundSize: 'contain',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPositionY: 'bottom',
+                                opacity: 0
+                            }}
+                            className="absolute w-[100px] h-[100px]"
+                        />
+                    ))
+                }
+            </section>
+            <section className={cn(
+                "graphs flex justify-center items-start gap-16",
+                "absolute w-full h-44 top-0",
+                // "border-2 border-yellow-500"
+            )}>
+                {graphArray.reverse().map((graph, index) => (
+                    <div className="h-full" key={index}>{getLottie(graph)}</div>
+                ))}
+            </section>
+        </section >
+    )
+}
+
+
+export { CriarEmpresa, Societario, Fiscal, Contabil }

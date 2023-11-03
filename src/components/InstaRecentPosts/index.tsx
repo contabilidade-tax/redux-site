@@ -18,12 +18,17 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     const [posts, setPosts] = useState<any[]>([]);  // Usando useState para posts
 
     useEffect(() => {
+        let time: any;
         if (state?.data) {
             setPosts(state.data); // Atualizando o estado dos posts
             // Atualizando o estado de loading
-            setTimeout(() => {
+            time = setTimeout(() => {
                 setIsLoading(false);
             }, 1000)
+        }
+
+        return () => {
+            clearTimeout(time);
         }
     }, [state]);
 
@@ -35,7 +40,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
         )}
         >
             {isLoading ?
-                <Skeleton.Root className="absolute w-full h-full !z-50 flex items-center gap-4 justify-evenly p-5" >
+                <Skeleton.Root className="relative w-full h-full !z-50 flex items-center gap-4 justify-evenly p-5" >
                     {Array.from({ length: 6 }).map((_, index) => (
                         <Skeleton.Item key={index} className="w-80 h-96 rounded-md bg-indigo-100 drop-shadow-custom" />
                     ))}
