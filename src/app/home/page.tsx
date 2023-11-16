@@ -69,7 +69,7 @@ export default function Home() {
           <>
             <Header />
             <section className={cn(styles.contentArea, 'h-[90vh] w-full')}>
-              <div className={cn('min-h-[90vh] w-full flex flex-col justify-around')}>
+              <div className={cn('min-h-[90vh] w-full flex flex-col justify-around gap-8 py-4')}>
                 <div className={`${styles.introText} w-full tracking-wide lg:text-6xl text-center p-0`}>
                   <p className="w-full h-max font-normal">
                     Não somos obrigação,
@@ -79,7 +79,7 @@ export default function Home() {
                     <span className="text-primary-color">.</span>
                   </p>
                 </div>
-                <section data-mobile={mobileState.isMobileDevice} className={cn("w-full relative h-1/5 data-[mobile=true]:h-[300px] mx-auto", "border-2 border-black")}>
+                <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative data-[mobile=true]:h-[300px] mx-auto", "border-2 border-black")}>
                   {/* <GameScene
                       chProp={mobileState.isMobileDevice ? 300 : 550}
                       cwProp={1580}
@@ -91,7 +91,7 @@ export default function Home() {
                       dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
                       className={cn(styles.gameScene, 'mx-auto w-full')}
                     /> */}
-                  <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted className="w-full h-full object-cover"></video>
+                  <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted className="w-full !h-full object-fill"></video>
                 </section>
                 <div className={`${styles.bottomTextContent} flex flex-col`}>
                   <div className="text-center">
@@ -108,15 +108,17 @@ export default function Home() {
                 </div>
               </div>
             </section>
-            <section className={cn(styles.wrapper, 'w-full h-max', "flex justify-center items-center servicos")}>
+            <section className={cn(styles.wrapper, 'w-full h-[90vh]', "flex justify-center items-center servicos")}>
               <Servicos id='servicos' className={cn('h-full w-full')} />
             </section>
-            <section id='sobre' className={cn(styles.wrapper, 'w-full h-max', "flex justify-center items-center notSelected-G")}>
+            <section id='sobre' className={cn(styles.wrapper, 'w-full h-auto', "flex flex-col gap-4 justify-center items-center notSelected-G")}>
+              <h1 className='self-center  text-left text-7xl font-extrabold text-primary-color'>Conheça nosso time:</h1>
               <Sobre />
             </section>
-            <section className={cn(styles.wrapper, 'min-h-[90vh] max-w-full', 'flex flex-col justify-center notSelected-G')}>
+            <section className={cn(styles.wrapper, 'h-[90vh] max-w-full', 'flex flex-col justify-center notSelected-G')}>
               <h1 className='text-center text-5xl font-extrabold text-primary-color'>Confira os posts mais recentes!</h1>
-              <section className='posts max-h-[38rem] min-h-[450px] w-full'>
+              {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
+              <section className='posts w-full'>
                 <InstaRecentPosts />
               </section>
             </section>

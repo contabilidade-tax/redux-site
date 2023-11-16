@@ -2,6 +2,7 @@
 /** @type {import('next').NextConfig} */
 const path = require('path');
 const nextConfig = {
+  // output: 'export',
   images: {
     domains: [
       'images.pexels.com',
@@ -10,6 +11,7 @@ const nextConfig = {
       'scontent.cdninstagram.com'
     ],
     dangerouslyAllowSVG: true,
+    unoptimized: true
   },
   webpack: (config) => {
     config.resolve.alias['@'] = path.resolve(__dirname, './src/');
