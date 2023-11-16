@@ -24,7 +24,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
             // Atualizando o estado de loading
             time = setTimeout(() => {
                 setIsLoading(false);
-            }, 1000)
+            }, 1500)
         }
 
         return () => {
@@ -49,7 +49,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
                 posts.map((post, index) => (
                     <div key={index} className={cn(
                         styles.instaPost,
-                        'flex flex-col relative px-4 py-1 self-center drop-shadow-custom min-h-[32rem]'
+                        'flex flex-col relative px-4 self-center drop-shadow-custom h-[90%]'
                     )}>
                         <Card.Root className='rounded-3xl overflow-hidden w-full h-full'>
                             <Card.Post

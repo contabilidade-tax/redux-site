@@ -1,4 +1,4 @@
-import React, { ComponentProps, HTMLAttributes, Ref } from 'react'
+import React, { CSSProperties, ComponentProps, HTMLAttributes, Ref } from 'react'
 
 import services from '@/common/data/services.json'
 import { Tab } from '@material-tailwind/react'
@@ -133,6 +133,14 @@ interface MenuItensProps {
   className?: string
 }
 
+type FigureProps = {
+  image: string;
+  name: string;
+  description: string;
+  className?: string;
+  style?: CSSProperties;
+} & HTMLAttributes<HTMLDivElement>;
+
 export type {
   ButtonProps,
   IconProps,
@@ -150,5 +158,6 @@ export type {
   InstaPostData,
   InstaTokenData,
   VideoPlayerProps,
-  InstaMidiaProps
+  InstaMidiaProps,
+  FigureProps
 }

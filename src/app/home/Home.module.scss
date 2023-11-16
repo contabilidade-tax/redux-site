@@ -32,69 +32,69 @@
     }
 }
 
-@include customMedia("min-width: 640px") {
-    .contentArea {
-        .leftArea {
-            height: 90vh !important;
+// @include customMedia("min-width: 640px") {
+//     .contentArea {
+//         .leftArea {
+//             height: 90vh !important;
 
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-    }
+//             display: flex;
+//             flex-direction: column;
+//             justify-content: space-between;
+//             align-items: center;
+//         }
+//     }
 
-    .introText {
-        margin: 0;
-        padding: 0;
+//     .introText {
+//         margin: 0;
+//         padding: 0;
 
-        font-size: 2rem;
-        line-height: 3.5rem;
-        letter-spacing: .1rem;
-    }
-}
+//         font-size: 2rem;
+//         line-height: 3.5rem;
+//         letter-spacing: .1rem;
+//     }
+// }
 
-@include smScreen() {
-    .gameScene {
-        margin: auto 0;
-    }
-}
+// @include smScreen() {
+//     .gameScene {
+//         margin: auto 0;
+//     }
+// }
 
-@include mdScreen() {
-    .introText {
-        font-size: 3rem;
-        line-height: 3.5rem;
-        letter-spacing: .2rem;
-    }
+// @include mdScreen() {
+//     .introText {
+//         font-size: 3rem;
+//         line-height: 3.5rem;
+//         letter-spacing: .2rem;
+//     }
 
-}
+// }
 
-@include lgScreen() {
-    .contentArea {
-        .leftArea {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-    }
+// @include lgScreen() {
+//     .contentArea {
+//         .leftArea {
+//             display: flex;
+//             flex-direction: column;
+//             justify-content: space-between;
+//             align-items: center;
+//         }
+//     }
 
-    .introText {
-        // padding: 1rem 4.9rem;
-        margin-top: 1rem !important;
+//     .introText {
+//         // padding: 1rem 4.9rem;
+//         margin-top: 1% !important;
 
-        font-size: 5rem !important;
-        line-height: 4.5rem;
-    }
-}
+//         font-size: 4rem !important;
+//         line-height: 3.5rem;
+//     }
+// }
 
-@include xlScreen {
-    .introText {
-        padding: 1rem 8rem;
-        margin: 0 0;
+// @include xlScreen {
+//     .introText {
+//         padding: 1rem 8rem;
+//         margin: 0 0;
 
-        font-size: 4.5rem;
-        line-height: 4.8rem;
-        letter-spacing: .3rem;
-    }
-}
+//         font-size: 4.5rem;
+//         line-height: 4.8rem;
+//         letter-spacing: .3rem;
+//     }
+// }

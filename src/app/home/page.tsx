@@ -15,28 +15,29 @@ import Loading from '@/components/Loading'
 import InstaRecentPosts from '@/components/InstaRecentPosts'
 
 import styles from './Home.module.scss'
+import Sobre from '@/components/Sobre'
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
   const { mobileState } = useMobileContext()
-  const dinoPositions = {
-    dino: {
-      X: 200,
-      Y: 324
-    },
-    dinoCar: {
-      X: 200,
-      Y: 269
-    },
-    dinoMobile: {
-      X: 200,
-      Y: 160
-    },
-    dinoCarMobile: {
-      X: 200,
-      Y: 105
-    }
-  }
+  // const dinoPositions = {
+  //   dino: {
+  //     X: 200,
+  //     Y: 324
+  //   },
+  //   dinoCar: {
+  //     X: 200,
+  //     Y: 269
+  //   },
+  //   dinoMobile: {
+  //     X: 200,
+  //     Y: 160
+  //   },
+  //   dinoCarMobile: {
+  //     X: 200,
+  //     Y: 105
+  //   }
+  // }
 
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
@@ -67,9 +68,9 @@ export default function Home() {
         ) : (
           <>
             <Header />
-            <section className={cn(styles.contentArea, 'min-h-[90vh] w-full')}>
-              <div className={styles.leftArea + ' mt-2 !sm:h-[90vh] h-full w-full'}>
-                <div className={`${styles.introText} w-full !tracking-wide text-[2.5rem] text-center p-0 my-5`}>
+            <section className={cn(styles.contentArea, 'h-[90vh] w-full')}>
+              <div className={cn('min-h-[90vh] w-full flex flex-col justify-around')}>
+                <div className={`${styles.introText} w-full tracking-wide lg:text-6xl text-center p-0`}>
                   <p className="w-full h-max font-normal">
                     Não somos obrigação,
                   </p>
@@ -78,7 +79,7 @@ export default function Home() {
                     <span className="text-primary-color">.</span>
                   </p>
                 </div>
-                <section data-mobile={mobileState.isMobileDevice} className="w-full relative h-[550px] data-[mobile=true]:h-[300px] mx-auto overflow-hidden">
+                <section data-mobile={mobileState.isMobileDevice} className={cn("w-full relative h-1/5 data-[mobile=true]:h-[300px] mx-auto", "border-2 border-black")}>
                   {/* <GameScene
                       chProp={mobileState.isMobileDevice ? 300 : 550}
                       cwProp={1580}
@@ -92,7 +93,7 @@ export default function Home() {
                     /> */}
                   <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted className="w-full h-full object-cover"></video>
                 </section>
-                <div className={`${styles.bottomTextContent} flex flex-col mt-12 mb-6`}>
+                <div className={`${styles.bottomTextContent} flex flex-col`}>
                   <div className="text-center">
                     <h2 className="text-2xl">
                       A <span className='text-primary-color font-black'>melhor solução</span> para sua empresa.
@@ -107,8 +108,11 @@ export default function Home() {
                 </div>
               </div>
             </section>
-            <section id='servicos' className={cn(styles.wrapper, 'w-full min-h-[90vh]', "flex justify-center items-center servicos")}>
-              <Servicos className={cn('h-full w-full')} />
+            <section className={cn(styles.wrapper, 'w-full h-max', "flex justify-center items-center servicos")}>
+              <Servicos id='servicos' className={cn('h-full w-full')} />
+            </section>
+            <section id='sobre' className={cn(styles.wrapper, 'w-full h-max', "flex justify-center items-center notSelected-G")}>
+              <Sobre />
             </section>
             <section className={cn(styles.wrapper, 'min-h-[90vh] max-w-full', 'flex flex-col justify-center notSelected-G')}>
               <h1 className='text-center text-5xl font-extrabold text-primary-color'>Confira os posts mais recentes!</h1>

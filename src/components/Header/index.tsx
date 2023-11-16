@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils'
 
 const tabs = [
   { label: 'Home', src: '/home' },
-  { label: 'Sobre', src: '/sobre' },
+  { label: 'Sobre', src: '/home#sobre' },
   { label: 'Serviços', src: '/home#servicos' },
   { label: 'Trabalhe Conosco', src: '/trabalhe-conosco' },
 ]
@@ -88,7 +88,7 @@ export default function Header({ className }: { className?: string }) {
       className={
         cn(
           styles.head,
-          'bg-zinc-50 sticky !top-0 z-[] flex min-h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md',
+          'bg-zinc-50 sticky top-0 z-[9999] flex min-h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md',
           className,
         )
       }
@@ -97,7 +97,7 @@ export default function Header({ className }: { className?: string }) {
         <Image
           className='w-full h-full object-contain'
           // src="/assets/img/redux-logo.svg"
-          src="/assets/img/logo-patrocinio.svg"
+          src="/assets/img/logo-verde-2.png"
           alt="Redux Logo"
           width={1000}
           height={1000}

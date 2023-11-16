@@ -52,12 +52,7 @@ function getLottie(data: any, autoplay?: boolean | undefined, title?: string) {
     />
 }
 
-const size = {
-    innerHeight: 500,
-    innerWidth: 800,
-}
-
-function CriarEmpresa({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
+function CriarEmpresa({ className, title, height: heightProp, width: widthProp }: AnimationProps) {
     const [state, setState] = useState({ isPaused: false, isStopped: false })
     const divRef = useRef<HTMLDivElement>(null)
     const p1Ref = useRef<HTMLDivElement>(null);
@@ -183,6 +178,8 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
                 backgroundSize: 'contain',
                 backgroundPosition: 'center 100%',
                 backgroundRepeat: 'no-repeat',
+                width: widthProp,
+                height: heightProp,
             }}
             ref={divRef}
             className={cn("animation flex flex-col items-center", className)}>
@@ -271,7 +268,7 @@ function CriarEmpresa({ className, title, height: heightProp = size.innerHeight,
     )
 }
 
-function Societario({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
+function Societario({ className, title, height: heightProp, width: widthProp }: AnimationProps) {
     const [raioXAnimation, setRaioXAnimation] = useState(false);
     const refs = {
         dino: {
@@ -472,10 +469,9 @@ function Societario({ className, title, height: heightProp = size.innerHeight, w
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
-                // width: widthProp,
-                // height: heightProp,
+                width: widthProp,
+                height: heightProp,
                 zIndex: 50,
-                scale: 1
             }}
             title={title ?? ''}
             className={cn('flex items-end justify-center', className)}
@@ -549,7 +545,7 @@ function Societario({ className, title, height: heightProp = size.innerHeight, w
     )
 }
 
-function Fiscal({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
+function Fiscal({ className, title, height: heightProp, width: widthProp }: AnimationProps) {
     const ref = {
         dinoRef: useRef<HTMLDivElement>(null),
         spriteRef: useRef<HTMLDivElement>(null),
@@ -749,8 +745,11 @@ function Fiscal({ className, title, height: heightProp = size.innerHeight, width
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'bottom center',
+                width: widthProp,
+                height: heightProp,
             }}
-            className={cn(className, "w-full h-full animation z-1 relative")}
+            className={cn(className, "animation z-1 relative")}
+            title={title}
         >
             <div id="trigger" className={cn("w-24 h-full bg-black/50 z-50 relative left-[20%] opacity-0")} />
             {/* CARTEIRA */}
@@ -824,7 +823,7 @@ function Fiscal({ className, title, height: heightProp = size.innerHeight, width
     )
 }
 
-function Contabil({ className, title, height: heightProp = size.innerHeight, width: widthProp = size.innerWidth }: AnimationProps) {
+function Contabil({ className, title, height: heightProp, width: widthProp }: AnimationProps) {
     const graphArray = [graph, chart]
     const divRef = useRef<HTMLDivElement>(null)
     const prediosRef = [
@@ -935,7 +934,10 @@ function Contabil({ className, title, height: heightProp = size.innerHeight, wid
                 backgroundSize: 'contain',
                 backgroundPosition: 'center 100%',
                 backgroundRepeat: 'no-repeat',
+                width: widthProp,
+                height: heightProp,
             }}
+            title={title}
             ref={divRef}
             className={cn("animation flex flex-col items-center", className)}>
             <div

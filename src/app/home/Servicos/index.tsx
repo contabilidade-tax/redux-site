@@ -81,12 +81,12 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
 
   return (
     <section className={cn(styles.servicos, className)} {...rest}>
-      <section className={cn('h-full w-full flex flex-col justify-center items-center')}>
-        <h1 className={cn("m-0 p-0 title-G font-semibold text-4xl text-center !w-max !h-max", styles.title)}>Como podemos ajudar<span className={cn('font-black text-5xl', 'text-primary-color')}>?</span></h1>
-        <div className={cn(styles.contentWrapper, 'mt-2 flex h-[75%] w-full', 'xl:h-[65%]')}>
+      <section className={cn('max-h-[90vh] w-full flex flex-col justify-center items-center py-8')}>
+        <h1 className={cn("font-semibold md:text-4xl lg:text-6xl text-center text-3xl", styles.title)}>Como podemos ajudar<span className={cn('font-black md:text-5xl lg:text-7xl text-3xl', 'text-primary-color')}>?</span></h1>
+        <div className={cn(styles.contentWrapper, 'flex h-full w-full justify-center items-center my-10')}>
           {/* LEFT AREA */}
-          <div className={cn(styles.left, 'w-1/3 h-full')}>
-            <div className={cn(styles.textArea, 'w-full h-full flex flex-col relative justify-center items-center')}>
+          <div className={cn(styles.left, 'w-2/5 h-full self-start')}>
+            <div className={cn(styles.textArea, 'w-full h-full flex flex-col relative justify-start items-center')}>
               <Seletores
                 services={services}
                 state={state}
@@ -97,7 +97,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
               {/* TEXTO */}
               <div className={cn(
                 styles.text,
-                "bg-[#202020] w-full max-h-full max-w-[25rem] rounded-xl flex-1 flex flex-col justify-between",
+                "bg-[#202020] w-full h-full min-h-[450px] max-w-[25rem] rounded-xl flex-1 flex flex-col justify-between",
               )}>
                 {/* SUBTITULO */}
                 <div className={cn(
@@ -131,28 +131,27 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
           <div className={cn(styles.right, 'flex-1 h-full flex flex-col justify-center items-center')}>
             <div className={cn(
               styles.animationContainer,
-              'w-full h-[75%] min-h-[421px]',
+              'w-full h-3/5'
             )}>
-              <div className={cn(styles.animationArea, 'w-full h-full relative')}>
+              <div className={cn(styles.animationArea, 'w-full h-full relative mx-auto')}>
                 {animations.map((Animation, index) => (
                   index === state.actualIndex &&
                   (
                     <Animation
                       title={state.selectedTab.subtitulo}
-                      width={400}
-                      height={mobileState.isSmallScreen ? 400 : 400}
+                      width={mobileState.isSmallScreen ? 600 : 800}
+                      height={mobileState.isSmallScreen ? 300 : 400}
                       key={index}
                       className={cn(
-                        styles.animation,
-                        'relative cursor-default w-full h-full lg:w-5/6 overflow-hidden background-cover',
+                        'relative cursor-default w-full h-full overflow-hidden object-cover mx-auto',
                       )} />
                   )
                 ))}
               </div>
             </div>
             {/* FOOTER TEXT AREA */}
-            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center hidden', 'xl:flex xl:flex-1')}>
-              <div className={cn(styles.fraseStyle, 'max-w-[80%] max-h-[200px] text-7xl')}>
+            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto', 'xl:flex xl:flex-1')}>
+              <div className={cn(styles.fraseStyle, 'w-[65%] max-h-[200px] text-7xl')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
                   <h1
                     className={cn(
@@ -163,9 +162,11 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
                   </h1>
                 ))}
               </div>
-              <Link className='w-full max-w-[30%] h-12 self-end relative bottom-5  mx-auto' href={'/contato'}>
-                <ButtonBackgroundShine text='Fale com a gente! 🤙🏼' className='rounded-3xl w-full h-full' />
-              </Link>
+              <div className='flex-1 h-12 flex justify-center'>
+                <Link className={cn('w-4/5 relative')} href={'/contato'}>
+                  <ButtonBackgroundShine text='Fale com a gente! 🤙🏼' className='rounded-3xl min-w-full h-full' />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
