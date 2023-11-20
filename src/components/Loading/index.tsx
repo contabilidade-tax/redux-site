@@ -25,7 +25,7 @@ function MainLoading({
   const xSize = 150
 
   return (
-    <section className="absolute top-0 flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg-color z-50">
+    <section className="absolute top-0 flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg-color z-[9999]">
       <section
         className={
           `${styles.wrapper} ` +

@@ -25,12 +25,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <LoadingProvider>
         <html lang="pt-BR">
           {/* <body className={inter.className}> */}
-          <body className='h-screen w-full flex flex-col'>
-            <main className="min-h-screeen flex-1 flex w-full flex-col items-center justify-between relative Wrapper bg-[#fafafa]">
-              {/* <Header /> */}
+          <body className='flex justify-between flex-col min-h-screen items-center'>
+            <Header />
+            <main className="flex-1 flex w-full flex-col items-center justify-between relative Wrapper bg-[#fafafa]">
               {children}
-              <Footer />
             </main>
+            <Footer />
             <Toaster />
           </body>
         </html>

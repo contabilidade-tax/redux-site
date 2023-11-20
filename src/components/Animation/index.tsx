@@ -211,7 +211,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
                     )
                 })}
             </div>
-            <section className={cn("baloesWrapper absolute w-full h-fit", "flex justify-between px-[10%]", "top-[18%]")}>
+            <section className={cn("baloesWrapper absolute w-full h-fit", "flex justify-between px-[7%]", "top-[10%]")}>
                 <div className="balaoLeft relative">
                     <div className={cn(
                         "icons",
@@ -532,9 +532,9 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
             {/* Wheels */}
             <div className="wheels absolute w-full h-full">
                 <div className={cn(
-                    "container w-[80%] max-w-[680px] h-[6.5%] max-h-[20px] relative -bottom-[88%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
+                    "container w-[73%] h-[6%] max-h-[20px] relative -bottom-[87%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
                     "z-50 flex justify-center items-center ",
-                    "rounded-full translate-x-[0.35rem] mx-auto",
+                    "rounded-full mx-auto translate-x-[0.81%]",
                 )}>
                     {Array(20).fill(0).map((_, index) => (
                         <img className="object-contain w-full h-full animate-wheel" src="/assets/img/animations/3/wheel.png" alt="wheel" key={index} />
@@ -826,16 +826,11 @@ function Fiscal({ className, title, height: heightProp, width: widthProp }: Anim
 function Contabil({ className, title, height: heightProp, width: widthProp }: AnimationProps) {
     const graphArray = [graph, chart]
     const divRef = useRef<HTMLDivElement>(null)
-    const prediosRef = [
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-        useRef<HTMLDivElement>(null),
-    ]
+    const p1Ref = useRef<HTMLDivElement>(null)
+    const p2Ref = useRef<HTMLDivElement>(null)
+    const p3Ref = useRef<HTMLDivElement>(null)
+    const p4Ref = useRef<HTMLDivElement>(null)
+    const p5Ref = useRef<HTMLDivElement>(null)
     const iconRefs = {
         left: [
             useRef<HTMLDivElement>(null),
@@ -858,12 +853,13 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
             useRef<HTMLDivElement>(null),
         ]
     }
+    const prediosRef = [
+        p1Ref, p2Ref, p3Ref, p4Ref, p5Ref
+    ]
 
     useEffect(() => {
         const iconDuration = 1.5
         if (divRef.current) {
-            const randomPredio = gsap.utils.random(prediosRef.map(obj => obj.current))
-            console.log(randomPredio)
             // const randomPredio = prediosRef.map(obj => obj.current).find(numeroAleatorio)
             const timeline = gsap.timeline({ repeat: -1 })
             const timelinePredio = gsap.timeline({})
@@ -912,6 +908,8 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
             }
 
             // Crie uma sequência de animações para os prédios usando map
+            const randomPredio = gsap.utils.random(prediosRef.map(obj => obj.current))
+            console.log(randomPredio)
             const ballonsLeftAnimations = leftArray.map((ballon, index) => ballonsAnimation(ballon, (index * iconDuration), 0.5));
             const ballonsRightAnimations = rightArray.map((ballon, index) => ballonsAnimation(ballon, (index * iconDuration), 0.2));
             const predio = predioAnimation(randomPredio)
@@ -939,7 +937,7 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
             }}
             title={title}
             ref={divRef}
-            className={cn("animation flex flex-col items-center", className)}>
+            className={cn("animation flex flex-col items-center relative", className)}>
             <div
                 className="w-full h-full z-50">
                 {getLottie(animationData1, false)}
@@ -997,7 +995,7 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
                     </div>
                 </div>
             </section>
-            <section className="predio w-full h-24 flex justify-center items-end absolute top-40">
+            <section className="predio w-full h-auto flex justify-center items-end absolute top-[55%]">
                 {
                     prediosRef.map((_, index) => (
                         <div
@@ -1010,7 +1008,7 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
                                 backgroundPositionY: 'bottom',
                                 opacity: 0
                             }}
-                            className="absolute w-[100px] h-[100px]"
+                            className="absolute w-[80px] h-[80px] z-[1000]"
                         />
                     ))
                 }

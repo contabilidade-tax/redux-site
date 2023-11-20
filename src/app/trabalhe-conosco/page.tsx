@@ -19,10 +19,9 @@ export default function TrabalheConosco() {
   })
 
   return (
-    <>
-      <Header />
+    <div className='flex justify-center items-center flex-1 h-full p-6'>
       <ContactForm className='bg-[#ffffff] p-6 rounded-2xl drop-shadow-customPrimary z-50 max-h-[40rem]' />
-      <div className={cn(
+      {/* <div className={cn(
         'absolute w-full min-h-[76vh]',
         'flex items-center',
         'border-2 border-yellow-400',
@@ -36,8 +35,8 @@ export default function TrabalheConosco() {
           )}
           src='/assets/img/bg/dinoDesempregado.png'
         />
-      </div>
-    </>
+      </div> */}
+    </div>
   )
 }
 

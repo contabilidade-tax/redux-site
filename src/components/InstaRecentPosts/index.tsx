@@ -10,9 +10,10 @@ import styles from './InstaRecentPosts.module.scss'
 
 type InstaRecentPostsProps = {
     className?: string
+    isMobile?: boolean
 }
 
-function InstaRecentPosts({ className }: InstaRecentPostsProps) {
+function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
     const { state } = useInstaPostsContext();
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState<any[]>([]);  // Usando useState para posts
@@ -49,7 +50,8 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
                 posts.map((post, index) => (
                     <div key={index} className={cn(
                         styles.instaPost,
-                        'flex flex-col relative px-4 self-center drop-shadow-custom h-[90%]'
+                        'flex flex-col relative px-4 self-center drop-shadow-custom h-[90%]',
+                        { 'scale:.8': isMobile },
                     )}>
                         <Card.Root className='rounded-3xl overflow-hidden w-full h-full'>
                             <Card.Post
@@ -68,10 +70,10 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     );
 };
 
-function InstaRecentPostsWrapper({ className }: InstaRecentPostsProps) {
+function InstaRecentPostsWrapper({ className, isMobile }: InstaRecentPostsProps) {
     return (
         <InstaPostsContextProvider>
-            <InstaRecentPosts className={className} />
+            <InstaRecentPosts className={className} isMobile={isMobile} />
         </InstaPostsContextProvider>
     );
 }

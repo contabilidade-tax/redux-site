@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import Link from 'next/link'
 
 import GameScene from './GameScene'
@@ -53,7 +53,7 @@ export default function Home() {
   })
 
   // Não permite scroll na tela durante o loading
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Verificar se o código está sendo executado no lado do cliente
     if (typeof window !== 'undefined') {
       document.body.style.overflow = isLoading ? 'hidden' : 'auto'
@@ -67,10 +67,10 @@ export default function Home() {
           <Loading />
         ) : (
           <>
-            <Header />
+            {/* <Header /> */}
             <section className={cn(styles.contentArea, 'h-[90vh] w-full')}>
               <div className={cn('min-h-[90vh] w-full flex flex-col justify-around gap-8 py-4')}>
-                <div className={`${styles.introText} w-full tracking-wide lg:text-6xl text-center p-0`}>
+                <div className={`${styles.introText} w-full tracking-wide lg:text-6xl xl:text-7xl text-center p-0`}>
                   <p className="w-full h-max font-normal">
                     Não somos obrigação,
                   </p>
@@ -79,7 +79,7 @@ export default function Home() {
                     <span className="text-primary-color">.</span>
                   </p>
                 </div>
-                <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative data-[mobile=true]:h-[300px] mx-auto", "border-2 border-black")}>
+                <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative data-[mobile=true]:h-[300px] mx-auto")}>
                   {/* <GameScene
                       chProp={mobileState.isMobileDevice ? 300 : 550}
                       cwProp={1580}
@@ -91,11 +91,11 @@ export default function Home() {
                       dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
                       className={cn(styles.gameScene, 'mx-auto w-full')}
                     /> */}
-                  <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted className="w-full !h-full object-fill"></video>
+                  <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted controls={false} disablePictureInPicture={true} disableRemotePlayback={true} className="w-full !h-full object-fill"></video>
                 </section>
                 <div className={`${styles.bottomTextContent} flex flex-col`}>
                   <div className="text-center">
-                    <h2 className="text-2xl">
+                    <h2 className="text-2xl lg:text-4xl">
                       A <span className='text-primary-color font-black'>melhor solução</span> para sua empresa.
                     </h2>
                   </div>
@@ -119,7 +119,7 @@ export default function Home() {
               <h1 className='text-center text-5xl font-extrabold text-primary-color'>Confira os posts mais recentes!</h1>
               {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
               <section className='posts w-full'>
-                <InstaRecentPosts />
+                <InstaRecentPosts isMobile={mobileState.isSmallScreen} />
               </section>
             </section>
           </>

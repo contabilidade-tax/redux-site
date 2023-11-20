@@ -24,11 +24,11 @@ const nextConfig = {
         destination: '/home',
         permanent: true,
       },
-      {
-        source: '/contato',
-        destination: 'https://wa.me/5588997890526?text=Teste2',
-        permanent: true,
-      },
+      // {
+      //   source: '/contato',
+      //   destination: `https://wa.me/send?phone=5588999660188&text=${encodeURIComponent('Ola, gostaria de saber mais sobre seus serviços')}`,
+      //   permanent: true,
+      // },
     ]
   },
   async headers() {

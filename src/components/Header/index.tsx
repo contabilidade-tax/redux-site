@@ -12,6 +12,7 @@ import MenuItens from './MenuItens'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { useLoading } from '@/common/context/LoadingContext'
 
 const tabs = [
   { label: 'Home', src: '/home' },
@@ -48,6 +49,7 @@ export default function Header({ className }: { className?: string }) {
   }
   const [state, dispatch] = useReducer(reducer, initialReducerState)
   const [isHovered, setIsHovered] = useState(false);
+  const { isLoading, setIsLoading } = useLoading()
   const menuRef = useRef<HTMLUListElement>(null)
   const handleActualPage = (action: { type: string; value: any }) => {
     return dispatch(action)
@@ -88,8 +90,9 @@ export default function Header({ className }: { className?: string }) {
       className={
         cn(
           styles.head,
-          'bg-zinc-50 sticky top-0 z-[9999] flex min-h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md',
+          'bg-zinc-50 sticky top-0 z-[1000] flex min-h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md',
           className,
+          { 'hidden': isLoading }
         )
       }
     >
@@ -141,7 +144,7 @@ export default function Header({ className }: { className?: string }) {
         onClick={() => {
           setMenuOpen(true)
         }}
-        className={`${styles.hamburguerButton} ` + 'w-[4em] h-[3em] bg-primary-color'}
+        className={`${styles.hamburguerButton} ` + 'w-[4em] h-[3em] bg-primary-color lg:hidden'}
       >
         <Bars3Icon width={40} height={40} />
       </Button>
