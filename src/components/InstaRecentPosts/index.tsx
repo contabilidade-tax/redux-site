@@ -35,7 +35,7 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
 
     return (
         <section className={cn(
-            'w-full h-full flex overflow-x-auto gap-4 p-2',
+            'w-full h-full flex overflow-x-auto gap-4 py-6',
             styles.instaPostsWrapper,
             className
         )}
@@ -53,7 +53,7 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
                         'flex flex-col relative px-4 self-center drop-shadow-custom h-[90%]',
                         { 'scale:.8': isMobile },
                     )}>
-                        <Card.Root className='rounded-3xl overflow-hidden w-full h-full'>
+                        <Card.Root className='rounded-3xl overflow-hidden w-full h-full py-8 px-1 space-y-1'>
                             <Card.Post
                                 post={post}
                                 index={index}
@@ -61,7 +61,7 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
                                     styles.instaMidia,
                                     'relative top-2 w-1/2'
                                 )} />
-                            <Card.Caption text={post.caption!} timestamp={post.timestamp!} />
+                            <Card.Caption className='self-end' text={post.caption!} timestamp={post.timestamp!} />
                         </Card.Root>
                     </div>
                 ))

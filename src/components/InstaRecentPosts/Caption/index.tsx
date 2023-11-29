@@ -13,7 +13,7 @@ function Caption({ text }: CaptionProps) {
         <div className="modal">
             <article className="modal-container">
                 <section className="modal-container-body rtf">
-                    <p>{text}</p>
+                    <p className='px-2'>{text}</p>
                 </section>
             </article>
         </div>

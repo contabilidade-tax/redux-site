@@ -205,7 +205,7 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
                     let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
                     let allData: any = [];
 
-                    for (let i = 0; i <= 1; i++) { // Limite de 1 requisições
+                    for (let i = 0; i === 0; i++) { // Limite de 1 requisições
                         if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
 
                         const response = await axios.get(url, {

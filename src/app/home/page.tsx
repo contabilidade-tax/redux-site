@@ -108,10 +108,10 @@ export default function Home() {
                 </div>
               </div>
             </section>
-            <section className={cn(styles.wrapper, 'w-full h-[90vh]', "flex justify-center items-center servicos")}>
+            <section className={cn(styles.wrapper, 'w-full h-[90vh]', "flex justify-center items-center servicos py-10")}>
               <Servicos id='servicos' className={cn('h-full w-full')} />
             </section>
-            <section id='sobre' className={cn(styles.wrapper, 'w-full h-auto', "flex flex-col gap-4 justify-center items-center notSelected-G")}>
+            <section id='sobre' className={cn(styles.wrapper, 'w-full h-auto max-w-[1500px]', "flex flex-col gap-4 justify-center items-center notSelected-G")}>
               <h1 className='self-center  text-left text-7xl font-extrabold text-primary-color'>Conheça nosso time:</h1>
               <Sobre />
             </section>

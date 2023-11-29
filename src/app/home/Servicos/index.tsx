@@ -71,6 +71,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
   const { mobileState } = useMobileContext();
   const animations = [CriarEmpresa, Societario, Fiscal, Contabil];
   const animationAreaRef = useRef<HTMLDivElement>(null)
+  const currentWindowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
 
   const switchTab = (index: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -99,7 +100,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
         size: { width: animationAreaRef.current.offsetWidth, height: animationAreaRef.current.offsetHeight }
       })
     }
-  }, [])
+  }, [currentWindowWidth])
 
   return (
     <section className={cn(styles.servicos, className)} {...rest}>
@@ -150,7 +151,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
             </div>
           </div>
           {/* RIGHT AREA */}
-          <div ref={animationAreaRef} className={cn(styles.right, 'flex-1 h-full flex flex-col justify-center items-center')}>
+          <div ref={animationAreaRef} className={cn(styles.right, 'flex-1 h-full flex flex-col items-center sm:gap-12')}>
             <div className={cn(
               styles.animationContainer,
               'w-full h-3/5'
@@ -160,19 +161,19 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
                   index === state.actualIndex &&
                   (
                     <Animation
-                      width={mobileState.isSmallScreen ? state.animationArea.width : state.animationArea.width * 0.85}
-                      height={mobileState.isSmallScreen ? state.animationArea.height * 0.5 : state.animationArea.height * 0.89}
+                      width={mobileState.isSmallScreen ? state.animationArea.width : state.animationArea.width * 0.95}
+                      height={mobileState.isSmallScreen ? state.animationArea.height * 0.5 : state.animationArea.height * 0.5}
                       key={index}
                       className={cn(
-                        'relative cursor-default overflow-hidden object-cover mx-auto !min-h-[200px]',
+                        'relative cursor-default overflow-hidden object-cover mx-auto sm:min-h-[250px] sm:min-w-[550px] lg:min-h-[300px] max-w-[692px] max-h-[307px]',
                       )} />
                   )
                 ))}
               </div>
             </div>
             {/* FOOTER TEXT AREA */}
-            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto flex', 'xl:flex-row xl:flex-1 sm:flex-col')}>
-              <div className={cn(styles.fraseStyle, 'w-full text-4xl', 'lg:w-[65%] xl-max:h-[200px] xl:text-7xl')}>
+            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto flex', 'sm:flex-col lg:flex-col xl:flex-row xl:flex-1')}>
+              <div className={cn(styles.fraseStyle, 'w-full text-4xl', 'sm:w-[150px] !sm:flex-1 !sm:text-5xl lg:w-full xl:flex-1 xl:min-w-[480px] xl-max:h-[200px] xl:text-7xl border-2 border-yellow-500')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
                   <h1
                     className={cn(
@@ -183,7 +184,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
                   </h1>
                 ))}
               </div>
-              <div className='flex-1 h-12 flex justify-center sm:self-end text-md'>
+              <div className='flex-1 h-12 flex justify-center text-md'>
                 <Link className={cn('w-4/5 relative')} href={'/contato'}>
                   <ButtonBackgroundShine text='Fale com a gente! 🤙🏼' className='rounded-3xl min-w-full h-full' />
                 </Link>

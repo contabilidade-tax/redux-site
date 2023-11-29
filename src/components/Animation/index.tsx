@@ -532,9 +532,10 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
             {/* Wheels */}
             <div className="wheels absolute w-full h-full">
                 <div className={cn(
-                    "container w-[73%] h-[6%] max-h-[20px] relative -bottom-[87%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
+                    "container w-[73%] h-[6%] max-h-[20px] relative -bottom-[86%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
                     "z-50 flex justify-center items-center ",
                     "rounded-full mx-auto translate-x-[0.81%]",
+                    "min-w-[395px] !lg:w-[80%]"
                 )}>
                     {Array(20).fill(0).map((_, index) => (
                         <img className="object-contain w-full h-full animate-wheel" src="/assets/img/animations/3/wheel.png" alt="wheel" key={index} />
@@ -930,7 +931,7 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
             style={{
                 backgroundImage: `url('/assets/img/animations/1/piso.png')`,
                 backgroundSize: 'contain',
-                backgroundPosition: 'center 100%',
+                backgroundPosition: '110% 100%',
                 backgroundRepeat: 'no-repeat',
                 width: widthProp,
                 height: heightProp,
@@ -939,10 +940,10 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
             ref={divRef}
             className={cn("animation flex flex-col items-center relative", className)}>
             <div
-                className="w-full h-full z-50">
+                className="w-full h-full z-50 translate-y-4">
                 {getLottie(animationData1, false)}
             </div>
-            <section className={cn("baloesWrapper absolute w-full h-fit", "flex justify-between px-[10%]", "top-[18%] hidden")}>
+            <section className={cn("baloesWrapper absolute w-full h-fit", "flex justify-between px-[10%]", "top-[5%] hidden")}>
                 <div className="balaoLeft relative">
                     <div className={cn(
                         "icons",
@@ -995,7 +996,7 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
                     </div>
                 </div>
             </section>
-            <section className="predio w-full h-auto flex justify-center items-end absolute top-[55%]">
+            <section className="predio w-full h-auto flex justify-center items-end absolute top-[60%]">
                 {
                     prediosRef.map((_, index) => (
                         <div
@@ -1014,8 +1015,8 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
                 }
             </section>
             <section className={cn(
-                "graphs flex justify-center items-start gap-16",
-                "absolute w-full h-44 top-0",
+                "graphs flex justify-center items-start gap-16 flex-row-reverse",
+                "absolute w-full h-44 -top-[11%]",
                 // "border-2 border-yellow-500"
             )}>
                 {graphArray.reverse().map((graph, index) => (

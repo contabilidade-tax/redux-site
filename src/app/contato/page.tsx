@@ -14,7 +14,5 @@ export default function Servicos() {
     }
   }
 
-  console.log(`https://wa.me/send?phone=5588999660188&text=${encodeURIComponent(`Ola ${getGreeting()}, gostaria de saber mais sobre seus serviços`)}`)
-
-  return redirect(`https://wa.me/send?phone=5588999660188&text=${encodeURIComponent(`Ola ${getGreeting()}, gostaria de saber mais sobre seus serviços`)}`)
+  return redirect(`https://wa.me/send?phone=5588988412833&text=${encodeURIComponent(`Ola ${getGreeting()}, gostaria de saber mais sobre seus serviços`)}`)
 }
