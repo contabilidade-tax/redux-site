@@ -21,7 +21,7 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
 
     useEffect(() => {
         if (state?.data && state.data.length > 0) {
-            setPosts(state.data);
+            setPosts(state.data.sort((a, b) => Date.parse(b.timestamp!) - Date.parse(a.timestamp!)));
             setIsLoading(false);
         }
     }, [state]);

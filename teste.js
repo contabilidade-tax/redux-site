@@ -14,8 +14,4 @@ async function getTokenData() {
 }
 
 // Como usar
-let vare;
-getTokenData().then(token => {
-  vare = token
-});
-console.log(vare);
+console.log(new Date())
