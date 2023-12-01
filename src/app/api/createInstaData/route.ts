@@ -16,18 +16,34 @@ export async function POST(req: NextRequest) {
         }
 
         const updateTokenDB = async (tokenData: Prisma.TokenDataCreateInput) => {
-            return await prisma.tokenData.update({
+            return await prisma.tokenData.upsert({
                 where: {
                     id: 1
                 },
-                data: {
+                create: {
+                    id: 1,
+                    ...tokenData,
+                    generated_at: new Date()
+                },
+                update: {
                     ...tokenData,
                     generated_at: new Date()
                 }
             })
         }
 
+        const ensureInstaPostsDataExists = async () => {
+            await prisma.instaPostsData.upsert({
+                where: { id: 1 },
+                create: { id: 1, generated_at: new Date() },
+                update: { generated_at: new Date() }
+            });
+        };
+
         const updatePostsDataDB = async (postsData: { data: Array<Prisma.PostCreateInput> }) => {
+            // Certifique-se de que InstaPostsData com id 1 existe
+            await ensureInstaPostsDataExists();
+
             const posts = postsData.data;
             const postsPromiseArray = posts.map((post) => {
                 const timestamp = new Date(post.timestamp).toISOString()
@@ -64,7 +80,7 @@ export async function POST(req: NextRequest) {
 
         if (data) {
             let token_data
-            if (customKey) {
+            if (customKey && customKey === 'token') {
                 await Promise.all([
                     // Salva no prisma se for token
                     updateTokenDB(data),
@@ -73,11 +89,23 @@ export async function POST(req: NextRequest) {
                 ]).then(([data, cache]) => {
                     token_data = { ...data, expires_in: data.expires_in.toString() }
                     messages_array.push("Created Succesfully register on db");
+                    messages_array.push("Created Succesfully on cache: " + cache);
                 }).catch((error: any) => {
                     console.log(error)
                 })
 
-                return NextResponse.json({ data: token_data, message: `Created Succesfully for key: ${customKey}`, details: messages_array }, { status: 201 });
+                return NextResponse.json({ message: `Created Succesfully for key: ${customKey}`, details: messages_array, data: token_data, }, { status: 201 });
+            }
+
+            if (customKey) {
+                // Em caso de token, salva no cache
+                await setRedisRegister(data, customKey).then((cache) => {
+                    messages_array.push("Created Succesfully on cache anykey: " + cache);
+                }).catch((error: any) => {
+                    console.log(error)
+                })
+
+                return NextResponse.json({ message: `Created Succesfully for key: ${customKey}`, details: messages_array, data, }, { status: 201 });
             }
 
             // Em caso de não ser token

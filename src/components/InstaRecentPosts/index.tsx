@@ -7,6 +7,7 @@ import { Card } from './Card';
 import { Skeleton } from '../Loading/Skeleton';
 
 import styles from './InstaRecentPosts.module.scss'
+import { InstaPostData } from '@/types';
 
 type InstaRecentPostsProps = {
     className?: string
@@ -16,22 +17,15 @@ type InstaRecentPostsProps = {
 function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
     const { state } = useInstaPostsContext();
     const [isLoading, setIsLoading] = useState(true);
-    const [posts, setPosts] = useState<any[]>([]);  // Usando useState para posts
+    const [posts, setPosts] = useState<InstaPostData[]>([]);  // Usando useState para posts
 
     useEffect(() => {
-        let time: any;
-        if (state?.data) {
-            setPosts(state.data); // Atualizando o estado dos posts
-            // Atualizando o estado de loading
-            time = setTimeout(() => {
-                setIsLoading(false);
-            }, 1500)
-        }
-
-        return () => {
-            clearTimeout(time);
+        if (state?.data && state.data.length > 0) {
+            setPosts(state.data);
+            setIsLoading(false);
         }
     }, [state]);
+
 
     return (
         <section className={cn(

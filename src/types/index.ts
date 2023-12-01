@@ -1,15 +1,16 @@
-import React, { CSSProperties, ComponentProps, HTMLAttributes, Ref } from 'react'
+import React, { CSSProperties, ComponentProps, HTMLAttributes, ReactNode, Ref } from 'react'
 
 import services from '@/common/data/services.json'
 import { Tab } from '@material-tailwind/react'
 import { SwiperRef } from 'swiper/react'
 import Image, { StaticImageData } from 'next/image'
+import { Prisma } from '@prisma/client'
 
 type Service = (typeof services)[0]
 
 type InstaMidiaProps = {
   // eslint-disable-next-line no-use-before-define
-  post: InstaPostData["data"][0];
+  post: InstaPostData;
   index: number
   styles?: any
   className?: string
@@ -20,15 +21,24 @@ type Tab = {
   src: string
 }
 
+// type InstaPostData = {
+//   data: {
+//     id: string | null
+//     caption: string | null
+//     media_type: string | null
+//     media_url: string | null
+//     permalink: string | null
+//     timestamp: string | null
+//   }[]
+// }
+
 type InstaPostData = {
-  data: {
-    id: string | null
-    caption: string | null
-    media_type: string | null
-    media_url: string | null
-    permalink: string | null
-    timestamp: string | null
-  }[]
+  id: string | null
+  caption: string | null
+  media_type: string | null
+  media_url: string | null
+  permalink: string | null
+  timestamp: string | null
 }
 
 interface VideoPlayerProps extends ComponentProps<'video'> {
@@ -141,6 +151,12 @@ type FigureProps = {
   style?: CSSProperties;
 } & HTMLAttributes<HTMLDivElement>;
 
+type InstaPostsProps = {
+  tokenData?: InstaTokenData
+  postsData?: InstaPostData
+  children: ReactNode
+}
+
 export type {
   ButtonProps,
   IconProps,
@@ -159,5 +175,6 @@ export type {
   InstaTokenData,
   VideoPlayerProps,
   InstaMidiaProps,
-  FigureProps
+  FigureProps,
+  InstaPostsProps
 }

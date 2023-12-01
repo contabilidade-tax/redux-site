@@ -8,8 +8,21 @@ export async function GET(req: NextRequest) {
 
     try {
         const customKey = req.nextUrl.searchParams.get('key');
-        const cached_data = customKey ? await getRedisValue(customKey) : await getRedisValue(`last_insta_posts-${getDateTime()}`);
-        const db_data = await prisma.instaPostsData.findUnique({
+        const cached_data = await getRedisValue(`last_insta_posts-${getDateTime()}`);
+        const db_data = customKey ? await prisma.tokenData.findUnique({
+            where: {
+                id: 1
+            },
+        }).then((data) => {
+            if (data === null) {
+                throw Error("Token não encontrado")
+            }
+
+            const generated_at_formated = data?.generated_at.getTime()
+            const expires_in_formated = Number(data?.expires_in.toString())
+
+            return { ...data, generated_at: generated_at_formated, expires_in: expires_in_formated }
+        }) : await prisma.instaPostsData.findUnique({
             where: {
                 id: 1
             },
@@ -20,33 +33,36 @@ export async function GET(req: NextRequest) {
             return data?.data.slice(0, 25)
         })
 
-        if (cached_data) {
+        if (cached_data && !customKey) {
             return NextResponse.json(JSON.parse(cached_data), { status: 200 });
-        } else if (db_data) {
-            // Avisa que não tá guardando em cache e pode haver um problema com token ou a api do facebook
-            const message = "InstaPosts sem cache, verifique se o token está correto. Os posts exibidos estão guardados em banco e possivelmente, desatualizados."
-            await fetch(`https://woz.herokuapp.com/webhook/control/report/send-message?group=REPORT`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: `\n*REDUX_SITE*: ${message}` }),
-            }).then(async data => {
-                const body = await data.json()
+        }
+        if (db_data) {
+            if (!customKey) {
+                // Avisa que não tá guardando em cache e pode haver um problema com token ou a api do facebook
+                const message = "InstaPosts sem cache, verifique se o token está correto. Os posts exibidos estão guardados em banco e possivelmente, desatualizados."
+                await fetch(`https://woz.herokuapp.com/webhook/control/report/send-message?group=REPORT`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: `\n*REDUX_SITE*: ${message}` }),
+                }).then(async data => {
+                    const body = await data.json()
 
-                messages_array.push(body.Success)
-                messages_array.push(message)
-            })
+                    messages_array.push(body.Success)
+                    messages_array.push(message)
+                })
+            }
 
             return NextResponse.json({ message: "Sucesso na requisição dos dados", details: messages_array, data: db_data, }, { status: 200 });
         }
 
-        return NextResponse.json("Não tem nada cacheado mermão!", { status: 202 });
+        return NextResponse.json("Não tem nada cacheado nem no banco mermão!", { status: 404 });
 
         // throw new Error(`No cached data for key ${customKey ?? `last_insta_posts-${getDateTime()}`}`);
     } catch (error: any) {
         return NextResponse.json({ error: 'Internal Server Error', message: error.message }, { status: 500 });
     } finally {
-        // await prisma.$disconnect();
+        await prisma.$disconnect();
     }
 };

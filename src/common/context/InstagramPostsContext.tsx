@@ -1,23 +1,18 @@
 "use client"
-import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect, useEffect, Dispatch } from 'react';
-import { InstaPostData, InstaTokenData } from '@/types';
+import React, { createContext, useReducer, useContext, useLayoutEffect, Dispatch, useEffect } from 'react';
+import { InstaPostData, InstaTokenData, InstaPostsProps } from '@/types';
 import axios from 'axios';
 
 const initialState = {
-    data: null,
-    token: {
-        access_token: "IGQWROWXowcm1qalpkYm5lbmJqQzM0ZA3VYdlhxekdKaVhvLWJZARDVYOGNiM1ZAESXdYWGdUYkhCdkZAMdnlVTFlxX2VKc2JGX1MxSk9WWXJXNXBnSmJfbHVOc0lnWlZA1ZATN1cVJoSUh2c1pzUQZDZD",
-        token_type: "bearer",
-        expires_in: 5182660,
-        generated_at: 1696008201887
-    }
+    data: [] as InstaPostData[],
+    token: {} as InstaTokenData
 };
 type ActionType = {
     type: string;
     value: InstaPostData[] | InstaTokenData;
 };
 type InstaPostsContextValue = {
-    state: InstaPostData | null;
+    state: typeof initialState | null;
 }
 const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(undefined);
 
@@ -26,7 +21,7 @@ async function renewToken(old_token: string) {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${old_token}`);
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
 
         const data = await response.json();
 
@@ -35,10 +30,11 @@ async function renewToken(old_token: string) {
             ...data,
             generated_at: Date.now().toString()
         };
+        console.log(responseDataWithTimestamp)
         return responseDataWithTimestamp; // Retorna os dados do novo token com generated_at
 
-    } catch (error) {
-        console.error('Erro ao renovar o token:', error);
+    } catch (error: any) {
+        console.log('Erro ao renovar o token:', error.message);
         throw error;
     }
 }
@@ -69,49 +65,45 @@ export const useInstaPostsContext = () => {
     return context;
 };
 
-function getTokenData() {
+async function getTokenData(): Promise<InstaTokenData | null> {
     const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
-    let data: InstaTokenData | undefined | never | any;
-    fetch(`${home}/api/instaData?key=token`, {
-        method: 'GET',
-        cache: 'force-cache',
-        headers: {
-            'Accept': 'application/json',
-        },
-    })
-        .then(resultado => {
-            data = resultado.json();
-        })
-        .catch(error => {
-            if (error.message.includes('No cached data')) {
-                return false;
-            }
-        })
-    return data;
+    try {
+        const response = await fetch(`${home}/api/instaData?key=token`, { method: 'GET' });
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: status ${response.status}`);
+        }
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.log("não encontrado", error);
+        return null; // Ou como você deseja tratar o erro
+    }
 }
 
-function getRedisData() {
-    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
-    let data: InstaPostData | undefined | never | any;
 
-    // Verifica se tem localStorage
-    // const storage = getLocalStorageData('tax.instaPostData', localStorage)
-    // if (storage) {
-    //     return storage
-    // }
+async function getRedisData() {
+    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL;
 
-    fetch(`${home}/api/instaData`, {
-        method: 'GET',
-    })
-        .then(async resultado => {
-            data = await resultado.json();
-        }).catch(error => {
-            if (error.message.includes('cacheado')) {
-                return false;
-            }
-        })
-    return data;
+    try {
+        const response = await fetch(`${home}/api/instaData`, { method: 'GET' });
+
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: status ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.data;
+
+    } catch (error: any) {
+        console.log(error);
+        if (error.message.includes('cacheado')) {
+            return false;
+        }
+        // Trate outros erros ou retorne um valor padrão aqui
+        return null;
+    }
 }
+
 
 function setTokenData(data: InstaTokenData): InstaTokenData | undefined | never | any {
     const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
@@ -128,33 +120,36 @@ function setTokenData(data: InstaTokenData): InstaTokenData | undefined | never 
         }
     ).catch(
         error => {
-            console.error(`HTTP error! status: ${error.message}`);
+            console.log(`HTTP error! status: ${error.message}`);
         }
     )
 }
 
-function setRedisData(data: InstaPostData[]) {
-    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
+function setPostsData(data: InstaPostData[]) {
+    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL;
+
     fetch(`${home}/api/createInstaData`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ data }),
-    }).then(
-        resultado => {
-            const responseData = resultado.json();
+    })
+        .then(async (resultado) => {
+            if (!resultado.ok) {
+                throw new Error(`Erro HTTP: status ${resultado.status}`);
+            }
+
+            const responseData = await resultado.json();
 
             // Adicionando o localStorage
             // setLocalStorageData('tax.instaPostData', responseData, 3600);
 
             return responseData;
-        }
-    ).catch(
-        error => {
-            console.error(`HTTP error! status: ${error.message}`);
-        }
-    )
+        })
+        .catch((error) => {
+            console.error(`Erro ao enviar dados: ${error.message}`);
+        });
 }
 
 function updateTokenData(token: InstaTokenData, dispatch: Dispatch<ActionType>) {
@@ -167,27 +162,82 @@ function updateTokenData(token: InstaTokenData, dispatch: Dispatch<ActionType>) 
     return newToken
 }
 
-export function InstaPostsContextProvider({ children }: { children: ReactNode }) {
+async function getPostsData(state: typeof initialState, dispatch: any) {
+    try {
+        let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
+        let allData: any = [];
+
+        for (let i = 0; i === 0; i++) { // Limite de 1 requisições
+            if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
+
+            const response = await axios.get(url, {
+                params: {
+                    fields: 'id,caption,media_type,media_url,permalink,timestamp',
+                    access_token: state.token.access_token,
+                },
+            });
+            // Juntar os dados de cada requisição
+            if (response.data && response.data.data) {
+                allData = [...allData, ...response.data.data];
+            }
+
+            // Atualiza a URL para a próxima página, se existir
+            url = response.data.paging && response.data.paging.next ? response.data.paging.next : null;
+        }
+
+        // Após o loop, atualizar o estado com os dados acumulados
+        dispatch({
+            type: 'UPDATE_POSTS_DATA',
+            value: allData,
+        });
+        // Criar o cache com os dados
+        setPostsData(allData)
+
+    } catch (error: any) {
+        console.log('Erro ao buscar os posts:', error.message);
+        return null
+    }
+}
+
+
+export function InstaPostsContextProvider({ children }: InstaPostsProps) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    useLayoutEffect(() => {
-        const cached_token = getTokenData()
-        const cached_data = getRedisData()
+    const fetchData = async () => {
+        const cache = await getRedisData()
+        const dbData = await getPostsData(state, dispatch)
 
-        const fetchToken = async () => {
-            if (!cached_token) {
-                updateTokenData(state.token, dispatch)
-            } else {
-                return cached_token
-            }
+        if (cache) {
+            dispatch({
+                type: 'UPDATE_POSTS_DATA',
+                value: cache,
+            });
+            return cache
+        } else if (dbData) {
+            dispatch({
+                type: 'UPDATE_POSTS_DATA',
+                value: dbData,
+            });
+            return dbData
         }
-        const fetchData = async () => {
-            if (!cached_data) {
-                const tokenData = state.token;
+    };
 
-                if (Date.now() >= (tokenData.generated_at + tokenData.expires_in * 1000)) {
+    const fetchToken = async () => {
+        if (!state.token || Object.keys(state.token).length === 0) {
+            // Lógica para buscar e atualizar o token
+            const fetchedToken = await getTokenData()
+
+            if (fetchedToken) {
+                const token = fetchedToken
+
+                dispatch({
+                    type: 'UPDATE_TOKEN',
+                    value: token,
+                })
+
+                if (Date.now() >= (token.generated_at! + token.expires_in! * 1000)) {
                     try {
-                        const newTokenData = await renewToken(tokenData.access_token);
+                        const newTokenData = await renewToken(token.access_token!);
                         const actualTimestampTokenData = {
                             ...newTokenData,
                             generated_at: Date.now(),
@@ -196,50 +246,18 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
                         updateTokenData(actualTimestampTokenData, dispatch);
 
                     } catch (error) {
-                        console.error('Erro ao renovar o token:', error);
-                        // Lide com o erro conforme necessário, por exemplo, configurando um estado de erro
+                        console.log('Erro ao renovar o token:', error);
                     }
                 }
 
-                try {
-                    let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
-                    let allData: any = [];
-
-                    for (let i = 0; i === 0; i++) { // Limite de 1 requisições
-                        if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
-
-                        const response = await axios.get(url, {
-                            params: {
-                                fields: 'id,caption,media_type,media_url,permalink,timestamp',
-                                access_token: tokenData.access_token,
-                            },
-                        });
-                        // Juntar os dados de cada requisição
-                        if (response.data && response.data.data) {
-                            allData = [...allData, ...response.data.data];
-                        }
-
-                        // Atualiza a URL para a próxima página, se existir
-                        url = response.data.paging && response.data.paging.next ? response.data.paging.next : null;
-                    }
-
-                    // Após o loop, atualizar o estado com os dados acumulados
-                    dispatch({
-                        type: 'UPDATE_POSTS_DATA',
-                        value: allData,
-                    });
-                    // Criar o cache com os dados
-                    setRedisData(allData)
-
-                } catch (error: any) {
-                    console.error('Erro ao buscar os posts:', error.message);
-                    // Lide com o erro conforme necessário
-                }
+                return token
             }
-        };
+        }
+    };
 
-        fetchToken()
-        fetchData()
+    useEffect(() => {
+        fetchToken().then(r => console.log(r))
+        fetchData().then(r => console.log(r))
     }, []);
 
     return (
@@ -248,3 +266,16 @@ export function InstaPostsContextProvider({ children }: { children: ReactNode })
         </InstaPostsContext.Provider>
     );
 }
+
+// export async function getServerSideProps(context: any) {
+//     try {
+//         const tokenData = await getTokenData();
+//         const postsData = await getRedisData();
+
+//         return { props: { tokenData, postsData } };
+//     } catch (error) {
+//         console.error("Erro em getServerSideProps:", error);
+//         // Retorna null para ambos os props em caso de erro
+//         return { props: { tokenData: null, postsData: null } };
+//     }
+// }
