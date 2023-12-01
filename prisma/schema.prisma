@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id             String         @id
+  caption        String
+  media_type     String
+  media_url      String
+  permalink      String
+  timestamp      DateTime
+  instaPostsData InstaPostsData @relation(fields: [instaPostsDataId], references: [id])
+  instaPostsDataId Int
+}
+
+model InstaPostsData {
+  id          Int    @id @default(1)
+  data        Post[] 
+  generated_at DateTime @default(now())
+
+  @@map("posts")
+}
+
+model TokenData {
+  id Int @id @default(1)
+  access_token String
+  token_type String @default("bearer")
+  expires_in BigInt
+  generated_at DateTime @default(now())
+
+  @@map("token")
+}

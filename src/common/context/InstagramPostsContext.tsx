@@ -33,7 +33,7 @@ async function renewToken(old_token: string) {
         // Adicionando o campo generated_at à resposta
         const responseDataWithTimestamp = {
             ...data,
-            generated_at: Date.now()
+            generated_at: Date.now().toString()
         };
         return responseDataWithTimestamp; // Retorna os dados do novo token com generated_at
 

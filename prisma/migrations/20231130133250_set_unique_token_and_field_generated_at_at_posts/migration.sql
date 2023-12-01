@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "posts" ADD COLUMN     "generated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "token" ALTER COLUMN "id" SET DEFAULT 1,
+ALTER COLUMN "id" DROP DEFAULT;
+DROP SEQUENCE "token_id_seq";
