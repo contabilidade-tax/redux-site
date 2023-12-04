@@ -35,7 +35,7 @@ export default function Footer({ className }: { className?: string }) {
                             </Link>
                         </div>
                     </div>
-                    <div className="contato w-max">
+                    <div className="contato flex-1">
                         <h3 className="font-bold text-lg">Contate-nos</h3>
                         <div className="space-y-1 mt-2">
                             <p>- Av. Virgílio Távora, 11 - Fátima, Juazeiro do Norte-CE</p>

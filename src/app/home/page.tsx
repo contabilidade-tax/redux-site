@@ -68,7 +68,7 @@ export default function Home() {
         ) : (
           <>
             {/* <Header /> */}
-            <section className={cn(styles.contentArea, 'h-[90vh] w-full')}>
+            <section className={cn(styles.contentArea, 'min-h-[90svh] w-full')}>
               <div className={cn('min-h-[90vh] w-full flex flex-col justify-around gap-8 py-4')}>
                 <div className={`${styles.introText} w-full tracking-wide lg:text-6xl xl:text-7xl text-center p-0`}>
                   <p className="w-full h-max font-normal">
@@ -108,14 +108,14 @@ export default function Home() {
                 </div>
               </div>
             </section>
-            <section className={cn(styles.wrapper, 'w-full h-[90vh]', "flex justify-center items-center servicos py-10")}>
+            <section className={cn(styles.wrapper, 'w-full min-h-[90svh]', "flex justify-center items-center servicos py-10")}>
               <Servicos id='servicos' className={cn('h-full w-full')} />
             </section>
-            <section id='sobre' className={cn(styles.wrapper, 'w-full h-auto max-w-[1500px]', "flex flex-col gap-4 justify-center items-center notSelected-G")}>
+            <section id='sobre' className={cn(styles.wrapper, 'w-full h-auto min-h-[90svh] max-w-[1500px]', "flex flex-col gap-4 justify-center items-center notSelected-G")}>
               <h1 className='self-center  text-left text-7xl font-extrabold text-primary-color'>Conheça nosso time:</h1>
               <Sobre />
             </section>
-            <section className={cn(styles.wrapper, 'h-[90vh] max-w-full', 'flex flex-col justify-center notSelected-G')}>
+            <section className={cn(styles.wrapper, 'min-h-[90svh] max-w-full', 'flex flex-col justify-center notSelected-G')}>
               <h1 className='text-center text-5xl font-extrabold text-primary-color'>Confira os posts mais recentes!</h1>
               {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
               <section className='posts w-full'>
