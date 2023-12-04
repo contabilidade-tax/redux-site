@@ -37,7 +37,7 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
             {isLoading ?
                 <Skeleton.Root className="relative w-full h-full !z-50 flex items-center gap-4 justify-evenly p-5" >
                     {Array.from({ length: 6 }).map((_, index) => (
-                        <Skeleton.Item key={index} className="w-80 h-96 rounded-md bg-indigo-100 drop-shadow-custom" />
+                        <Skeleton.Item key={index} className="max-w-[320px] max-h-[384px] w-[16.5%] h-full rounded-md bg-indigo-100 drop-shadow-custom" />
                     ))}
                 </Skeleton.Root>
                 :

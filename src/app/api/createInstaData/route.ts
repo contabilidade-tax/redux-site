@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
             }
 
             if (customKey) {
-                // Em caso de token, salva no cache
+                // Em caso de qualquer outra chave, salva no cache
                 await setRedisRegister(data, customKey).then((cache) => {
                     messages_array.push("Created Succesfully on cache anykey: " + cache);
                 }).catch((error: any) => {
