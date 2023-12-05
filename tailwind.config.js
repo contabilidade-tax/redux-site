@@ -33,8 +33,8 @@ module.exports = withMT({
         'secondary-color': '#202020',
         // 'primary-color': '#666',
         // 'primary-color': '#037367',
-        // 'primary-color': '#D5A115',
-        'primary-color': '#ff0000',
+        'primary-color': '#D5A115',
+        // 'primary-color': '#ff0000',
       },
       keyframes: {
         'fade-in': {
