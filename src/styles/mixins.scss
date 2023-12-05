@@ -43,6 +43,12 @@
     }
 }
 
+@mixin xsmScreen() {
+    @media (min-width: 150px) {
+        @content;
+    }
+}
+
 @mixin customScreen($width) {
     @media (min-width: $width) {
         @content;

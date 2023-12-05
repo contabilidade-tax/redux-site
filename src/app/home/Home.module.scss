@@ -9,6 +9,11 @@
 }
 
 .wrapper {
+    @include xsmScreen() {
+        padding: $xsm-padding;
+    }
+
+
     @include smScreen() {
         padding: $sm-padding;
     }

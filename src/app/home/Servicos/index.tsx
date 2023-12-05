@@ -106,25 +106,25 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
     <section className={cn(styles.servicos, className)} {...rest}>
       <section className={cn('max-h-[90vh] w-full flex flex-col justify-center items-center py-8')}>
         <h1 className={cn("font-semibold md:text-4xl lg:text-6xl text-center text-3xl", styles.title)}>Como podemos ajudar<span className={cn('font-black md:text-5xl lg:text-7xl text-3xl', 'text-primary-color')}>?</span></h1>
-        <div className={cn(styles.contentWrapper, 'flex h-full w-full justify-center items-center my-10 gap-4 px-10')}>
+        <div className={cn(styles.contentWrapper, 'flex h-full w-full justify-center items-center my-10 gap-4 md:px-10 xsm:flex-col-reverse md:!flex-row')}>
           {/* LEFT AREA */}
-          <div className={cn(styles.left, 'w-2/5 h-full self-start')}>
+          <div className={cn(styles.left, 'w-2/5 h-full self-start xsm:w-full xsm:-translate-y-[15%]')}>
             <div className={cn(styles.textArea, 'w-full h-full flex flex-col relative justify-start items-center')}>
               <Seletores
                 services={services}
                 state={state}
                 switchTab={switchTab}
                 styles={styles}
-                className={cn(styles.seletores)}
+                className={cn(styles.seletores, 'xsm:hidden md:block')}
               />
               {/* TEXTO */}
               <div className={cn(
                 styles.text,
-                "bg-[#202020] w-full h-full min-h-[450px] max-w-[25rem] rounded-xl flex-1 flex flex-col justify-between",
+                "bg-[#202020] w-full h-full md:min-h-[450px] xsm:min-h-[50%] max-w-[25rem] rounded-xl flex-1 flex flex-col justify-between",
               )}>
                 {/* SUBTITULO */}
                 <div className={cn(
-                  'bg-primary-color rounded-full w-4/5 h-10 mx-auto relative -translate-y-1/2 justify-center items-center hidden md:flex',
+                  'bg-primary-color rounded-full w-4/5 h-10 mx-auto relative -translate-y-1/2 justify-center items-center hidden xsm:flex',
                   styles.subtitle
                 )}>
                   <p className={cn('font-semibold text-base text-center text-white', 'w-max h-max')}>{state.selectedTab.titulo}</p>
@@ -151,7 +151,13 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
             </div>
           </div>
           {/* RIGHT AREA */}
-          <div ref={animationAreaRef} className={cn(styles.right, 'flex-1 h-full flex flex-col items-center sm:gap-12')}>
+          <div ref={animationAreaRef} className={cn(styles.right, 'relative flex-1 h-full flex flex-col items-center sm:gap-12 xsm:w-full')}>
+            {false && <ServiceNav
+              mobileState={mobileState}
+              services={services}
+              state={state}
+              switchTab={switchTab} />}
+            {/* ANIMATION CONTAINER */}
             <div className={cn(
               styles.animationContainer,
               'w-full h-3/5'
@@ -165,14 +171,14 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
                       height={mobileState.isSmallScreen ? state.animationArea.height * 0.5 : state.animationArea.height * 0.5}
                       key={index}
                       className={cn(
-                        'relative cursor-default overflow-hidden object-cover mx-auto sm:min-h-[250px] sm:min-w-[550px] lg:min-h-[300px] max-w-[692px] max-h-[307px]',
+                        'relative cursor-default overflow-hidden object-cover mx-auto xsm:min-h-[300px] xsm:min-w-full lg:min-h-[300px] max-w-[692px] max-h-[307px]',
                       )} />
                   )
                 ))}
               </div>
             </div>
             {/* FOOTER TEXT AREA */}
-            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto flex', 'sm:flex-col lg:flex-col xl:flex-row xl:flex-1')}>
+            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto flex', 'xsm:hidden sm:flex-col lg:flex-col xl:flex-row xl:flex-1')}>
               <div className={cn(styles.fraseStyle, 'w-full text-4xl', 'sm:w-[150px] !sm:flex-1 !sm:text-5xl lg:w-full xl:flex-1 xl:min-w-[480px] xl-max:h-[200px] xl:text-7xl border-2 border-yellow-500')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
                   <h1

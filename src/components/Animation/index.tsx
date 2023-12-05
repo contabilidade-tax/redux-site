@@ -176,7 +176,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
             style={{
                 backgroundImage: `url('/assets/img/animations/1/piso.png')`,
                 backgroundSize: 'contain',
-                backgroundPosition: 'center 100%',
+                backgroundPosition: 'center 80%',
                 backgroundRepeat: 'no-repeat',
                 width: widthProp,
                 height: heightProp,

@@ -90,7 +90,7 @@ export default function Header({ className }: { className?: string }) {
       className={
         cn(
           styles.head,
-          'bg-zinc-50 sticky top-0 z-[1000] flex min-h-[10vh] w-full items-center justify-between bg-[#fafafa] shadow-md',
+          'bg-zinc-50 sticky top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#fafafa] shadow-md',
           className,
           { 'hidden': isLoading }
         )
