@@ -20,24 +20,24 @@ import Sobre from '@/components/Sobre'
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
   const { mobileState } = useMobileContext()
-  // const dinoPositions = {
-  //   dino: {
-  //     X: 200,
-  //     Y: 324
-  //   },
-  //   dinoCar: {
-  //     X: 200,
-  //     Y: 269
-  //   },
-  //   dinoMobile: {
-  //     X: 200,
-  //     Y: 160
-  //   },
-  //   dinoCarMobile: {
-  //     X: 200,
-  //     Y: 105
-  //   }
-  // }
+  const dinoPositions = {
+    dino: {
+      X: 200,
+      Y: 324
+    },
+    dinoCar: {
+      X: 200,
+      Y: 269
+    },
+    dinoMobile: {
+      X: 200,
+      Y: 160
+    },
+    dinoCarMobile: {
+      X: 200,
+      Y: 105
+    }
+  }
 
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
@@ -81,18 +81,19 @@ export default function Home() {
                 </div>
                 {/* <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative data-[mobile=false]:h-[35%] mx-auto border-2 border-black")}> */}
                 <section className={cn("w-full relative mx-auto", "xsm:h-[230px] md:!flex-1 md:!h-full")}>
-                  {/* <GameScene
-                      chProp={mobileState.isMobileDevice ? 300 : 550}
-                      cwProp={1580}
-                      scaleProp={mobileState.isMobileDevice ? .65 : .7}
-                      speedProp={200}
-                      timeToReset={26.5}
-                      dino={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
-                      dinoPaused={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
-                      dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
-                      className={cn(styles.gameScene, 'mx-auto w-full')}
-                    /> */}
-                  <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted controls={false} disablePictureInPicture={true} disableRemotePlayback={true} className="w-full h-full object-fill"></video>
+                  <GameScene
+                    chProp={mobileState.isMobileDevice ? 300 : 450}
+                    cwProp={1580}
+                    scaleProp={mobileState.isMobileDevice ? .65 : .7}
+                    speedProp={200}
+                    timeToReset={26.5}
+                    dino={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
+                    dinoPaused={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
+                    dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
+                    className={cn(styles.gameScene, 'mx-auto w-full')}
+                  />
+                  {/* <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted disablePictureInPicture={true} disableRemotePlayback={true} className="w-full h-full object-fill"></video> */}
+                  {/* <img alt='Dino' src="/assets/video/dinoAnimation.gif" width={1000} height={1000} className="w-full h-full object-fit" /> */}
                 </section>
                 <div className={`${styles.bottomTextContent} flex flex-col`}>
                   <h2 className="text-2xl lg:text-4xl text-center">

@@ -141,14 +141,17 @@ export default function Header({ className }: { className?: string }) {
           Login
         </Button>
       </Link>
-      <Button
+      {/* <Button
         onClick={() => {
           setMenuOpen(true)
         }}
-        className={`${styles.hamburguerButton} ` + 'w-[4em] h-[3em] bg-primary-color lg:hidden'}
-      >
-        <Bars3Icon width={40} height={40} />
-      </Button>
+        className={`${styles.hamburguerButton} ` + 'w-[4em] h-[3em] lg:hidden'}
+      > */}
+      <Bars3Icon onClick={() => {
+        setMenuOpen(true)
+      }}
+        className={`${styles.hamburguerButton} ` + 'w-[2em] h-[2em] lg:hidden'} width={40} height={40} />
+      {/* </Button> */}
       {
         state.menuIsOpen && (
           <MenuItens
