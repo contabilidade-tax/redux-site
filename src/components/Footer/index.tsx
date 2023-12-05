@@ -20,9 +20,10 @@ export default function Footer({ className }: { className?: string }) {
         )}>
             {/* <div className="wrapper flex flex-col w-full h-full justify-center items-center gap-5"> */}
             <section className="w-full h-full flex justify-between items-start flex-col xl:flex-row flex-grow gap-6">
-                <section className="flex-1 flex justify-around items-center gap-4">
+                <section className="flex-1 flex justify-around items-center gap-4 xsm:scale-90 xsm:gap-5">
                     <div className="logo_itens flex flex-col w-max gap-2 max-w-[350px] px-4 h-max justify-center items-start">
                         <Image src="/assets/img/logo-branca-cortada.svg" alt="logo-cortada" className="grayscale-0 w-inherit h-[50px] object-contain" width={100} height={100} />
+                        {/* <Image src="/assets/img/re" alt="logo-cortada" className="grayscale-0 w-inherit h-[50px] object-contain" width={100} height={100} /> */}
                         <div className="links flex flex-wrap justify-center items-center w-max h-max gap-2">
                             <Link className={linkStyle} href="https://www.instagram.com/taxcontabilidade.adm/" target="_blank" rel="noreferrer">
                                 <Instagram fill="#CCC" color="#000" />
@@ -36,15 +37,15 @@ export default function Footer({ className }: { className?: string }) {
                         </div>
                     </div>
                     <div className="contato flex-1">
-                        <h3 className="font-bold text-lg">Contate-nos</h3>
-                        <div className="space-y-1 mt-2">
+                        <h3 className="font-bold text-lg xsm:text-base">Contate-nos</h3>
+                        <div className="space-y-1 mt-2 xsm:text-sm">
                             <p>- Av. Virgílio Távora, 11 - Fátima, Juazeiro do Norte-CE</p>
                             <p>- comercial@contabilidade-tax.com.br</p>
                             {/* <li>1111</li> */}
                         </div>
                     </div>
                 </section>
-                <div className="copy flex-1 max-w-[390px] w-auto h-max self-end font-semibold"><p>© 2023 Tax Contabilidade. Todos os direitos reservados.</p></div>
+                <div className="copy flex-1 max-w-[390px] w-auto h-max font-semibold xsm:text-xs xsm:self-center md:!self-end md:!text-sm"><p>© 2023 Tax Contabilidade. Todos os direitos reservados.</p></div>
             </section>
             {/* <div className= w-full h-[1.5px]"></div> */}
             {/* </div> */}

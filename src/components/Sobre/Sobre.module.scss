@@ -1,10 +1,10 @@
 .figure img {
-  filter: blur(0.8px) grayscale(1);
+  filter: grayscale(1);
   transition: filter 0.3s ease-in-out;
 }
 
 .figure img:hover {
-  filter: blur(0px) grayscale(0);
+  filter: grayscale(0);
   scale: 1.1;
   // transform: translateZ(10px);
 }

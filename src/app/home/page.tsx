@@ -69,18 +69,18 @@ export default function Home() {
           <>
             {/* <Header /> */}
             <section className={cn(styles.contentArea, 'min-h-[90svh] w-full', 'pt-[10sh]')}>
-              <div className={cn('min-h-[90svh] w-full flex flex-col justify-between py-[5%]')}>
-                <div className={cn('w-full tracking-wide lg:text-6xl xl:text-7xl text-center p-0')}>
-                  <p className="w-full h-max font-normal xsm:text-4xl">
+              <div className={cn('min-h-[90svh] w-full flex flex-col justify-between py-[5%] md:!py-[3%] md:!gap-10')}>
+                <div className={cn('w-full tracking-wide lg:text-6xl text-7xl text-center p-0')}>
+                  <p className={cn("w-full h-max font-normal", "xsm:text-4xl md:!text-6xl")}>
                     Não somos obrigação,
                   </p>
-                  <p className='font-black xsm:text-4xl'>
+                  <p className='font-black xsm:text-4xl md:!text-6xl'>
                     <span className='text-primary-color'> somos ferramenta</span>
                     <span className="text-primary-color">.</span>
                   </p>
                 </div>
                 {/* <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative data-[mobile=false]:h-[35%] mx-auto border-2 border-black")}> */}
-                <section className={cn("w-full relative mx-auto", "xsm:!h-[230px] md:flex-1")}>
+                <section className={cn("w-full relative mx-auto", "xsm:h-[230px] md:!flex-1 md:!h-full")}>
                   {/* <GameScene
                       chProp={mobileState.isMobileDevice ? 300 : 550}
                       cwProp={1580}
@@ -110,16 +110,16 @@ export default function Home() {
             <section id='servicos' className={cn(styles.wrapper, 'w-full min-h-[90svh]', '!mt-[10svh] !pt-[5svh]', "flex justify-center items-center servicos py-10")}>
               <Servicos className={cn('h-full w-full')} />
             </section>
-            <section id='sobre' className={cn(styles.wrapper, 'w-full h-auto min-h-[90svh] max-w-[1500px]', '!pt-[10svh]', "flex flex-col gap-4 justify-center items-center notSelected-G")}>
-              <div className='intraSection'>
-                <h1 className='self-center  text-left md:text-7xl font-extrabold text-primary-color xsm:text-5xl'>Conheça nosso time:</h1>
+            <section id='sobre' className={cn(styles.wrapper, 'w-full h-auto min-h-[90svh] max-w-[1500px]', '!pt-[10svh]', "flex flex-col gap-5 justify-center items-center notSelected-G")}>
+              <div className='intraSection space-y-2'>
+                <h1 className='self-center text-left md:text-7xl font-extrabold text-primary-color xsm:text-5xl'>Conheça nosso time:</h1>
                 <Sobre />
               </div>
             </section>
-            <section className={cn(styles.wrapper, 'max-h-[90svh] h-auto max-w-full mt-[10svh]', 'flex flex-col justify-center notSelected-G')}>
-              <h1 className='text-center text-5xl sm:!text-3xl font-extrabold text-primary-color'>Confira os posts mais recentes!</h1>
+            <section className={cn(styles.wrapper, 'max-h-[90svh] h-auto max-w-full md:mt-[10svh] xsm:!my-[10svh]', 'flex flex-col justify-center notSelected-G')}>
+              <h1 className='text-center text-5xl md:!text-5xl sm:!text-2xl font-extrabold text-primary-color'>Posts mais recentes!</h1>
               {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
-              <section className='posts w-full xsm:scale-90'>
+              <section className='posts w-full xsm:!scale-95 md:!scale-100'>
                 <InstaRecentPosts isMobile={mobileState.isSmallScreen} />
               </section>
             </section>

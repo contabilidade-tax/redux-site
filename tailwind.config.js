@@ -29,11 +29,12 @@ module.exports = withMT({
       },
       colors: {
         'background': '#DDD',
-        'primary-color': 'rgb(49,188,175)',
+        // 'primary-color': 'rgb(49,188,175)',
         'secondary-color': '#202020',
         // 'primary-color': '#666',
         // 'primary-color': '#037367',
         // 'primary-color': '#D5A115',
+        'primary-color': '#ff0000',
       },
       keyframes: {
         'fade-in': {

@@ -106,16 +106,16 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
     <section className={cn(styles.servicos, className)} {...rest}>
       <section className={cn('max-h-[90vh] w-full flex flex-col justify-center items-center py-8')}>
         <h1 className={cn("font-semibold md:text-4xl lg:text-6xl text-center text-3xl", styles.title)}>Como podemos ajudar<span className={cn('font-black md:text-5xl lg:text-7xl text-3xl', 'text-primary-color')}>?</span></h1>
-        <div className={cn(styles.contentWrapper, 'flex h-full w-full justify-center items-center my-10 gap-4 md:px-10 xsm:flex-col-reverse md:!flex-row')}>
+        <div className={cn(styles.contentWrapper, 'flex h-full w-full justify-center items-center md:my-10 gap-4 md:px-10 xsm:flex-col-reverse md:!flex-row')}>
           {/* LEFT AREA */}
-          <div className={cn(styles.left, 'w-2/5 h-full self-start xsm:w-full xsm:-translate-y-[15%]')}>
+          <div className={cn(styles.left, 'h-full self-start xsm:w-full md:!w-2/5')}>
             <div className={cn(styles.textArea, 'w-full h-full flex flex-col relative justify-start items-center')}>
               <Seletores
                 services={services}
                 state={state}
                 switchTab={switchTab}
                 styles={styles}
-                className={cn(styles.seletores, 'xsm:hidden md:block')}
+                className={cn(styles.seletores, 'z-[90]')}
               />
               {/* TEXTO */}
               <div className={cn(
@@ -151,16 +151,11 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
             </div>
           </div>
           {/* RIGHT AREA */}
-          <div ref={animationAreaRef} className={cn(styles.right, 'relative flex-1 h-full flex flex-col items-center sm:gap-12 xsm:w-full')}>
-            {false && <ServiceNav
-              mobileState={mobileState}
-              services={services}
-              state={state}
-              switchTab={switchTab} />}
+          <div ref={animationAreaRef} className={cn(styles.right, 'relative h-full flex flex-col md:!flex-1 xsm:!w-full items-center sm:gap-12')}>
             {/* ANIMATION CONTAINER */}
             <div className={cn(
               styles.animationContainer,
-              'w-full h-3/5'
+              'w-full h-3/5 md:!min-h-[60%] xsm:max-h-[250px]',
             )}>
               <div title={state.selectedTab.subtitulo} className={cn(styles.animationArea, 'w-full h-full relative mx-auto')}>
                 {animations.map((Animation, index) => (
@@ -178,7 +173,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
               </div>
             </div>
             {/* FOOTER TEXT AREA */}
-            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto flex', 'xsm:hidden sm:flex-col lg:flex-col xl:flex-row xl:flex-1')}>
+            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto flex', 'xsm:hidden sm:flex-col lg:!flex-col md:!block xl:!flex-row xl:!flex-1')}>
               <div className={cn(styles.fraseStyle, 'w-full text-4xl', 'sm:w-[150px] !sm:flex-1 !sm:text-5xl lg:w-full xl:flex-1 xl:min-w-[480px] xl-max:h-[200px] xl:text-7xl border-2 border-yellow-500')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
                   <h1

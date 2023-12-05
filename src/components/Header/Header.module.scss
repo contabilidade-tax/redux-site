@@ -9,73 +9,95 @@
     background: $primary-color;
 }
 
-.head {
-    padding: $xsm-padding;
-}
-
-@include customMedia("max-width: 450px") {
-    .head {
-        min-height: 8vh;
+.wrapper {
+    @include xsmScreen() {
+        padding: $xsm-padding;
     }
 
-    .logo {
-        width: 100%;
-        height: 90%;
-
-        transform: translateX(-55px);
-    }
-}
-
-@include smScreen() {
-    .head {
+    @include smScreen() {
         padding: $sm-padding;
     }
-}
 
-@include mdScreen() {
-    .head {
+    @include mdScreen() {
         padding: $md-padding;
-
-        min-height: 9vh;
     }
-}
 
-@include lgScreen() {
-    .head {
+    @include lgScreen() {
         padding: $lg-padding;
-
-        .desktopTabs {
-            display: flex;
-
-            font-size: 16px;
-            font-weight: 400
-        }
-
-        .link {
-            display: block;
-        }
-
-        .link:hover button .iconContainer {
-            .dinoSerio {
-                display: hidden;
-            }
-
-            .dinoSorrindo {
-                display: block !important;
-            }
-        }
-
     }
 
-    .hamburguerButton {
-        display: none;
-    }
-
-
-}
-
-@include xlScreen() {
-    .head {
+    @include xlScreen() {
         padding: $xl-padding;
     }
 }
+
+// .head {
+//     padding: $xsm-padding;
+// }
+
+// @include customMedia("max-width: 450px") {
+//     .head {
+//         min-height: 8vh;
+//     }
+
+//     .logo {
+//         width: 100%;
+//         height: 90%;
+
+//         transform: translateX(-55px);
+//     }
+// }
+
+// @include smScreen() {
+//     .head {
+//         padding: $sm-padding;
+//     }
+// }
+
+// @include mdScreen() {
+//     .head {
+//         padding: $md-padding;
+
+//         min-height: 9vh;
+//     }
+// }
+
+// @include lgScreen() {
+//     .head {
+//         padding: $lg-padding;
+
+//         .desktopTabs {
+//             display: flex;
+
+//             font-size: 16px;
+//             font-weight: 400
+//         }
+
+//         .link {
+//             display: block;
+//         }
+
+//         .link:hover button .iconContainer {
+//             .dinoSerio {
+//                 display: hidden;
+//             }
+
+//             .dinoSorrindo {
+//                 display: block !important;
+//             }
+//         }
+
+//     }
+
+//     .hamburguerButton {
+//         display: none;
+//     }
+
+
+// }
+
+// @include xlScreen() {
+//     .head {
+//         padding: $xl-padding;
+//     }
+// }

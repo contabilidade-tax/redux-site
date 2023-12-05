@@ -9,8 +9,8 @@ function Figure({ image, name, description, className, style: styleProps }: Figu
   return (
     <div style={styleProps} className={cn("flex flex-col items-center justify-center", className)}>
       <img src={image} alt={name} className="object-contain max-h-[300px]" />
-      <h3 className="text-2xl font-semibold">{name}</h3>
-      <h4 className="text-xl">{description}</h4>
+      <h3 className="md:!text-2xl font-semibold xsm:text-sm">{name}</h3>
+      <h4 className="md:!text-xl xsm:text-base">{description}</h4>
     </div>
   )
 }
@@ -33,15 +33,15 @@ export default function Sobre() {
   ]
 
   return (
-    <section className="flex flex-wrap justify-center items-center gap-6 py-5">
+    <section className="flex flex-wrap justify-center items-center md:!gap-5 md:!py-5 xsm:gap-12 xsm:py-3">
       {figureContents.map((figure, index) => (
         <Figure
           key={index}
           image={`/assets/img/sobre/${figure.image}.png`}
           name={figure.name}
           description={figure.description}
-          className={styles.figure}
-          style={{ flexBasis: '25%' }}
+          className={cn(styles.figure, 'xsm:scale-110 md:!scale-100')}
+          style={{ flexBasis: '30%' }}
         />
       ))}
     </section>

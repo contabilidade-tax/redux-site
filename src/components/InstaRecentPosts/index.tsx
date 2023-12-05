@@ -45,15 +45,17 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
                     <div key={index} className={cn(
                         styles.instaPost,
                         'flex flex-col relative px-4 self-center drop-shadow-custom h-[90%]',
-                        { 'scale:.8': isMobile },
+                        // { 'scale:.8': isMobile },
                     )}>
-                        <Card.Root className='rounded-3xl overflow-hidden w-full h-full py-8 px-1 space-y-1'>
+                        {/* <Card.Root className='rounded-3xl overflow-hidden w-full h-full md:!py-8 xsm:py-2 px-1 space-y-1'> */}
+                        <Card.Root className='rounded-3xl w-full h-full md:!py-8 xsm:py-2 px-0 space-y-1'>
                             <Card.Post
                                 post={post}
                                 index={index}
                                 className={cn(
                                     styles.instaMidia,
-                                    'relative top-2 w-1/2'
+                                    'relative top-2 w-1/2',
+                                    '!max-h-[335px]'
                                 )} />
                             <Card.Caption className='self-end' text={post.caption!} timestamp={post.timestamp!} />
                         </Card.Root>

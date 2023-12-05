@@ -90,24 +90,25 @@ export default function Header({ className }: { className?: string }) {
       className={
         cn(
           styles.head,
+          styles.wrapper,
           'bg-zinc-50 sticky top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#fafafa] shadow-md',
           className,
           { 'hidden': isLoading }
         )
       }
     >
-      <Link href={'/'} className={`h-[50px] w-[200px] ${styles.logo}`} >
+      <Link href={'/'} className={`h-[45px] w-[200px] ${styles.logo}`} >
         <Image
           className='w-full h-full object-contain'
-          // src="/assets/img/redux-logo.svg"
-          src="/assets/img/logo-verde-2.png"
+          src="/assets/img/redux-logo.svg"
+          // src="/assets/img/logo-verde-2.png"
           alt="Redux Logo"
           width={1000}
           height={1000}
           priority={true}
         />
       </Link>
-      <div className={`${styles.desktopTabs} ` + 'hidden h-auto w-max'}>
+      <div className={`${styles.desktopTabs} ` + 'hidden h-auto w-max md:block'}>
         <ul className="flex items-center">
           {tabs.map((tab, index) => (
             <li key={index}>
@@ -126,7 +127,7 @@ export default function Header({ className }: { className?: string }) {
           ))}
         </ul>
       </div>
-      <Link href="/login" className={`${styles.link} hidden`}>
+      <Link href="/login" className={`${styles.link} hidden md:block`}>
         <Button
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
