@@ -80,17 +80,17 @@ export default function Home() {
                   </p>
                 </div>
                 {/* <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative data-[mobile=false]:h-[35%] mx-auto border-2 border-black")}> */}
-                <section className={cn("w-full relative mx-auto", "xsm:h-[230px] md:!flex-1 md:!h-full")}>
+                <section className={cn("min-w-screen relative mx-auto", "xsm:h-[230px] md:!flex-1", "border-2 border-black")}>
                   <GameScene
-                    chProp={mobileState.isMobileDevice ? 300 : 450}
-                    cwProp={1580}
-                    scaleProp={mobileState.isMobileDevice ? .65 : .7}
+                    chProp={mobileState.isSmallScreen ? 250 : 450}
+                    cwProp={typeof window !== 'undefined' ? window.innerWidth : 1580}
+                    scaleProp={mobileState.isMobileDevice ? .6 : .6}
                     speedProp={200}
                     timeToReset={26.5}
                     dino={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
                     dinoPaused={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
                     dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
-                    className={cn(styles.gameScene, 'mx-auto w-full')}
+                    className={cn(styles.gameScene, 'object-contain mx-auto !w-full md:h-auto md:max-h-[400px] border-2 border-yellow-500')}
                   />
                   {/* <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted disablePictureInPicture={true} disableRemotePlayback={true} className="w-full h-full object-fill"></video> */}
                   {/* <img alt='Dino' src="/assets/video/dinoAnimation.gif" width={1000} height={1000} className="w-full h-full object-fit" /> */}
