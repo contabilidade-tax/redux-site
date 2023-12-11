@@ -79,8 +79,8 @@ export default function Home() {
                     <span className="text-primary-color">.</span>
                   </p>
                 </div>
-                {/* <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative data-[mobile=false]:h-[35%] mx-auto border-2 border-black")}> */}
-                <section className={cn("min-w-screen relative mx-auto", "xsm:h-[230px] md:!flex-1", "border-2 border-black")}>
+                <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative mx-auto border-2 border-black")}>
+                  {/* <section className={cn("w-screen !mx-12 relative", "xsm:h-[230px] md:!flex-1", "border-2 border-black")}> */}
                   <GameScene
                     chProp={mobileState.isSmallScreen ? 250 : 450}
                     cwProp={typeof window !== 'undefined' ? window.innerWidth : 1580}

@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
+import { render } from '@/components/Email'
 import { Form, FormControl, FormField, FormLabel, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -27,6 +28,7 @@ import { cn } from "@/lib/utils"
 import { CheckIcon } from "lucide-react"
 import { CaretSortIcon } from "@radix-ui/react-icons"
 import { useState } from "react"
+import axios from "axios"
 
 const formSchema: any = z.object({
     name: z.string().min(2, {
@@ -75,15 +77,41 @@ export default function ContactForm({ className }: { className?: string }) {
     })
     // 2. Define a submit handler.
     function onSubmit(data: z.infer<typeof formSchema>) {
-        toast({
-            title: "Você enviou os seguintes valores:",
-            className: "mt-2 rounded-md bg-slate-800 p-4 text-white",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-800 p-4">
-                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-        })
+        const emailRender = render(data)
+        axios.post('/api/rh/sendProfile', { body: emailRender })
+            .then(
+                () => {
+                    console.log(emailRender)
+                    toast({
+                        // title: "Você enviou os seguintes valores:",
+                        className: "mt-2 -translate-x-16 rounded-md p-4 text-black w-max",
+                        description: (
+                            <pre className="mt-2 max-w-[420px] rounded-md bg-white/80 p-6 font-base">
+                                <p className="text-center text-base">Obrigado por nos enviar seu currículo!</p>
+                                <p className="text-base text-center">Apreciamos seu interesse em fazer parte <br /> da nossa equipe!</p>
+                                <br />
+                                <p className="text-center text-base">Até mais! 👋🏼</p>
+                                <p className="text-center text-base">Equipe REDUX Contabilidade</p>
+                                {/* <code className="text-white">{JSON.stringify(data, null, 2)}</code> */}
+                            </pre>
+                        ),
+                    })
+                }
+            )
+            .catch((error: any) => {
+                console.log(error.toJSON())
+                console.log(error.response.config.data)
+                toast({
+                    title: "Ocorreu um erro ao enviar o currículo",
+                    description: (
+                        <pre className="w-full bg-white">
+                            <code>{JSON.stringify(error.response.config.data, null, 2)}</code>
+                        </pre>
+                    ),
+                    variant: "destructive",
+                })
+
+            })
     }
 
     const errorMessageStyle = 'text-red-500 font-bold text-sm'

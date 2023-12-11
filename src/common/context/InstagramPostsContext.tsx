@@ -66,9 +66,9 @@ export const useInstaPostsContext = () => {
 };
 
 async function getTokenData(): Promise<InstaTokenData | null> {
-    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
+    // const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
     try {
-        const response = await fetch(`${home}/api/instaData?key=token`, { method: 'GET' });
+        const response = await fetch(`/api/instaData?key=token`, { method: 'GET' });
         if (!response.ok) {
             throw new Error(`Erro HTTP: status ${response.status}`);
         }
@@ -82,10 +82,10 @@ async function getTokenData(): Promise<InstaTokenData | null> {
 
 
 async function getRedisData() {
-    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL;
+    // const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL;
 
     try {
-        const response = await fetch(`${home}/api/instaData`, { method: 'GET' });
+        const response = await fetch(`/api/instaData`, { method: 'GET' });
 
         if (!response.ok) {
             throw new Error(`Erro HTTP: status ${response.status}`);
@@ -106,8 +106,8 @@ async function getRedisData() {
 
 
 function setTokenData(data: InstaTokenData): InstaTokenData | undefined | never | any {
-    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
-    fetch(`${home}/api/createInstaData?key=token`, {
+    // const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
+    fetch(`/api/createInstaData?key=token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -126,9 +126,9 @@ function setTokenData(data: InstaTokenData): InstaTokenData | undefined | never 
 }
 
 function setPostsData(data: InstaPostData[]) {
-    const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL;
+    // const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL;
 
-    fetch(`${home}/api/createInstaData`, {
+    fetch(`/api/createInstaData`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

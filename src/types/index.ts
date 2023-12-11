@@ -157,6 +157,15 @@ type InstaPostsProps = {
   children: ReactNode
 }
 
+type EmailProps = {
+  name: string,
+  email: string,
+  whatsapp: string,
+  cidade: string,
+  estado: string,
+  message: string,
+}
+
 export type {
   ButtonProps,
   IconProps,
@@ -176,5 +185,6 @@ export type {
   VideoPlayerProps,
   InstaMidiaProps,
   FigureProps,
-  InstaPostsProps
+  InstaPostsProps,
+  EmailProps
 }

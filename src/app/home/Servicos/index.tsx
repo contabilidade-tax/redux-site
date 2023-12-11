@@ -151,7 +151,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
             </div>
           </div>
           {/* RIGHT AREA */}
-          <div ref={animationAreaRef} className={cn(styles.right, 'relative h-full flex flex-col md:!flex-1 xsm:!w-full items-center sm:gap-12')}>
+          <div ref={animationAreaRef} className={cn(styles.right, 'relative h-full flex flex-col md:!flex-1 xsm:!w-full items-center sm:gap-12 md:gap-16')}>
             {/* ANIMATION CONTAINER */}
             <div className={cn(
               styles.animationContainer,
@@ -173,8 +173,8 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
               </div>
             </div>
             {/* FOOTER TEXT AREA */}
-            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto flex', 'xsm:hidden sm:flex-col lg:!flex-col md:!block xl:!flex-row xl:!flex-1')}>
-              <div className={cn(styles.fraseStyle, 'w-full text-4xl', 'sm:w-[150px] !sm:flex-1 !sm:text-5xl lg:w-full xl:flex-1 xl:min-w-[480px] xl-max:h-[200px] xl:text-7xl border-2 border-yellow-500')}>
+            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto', 'xsm:hidden sm:flex-col lg:!flex-row md:!flex xl:!flex-1')}>
+              <div className={cn(styles.fraseStyle, 'w-full text-4xl', 'sm:w-[150px] !sm:flex-1 !sm:text-5xl lg:w-full xl:flex-1 xl:min-w-[480px] xl-max:h-[200px] xl:text-7xl')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
                   <h1
                     className={cn(

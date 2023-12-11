@@ -20,7 +20,7 @@ export default function Footer({ className }: { className?: string }) {
         )}>
             {/* <div className="wrapper flex flex-col w-full h-full justify-center items-center gap-5"> */}
             <section className="w-full h-full flex justify-between items-start flex-col xl:flex-row flex-grow gap-6">
-                <section className="flex-1 flex justify-around items-center gap-4 xsm:scale-90 xsm:gap-5">
+                <section className="flex-1 flex justify-around items-center gap-4 xsm:scale-90 xsm:gap-5 md:!scale-100">
                     <div className="logo_itens flex flex-col w-max gap-2 max-w-[350px] px-4 h-max justify-center items-start">
                         <Image src="/assets/img/logo-branca-cortada.svg" alt="logo-cortada" className="grayscale-0 w-inherit h-[50px] object-contain" width={100} height={100} />
                         {/* <Image src="/assets/img/re" alt="logo-cortada" className="grayscale-0 w-inherit h-[50px] object-contain" width={100} height={100} /> */}
@@ -36,9 +36,9 @@ export default function Footer({ className }: { className?: string }) {
                             </Link>
                         </div>
                     </div>
-                    <div className="contato flex-1">
-                        <h3 className="font-bold text-lg xsm:text-base">Contate-nos</h3>
-                        <div className="space-y-1 mt-2 xsm:text-sm">
+                    <div className="contato flex-1 md:max-w-lg">
+                        <h3 className="font-bold md:!text-lg xsm:text-base">Contate-nos</h3>
+                        <div className="space-y-1 mt-2 xsm:text-sm md:!text-base">
                             <p>- Av. Virgílio Távora, 11 - Fátima, Juazeiro do Norte-CE</p>
                             <p>- comercial@contabilidade-tax.com.br</p>
                             {/* <li>1111</li> */}
