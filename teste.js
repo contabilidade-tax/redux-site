@@ -14,4 +14,4 @@ async function getTokenData() {
 }
 
 // Como usar
-console.log(new Date())
+console.log(Date.now().toString())

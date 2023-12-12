@@ -532,10 +532,10 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
             {/* Wheels */}
             <div className="wheels absolute w-full h-full">
                 <div className={cn(
-                    "container w-[73%] h-[6%] max-h-[20px] relative -bottom-[86%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
+                    "container w-[60%] h-[5%] max-h-[20px] relative -bottom-[87.8%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
                     "z-50 flex justify-center items-center ",
                     "rounded-full mx-auto translate-x-[0.81%]",
-                    "min-w-[395px] !lg:w-[80%]"
+                    "min-w-[395px]"
                 )}>
                     {Array(20).fill(0).map((_, index) => (
                         <img className="object-contain w-full h-full animate-wheel" src="/assets/img/animations/3/wheel.png" alt="wheel" key={index} />

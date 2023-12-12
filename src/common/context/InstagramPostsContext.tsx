@@ -256,8 +256,8 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
     };
 
     useEffect(() => {
-        fetchToken().then(r => console.log(r))
-        fetchData().then(r => console.log(r))
+        fetchToken().then()
+        fetchData().then()
     }, []);
 
     return (

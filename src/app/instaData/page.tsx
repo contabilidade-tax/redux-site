@@ -10,35 +10,10 @@ import {
 } from "@/components/ui/accordion"
 
 export default function Page() {
-  const api_base = 'https://api.instagram.com'
-  const oauth_url = '/oauth/authorize'
-  const home = 'https://redux.app.br'
-  // const home = 'http://192.168.10.57:3004'
-  const appId = '290671173722965'
+  const api_base = 'https://api.instagram.com/oauth/authorize'
+  const appId = `${process.env.NEXT_PUBLIC_API_IG_APP_ID}`
   const scope = 'user_profile,user_media'
-  const redirectUri = `${home}/api/instaData/authorize/`
-
-  function getUserOauth() {
-
-
-    return redirect(`${api_base}${oauth_url}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`)
-    // axios.post(
-    //   `${api_base}${oauth_url}`, {},
-    //   {
-    //     params: {
-    //       client_id: appId,
-    //       redirect_uri: redirectUri,
-    //       scope,
-    //       response_type: 'code',
-    //     }
-    //   }
-    // ).then(response => {
-    //   return response
-    // }).catch(error => {
-    //   console.log(error)
-    // })
-
-  }
+  const redirectUri = `https://redux.app.br/api/instaData/authorize`
 
   return (
     <div className="flex flex-col items-center justify-center my-10 gap-10 max-w-[500px]">
@@ -81,7 +56,7 @@ export default function Page() {
         </AccordionItem>
       </Accordion>
 
-      <Link target='_blank' href={`${api_base}${oauth_url}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`}>
+      <Link target='_blank' href={`${api_base}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`}>
         <Button
           variant="outline"
           className='bg-primary-color font-medium text-lg'
