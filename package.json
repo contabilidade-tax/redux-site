@@ -7,6 +7,7 @@
     "build": "next build",
     "export": "next build && next export",
     "start": "PORT=3003 next start",
+    "mail": "email dev",
     "lint": "next lint"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
+    "@react-email/components": "0.0.12",
     "@react-email/html": "^0.0.7",
     "@react-email/render": "^0.0.10",
     "@sendgrid/mail": "^8.1.0",
@@ -53,6 +55,7 @@
     "postcss": "^7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-email": "1.10.0",
     "react-hook-form": "^7.47.0",
     "react-input-mask": "^2.0.4",
     "react-lottie": "^1.2.3",

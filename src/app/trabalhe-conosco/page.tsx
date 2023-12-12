@@ -19,7 +19,13 @@ export default function TrabalheConosco() {
   })
 
   return (
-    <div className='flex justify-center items-center flex-1 h-full p-6'>
+    <div style={{
+      backgroundImage: 'url(/assets/img/dino-desempregado-gravata.png)',
+      backgroundSize: '25%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: '8%',
+    }}
+      className='flex justify-center items-center flex-1 w-full p-6'>
       <ContactForm className='bg-[#ffffff] p-6 rounded-2xl drop-shadow-customPrimary z-50 max-h-[40rem]' />
       {/* <div className={cn(
         'absolute w-full min-h-[76vh]',

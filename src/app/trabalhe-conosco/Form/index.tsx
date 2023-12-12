@@ -27,7 +27,7 @@ import estados from '@/common/data/estadosBrasil.json'
 import { cn } from "@/lib/utils"
 import { CheckIcon } from "lucide-react"
 import { CaretSortIcon } from "@radix-ui/react-icons"
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 import axios from "axios"
 
 const formSchema: any = z.object({
@@ -58,11 +58,35 @@ const formSchema: any = z.object({
         required_error: "UF não pode estar em branco",
     }).length(2, {
         message: "UF precisa ter 2 dígitos",
-    })
+    }),
+    arquivo: z.any().optional(),
 })
+
+type FileState = {
+    file: string;
+    type: string;
+    name: string;
+} | null;
 
 export default function ContactForm({ className }: { className?: string }) {
     const [whatsappValue, setWhatsappValue] = useState('');
+    const [file, setFile] = useState<FileState>();
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files ? e.target.files[0] : null;
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const base64 = reader.result as string;
+                setFile({
+                    file: base64.split(',')[1],
+                    type: file.type,
+                    name: file.name,
+                });
+            };
+        }
+    };
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -73,20 +97,20 @@ export default function ContactForm({ className }: { className?: string }) {
             cidade: "",
             message: "",
             estado: "CE",
+            arquivo: "",
         },
     })
     // 2. Define a submit handler.
     function onSubmit(data: z.infer<typeof formSchema>) {
         const emailRender = render(data)
-        axios.post('/api/rh/sendProfile', { body: emailRender })
+        axios.post('/api/rh/sendProfile', { body: emailRender, arquivo: file })
             .then(
-                () => {
-                    console.log(emailRender)
+                (response) => {
                     toast({
                         // title: "Você enviou os seguintes valores:",
                         className: "mt-2 -translate-x-16 rounded-md p-4 text-black w-max",
                         description: (
-                            <pre className="mt-2 max-w-[420px] rounded-md bg-white/80 p-6 font-base">
+                            <pre className="mt-[8px] max-w-[420px] rounded-md bg-[#202020]/60 p-[20px] font-base">
                                 <p className="text-center text-base">Obrigado por nos enviar seu currículo!</p>
                                 <p className="text-base text-center">Apreciamos seu interesse em fazer parte <br /> da nossa equipe!</p>
                                 <br />
@@ -99,13 +123,11 @@ export default function ContactForm({ className }: { className?: string }) {
                 }
             )
             .catch((error: any) => {
-                console.log(error.toJSON())
-                console.log(error.response.config.data)
                 toast({
                     title: "Ocorreu um erro ao enviar o currículo",
                     description: (
                         <pre className="w-full bg-white">
-                            <code>{JSON.stringify(error.response.config.data, null, 2)}</code>
+                            <code>{JSON.stringify(error.response.data, null, 2)}</code>
                         </pre>
                     ),
                     variant: "destructive",
@@ -242,6 +264,15 @@ export default function ContactForm({ className }: { className?: string }) {
                         </FormItem>
                     )} />
                 </div>
+                <FormField control={form.control} name="arquivo" render={({ field }) => (
+                    <FormItem className="flex flex-col my-3">
+                        <FormLabel className={labelStyle}>Currículo</FormLabel>
+                        <FormMessage className={errorMessageStyle} />
+                        <FormControl>
+                            <input type="file" accept=".pdf,.doc,.docx" {...field} onChange={handleFileChange} id="arquivo" placeholder="Envie seu currículo" />
+                        </FormControl>
+                    </FormItem>
+                )} />
                 <FormField control={form.control} name="message" render={({ field }) => (
                     <FormItem>
                         <FormLabel className={labelStyle}>Mensagem</FormLabel>
