@@ -126,31 +126,24 @@ function setTokenData(data: InstaTokenData): InstaTokenData | undefined | never 
 }
 
 function setPostsData(data: InstaPostData[]) {
-    // const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL;
-
-    fetch(`/api/createInstaData`, {
-        method: 'POST',
+    axios.post('/api/createInstaData', { data }, {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ data }),
     })
-        .then(async (resultado) => {
-            if (!resultado.ok) {
-                throw new Error(`Erro HTTP: status ${resultado.status}`);
-            }
+        .then((response) => {
+            const responseData = response.data;
 
-            const responseData = await resultado.json();
-
-            // Adicionando o localStorage
-            // setLocalStorageData('tax.instaPostData', responseData, 3600);
+            // Aqui você pode fazer o que precisa com responseData
+            // Por exemplo, salvar no localStorage ou atualizar o estado
 
             return responseData;
         })
         .catch((error) => {
-            console.error(`Erro ao enviar dados: ${error.message}`);
+            console.error(`Erro ao enviar dados: ${error.message} - ${error.response.data}`);
         });
 }
+
 
 function updateTokenData(token: InstaTokenData, dispatch: Dispatch<ActionType>) {
     const newToken = setTokenData(token);
@@ -162,18 +155,18 @@ function updateTokenData(token: InstaTokenData, dispatch: Dispatch<ActionType>) 
     return newToken
 }
 
-async function getPostsData(state: typeof initialState, dispatch: any) {
+async function getPostsData(token: InstaTokenData, dispatch: any) {
     try {
-        let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
+        let url = `${process.env.NEXT_PUBLIC_API_IG_URL} / me / media`;
         let allData: any = [];
 
         for (let i = 0; i === 0; i++) { // Limite de 1 requisições
             if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
-
+            console.log("TOKEN NO FOR", token)
             const response = await axios.get(url, {
                 params: {
                     fields: 'id,caption,media_type,media_url,permalink,timestamp',
-                    access_token: state.token.access_token,
+                    access_token: token.access_token,
                 },
             });
             // Juntar os dados de cada requisição
@@ -203,9 +196,9 @@ async function getPostsData(state: typeof initialState, dispatch: any) {
 export function InstaPostsContextProvider({ children }: InstaPostsProps) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const fetchData = async () => {
+    const fetchData = async (token: InstaTokenData) => {
         const cache = await getRedisData()
-        const dbData = await getPostsData(state, dispatch)
+        const dbData = await getPostsData(token, dispatch)
 
         if (cache) {
             dispatch({
@@ -229,7 +222,6 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
 
             if (fetchedToken) {
                 const token = fetchedToken
-
                 dispatch({
                     type: 'UPDATE_TOKEN',
                     value: token,
@@ -256,8 +248,8 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
     };
 
     useEffect(() => {
-        fetchToken().then()
-        fetchData().then()
+        fetchToken().then(token => fetchData(token!).then())
+
     }, []);
 
     return (
