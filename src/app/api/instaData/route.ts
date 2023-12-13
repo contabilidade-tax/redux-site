@@ -1,68 +1,73 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRedisValue, getDateTime } from '@/common/middleware/redisConfig';
 import { PrismaClient } from '@prisma/client';
+import axios from 'axios';
+
+const prisma = new PrismaClient();
+
+async function getTokenData() {
+    const data = await prisma.tokenData.findUnique({
+        where: { id: 1 }
+    });
+
+    if (!data) {
+        throw new Error("Token não encontrado");
+    }
+
+    return {
+        ...data,
+        generated_at: data.generated_at.getTime(),
+        expires_in: Number(data.expires_in.toString())
+    };
+}
+
+async function getInstaPostsData() {
+    const data = await prisma.instaPostsData.findUnique({
+        where: { id: 1 },
+        include: { data: true }
+    });
+
+    return data ? data.data.slice(0, 25) : [];
+}
+
+async function sendMessage(message: string) {
+    const response = await axios.post(
+        `https://woz.herokuapp.com/webhook/control/report/send-message?group=REPORT`,
+        { text: `\n*REDUX_SITE*: ${message}` },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+    );
+    return response.data.Success;
+}
 
 export async function GET(req: NextRequest) {
-    const prisma = new PrismaClient();
-    const messages_array: Array<string> = []
-
+    const messages_array: Array<string> = [];
     try {
         const customKey = req.nextUrl.searchParams.get('key');
         const cached_data = await getRedisValue(`last_insta_posts-${getDateTime()}`);
-        const db_data = customKey ? await prisma.tokenData.findUnique({
-            where: {
-                id: 1
-            },
-        }).then((data) => {
-            if (data === null) {
-                throw Error("Token não encontrado")
-            }
-
-            const generated_at_formated = data?.generated_at.getTime()
-            const expires_in_formated = Number(data?.expires_in.toString())
-
-            return { ...data, generated_at: generated_at_formated, expires_in: expires_in_formated }
-        }) : await prisma.instaPostsData.findUnique({
-            where: {
-                id: 1
-            },
-            include: {
-                data: true
-            }
-        }).then((data) => {
-            return data?.data.slice(0, 25)
-        })
 
         if (cached_data && !customKey) {
             return NextResponse.json(JSON.parse(cached_data), { status: 200 });
         }
-        if (db_data) {
-            if (!customKey) {
-                // Avisa que não tá guardando em cache e pode haver um problema com token ou a api do facebook
-                const message = "InstaPosts sem cache, verifique se o token está correto. Os posts exibidos estão guardados em banco e possivelmente, desatualizados."
-                await fetch(`https://woz.herokuapp.com/webhook/control/report/send-message?group=REPORT`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ text: `\n*REDUX_SITE*: ${message}` }),
-                }).then(async data => {
-                    const body = await data.json()
 
-                    messages_array.push(body.Success)
-                    messages_array.push(message)
-                })
-            }
+        const db_data = customKey ? await getTokenData() : await getInstaPostsData();
 
-            return NextResponse.json({ message: "Sucesso na requisição dos dados", details: messages_array, data: db_data, }, { status: 200 });
+        if (!customKey) {
+            const message = "InstaPosts sem cache, verifique se o token está correto. Os posts exibidos estão guardados em banco e possivelmente, desatualizados.";
+            const messageSent = await sendMessage(message);
+
+            messages_array.push(messageSent);
+            messages_array.push(message);
         }
 
-        return NextResponse.json("Não tem nada cacheado nem no banco mermão!", { status: 404 });
+        return NextResponse.json({ message: "Sucesso na requisição dos dados", details: messages_array, data: db_data }, { status: 200 });
 
-        // throw new Error(`No cached data for key ${customKey ?? `last_insta_posts-${getDateTime()}`}`);
     } catch (error: any) {
         return NextResponse.json({ error: 'Internal Server Error', message: error.message }, { status: 500 });
     } finally {
         await prisma.$disconnect();
     }
-};
+}

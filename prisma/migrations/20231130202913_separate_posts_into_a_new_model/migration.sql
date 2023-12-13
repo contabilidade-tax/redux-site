@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE "posts" ALTER COLUMN "id" SET DEFAULT 1,
-ALTER COLUMN "id" DROP DEFAULT;
-DROP SEQUENCE "posts_id_seq";

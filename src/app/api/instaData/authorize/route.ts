@@ -49,21 +49,20 @@ export async function GET(req: NextRequest, res: NextResponse) {
       throw new Error('Code not found, this is a route to authorize app only');
     }
 
-    try{
+    try {
       const response = await axios.post(
         tokenUrl,
         data,
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
       );
       console.log(response.data);
-    
+
       const shortLivedToken = response.data.access_token;
       const longLivedTokenData = await getLongLivedToken(apiIgLongLivedTokenUrl, client_secret, shortLivedToken);
       const createdToken = await createInstaToken(createTokenApiUrl, longLivedTokenData);
-    
+
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/home?welcome=1`);
     } catch (error: any) {
-      console.error(error.response?.data ?? error.message);
       throw new Error(error.response?.data.error_message ?? error.message);
     }
 

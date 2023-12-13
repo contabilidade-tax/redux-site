@@ -2,7 +2,6 @@
 import React, { createContext, useReducer, useContext, useLayoutEffect, Dispatch, useEffect } from 'react';
 import { InstaPostData, InstaTokenData, InstaPostsProps } from '@/types';
 import axios from 'axios';
-import { clearCache } from '../middleware/redisConfig';
 
 const initialState = {
     data: [] as InstaPostData[],
@@ -20,23 +19,19 @@ const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(unde
 
 async function renewToken(old_token: string) {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${old_token}`);
+        const url = `${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${old_token}`;
+        const response = await axios.get(url);
 
-        if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
-
-        const data = await response.json();
-
-        // Adicionando o campo generated_at à resposta
         const responseDataWithTimestamp = {
-            ...data,
+            ...response.data,
             generated_at: Date.now().toString()
         };
-        console.log(responseDataWithTimestamp)
+        console.log(responseDataWithTimestamp);
         return responseDataWithTimestamp; // Retorna os dados do novo token com generated_at
 
     } catch (error: any) {
-        console.log('Erro ao renovar o token:', error.message);
-        throw error;
+        console.error('Erro ao renovar o token:', error.message);
+        throw error; // Relança o erro para um tratamento adicional, se necessário
     }
 }
 
@@ -67,17 +62,12 @@ export const useInstaPostsContext = () => {
 };
 
 async function getTokenData(): Promise<InstaTokenData | null> {
-    // const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
     try {
-        const response = await fetch(`/api/instaData?key=token`, { method: 'GET' });
-        if (!response.ok) {
-            throw new Error(`Erro HTTP: status ${response.status}`);
-        }
-        const data = await response.json();
-        return data.data;
-    } catch (error) {
-        console.log("não encontrado", error);
-        return null; // Ou como você deseja tratar o erro
+        const response = await axios.get(`/api/instaData?key=token`);
+        return response.data.data;
+    } catch (error: any) {
+        console.error("Erro ao buscar token:", error.message);
+        return null; // Ou outra lógica de tratamento de erro
     }
 }
 
@@ -164,6 +154,7 @@ async function getPostsData(token: InstaTokenData, dispatch: any) {
 
         for (let i = 0; i === 0; i++) { // Limite de 1 requisições
             if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
+
             const response = await axios.get(url, {
                 params: {
                     fields: 'id,caption,media_type,media_url,permalink,timestamp',
@@ -184,7 +175,7 @@ async function getPostsData(token: InstaTokenData, dispatch: any) {
             type: 'UPDATE_POSTS_DATA',
             value: allData,
         });
-        // Criar o cache com os dados
+        // Criar o cache com os dados e salvar no banco
         setPostsData(allData)
 
     } catch (error: any) {
@@ -207,7 +198,9 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
                 value: cache,
             });
             return cache
-        } else if (dbData) {
+        }
+        // Pega da API ou do Banco 
+        if (dbData) {
             dispatch({
                 type: 'UPDATE_POSTS_DATA',
                 value: dbData,
@@ -248,9 +241,23 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
         }
     };
 
-    useEffect(() => {
-        fetchToken().then(token => fetchData(token!).then())
-
+    useLayoutEffect(() => {
+        fetchToken()
+            .then(token => {
+                if (token) {
+                    return fetchData(token);
+                } else {
+                    throw new Error('Token não recebido');
+                }
+            })
+            .then(data => {
+                // Aqui você manipula os dados recebidos
+                console.log('Dados recebidos:', data);
+            })
+            .catch(error => {
+                // Aqui você trata os erros que podem ocorrer durante a obtenção do token ou dos dados
+                console.error('Erro:', error);
+            });
     }, []);
 
     return (

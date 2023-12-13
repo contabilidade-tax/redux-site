@@ -14,7 +14,7 @@ import Header from '@/components/Header'
 // })
 
 export const metadata = {
-  title: 'TAX Contabilidade',
+  title: 'Redux Contabilidade',
   description: 'Não somos obrigação. Somos ferramenta!',
   favicon: '/src/app/x.png',
 }
