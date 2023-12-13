@@ -73,23 +73,21 @@ async function getTokenData(): Promise<InstaTokenData | null> {
 
 
 async function getRedisData() {
-    // const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL;
-
     try {
-        const response = await fetch(`/api/instaData`, { method: 'GET' });
+        const response = await axios.get(`/api/instaData`);
 
-        if (!response.ok) {
-            throw new Error(`Erro HTTP: status ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data.data;
+        // O Axios automaticamente trata a resposta como JSON,
+        // então não é necessário chamar response.json()
+        return response.data.data;
 
     } catch (error: any) {
-        console.log(error);
+        console.error(error);
+
+        // Verifica se o erro é específico para a situação 'cacheado'
         if (error.message.includes('cacheado')) {
             return false;
         }
+
         // Trate outros erros ou retorne um valor padrão aqui
         return null;
     }
@@ -116,20 +114,25 @@ function setTokenData(data: InstaTokenData): InstaTokenData | undefined | never 
     )
 }
 
-function setPostsData(data: InstaPostData[]) {
-    axios.post('/api/createInstaData', { data }, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then((response) => {
-            const responseData = response.data;
-
-            return responseData;
-        })
-        .catch((error) => {
-            console.error(`Erro ao enviar dados: ${error.message} - ${JSON.stringify(error.response.data)}`);
+async function setPostsData(data: InstaPostData[]) {
+    try {
+        const response = await axios.post('/api/createInstaData', { data }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
+
+        // Retorna os dados da resposta
+        return response.data;
+
+    } catch (error: any) {
+        // Log do erro e possível re-lançamento ou tratamento
+        console.error(`Erro ao enviar dados: ${error.message}`);
+        if (error.response) {
+            console.error(`Detalhes do erro: ${JSON.stringify(error.response.data)}`);
+        }
+        throw error; // Relançar o erro ou retornar um valor padrão
+    }
 }
 
 
@@ -172,7 +175,7 @@ async function getPostsData(token: InstaTokenData, dispatch: any) {
             value: allData,
         });
         // Criar o cache com os dados e salvar no banco
-        setPostsData(allData)
+        await setPostsData(allData)
 
     } catch (error: any) {
         console.log('Erro ao buscar os posts:', error.message, error.response?.data);
