@@ -27,7 +27,7 @@ import estados from '@/common/data/estadosBrasil.json'
 import { cn } from "@/lib/utils"
 import { CheckIcon } from "lucide-react"
 import { CaretSortIcon } from "@radix-ui/react-icons"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import axios from "axios"
 
 const formSchema: any = z.object({
@@ -85,6 +85,8 @@ export default function ContactForm({ className }: { className?: string }) {
                     name: file.name,
                 });
             };
+        } else {
+            console.log("Nenhum arquivo selecionado");
         }
     };
     // 1. Define your form.
@@ -135,6 +137,8 @@ export default function ContactForm({ className }: { className?: string }) {
 
             })
     }
+
+    useEffect(() => { console.log(file, "ndajsfbcn") }, [file])
 
     const errorMessageStyle = 'text-red-500 font-bold text-sm'
     const labelStyle = 'font-white font-bold'
@@ -269,10 +273,23 @@ export default function ContactForm({ className }: { className?: string }) {
                         <FormLabel className={labelStyle}>Currículo</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl>
-                            <input type="file" accept=".pdf,.doc,.docx" {...field} onChange={handleFileChange} id="arquivo" placeholder="Envie seu currículo" />
+                            <div className="z-[999] cursor-pointer w-max border border-solid border-gray-600 p-1 px-2">
+                                <input
+                                    type="file"
+                                    accept=".pdf,.doc,.docx"
+                                    onChange={handleFileChange}
+                                    id="arquivo"
+                                    style={{ display: 'none' }} // Esconde o input padrão
+                                />
+                                <label htmlFor="arquivo" className="cursor-pointer">
+                                    {file?.name || "Escolha um arquivo"} {/* Exibe o nome do arquivo ou um texto padrão */}
+                                </label>
+                                {/* ...resto do seu componente */}
+                            </div>
                         </FormControl>
                     </FormItem>
                 )} />
+
                 <FormField control={form.control} name="message" render={({ field }) => (
                     <FormItem>
                         <FormLabel className={labelStyle}>Mensagem</FormLabel>
