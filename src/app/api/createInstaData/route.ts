@@ -54,6 +54,7 @@ export async function POST(req: NextRequest) {
                     create: {
                         ...post,
                         timestamp,
+                        caption: post.caption ?? '...',
                         instaPostsData: {
                             connect: { id: 1 } // Conecta ao InstaPostsData existente com id 1
                         }
@@ -61,6 +62,7 @@ export async function POST(req: NextRequest) {
                     update: {
                         ...post,
                         timestamp,
+                        caption: post.caption ?? '...',
                         instaPostsData: {
                             connect: { id: 1 } // Conecta ao InstaPostsData existente com id 1
                         }

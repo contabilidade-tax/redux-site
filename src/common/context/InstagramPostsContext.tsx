@@ -142,7 +142,7 @@ function setPostsData(data: InstaPostData[]) {
             return responseData;
         })
         .catch((error) => {
-            console.error(`Erro ao enviar dados: ${error.message} - ${error.response.data}`);
+            console.error(`Erro ao enviar dados: ${error.message} - ${JSON.stringify(error.response.data)}`);
         });
 }
 
@@ -159,7 +159,7 @@ function updateTokenData(token: InstaTokenData, dispatch: Dispatch<ActionType>) 
 
 async function getPostsData(token: InstaTokenData, dispatch: any) {
     try {
-        let url = `${process.env.NEXT_PUBLIC_API_IG_URL} / me / media`;
+        let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
         let allData: any = [];
 
         for (let i = 0; i === 0; i++) { // Limite de 1 requisições
@@ -188,7 +188,7 @@ async function getPostsData(token: InstaTokenData, dispatch: any) {
         setPostsData(allData)
 
     } catch (error: any) {
-        console.log('Erro ao buscar os posts:', error.message);
+        console.log('Erro ao buscar os posts:', error.message, error.response?.data);
         return null
     }
 }
