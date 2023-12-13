@@ -53,7 +53,12 @@ export async function GET(req: NextRequest) {
             return NextResponse.json(JSON.parse(cached_data), { status: 200 });
         }
 
-        const db_data = customKey ? await getTokenData() : await getInstaPostsData();
+        let db_data;
+        if (customKey) {
+            db_data = await getTokenData()
+        } else {
+            db_data = cached_data ?? await getInstaPostsData();
+        }
 
         if (!customKey) {
             const message = "InstaPosts sem cache, verifique se o token está correto. Os posts exibidos estão guardados em banco e possivelmente, desatualizados.";

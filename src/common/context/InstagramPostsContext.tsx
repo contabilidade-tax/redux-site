@@ -125,10 +125,6 @@ function setPostsData(data: InstaPostData[]) {
         .then((response) => {
             const responseData = response.data;
 
-            // Aqui você pode fazer o que precisa com responseData
-            // Por exemplo, salvar no localStorage ou atualizar o estado
-            axios.get("/api/deleteInstaData").then(res => console.log("Cache limpo", res.data))
-
             return responseData;
         })
         .catch((error) => {

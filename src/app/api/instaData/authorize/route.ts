@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import axios, { AxiosError } from 'axios';
 import { NextRequest, NextResponse } from 'next/server'
 import qs from 'qs'
@@ -29,15 +29,32 @@ async function createInstaToken(apiUrl: string, Instadata: any) {
 }
 
 async function setCurrentUser(apiUrl: string, userData: Prisma.CurrentUserCreateInput) {
+  const prisma = new PrismaClient();
   try {
+    // Troca e valida se o usuário é permitido de usar a plicação
     const response = await axios.post(
       apiUrl,
       { ...userData },
       { params: { key: 'user' } }
     );
+
+    // Após validar, limpa o cache e o banco de dados deste usuário
+    try {
+      // CACHE
+      await axios.get("https://redux.app.br/api/deleteInstaData").then(res => console.log("Cache limpo", res.data))
+      // DATABASE
+      await prisma.post.deleteMany({ where: { instaPostsDataId: 1 } })
+
+    } catch (error: any) {
+      throw Error(error.message)
+    }
+
+    // Retorna os dados do usuário validado
     return response.data;
   } catch (error: any) {
     throw new Error(`${error.response?.data.details ?? error.response?.data} - INTERNO`);
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
