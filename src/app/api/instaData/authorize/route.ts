@@ -29,8 +29,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
   try {
     const code = req.nextUrl.searchParams.get('code');
     const tokenUrl = "https://api.instagram.com/oauth/access_token"
-    const longLivedTokenUrl = `${process.env.NEXT_PUBLIC_API_IG_URL}/access_token`
-    const redirect_uri = "https://redux.ap.br/api/createInstaData"
+    const apiIgLongLivedTokenUrl = `${process.env.NEXT_PUBLIC_API_IG_URL}/access_token`
+    const createTokenApiUrl = `${process.env.NEXT_PUBLIC_HOME}/api/createInstaData`
+    const redirect_uri = `${process.env.NEXT_PUBLIC_HOME}/api/instaData/authorize`
     const client_secret = process.env.NEXT_PUBLIC_API_IG_APP_SECRET
     const client_id = process.env.NEXT_PUBLIC_API_IG_APP_ID
     const data = qs.stringify({
@@ -38,7 +39,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       client_secret,
       grant_type: 'authorization_code',
       redirect_uri,
-      code
+      code: code!.replace("#_", "")
     })
 
     if (!code) {
@@ -56,10 +57,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
       const client_secret = process.env.NEXT_PUBLIC_API_IG_APP_SECRET!
       const shortLivedToken = response.data.access_token
 
-      const data = getLongLivedToken(longLivedTokenUrl, client_secret, shortLivedToken)
-      const createdToken = createInstaToken(redirect_uri, data)
+      const data = getLongLivedToken(apiIgLongLivedTokenUrl, client_secret, shortLivedToken)
+      const createdToken = createInstaToken(createTokenApiUrl, data)
 
-      return NextResponse.json(createdToken, { status: 200 })
+      return NextResponse.redirect("/")
     }).catch((error: any) => {
       console.log(error.response!.data)
       throw new Error(error.response.data.error_message)
