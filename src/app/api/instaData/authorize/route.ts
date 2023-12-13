@@ -73,7 +73,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       const shortLivedToken = response.data.access_token;
       const user_id = response.data.user_id;
       const longLivedTokenData = await getLongLivedToken(apiIgLongLivedTokenUrl, client_secret, shortLivedToken);
-      const userData = await setCurrentUser(createTokenApiUrl, { id: 1, access_token: longLivedTokenData.access_token, user_id });
+      const userData = await setCurrentUser(createTokenApiUrl, { access_token: longLivedTokenData.access_token, user_id });
       const createdToken = await createInstaToken(createTokenApiUrl, longLivedTokenData);
 
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/home?welcome=1`);

@@ -46,9 +46,11 @@ export async function POST(req: NextRequest) {
                 create: {
                     id: 1,
                     ...currentUserData,
+                    user_id: currentUserData.user_id.toString(),
                 },
                 update: {
                     ...currentUserData,
+                    user_id: currentUserData.user_id.toString(),
                 }
             })
         }
