@@ -2,6 +2,7 @@
 import React, { createContext, useReducer, useContext, useLayoutEffect, Dispatch, useEffect } from 'react';
 import { InstaPostData, InstaTokenData, InstaPostsProps } from '@/types';
 import axios from 'axios';
+import { clearCache } from '../middleware/redisConfig';
 
 const initialState = {
     data: [] as InstaPostData[],
@@ -136,6 +137,7 @@ function setPostsData(data: InstaPostData[]) {
 
             // Aqui você pode fazer o que precisa com responseData
             // Por exemplo, salvar no localStorage ou atualizar o estado
+            axios.get("/api/deleteInstaData").then(res => console.log("Cache limpo", res.data))
 
             return responseData;
         })
@@ -162,7 +164,6 @@ async function getPostsData(token: InstaTokenData, dispatch: any) {
 
         for (let i = 0; i === 0; i++) { // Limite de 1 requisições
             if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
-            console.log("TOKEN NO FOR", token)
             const response = await axios.get(url, {
                 params: {
                     fields: 'id,caption,media_type,media_url,permalink,timestamp',
