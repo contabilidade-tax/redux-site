@@ -32,6 +32,27 @@ export async function POST(req: NextRequest) {
             })
         }
 
+        const setCurrentUser = async (currentUserData: Prisma.CurrentUserCreateInput) => {
+            const allowedUserIds = process.env.ALLOWED_USER_IDS ? process.env.ALLOWED_USER_IDS.split(',') : [];
+            // Verifica se o user_id de currentUser está na lista de permitidos
+            if (allowedUserIds.includes(currentUserData.user_id)) {
+                throw new Error("CONSERTAR TA FZNDO CONTRARIO - Usuário do app inválido! Este app somente deve ser usado pela TAX CONTABILIDADE");
+            }
+
+            return await prisma.currentUser.upsert({
+                where: {
+                    id: 1
+                },
+                create: {
+                    id: 1,
+                    ...currentUserData,
+                },
+                update: {
+                    ...currentUserData,
+                }
+            })
+        }
+
         const ensureInstaPostsDataExists = async () => {
             await prisma.instaPostsData.upsert({
                 where: { id: 1 },
@@ -79,50 +100,65 @@ export async function POST(req: NextRequest) {
             }
         };
 
+        // Não precisar verificar se tem body na requisição
+        // já que se não tiver já lanço um erro logo acima
 
-        if (data) {
-            let token_data
-            if (customKey && customKey === 'token') {
-                await Promise.all([
-                    // Salva no prisma se for token
-                    updateTokenDB(data),
-                    // Salva no cache do prisma
-                    setRedisRegister(data, customKey),
-                ]).then(([data, cache]) => {
-                    token_data = { ...data, expires_in: data.expires_in.toString() }
-                    messages_array.push("Created Succesfully register on db");
-                    messages_array.push("Created Succesfully on cache: " + cache);
-                }).catch((error: any) => {
-                    console.log(error)
-                })
+        if (customKey) {
+            let tokenData;
+            switch (customKey) {
+                case 'token':
+                    await Promise.all([
+                        // Salva no prisma se for token
+                        updateTokenDB(data),
+                        // Salva no cache do prisma
+                        setRedisRegister(data, customKey),
+                    ]).then(([data, cache]) => {
+                        tokenData = { ...data, expires_in: data.expires_in.toString() }
+                        messages_array.push("Created Successfully register on db");
+                        messages_array.push("Created Successfully on cache: " + cache);
+                    }).catch((error: any) => {
+                        console.error(error);
+                    });
 
-                return NextResponse.json({ message: `Created Succesfully for key: ${customKey}`, details: messages_array, data: token_data, }, { status: 201 });
+                    return NextResponse.json({ message: `Created Successfully for key: ${customKey}`, details: messages_array, data: tokenData, }, { status: 201 });
+
+                case 'user':
+                    try {
+                        const keyData = await setCurrentUser(data)
+
+                        return NextResponse.json({ message: `Created Successfully register on DB for key: user`, details: messages_array, keyData }, { status: 201 });
+
+                    } catch (error: any) {
+                        console.error(error)
+                        throw error
+                    }
+
+                default:
+                    // Tratativa para outros valores de customKey
+                    try {
+                        const keyData = await setRedisRegister(data, customKey)
+                        messages_array.push("Created Successfully on cache anykey: " + keyData);
+
+                        return NextResponse.json({ message: `Created Successfully for key: ${customKey}`, details: messages_array, keyData }, { status: 201 });
+                    } catch (error: any) {
+                        console.error(error)
+                    }
+
             }
-
-            if (customKey) {
-                // Em caso de qualquer outra chave, salva no cache
-                await setRedisRegister(data, customKey).then((cache) => {
-                    messages_array.push("Created Succesfully on cache anykey: " + cache);
-                }).catch((error: any) => {
-                    console.log(error)
-                })
-
-                return NextResponse.json({ message: `Created Succesfully for key: ${customKey}`, details: messages_array, data, }, { status: 201 });
-            }
-
-            // Em caso de não ser token
-            await Promise.all([
-                // Salva no prisma cada post
-                updatePostsDataDB(data),
-                // Se não for token, salva no cache os posts
-                setRedisRegister(data)
-            ]).then(([data, cache]) => {
-                messages_array.push("Created Succesfully db register: " + data.length);
-                messages_array.push("Created Succesfully on cache: " + cache);
-            })
-
-            return NextResponse.json({ message: `Created Succesfully for key: last_insta_posts`, details: messages_array, ...data }, { status: 201 });
         }
+
+        // Em caso de não ser token
+        await Promise.all([
+            // Salva no prisma cada post
+            updatePostsDataDB(data),
+            // Se não for token, salva no cache os posts
+            setRedisRegister(data)
+        ]).then(([data, cache]) => {
+            messages_array.push("Created Succesfully db register: " + data.length);
+            messages_array.push("Created Succesfully on cache: " + cache);
+        })
+
+        return NextResponse.json({ message: `Created Succesfully for key: last_insta_posts`, details: messages_array, ...data }, { status: 201 });
 
 
     } catch (error: any) {

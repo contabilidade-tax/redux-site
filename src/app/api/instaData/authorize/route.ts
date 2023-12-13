@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import axios, { AxiosError } from 'axios';
 import { NextRequest, NextResponse } from 'next/server'
 import qs from 'qs'
@@ -27,6 +28,18 @@ async function createInstaToken(apiUrl: string, Instadata: any) {
   }
 }
 
+async function setCurrentUser(apiUrl: string, userData: Prisma.CurrentUserCreateInput) {
+  try {
+    const response = await axios.post(
+      apiUrl,
+      { ...userData },
+      { params: { key: 'user' } }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(`${error.response?.data.details ?? error.response?.data} - INTERNO`);
+  }
+}
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
@@ -58,7 +71,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
       console.log(response.data);
 
       const shortLivedToken = response.data.access_token;
+      const user_id = response.data.user_id;
       const longLivedTokenData = await getLongLivedToken(apiIgLongLivedTokenUrl, client_secret, shortLivedToken);
+      const userData = await setCurrentUser(createTokenApiUrl, { id: 1, access_token: longLivedTokenData.access_token, user_id });
       const createdToken = await createInstaToken(createTokenApiUrl, longLivedTokenData);
 
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/home?welcome=1`);

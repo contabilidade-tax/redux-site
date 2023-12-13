@@ -40,3 +40,11 @@ model TokenData {
 
   @@map("token")
 }
+
+model CurrentUser {
+  id Int @id @default(1)
+  access_token String
+  user_id String
+
+  @@map("current_user")
+}
