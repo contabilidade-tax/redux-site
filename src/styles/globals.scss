@@ -1,8 +1,8 @@
 @import '@/styles/variaveis';
 @import '@/styles/imports';
 @import '@/styles/toastfy/main';
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@400;700&display=swap');
-
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@400;700&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @layer base {
   :root {
@@ -49,8 +49,8 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      // background-color: #D5A115;
-      background-color: #037367;
+      background-color: #D5A115;
+      // background-color: #037367;
       border-radius: 100px;
     }
 

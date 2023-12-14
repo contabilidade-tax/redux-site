@@ -1,4 +1,5 @@
 // import { Montserrat } from 'next/font/google'
+import localFont from 'next/font/local'
 import { ReactNode } from 'react'
 
 import '@/styles/globals.scss'
@@ -15,6 +16,52 @@ import Header from '@/components/Header'
 //   weight: '400',
 // })
 
+const montserrat = localFont({
+  src: [
+    {
+      path: './fonts/body/Montserrat-Black.ttf',
+      weight: '900',
+      style: 'normal',
+    },
+    {
+      path: './fonts/body/Montserrat-ExtraBold.ttf',
+      weight: '800',
+      style: 'normal',
+    },
+    {
+      path: './fonts/body/Montserrat-Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/body/Montserrat-SemiBold.ttf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: './fonts/body/Montserrat-Medium.ttf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/body/Montserrat-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/body/Montserrat-Light.ttf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: './fonts/body/Montserrat-Italic.ttf',
+      weight: '500',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-montserrat',
+})
+
 export const metadata = {
   title: 'Redux Contabilidade',
   description: 'Não somos obrigação. Somos ferramenta!',
@@ -27,9 +74,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <LoadingProvider>
         <html lang="pt-BR">
           {/* <body className={inter.className}> */}
-          <body className='flex justify-between flex-col min-h-screen items-center'>
+          <body className={`${montserrat.variable} flex justify-between flex-col min-h-screen items-center`}>
             <Header />
-            <main className="flex-1 flex w-full flex-col items-center justify-between relative Wrapper bg-[#fafafa]">
+            <main className="flex-1 flex w-full flex-col items-center justify-between relative Wrapper bg-[#fafafa] font-montserrat">
               {children}
               <ToastContainer />
             </main>

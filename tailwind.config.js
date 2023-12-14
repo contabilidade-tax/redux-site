@@ -19,6 +19,9 @@ module.exports = withMT({
         'xl': '1280px',
         '2xl': '1400px',
       },
+      fontFamily: {
+        montserrat: ['var(--font-montserrat)'],
+      },
       dropShadow: {
         'custom': '#00000050 10px 7px 5px',
       },
