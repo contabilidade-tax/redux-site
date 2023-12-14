@@ -11,11 +11,13 @@ a {
 
 
 .modal-container {
-    max-height: 400px;
-    max-width: 500px;
+    // max-height: 400px;
+    // max-width: 500px;
+    max-width: 320px;
+    max-height: 100px;
     margin-left: auto;
     margin-right: auto;
-    padding: 0 0 1rem 0;
+    padding: 0;
     background-color: #fff;
     border-radius: 16px;
     overflow: hidden;
