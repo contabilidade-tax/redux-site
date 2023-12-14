@@ -138,11 +138,9 @@ export default function ContactForm({ className }: { className?: string }) {
             })
     }
 
-    useEffect(() => { console.log(file, "ndajsfbcn") }, [file])
-
     const errorMessageStyle = 'text-red-500 font-bold text-sm'
     const labelStyle = 'font-white font-bold'
-    const placeHolderStyle = 'font-[#222020] font-bold placeholder:text-muted-foreground'
+    const placeHolderStyle = 'font-[#222020] font-bold placeholder:text-muted-foreground border border-gray-600'
 
     return (
         <Form {...form}>
@@ -161,7 +159,7 @@ export default function ContactForm({ className }: { className?: string }) {
                         <FormLabel className={labelStyle}>Email</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl>
-                            <Input {...field} id="email" placeholder="Informe seu email principal" />
+                            <Input {...field} id="email" className={cn(placeHolderStyle)} placeholder="Informe seu email principal" />
                         </FormControl>
                     </FormItem>
                 )} />
@@ -194,7 +192,7 @@ export default function ContactForm({ className }: { className?: string }) {
                                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                     // @ts-ignore
                                     (field) => (
-                                        <Input {...field} id="whatsapp" placeholder="Telefone para contato" />
+                                        <Input {...field} id="whatsapp" className={placeHolderStyle} placeholder="Telefone para contato" />
                                     )
                                 }
                             </InputMask>
@@ -207,7 +205,7 @@ export default function ContactForm({ className }: { className?: string }) {
                             <FormLabel className={labelStyle}>Cidade</FormLabel>
                             <FormMessage className={errorMessageStyle} />
                             <FormControl>
-                                <Input {...field} id="cidade" placeholder="Onde você reside?" />
+                                <Input {...field} id="cidade" className={placeHolderStyle} placeholder="Onde você reside?" />
                             </FormControl>
                         </FormItem>
                     )} />
@@ -222,7 +220,7 @@ export default function ContactForm({ className }: { className?: string }) {
                                             variant="outline"
                                             role="combobox"
                                             className={cn(
-                                                "w-[200px] h-9 justify-between",
+                                                "w-[200px] h-9 justify-between border border-gray-600",
                                                 !field.value && "text-muted-foreground"
                                             )}
                                         >
@@ -289,13 +287,12 @@ export default function ContactForm({ className }: { className?: string }) {
                         </FormControl>
                     </FormItem>
                 )} />
-
                 <FormField control={form.control} name="message" render={({ field }) => (
                     <FormItem>
                         <FormLabel className={labelStyle}>Mensagem</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl className="max-h-[230px]">
-                            <Textarea {...field} id="message" placeholder="Digite sua mensagem..." />
+                            <Textarea {...field} id="message" className={placeHolderStyle} placeholder="Digite sua mensagem..." />
                         </FormControl>
                     </FormItem>
                 )} />

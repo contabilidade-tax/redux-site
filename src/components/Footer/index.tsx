@@ -22,7 +22,7 @@ export default function Footer({ className }: { className?: string }) {
             <section className="w-full h-full flex justify-between items-start flex-col xl:flex-row flex-grow gap-6">
                 <section className="flex-1 flex justify-around items-center gap-4 xsm:scale-90 xsm:gap-5 md:!scale-100">
                     <div className="logo_itens flex flex-col w-max gap-2 max-w-[350px] px-4 h-max justify-center items-start">
-                        <Image src="/assets/img/logo-branca-cortada.svg" alt="logo-cortada" className="grayscale-0 w-inherit h-[50px] object-contain" width={100} height={100} />
+                        <Image src="/assets/img/reduxbranco.png" alt="logo-cortada" className="grayscale-0 w-36 h-[50px] object-contain" width={100} height={100} />
                         {/* <Image src="/assets/img/re" alt="logo-cortada" className="grayscale-0 w-inherit h-[50px] object-contain" width={100} height={100} /> */}
                         <div className="links flex flex-wrap justify-center items-center w-max h-max gap-2">
                             <Link className={linkStyle} href="https://www.instagram.com/taxcontabilidade.adm/" target="_blank" rel="noreferrer">
@@ -45,7 +45,7 @@ export default function Footer({ className }: { className?: string }) {
                         </div>
                     </div>
                 </section>
-                <div className="copy flex-1 max-w-[390px] w-auto h-max font-semibold xsm:text-xs xsm:self-center md:!self-end md:!text-sm"><p>© 2023 Tax Contabilidade. Todos os direitos reservados.</p></div>
+                <div className="copy flex-1 max-w-[390px] w-auto h-max font-semibold xsm:text-xs xsm:self-center md:!self-end md:!text-sm"><p>© 2023 Redux. Todos os direitos reservados.</p></div>
             </section>
             {/* <div className= w-full h-[1.5px]"></div> */}
             {/* </div> */}

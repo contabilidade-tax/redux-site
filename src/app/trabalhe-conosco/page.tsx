@@ -1,32 +1,19 @@
-'use client'
-import Header from '@/components/Header'
 import ContactForm from './Form'
-import Image from 'next/image'
 
-import { useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
 export default function TrabalheConosco() {
 
-  useEffect(() => {
-    const style = document.getElementsByTagName('main')[0].style
-
-    style.backgroundColor = '#CCC'
-
-    return () => {
-      style.backgroundColor = '#FAFAFA'
-    }
-  })
-
   return (
     <div style={{
-      backgroundImage: 'url(/assets/img/dino-desempregado-gravata.png)',
-      backgroundSize: '25%',
+      backgroundImage: 'url(/assets/img/bg/dinoTrabalheConosco.png)',
+      backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: '8%',
+      backgroundPositionX: 'center',
+      backgroundPositionY: '80%',
     }}
       className='flex justify-center items-center flex-1 w-full p-6'>
-      <ContactForm className='bg-[#ffffff] p-6 rounded-2xl drop-shadow-customPrimary z-50 max-h-[40rem]' />
+      <ContactForm className='bg-[#fff] border drop-shadow-custom border-black p-6 rounded-2xl drop-shadow-customPrimary z-50 max-h-[40rem]' />
       {/* <div className={cn(
         'absolute w-full min-h-[76vh]',
         'flex items-center',
