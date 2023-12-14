@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const initialState = {
     data: [] as InstaPostData[],
-    token: {} as InstaTokenData
+    // token: {} as InstaTokenData
 };
 type ActionType = {
     type: string;
@@ -13,8 +13,7 @@ type ActionType = {
 };
 type InstaPostsContextValue = {
     state: typeof initialState | null;
-    fetchToken: () => Promise<any>;
-    fetchData: (token: InstaTokenData) => Promise<any>;
+    fetchData: () => Promise<any>;
 }
 const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(undefined);
 
@@ -189,61 +188,67 @@ async function getPostsData(token: InstaTokenData, dispatch: any) {
 export function InstaPostsContextProvider({ children }: InstaPostsProps) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const fetchData = async (token: InstaTokenData) => {
-        const cache = await getRedisData()
-        const dbData = await getPostsData(token, dispatch)
+    const fetchData = async () => {
+        try {
+            const token = await fetchToken()
+            const cache = await getRedisData()
+            const dbData = await getPostsData(token!, dispatch)
 
-        if (cache) {
-            dispatch({
-                type: 'UPDATE_POSTS_DATA',
-                value: cache,
-            });
-            return cache
-        }
-        // Pega da API ou do Banco 
-        if (dbData) {
-            dispatch({
-                type: 'UPDATE_POSTS_DATA',
-                value: dbData,
-            });
-            return dbData
+
+            if (cache) {
+                dispatch({
+                    type: 'UPDATE_POSTS_DATA',
+                    value: cache,
+                });
+                return cache
+            }
+            // Pega da API ou do Banco 
+            if (dbData) {
+                dispatch({
+                    type: 'UPDATE_POSTS_DATA',
+                    value: dbData,
+                });
+                return dbData
+            }
+        } catch (error) {
+            throw new Error('Token não recebido');
         }
     };
 
     const fetchToken = async () => {
-        if (!state.token || Object.keys(state.token).length === 0) {
-            // Lógica para buscar e atualizar o token
-            const fetchedToken = await getTokenData()
+        // if (!state.token || Object.keys(state.token).length === 0) {
+        // Lógica para buscar e atualizar o token
+        const fetchedToken = await getTokenData()
 
-            if (fetchedToken) {
-                const token = fetchedToken
-                dispatch({
-                    type: 'UPDATE_TOKEN',
-                    value: token,
-                })
+        if (fetchedToken) {
+            const token = fetchedToken
+            // dispatch({
+            //     type: 'UPDATE_TOKEN',
+            //     value: token,
+            // })
 
-                if (Date.now() >= (token.generated_at! + token.expires_in! * 1000)) {
-                    try {
-                        const newTokenData = await renewToken(token.access_token!);
-                        const actualTimestampTokenData = {
-                            ...newTokenData,
-                            generated_at: Date.now(),
-                        };
+            if (Date.now() >= (token.generated_at! + token.expires_in! * 1000)) {
+                try {
+                    const newTokenData = await renewToken(token.access_token!);
+                    const actualTimestampTokenData = {
+                        ...newTokenData,
+                        generated_at: Date.now(),
+                    };
 
-                        updateTokenData(actualTimestampTokenData, dispatch);
+                    updateTokenData(actualTimestampTokenData, dispatch);
 
-                    } catch (error) {
-                        console.log('Erro ao renovar o token:', error);
-                    }
+                } catch (error) {
+                    console.log('Erro ao renovar o token:', error);
                 }
-
-                return token
             }
+
+            return token
         }
-    };
+    }
+    // };
 
     return (
-        <InstaPostsContext.Provider value={{ state, fetchToken, fetchData }}>
+        <InstaPostsContext.Provider value={{ state, fetchData }}>
             {children}
         </InstaPostsContext.Provider>
     );

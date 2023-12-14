@@ -23,20 +23,15 @@ type instaUser = {
 } | null
 
 function InstaRecentPosts({ className }: InstaRecentPostsProps) {
-    const { state, fetchData, fetchToken } = useInstaPostsContext();
+    const { state, fetchData } = useInstaPostsContext();
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<InstaPostData[]>([]);  // Usando useState para posts
     const [user, setUser] = useState<instaUser>();  // Usando useState para posts
 
     const fetchInstaData = async () => {
         try {
-            const token = await fetchToken()
             let posts: InstaPostData[] = [];
-            if (token) {
-                posts = await fetchData(token);
-            } else {
-                throw new Error('Token não recebido');
-            }
+            posts = await fetchData();
 
             return posts;
         } catch (error: any) { console.log(error.message) };
@@ -45,7 +40,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     const fetchUserData = async () => {
         const home = process.env.NEXT_PUBLIC_HOME!
         try {
-            const InstagramData = await axios.get(`${home}/api/currentUser`)
+            const InstagramData = await axios.get(`${home}/api/currentUser`, {})
 
             return InstagramData.data;
 
@@ -56,7 +51,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     const fetchAllData = async () => {
         const [instaPosts, userData] = await Promise.all([fetchInstaData(), fetchUserData()])
         setPosts(instaPosts!);
-        setUser({ ...userData! });
+        setUser(userData);
     }
 
     useEffect(() => {
