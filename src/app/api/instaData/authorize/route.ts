@@ -58,11 +58,21 @@ async function setCurrentUser(apiUrl: string, userData: Prisma.CurrentUserCreate
   }
 }
 
+async function fetchUserData(apiUrl: string, access_token: string, user_id: string) {
+  try {
+    const InstagramData = await axios.get(`${apiUrl}/${user_id}`, { params: { fields: 'id,username', access_token } })
+    return InstagramData.data;
+  } catch (error: any) { console.log(error.message) };
+
+}
+
 export async function GET(req: NextRequest, res: NextResponse) {
+
   try {
     const code = req.nextUrl.searchParams.get('code');
     const tokenUrl = "https://api.instagram.com/oauth/access_token"
-    const apiIgLongLivedTokenUrl = `${process.env.NEXT_PUBLIC_API_IG_URL}/access_token`
+    const graphApiUrl = process.env.NEXT_PUBLIC_API_IG_URL;
+    const apiIgLongLivedTokenUrl = `${graphApiUrl}/access_token`
     const createTokenApiUrl = `${process.env.NEXT_PUBLIC_HOME}/api/createInstaData`
     const redirect_uri = `${process.env.NEXT_PUBLIC_HOME}/api/instaData/authorize`
     const client_secret = process.env.NEXT_PUBLIC_API_IG_APP_SECRET!
@@ -85,12 +95,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
         data,
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
       );
-      console.log(response.data);
+      // console.log(response.data);
 
       const shortLivedToken = response.data.access_token;
       const user_id = response.data.user_id;
       const longLivedTokenData = await getLongLivedToken(apiIgLongLivedTokenUrl, client_secret, shortLivedToken);
-      const userData = await setCurrentUser(createTokenApiUrl, { access_token: longLivedTokenData.access_token, user_id });
+      const instaUserInfo = await fetchUserData(graphApiUrl!, longLivedTokenData.access_token, user_id);
+      const userData = await setCurrentUser(createTokenApiUrl, { access_token: longLivedTokenData.access_token, user_id, username: instaUserInfo.username });
       const createdToken = await createInstaToken(createTokenApiUrl, longLivedTokenData);
 
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/home?welcome=1#recents`);

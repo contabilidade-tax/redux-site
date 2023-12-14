@@ -8,16 +8,56 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 import styles from './InstaRecentPosts.module.scss'
 import { InstaPostData } from '@/types';
+import axios from 'axios';
+import { set } from 'react-hook-form';
 
 type InstaRecentPostsProps = {
     className?: string
     isMobile?: boolean
 }
 
-function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
+type instaUser = {
+    access_token: string
+    user_id: string
+    username: string
+} | null
+
+function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     const { state, fetchData, fetchToken } = useInstaPostsContext();
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<InstaPostData[]>([]);  // Usando useState para posts
+    const [user, setUser] = useState<instaUser>();  // Usando useState para posts
+
+    const fetchInstaData = async () => {
+        try {
+            const token = await fetchToken()
+            let posts: InstaPostData[] = [];
+            if (token) {
+                posts = await fetchData(token);
+            } else {
+                throw new Error('Token não recebido');
+            }
+
+            return posts;
+        } catch (error: any) { console.log(error.message) };
+    }
+
+    const fetchUserData = async () => {
+        const home = process.env.NEXT_PUBLIC_HOME!
+        try {
+            const InstagramData = await axios.get(`${home}/api/currentUser`)
+
+            return InstagramData.data;
+
+        } catch (error: any) { console.log(error.message) };
+
+    }
+
+    const fetchAllData = async () => {
+        const [instaPosts, userData] = await Promise.all([fetchInstaData(), fetchUserData()])
+        setPosts(instaPosts!);
+        setUser({ ...userData! });
+    }
 
     useEffect(() => {
         if (state?.data && state.data.length > 0) {
@@ -28,16 +68,7 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
 
 
     useLayoutEffect(() => {
-        fetchToken()
-            .then(token => {
-                if (token) {
-                    return fetchData(token);
-                } else {
-                    throw new Error('Token não recebido');
-                }
-            })
-            .then(data => {/* Aqui você manipula os dados recebidos */ })
-            .catch((error: any) => { console.log(error.message) });
+        fetchAllData().then()
     }, []);
 
     return (
@@ -47,6 +78,7 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
             className
         )}
         >
+            {user && <div className="currentUser absolute w-48 h-12 border -translate-y-6 border-black left-6 text-primary-color font-bold text-xl text-center">{user.username}</div>}
             {loading ?
                 <div className="relative min-w-full h-full !z-50 flex items-center gap-4 justify-evenly p-5" >
                     {Array.from({ length: 6 }).map((_, index) => (
