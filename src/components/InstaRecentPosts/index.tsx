@@ -20,7 +20,6 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
     const [posts, setPosts] = useState<InstaPostData[]>([]);  // Usando useState para posts
 
     useEffect(() => {
-        console.log(state)
         if (state?.data && state.data.length > 0) {
             setPosts(state.data.sort((a, b) => Date.parse(b.timestamp!) - Date.parse(a.timestamp!)));
             setLoading(false);
@@ -29,7 +28,6 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
 
 
     useLayoutEffect(() => {
-        console.log(loading)
         fetchToken()
             .then(token => {
                 if (token) {

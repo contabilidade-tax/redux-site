@@ -2,24 +2,29 @@
 'use client'
 import React, { useEffect, useLayoutEffect } from 'react'
 import Link from 'next/link'
-
+import { useSearchParams } from 'next/navigation'
 import GameScene from './GameScene'
 import Servicos from './Servicos'
-
 import { ButtonBackgroundShine } from '@/components/Tools'
 import { useMobileContext } from '@/common/context/MobileDeviceContext'
 import { useLoading } from '@/common/context/LoadingContext'
 import { cn } from '@/lib/utils'
-import Header from '@/components/Header'
 import Loading from '@/components/Loading'
 import InstaRecentPosts from '@/components/InstaRecentPosts'
 
 import styles from './Home.module.scss'
 import Sobre from '@/components/Sobre'
+import { toast } from 'react-toastify'
+import { setCookie, parseCookies } from "nookies";
+
+type handleCookieActions = {
+  type: 'SET' | 'GET';
+};
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
   const { mobileState } = useMobileContext()
+  const params = useSearchParams()
   const dinoPositions = {
     dino: {
       X: 200,
@@ -39,8 +44,49 @@ export default function Home() {
     }
   }
 
+  function welcomeCookie(action: handleCookieActions) {
+    const { has_been_welcomed } = parseCookies()
+
+    switch (action.type) {
+      case 'SET':
+        setCookie(undefined, 'has_been_welcomed', 'true', {
+          path: '/',
+          maxAge: 24 * 60 * 60 * 1000 // 1 dias
+        });
+        break;
+      case 'GET':
+        return has_been_welcomed;
+    }
+  }
+
+  const handleWelcomeNotification = () => {
+    toast.success(
+      <div>
+        <p>Bem vindo!</p>
+        <p>Recent Posts autorizado com sucesso</p>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        className: "-translate-x-12 translate-y-16"
+      })
+
+    welcomeCookie({ type: 'SET' })
+  }
+
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
+    // Lógica do toast de welcome após autorizar os recents posts
+    if (params.get('welcome') && !welcomeCookie({ type: 'GET' })) {
+      handleWelcomeNotification()
+    }
+    // Lógica de loading
     if (isLoading) {
       const timer = setTimeout(() => {
         setIsLoading(false)
