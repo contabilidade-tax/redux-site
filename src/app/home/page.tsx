@@ -117,10 +117,10 @@ export default function Home() {
                 <Sobre />
               </div>
             </section>
-            <section className={cn(styles.wrapper, 'max-h-[90svh] h-auto max-w-full md:mt-[10svh] xsm:!my-[10svh]', 'flex flex-col justify-center notSelected-G')}>
+            <section id='recents' className={cn(styles.wrapper, 'max-h-[90svh] h-auto max-w-full md:mt-[10svh] xsm:!my-[10svh]', 'flex flex-col justify-center notSelected-G')}>
               <h1 className='text-center text-5xl md:!text-5xl sm:!text-2xl font-extrabold text-primary-color'>Posts mais recentes!</h1>
               {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
-              <section className='posts w-full xsm:!scale-95 md:!scale-100'>
+              <section className='posts w-full min-h-[300px] xsm:!scale-95 md:!scale-100'>
                 <InstaRecentPosts isMobile={mobileState.isSmallScreen} />
               </section>
             </section>

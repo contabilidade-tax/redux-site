@@ -1,10 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 import { InstaPostsContextProvider, useInstaPostsContext } from '@/common/context/InstagramPostsContext';
 import { cn } from '@/lib/utils';
 import { Card } from './Card';
-import { Skeleton } from '../Loading/Skeleton';
+import { Skeleton } from "@/components/ui/skeleton"
 
 import styles from './InstaRecentPosts.module.scss'
 import { InstaPostData } from '@/types';
@@ -15,17 +15,32 @@ type InstaRecentPostsProps = {
 }
 
 function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
-    const { state } = useInstaPostsContext();
-    const [isLoading, setIsLoading] = useState(true);
+    const { state, fetchData, fetchToken } = useInstaPostsContext();
+    const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<InstaPostData[]>([]);  // Usando useState para posts
 
     useEffect(() => {
+        console.log(state)
         if (state?.data && state.data.length > 0) {
             setPosts(state.data.sort((a, b) => Date.parse(b.timestamp!) - Date.parse(a.timestamp!)));
-            setIsLoading(false);
+            setLoading(false);
         }
     }, [state]);
 
+
+    useLayoutEffect(() => {
+        console.log(loading)
+        fetchToken()
+            .then(token => {
+                if (token) {
+                    return fetchData(token);
+                } else {
+                    throw new Error('Token não recebido');
+                }
+            })
+            .then(data => {/* Aqui você manipula os dados recebidos */ })
+            .catch((error: any) => { console.log(error.message) });
+    }, []);
 
     return (
         <section className={cn(
@@ -34,12 +49,12 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
             className
         )}
         >
-            {isLoading ?
-                <Skeleton.Root className="relative w-full h-full !z-50 flex items-center gap-4 justify-evenly p-5" >
+            {loading ?
+                <div className="relative min-w-full h-full !z-50 flex items-center gap-4 justify-evenly p-5" >
                     {Array.from({ length: 6 }).map((_, index) => (
-                        <Skeleton.Item key={index} className="max-w-[320px] max-h-[384px] w-[16.5%] h-full rounded-md bg-indigo-100 drop-shadow-custom" />
+                        <Skeleton key={index} className="w-[300px] max-h-[384px] min-h-[300px] rounded-md bg-indigo-100 drop-shadow-custom border border-black" />
                     ))}
-                </Skeleton.Root>
+                </div>
                 :
                 posts.map((post, index) => (
                     <div key={index} className={cn(
@@ -48,7 +63,7 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
                         // { 'scale:.8': isMobile },
                     )}>
                         {/* <Card.Root className='rounded-3xl overflow-hidden w-full h-full md:!py-8 xsm:py-2 px-1 space-y-1'> */}
-                        <Card.Root className='rounded-3xl w-full h-full md:!py-8 xsm:py-2 px-0 space-y-1'>
+                        <Card.Root className='rounded-3xl w-full h-full md:!pt-2 md:!pb-4 xsm:py-2 space-y-1'>
                             <Card.Post
                                 post={post}
                                 index={index}
@@ -59,10 +74,10 @@ function InstaRecentPosts({ className, isMobile }: InstaRecentPostsProps) {
                                 )} />
                             <Card.Caption className='self-end' text={post.caption!} timestamp={post.timestamp!} />
                         </Card.Root>
-                    </div>
+                    </div >
                 ))
             }
-        </section>
+        </section >
     );
 };
 

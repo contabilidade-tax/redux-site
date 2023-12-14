@@ -13,6 +13,8 @@ type ActionType = {
 };
 type InstaPostsContextValue = {
     state: typeof initialState | null;
+    fetchToken: () => Promise<any>;
+    fetchData: (token: InstaTokenData) => Promise<any>;
 }
 const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(undefined);
 
@@ -240,27 +242,8 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
         }
     };
 
-    useLayoutEffect(() => {
-        fetchToken()
-            .then(token => {
-                if (token) {
-                    return fetchData(token);
-                } else {
-                    throw new Error('Token não recebido');
-                }
-            })
-            .then(data => {
-                // Aqui você manipula os dados recebidos
-                console.log('Dados recebidos:', data);
-            })
-            .catch(error => {
-                // Aqui você trata os erros que podem ocorrer durante a obtenção do token ou dos dados
-                console.error('Erro:', error);
-            });
-    }, []);
-
     return (
-        <InstaPostsContext.Provider value={{ state }}>
+        <InstaPostsContext.Provider value={{ state, fetchToken, fetchData }}>
             {children}
         </InstaPostsContext.Provider>
     );
