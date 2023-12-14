@@ -6,14 +6,22 @@ export default function TrabalheConosco() {
 
   return (
     <div style={{
-      backgroundImage: 'url(/assets/img/bg/dinoTrabalheConosco.png)',
+      backgroundImage: 'url(/assets/img/bg/dinoTrabalheConoscoNatal.png)',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
       backgroundPositionX: 'center',
       backgroundPositionY: '80%',
     }}
       className='flex justify-center items-center flex-1 w-full p-6'>
-      <ContactForm className='bg-[#fff] border drop-shadow-custom border-black p-6 rounded-2xl drop-shadow-customPrimary z-50 max-h-[40rem]' />
+      <ContactForm className='bg-[#fff] border-2 drop-shadow-custom border-gray-400 p-6 rounded-2xl flex flex-col z-50 max-h-[45rem]' />
+      {/* <div style={{
+        backgroundImage: 'url(/assets/img/redux-colorido/1.png)',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+      }}
+        className='absolute w-8 h-4'
+      /> */}
       {/* <div className={cn(
         'absolute w-full min-h-[76vh]',
         'flex items-center',

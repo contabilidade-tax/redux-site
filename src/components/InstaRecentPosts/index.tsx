@@ -9,7 +9,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 import styles from './InstaRecentPosts.module.scss'
 import { InstaPostData } from '@/types';
 import axios from 'axios';
-import { set } from 'react-hook-form';
 import Link from 'next/link';
 
 type InstaRecentPostsProps = {
@@ -58,7 +57,6 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
         const [instaPosts, userData] = await Promise.all([fetchInstaData(), fetchUserData()])
         setPosts(instaPosts!);
         setUser({ ...userData! });
-        console.log(userData)
     }
 
     useEffect(() => {
@@ -81,7 +79,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
         )}
         >
             {user && <div className="currentUser absolute min-w-52 w-max h-10 flex justify-center px-4 mb-2 left-1/2 -translate-x-1/2 border -translate-y-6 border-[#191919] text-white font-bold rounded-full text-xl text-center bg-[#191919]">
-                <Link className='my-auto' target='_blank' href={`https://instagram.com/${user.username}`}>{user.username}</Link>
+                <Link className='my-auto' target='_blank' href={`https://instagram.com/${user.username}`}>@{user.username}</Link>
             </div>
             }
             {loading ?

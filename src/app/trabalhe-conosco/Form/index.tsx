@@ -151,15 +151,16 @@ export default function ContactForm({ className }: { className?: string }) {
     }
 
     const errorMessageStyle = 'text-red-500 font-bold text-sm'
-    const labelStyle = 'font-white font-bold'
-    const placeHolderStyle = 'font-[#222020] font-bold placeholder:text-muted-foreground border border-gray-600'
+    const labelStyle = 'font-white font-semibold'
+    // const placeHolderStyle = 'font-[#222020] font-bold placeholder:text-muted-foreground border border-gray-600'
+    const placeHolderStyle = 'font-[#222020] font-base placeholder:text-muted-foreground bg-gray-300/60 border border-gray-400/80'
 
     return (
         <Form {...form}>
             <form className={className} onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField control={form.control} name="name" render={({ field }) => (
                     <FormItem>
-                        <FormLabel className={labelStyle}>Nome</FormLabel>
+                        <FormLabel className={labelStyle}>Nome*</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl>
                             <Input {...field} id="name" className={placeHolderStyle} placeholder="Digite seu nome" />
@@ -168,7 +169,7 @@ export default function ContactForm({ className }: { className?: string }) {
                 )} />
                 <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
-                        <FormLabel className={labelStyle}>Email</FormLabel>
+                        <FormLabel className={labelStyle}>Email*</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl>
                             <Input {...field} id="email" className={cn(placeHolderStyle)} placeholder="Informe seu email principal" />
@@ -177,7 +178,7 @@ export default function ContactForm({ className }: { className?: string }) {
                 )} />
                 <FormField control={form.control} name="whatsapp" render={({ field }) => (
                     <FormItem>
-                        <FormLabel className={labelStyle}>Whatsapp</FormLabel>
+                        <FormLabel className={labelStyle}>Whatsapp*</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl>
                             <InputMask
@@ -214,7 +215,7 @@ export default function ContactForm({ className }: { className?: string }) {
                 <div className="flex items-center w-full gap-8">
                     <FormField control={form.control} name="cidade" render={({ field }) => (
                         <FormItem>
-                            <FormLabel className={labelStyle}>Cidade</FormLabel>
+                            <FormLabel className={labelStyle}>Cidade*</FormLabel>
                             <FormMessage className={errorMessageStyle} />
                             <FormControl>
                                 <Input {...field} id="cidade" className={placeHolderStyle} placeholder="Onde você reside?" />
@@ -223,7 +224,7 @@ export default function ContactForm({ className }: { className?: string }) {
                     )} />
                     <FormField control={form.control} name="estado" render={({ field }) => (
                         <FormItem className="flex flex-col gap-1 mt-2">
-                            <FormLabel className={labelStyle}>Estado</FormLabel>
+                            <FormLabel className={labelStyle}>Estado*</FormLabel>
                             <FormMessage className={errorMessageStyle} />
                             <Popover>
                                 <PopoverTrigger asChild>
@@ -232,7 +233,7 @@ export default function ContactForm({ className }: { className?: string }) {
                                             variant="outline"
                                             role="combobox"
                                             className={cn(
-                                                "w-[200px] h-9 justify-between border border-gray-600",
+                                                "w-[200px] h-9 justify-between border border-gray-400/80 bg-gray-300/60",
                                                 !field.value && "text-muted-foreground"
                                             )}
                                         >
@@ -280,10 +281,10 @@ export default function ContactForm({ className }: { className?: string }) {
                 </div>
                 <FormField control={form.control} name="arquivo" render={({ field }) => (
                     <FormItem className="flex flex-col my-3">
-                        <FormLabel className={labelStyle}>Currículo</FormLabel>
+                        <FormLabel className={labelStyle}>Currículo*</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl>
-                            <div className="z-[999] cursor-pointer w-max border border-solid border-gray-600 p-1 px-2">
+                            <div className="z-[999] cursor-pointer min-w-[176px] w-max border border-solid border-gray-400/80 p-1 px-2 rounded-md bg-gray-300/60">
                                 <input
                                     type="file"
                                     accept=".pdf,.doc,.docx"
@@ -291,7 +292,7 @@ export default function ContactForm({ className }: { className?: string }) {
                                     id="arquivo"
                                     style={{ display: 'none' }} // Esconde o input padrão
                                 />
-                                <label htmlFor="arquivo" className="cursor-pointer">
+                                <label htmlFor="arquivo" className="cursor-pointer flex justify-center items-center">
                                     {file?.name || "Escolha um arquivo"} {/* Exibe o nome do arquivo ou um texto padrão */}
                                 </label>
                                 {/* ...resto do seu componente */}
@@ -301,14 +302,15 @@ export default function ContactForm({ className }: { className?: string }) {
                 )} />
                 <FormField control={form.control} name="message" render={({ field }) => (
                     <FormItem>
-                        <FormLabel className={labelStyle}>Mensagem</FormLabel>
+                        <FormLabel className={labelStyle}>Mensagem*</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl className="max-h-[230px]">
                             <Textarea {...field} id="message" className={placeHolderStyle} placeholder="Digite sua mensagem..." />
                         </FormControl>
                     </FormItem>
                 )} />
-                <Button type="submit" className="self-center my-4 w-1/3 bg-white text-black font-bold !rounded-2xl">Enviar</Button>
+                <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-[#4EA929] text-white text-lg font-bold !rounded-2xl">Enviar</Button>
+                {/* <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-primary-color text-white text-lg font-bold !rounded-2xl">Enviar</Button> */}
             </form>
         </Form>
     )
