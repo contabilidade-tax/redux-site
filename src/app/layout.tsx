@@ -2,10 +2,12 @@
 import { ReactNode } from 'react'
 
 import '@/styles/globals.scss'
+import "react-toastify/dist/ReactToastify.minimal.css";
 
 import { LoadingProvider } from '@/common/context/LoadingContext'
 import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
-import { Toaster } from "@/components/ui/toaster"
+// import { Toaster } from "@/components/ui/toaster"
+import { ToastContainer } from 'react-toastify';
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 // const inter = Montserrat({
@@ -29,9 +31,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Header />
             <main className="flex-1 flex w-full flex-col items-center justify-between relative Wrapper bg-[#fafafa]">
               {children}
+              <ToastContainer />
             </main>
             <Footer />
-            <Toaster />
+            {/* <Toaster /> */}
           </body>
         </html>
       </LoadingProvider>

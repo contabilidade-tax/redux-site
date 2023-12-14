@@ -93,7 +93,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       const userData = await setCurrentUser(createTokenApiUrl, { access_token: longLivedTokenData.access_token, user_id });
       const createdToken = await createInstaToken(createTokenApiUrl, longLivedTokenData);
 
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/home?welcome=1`);
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/home#recents?welcome=1`);
     } catch (error: any) {
       throw new Error(error.response?.data.error_message ?? error.message);
     }

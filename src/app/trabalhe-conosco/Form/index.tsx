@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { toast } from "@/components/ui/use-toast"
+// import { toast } from "@/components/ui/use-toast"
+import { toast } from 'react-toastify';
 import * as z from 'zod'
 import {
     Command,
@@ -108,32 +109,43 @@ export default function ContactForm({ className }: { className?: string }) {
         axios.post('/api/rh/sendProfile', { body: emailRender, arquivo: file })
             .then(
                 (response) => {
-                    toast({
-                        // title: "Você enviou os seguintes valores:",
-                        className: "mt-2 -translate-x-16 rounded-md p-4 text-black w-max",
-                        description: (
-                            <pre className="mt-[8px] max-w-[420px] rounded-md bg-[#202020]/60 p-[20px] font-base">
-                                <p className="text-center text-base">Obrigado por nos enviar seu currículo!</p>
-                                <p className="text-base text-center">Apreciamos seu interesse em fazer parte <br /> da nossa equipe!</p>
-                                <br />
-                                <p className="text-center text-base">Até mais! 👋🏼</p>
-                                <p className="text-center text-base">Equipe REDUX Contabilidade</p>
-                                {/* <code className="text-white">{JSON.stringify(data, null, 2)}</code> */}
-                            </pre>
-                        ),
-                    })
+                    toast.success(
+                        <div className="min-w-[300px] w-max font-base">
+                            <p>
+                                Obrigado por nos enviar seu currículo! <br />
+                                Até mais! 👋🏼
+                            </p>
+                            <p>
+                                Equipe REDUX Contabilidade
+                            </p>
+                        </div>,
+                        {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            className: '-translate-x-8',
+                        },
+                    );
                 }
             )
             .catch((error: any) => {
-                toast({
-                    title: "Ocorreu um erro ao enviar o currículo",
-                    description: (
-                        <pre className="w-full bg-white">
-                            <code>{JSON.stringify(error.response.data, null, 2)}</code>
-                        </pre>
-                    ),
-                    variant: "destructive",
-                })
+                toast.error(
+                    error.message,
+                    {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
 
             })
     }

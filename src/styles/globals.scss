@@ -1,6 +1,6 @@
 @import '@/styles/variaveis';
 @import '@/styles/imports';
-
+@import '@/styles/toastfy/main';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@400;700&display=swap');
 
 
@@ -53,6 +53,7 @@
       background-color: #037367;
       border-radius: 100px;
     }
+
   }
 
   .dark {
