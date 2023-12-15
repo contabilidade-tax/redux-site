@@ -14,7 +14,7 @@ a {
     // max-height: 400px;
     // max-width: 500px;
     max-width: 320px;
-    max-height: 75px;
+    max-height: 100px;
     margin-left: auto;
     margin-right: auto;
     padding: 0;
@@ -37,8 +37,8 @@ a {
     padding: 10px 25px;
     overflow-y: auto;
     height: fit-content;
+    max-height: 80px;
     width: 100%;
 
-    max-height: 8rem;
     text-align: justify;
 }
