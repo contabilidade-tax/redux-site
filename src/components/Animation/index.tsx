@@ -327,7 +327,7 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                 onComplete: () => {
                     gsap.to(dino, {
                         x: "+=40px",
-                        y: -50,
+                        y: -38,
                         duration: animationDelayPosition.jump.duration - 0.1,
                         // ease: 'Power4.easeOut',
                         ease: 'CustomEase.create("custom", "M0,1,C0,1,0.332,0.845,0.52,0.657,0.809,0.368,1,0,1,0")',
@@ -368,7 +368,7 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
 
     const runDinoNaEsteira = (dino: HTMLDivElement | null) => {
         const animation = gsap.to(dino, {
-            x: 420,
+            x: 380,
             duration: animationDelayPosition.runEsteira.duration,
             // delay: animationDelayPosition.runEsteira.delay,
             onComplete: () => {
@@ -385,9 +385,9 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
 
     function dinoRegularizado(dino: HTMLDivElement | null) {
         const animation = gsap.fromTo(dino,
-            { x: 420, y: -50, opacity: 1 },
+            { x: 380, y: -38, opacity: 1 },
             {
-                x: `+=320px`,
+                x: `+=240px`,
                 duration: animationDelayPosition.regularizado.duration,
                 delay: 1,
                 // delay: animationDelayPosition.regularizado.delay,
@@ -475,9 +475,10 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
             }}
             title={title ?? ''}
             className={cn('flex items-end justify-center', className)}
+        // className={cn('flex items-end justify-center')}
         >
             {/* DINOS */}
-            <section className="dinosArea absolute w-full h-full flex -z-30">
+            <section className="dinosArea absolute w-full h-full flex -z-30 scale-50 md:!scale-100">
                 <div
                     ref={refs.dino.desempregado}
                     style={{
@@ -502,40 +503,48 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                     className="regularizado absolute bottom-0" />
             </section>
             {/* Portal */}
-            <div className="portalWrapper absolute w-full h-full flex justify-center items-center">
+            <div className="portalWrapper absolute w-full h-full flex justify-center">
                 <div
                     style={{
                         backgroundImage: `url('/assets/img/animations/2/portal.png')`,
                         backgroundSize: 'contain',
                         backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center 5px',
-                        scale: 1
+                        backgroundPosition: 'center',
                     }}
-                    className="portal w-2/5 h-[42%] relative flex items-end translate-y-[38%]"
+                    // className="portal w-2/5 h-[42%] relative flex items-end translate-y-[38%]"
+                    className={cn(
+                        "portal relative top-[8.4rem] md:top-[9.1rem] flex items-end w-2/5 md:!h-[42%]",
+                        "xsm:h-[24%]"
+                    )}
                 >
-                    <div className="blockRaioX bg-black w-1/4 h-[76%] mx-auto translate-y-[1%]">
+                    <div className={cn(
+                        "blockRaioX bg-black w-1/4 lg!h-[76%] mx-auto translate-y-[1%]",
+                        "xsm:h-[75%]",
+                        // "border border-green-500"
+                    )}>
                         <div
                             style={{
                                 backgroundImage: `url('/assets/img/animations/2/${raioXAnimation ? "greenButton" : "redButton"}.png')`,
                                 backgroundSize: 'contain',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundPosition: 'center center',
-                                width: '25%',
-                                height: '25%',
                                 scale: 1
                             }}
-                            className="button mx-auto -translate-y-[56%] cursor-pointer"
+                            className="button mx-auto cursor-pointer relative top-0 w-[30%] h-[30%] -translate-y-[55%]"
                         />
                     </div>
                 </div>
             </div>
             {/* Wheels */}
-            <div className="wheels absolute w-full h-full">
+            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[19%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
                 <div className={cn(
-                    "container w-[60%] h-[5%] max-h-[20px] relative -bottom-[87.8%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
-                    "z-50 flex justify-center items-center ",
-                    "rounded-full mx-auto translate-x-[0.81%]",
-                    "min-w-[395px]"
+                    // "w-full md:!w-[60%] h-[5%] max-h-[20px]",
+                    "h-[5%] xsm:min-w-full xsm:max-h-[12px] md:!max-h-[20px]",
+                    "container relative -bottom-[87.8%] bg-gradient-to-t from-[#A1C3C9] to-[#C4D6DC] bg-opacity-80",
+                    "z-[999] flex justify-center items-center ",
+                    "rounded-full mx-auto translate-x-[0.81%] overflow-hidden",
+                    "border border-teal-700"
+                    // "min-w-[395px]"
                 )}>
                     {Array(20).fill(0).map((_, index) => (
                         <img className="object-contain w-full h-full animate-wheel" src="/assets/img/animations/3/wheel.png" alt="wheel" key={index} />
@@ -752,13 +761,13 @@ function Fiscal({ className, title, height: heightProp, width: widthProp }: Anim
             className={cn(className, "animation z-1 relative")}
             title={title}
         >
-            <div id="trigger" className={cn("w-24 h-full bg-black/50 z-50 relative left-[20%] opacity-0")} />
+            <div id="trigger" className={cn("w-24 h-full bg-black/50 z-50 relative xsm:left-[18px] md:!left-[20%] opacity-0")} />
             {/* CARTEIRA */}
             {/* <div ref={ref.carteira} style={{ opacity: 0 }} className="absolute w-48 h-28 top-0 left-0 border-2 border-orange-500">
                 {getLottie(carteira)}
             </div> */}
             {/* DINO */}
-            <div ref={ref.dinoRef} className="absolute bottom-0 left-10 z-30 w-[73px] h-[81px] ">
+            <div ref={ref.dinoRef} className="absolute left-10 z-30 w-[73px] h-[81px] scale-50 -bottom-5 md:!bottom-0 md:!scale-100">
                 <div
                     ref={ref.dinoParado}
                     style={{
@@ -931,7 +940,7 @@ function Contabil({ className, title, height: heightProp, width: widthProp }: An
             style={{
                 backgroundImage: `url('/assets/img/animations/1/piso.png')`,
                 backgroundSize: 'contain',
-                backgroundPosition: '110% 100%',
+                backgroundPosition: 'center 80%',
                 backgroundRepeat: 'no-repeat',
                 width: widthProp,
                 height: heightProp,

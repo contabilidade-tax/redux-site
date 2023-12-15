@@ -155,9 +155,10 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
             {/* ANIMATION CONTAINER */}
             <div className={cn(
               styles.animationContainer,
+              // 'w-full h-3/5 md:!min-h-[60%] xsm:max-h-[250px]',
               'w-full h-3/5 md:!min-h-[60%] xsm:max-h-[250px]',
             )}>
-              <div title={state.selectedTab.subtitulo} className={cn(styles.animationArea, 'w-full h-full relative mx-auto')}>
+              <div title={state.selectedTab.subtitulo} className={cn(styles.animationArea, 'w-full h-full relative mx-auto md:!max-w-[825px] xsm:!max-h-[250px]')}>
                 {animations.map((Animation, index) => (
                   index === state.actualIndex &&
                   (
@@ -166,7 +167,10 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
                       height={mobileState.isSmallScreen ? state.animationArea.height * 0.5 : state.animationArea.height * 0.5}
                       key={index}
                       className={cn(
-                        'relative cursor-default overflow-hidden object-cover mx-auto xsm:min-h-[300px] xsm:min-w-full lg:min-h-[300px] max-w-[692px] max-h-[307px]',
+                        'relative cursor-default overflow-hidden object-cover mx-auto xsm:min-w-full lg:!min-h-[330px] lg:!max-w-[850px] !max-h-[307px]',
+                        { 'xsm:min-h-[300px]': [0, 1, 3].includes(index) },
+                        // 'border border-yellow-500'
+                        // 'relative cursor-default overflow-hidden object-cover mx-auto xsm:min-h-[300px] xsm:min-w-full lg:min-h-[300px] max-w-[692px] max-h-[307px]',
                       )} />
                   )
                 ))}
@@ -174,7 +178,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
             </div>
             {/* FOOTER TEXT AREA */}
             <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto', 'xsm:hidden sm:flex-col lg:!flex-row md:!flex xl:!flex-1')}>
-              <div className={cn(styles.fraseStyle, 'w-full text-4xl', 'sm:w-[150px] !sm:flex-1 !sm:text-5xl lg:w-full xl:flex-1 xl:min-w-[480px] xl-max:h-[200px] xl:text-7xl')}>
+              <div className={cn(styles.fraseStyle, 'w-full text-3xl', 'sm:w-[150px] !sm:flex-1 !sm:text-5xl lg:w-full xl:flex-1 xl:min-w-[500px] xl-max:h-[200px] xl:text-7xl')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
                   <h1
                     className={cn(
