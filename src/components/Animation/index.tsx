@@ -569,16 +569,18 @@ function Fiscal({ className, title, height: heightProp, width: widthProp }: Anim
         text: useRef<HTMLDivElement>(null),
     }
     const frases = ["Redução Tributária Concluída"]
+    const triggerRef = useRef<HTMLDivElement>(null)
 
     function dinoEntry(dino: HTMLDivElement | null, sprite: HTMLDivElement | null) {
         const tl = gsap.timeline()
-        const trigger: any = document.getElementById('trigger')
+        const trigger: HTMLElement | null = document.getElementById('trigger')
+        const x = trigger?.clientLeft
 
         tl.set(dino, { x: -110, y: 0 })
         const animation = tl.to(
             dino,
             {
-                x: trigger.offsetLeft,
+                x: trigger?.offsetLeft,
                 opacity: 1,
                 duration: 3,
                 onComplete: () => {
@@ -761,7 +763,7 @@ function Fiscal({ className, title, height: heightProp, width: widthProp }: Anim
             className={cn(className, "animation z-1 relative")}
             title={title}
         >
-            <div id="trigger" className={cn("w-24 h-full bg-black/50 z-50 relative xsm:left-[18px] md:!left-[20%] opacity-0")} />
+            <div id="trigger" ref={useRef} className={cn("w-2 h-full bg-black/50 z-50 relative xsm:left-[2%] !left-[20%] opacity-1")} />
             {/* CARTEIRA */}
             {/* <div ref={ref.carteira} style={{ opacity: 0 }} className="absolute w-48 h-28 top-0 left-0 border-2 border-orange-500">
                 {getLottie(carteira)}

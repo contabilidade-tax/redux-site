@@ -10,34 +10,41 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   // Array para armazenar os IDs dos timeouts
   const timeoutIds: any = []
+  const dinoPositions = {
+    dinoY: 220,
+    dinoCarY: 195
+    // y: 248
+  }
 
   // Monta e permanece em loop
   useEffect(() => {
     if (canvasRef.current) {
       const canvas = canvasRef.current
       const ctx = canvas.getContext('2d')!
-      const cw = (canvas.width = 550)
-      const ch = (canvas.height = 500)
-      const peCicero = { img: new Image(), x: 0, y: -5 } // Defina a posição y de acordo com a posição onde você quer desenhar o carro
+      const cw = canvas.offsetWidth
+      const ch = 500
+      console.log(cw, ch)
+      const peCicero = { img: new Image(), x: 0, y: -5 } // Defina a posição y de acordo com a posição onde você quer desenhar 
       const dino = {
         img: new Image(),
         spriteOffsetX: 0,
         x: cw / 5,
-        y: -248,
+        y: -dinoPositions.dinoY,
         visible: true,
         isJumping: false,
       }
       const dinoCar = {
         img: new Image(),
         x: dino.x - 10,
-        y: 195,
+        y: dinoPositions.dinoCarY,
         visible: false,
       }
       const dinoPaused = {
         img: new Image(),
         spriteOffsetX: 0,
         x: cw / 5,
-        y: 250,
+        y: dinoPositions.dinoY,
+        // y: 250,
       }
       const bg = [
         { img: new Image(), x: cw / 2 },
@@ -72,14 +79,14 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
       bg[6].img.src = 'https://i.postimg.cc/x1sqHRng/Fundo-Pixel-Natal-07.png'
       bg[7].img.src = 'https://i.postimg.cc/NMZtC37k/bg8.png'
       peCicero.img.src = 'https://i.postimg.cc/HszLD2cH/Fundo-Pixel-PE-CICERO.png'
-      dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
+      dino.img.src = 'https://i.postimg.cc/MTxS2GDC/dino-Patins.png'
       dinoCar.img.src = 'https://i.postimg.cc/SxQJJ5FJ/Dino-no-Treno.png'
-      dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
+      dinoPaused.img.src = 'https://i.postimg.cc/MTxS2GDC/dino-Patins.png'
 
       // Wrapper da animação
       const startAnimation = (speed = speedProp, scale = scaleProp) => {
         const scaledImageWidth = 1000 * scale // largura da imagem reescalonada
-        const scaledImageHeight = ch * scale
+        const scaledImageHeight = 600 * scale
         const totalWidth = bg.length * scaledImageWidth // largura total do cenário
         const timeline = gsap.timeline({ delay: 1.5 })
         const bgSpeed = speed // velocidade das imagens
@@ -151,12 +158,16 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
             dinoPaused,
             dinoPaused.spriteOffsetX,
             0,
-            78,
-            78,
+            110,
+            115,
+            // 78,
+            // 78,
             dino.x - 4,
             dino.y - 39,
-            78,
-            78,
+            110,
+            115,
+            // 78,
+            // 78,
           )
         } else {
           if (
@@ -168,12 +179,16 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
               dino,
               dino.spriteOffsetX + 1,
               0,
-              74,
-              78,
+              110,
+              115,
+              // 74,
+              // 78,
               dino.x,
               dino.y - 39,
-              74,
-              78,
+              110,
+              115,
+              // 74,
+              // 78,
             )
           }
         }
@@ -185,12 +200,16 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
             dinoCar,
             bg[5].img.x,
             0,
-            170,
+            300,
             95,
+            // 170,
+            // 95,
             dinoCar.x,
             dinoCar.y,
-            170,
+            300,
             95,
+            // 170,
+            // 95,
           )
         }
       }
@@ -261,14 +280,14 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
 
   function setupDinoAnimation(timeline: any, dino: any, dinoCar: any) {
     // Crie uma função de animação personalizada
-    const animateDino = () => {
-      gsap.to(dino, {
-        duration: 0.25,
-        spriteOffsetX: 150,
-        ease: 'steps(2)',
-        repeat: -1,
-      })
-    }
+    // const animateDino = () => {
+    //   gsap.to(dino, {
+    //     duration: 0.25,
+    //     spriteOffsetX: 150,
+    //     ease: 'steps(2)',
+    //     repeat: -1,
+    //   })
+    // }
 
     // Função do pulo do dino
     const dinoJump = () => {
@@ -284,7 +303,7 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
           .then(() => {
             gsap.to(dino, {
               duration: 0.3,
-              y: 248,
+              y: dinoPositions.dinoY,
               x: '-=20',
               ease: 'power2.in',
             })
@@ -303,7 +322,7 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
           .then(() => {
             gsap.to(dinoCar, {
               duration: 0.2,
-              y: 195,
+              y: dinoPositions.dinoCarY,
               x: '-=20',
               ease: 'power2.in',
             })
@@ -316,7 +335,8 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
 
     const dinoFall = () => {
       gsap.to(dino, {
-        y: 248,
+        y: dinoPositions.dinoY,
+        // y: 248,
         duration: 1.1,
         ease: 'bounce',
       })
@@ -339,7 +359,7 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
     }
 
     // Adicione a animação do dino ao timeline
-    timeline.add(animateDino, 0)
+    // timeline.add(animateDino, 0)
     timeline.add(dinoFall, -1.2)
     timeline.add(jumps, 0)
   }
@@ -566,7 +586,7 @@ function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp
     <div className={className}>
       <canvas
         ref={canvasRef}
-        className='w-full h-full object-fill'
+        className='w-full h-full object-contain'
       />
     </div>
   )

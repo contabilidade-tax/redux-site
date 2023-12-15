@@ -16,6 +16,7 @@ import styles from './Home.module.scss'
 import Sobre from '@/components/Sobre'
 import { toast } from 'react-toastify'
 import { setCookie, parseCookies } from "nookies";
+import GameSceneCss from './GameSceneCss'
 
 type handleCookieActions = {
   type: 'SET' | 'GET';
@@ -115,8 +116,8 @@ export default function Home() {
           <>
             {/* <Header /> */}
             <section className={cn(styles.contentArea, 'min-h-[90svh] w-full', 'pt-[10sh]')}>
-              <div className={cn('min-h-[90svh] w-full flex flex-col justify-between py-[5%] md:!py-[3%] md:!gap-10')}>
-                <div className={cn('w-full tracking-wide lg:text-6xl text-7xl text-center p-0')}>
+              <div className={cn('h-[90svh] w-full py-[5%] md:!py-[3%] md:!gap-10', 'grid grid-rows-5')}>
+                <div className={cn('w-full tracking-wide lg:text-6xl text-7xl text-center p-0', 'row-span-1')}>
                   <p className={cn("w-full h-max font-normal", "xsm:text-4xl md:!text-6xl")}>
                     Não somos obrigação,
                   </p>
@@ -125,23 +126,23 @@ export default function Home() {
                     <span className="text-primary-color">.</span>
                   </p>
                 </div>
-                <section data-mobile={mobileState.isMobileDevice} className={cn("w-full flex-1 relative mx-auto border-2 border-black")}>
+                <section className={cn("w-full row-span-3 mx-auto", "flex flex-col justify-center items-center")}>
                   {/* <section className={cn("w-screen !mx-12 relative", "xsm:h-[230px] md:!flex-1", "border-2 border-black")}> */}
-                  <GameScene
-                    chProp={mobileState.isSmallScreen ? 250 : 450}
-                    cwProp={typeof window !== 'undefined' ? window.innerWidth : 1580}
-                    scaleProp={mobileState.isMobileDevice ? .6 : .6}
+                  {/* <GameScene
+                    // chProp={mobileState.isSmallScreen ? 250 : 450}
+                    // cwProp={typeof window !== 'undefined' ? window.innerWidth : 1580}
+                    scaleProp={1}
                     speedProp={200}
                     timeToReset={26.5}
                     dino={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
                     dinoPaused={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
                     dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
-                    className={cn(styles.gameScene, 'object-contain mx-auto !w-full md:h-auto md:max-h-[400px] border-2 border-yellow-500')}
-                  />
+                    className={cn('w-full h-full', 'object-contain md:max-h-[400px]', 'border-2 border-yellow-500')}
+                  /> */}
+                  <GameSceneCss classname='w-full h-full xsm:scale-90' />
                   {/* <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted disablePictureInPicture={true} disableRemotePlayback={true} className="w-full h-full object-fill"></video> */}
-                  {/* <img alt='Dino' src="/assets/video/dinoAnimation.gif" width={1000} height={1000} className="w-full h-full object-fit" /> */}
                 </section>
-                <div className={`${styles.bottomTextContent} flex flex-col`}>
+                <div className={`${styles.bottomTextContent} flex flex-col w-full h-max row-span-1`}>
                   <h2 className="text-2xl lg:text-4xl text-center">
                     A <span className='text-primary-color font-black'>melhor solução</span> para sua empresa.
                   </h2>
