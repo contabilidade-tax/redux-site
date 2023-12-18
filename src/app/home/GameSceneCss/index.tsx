@@ -9,8 +9,6 @@ type Props = {
 }
 
 export default function GameSceneCss({ classname }: Props) {
-  const [totalWidth, setTotalWidth] = useState(0)
-  const [totalHeight, setTotalHeight] = useState(0)
   const [dinoX, setDinoX] = useState<number | undefined>(0)
   const bgRef = useRef<HTMLDivElement>(null)
   const dinoRef = useRef<HTMLImageElement>(null)
@@ -38,8 +36,6 @@ export default function GameSceneCss({ classname }: Props) {
       // const timeoutIds: any = []
       const triggers = document.getElementsByClassName('triggerJump')
       // 
-      setTotalWidth(bgRef.current.clientWidth)
-      setTotalHeight(bgRef.current.clientHeight)
       // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       setDinoX(dinoRef.current?.x)
       // 
@@ -141,7 +137,7 @@ export default function GameSceneCss({ classname }: Props) {
         // Calcular a distância para mover o fundo, de modo que o 'right' do dino esteja próximo ao 'left' do limit.
         // Isso será a posição 'left' do limit menos a posição 'right' do dino.
         // Ajuste conforme necessário para definir o quão "próximo" você quer que eles estejam.
-        const buffer = 250; // Quantidade de pixels para parar antes do 'limit'.
+        const buffer = 280; // Quantidade de pixels para parar antes do 'limit'.
         const xPosition = limitRect.right - dinoRect.x + buffer;
         // Se a posição calculada for positiva, isso significaria mover o fundo para a direita, o que não é desejado,
         // então certifique-se de que a posição é negativa, pois queremos mover o fundo para a esquerda.
@@ -183,8 +179,8 @@ export default function GameSceneCss({ classname }: Props) {
 
   return (
     <div className={cn('girosflin relative', classname)}>
-      <p className='absolute top-2 left-2 font-bold'>Total Width: {totalWidth}, Total Height: {totalHeight}</p>
-      <p className='absolute top-8 left-2 font-bold'>DinoX: {dinoX}</p>
+      {/* <p className='absolute top-2 left-2 font-bold'>Total Width: {totalWidth}, Total Height: {totalHeight}</p> */}
+      {/* <p className='absolute top-8 left-2 font-bold'>DinoX: {dinoX}</p> */}
       <img src={peCicero} ref={peCiceroref} alt="peCicero" className='w-max h-full absolute top-0 left-1 z-10' />
       {/* <section ref={bgRef} className='bgRef absolute h-full flex z-30 bottom-0'>
         {bgImages.map((image, index) => {

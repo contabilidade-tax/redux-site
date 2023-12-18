@@ -168,7 +168,7 @@ export default function Home() {
               <h1 className='text-center text-5xl md:!text-5xl sm:!text-2xl font-extrabold text-primary-color'>Posts recentes!</h1>
               {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
               <section className='posts w-full h-auto xsm:!scale-95 md:!scale-100'>
-                {/* <InstaRecentPosts isMobile={mobileState.isSmallScreen} /> */}
+                <InstaRecentPosts isMobile={mobileState.isSmallScreen} />
               </section>
             </section>
           </>
