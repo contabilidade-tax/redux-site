@@ -569,18 +569,16 @@ function Fiscal({ className, title, height: heightProp, width: widthProp }: Anim
         text: useRef<HTMLDivElement>(null),
     }
     const frases = ["Redução Tributária Concluída"]
-    const triggerRef = useRef<HTMLDivElement>(null)
 
     function dinoEntry(dino: HTMLDivElement | null, sprite: HTMLDivElement | null) {
         const tl = gsap.timeline()
-        const trigger: HTMLElement | null = document.getElementById('trigger')
-        const x = trigger?.clientLeft
+        const trigger: any = document.getElementById('trigger')
 
         tl.set(dino, { x: -110, y: 0 })
         const animation = tl.to(
             dino,
             {
-                x: trigger?.offsetLeft,
+                x: trigger.offsetLeft,
                 opacity: 1,
                 duration: 3,
                 onComplete: () => {
@@ -763,13 +761,13 @@ function Fiscal({ className, title, height: heightProp, width: widthProp }: Anim
             className={cn(className, "animation z-1 relative")}
             title={title}
         >
-            <div id="trigger" ref={useRef} className={cn("w-2 h-full bg-black/50 z-50 relative xsm:left-[2%] !left-[20%] opacity-1")} />
+            <div id="trigger" className={cn("w-24 h-full bg-black/50 z-50 relative left-[20%] opacity-0")} />
             {/* CARTEIRA */}
             {/* <div ref={ref.carteira} style={{ opacity: 0 }} className="absolute w-48 h-28 top-0 left-0 border-2 border-orange-500">
                 {getLottie(carteira)}
             </div> */}
             {/* DINO */}
-            <div ref={ref.dinoRef} className="absolute left-10 z-30 w-[73px] h-[81px] scale-50 -bottom-5 md:!bottom-0 md:!scale-100">
+            <div ref={ref.dinoRef} className="absolute z-30 w-[73px] h-[81px] xsm:scale-50 xsm:-bottom-5 xsm:left-4 md:!scale-100 md:!bottom-0 md:!left-10">
                 <div
                     ref={ref.dinoParado}
                     style={{

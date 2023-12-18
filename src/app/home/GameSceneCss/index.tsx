@@ -33,7 +33,8 @@ export default function GameSceneCss({ classname }: Props) {
 
   useEffect(() => {
     if (bgRef.current && peCiceroref.current) {
-      const totalWidth = bgRef.current.children[0].clientWidth * 5 - 50;
+      // const totalWidth = bgRef.current.children[0].clientWidth * 5 - 50;
+      // const totalWidth = 3430;
       const timeoutIds: any = []
 
       const jump = () => {
@@ -45,7 +46,7 @@ export default function GameSceneCss({ classname }: Props) {
           onComplete: (() => {
             gsap.to(dinoRef.current, {
               duration: 0.3,
-              y: 280,
+              y: 7,
               x: '-=20',
               ease: 'power2.in',
             })
@@ -100,10 +101,11 @@ export default function GameSceneCss({ classname }: Props) {
       // Dino FALL
       tl.fromTo(dinoRef.current,
         {
-          y: -250
+          yPercent: -100
+          // y: -250
         },
         {
-          y: 280,
+          yPercent: 255,
           opacity: 1,
           duration: 1.1,
           ease: 'bounce',
@@ -111,21 +113,22 @@ export default function GameSceneCss({ classname }: Props) {
 
       // Adiciona a animação do peCicero diretamente na timeline
       tl.to(peCiceroref.current, {
-        x: -1000,
-        duration: 5,
+        xPercent: -100,
+        duration: 12,
         // duration: 60,
       }, 1.5);
 
       // Adiciona a primeira animação do fundo diretamente na timeline
       tl.to(bgRef.current, {
-        x: -totalWidth,
+        // x: -totalWidth,
+        xPercent: -215,
         duration: 13.5,
         // duration: 26.5,
       }, 1.5);
 
       // Adiciona a segunda animação do fundo após a primeira ter terminado
       tl.to(bgRef.current, {
-        x: '-=180',
+        xPercent: '-=12',
         duration: 2.2,
         delay: 1.5,
         onComplete: () => {
@@ -138,7 +141,7 @@ export default function GameSceneCss({ classname }: Props) {
 
       // RUN FINAL
       tl.to(bgRef.current, {
-        x: '-=700',
+        xPercent: '-=70',
         duration: 2,
         delay: 1.5,
         onComplete: () => {
@@ -156,10 +159,10 @@ export default function GameSceneCss({ classname }: Props) {
   return (
     <div className={cn('girosflin relative', classname)}>
       <img src={peCicero} ref={peCiceroref} alt="peCicero" className='w-max h-full absolute top-0 left-1 z-10' />
-      <section ref={bgRef} className='bgRef absolute w-full h-full flex z-30'>
+      <section ref={bgRef} className='bgRef absolute w-full h-full flex z-30 bottom-0'>
         {bgImages.map((image, index) => {
           return (
-            <img src={image} className="bg" key={index} alt="bg" />
+            <img src={image} key={index} className="bg" alt="bg" />
           )
         })
         }
