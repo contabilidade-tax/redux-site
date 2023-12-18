@@ -116,7 +116,7 @@ export default function Home() {
           <>
             {/* <Header /> */}
             <section className={cn(styles.contentArea, 'min-h-[90svh] w-full', 'pt-[10sh]')}>
-              <div className={cn('h-[90svh] w-full py-[5%] md:!py-[3%] md:!gap-10', 'grid grid-rows-5')}>
+              <div className={cn('min-h-[90svh] w-full py-[5%] md:!py-[3%] md:!gap-10', 'grid grid-rows-5')}>
                 <div className={cn('w-full tracking-wide lg:text-6xl text-7xl text-center p-0', 'row-span-1')}>
                   <p className={cn("w-full h-max font-normal", "xsm:text-4xl md:!text-6xl")}>
                     Não somos obrigação,
@@ -126,7 +126,7 @@ export default function Home() {
                     <span className="text-primary-color">.</span>
                   </p>
                 </div>
-                <section className={cn("w-full row-span-3 mx-auto", "flex flex-col justify-center items-center")}>
+                <section className={cn("w-full row-span-3 mx-auto", "flex flex-col justify-center items-center min-h-[417.55px]")}>
                   {/* <section className={cn("w-screen !mx-12 relative", "xsm:h-[230px] md:!flex-1", "border-2 border-black")}> */}
                   {/* <GameScene
                     // chProp={mobileState.isSmallScreen ? 250 : 450}
@@ -168,7 +168,7 @@ export default function Home() {
               <h1 className='text-center text-5xl md:!text-5xl sm:!text-2xl font-extrabold text-primary-color'>Posts recentes!</h1>
               {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
               <section className='posts w-full h-auto xsm:!scale-95 md:!scale-100'>
-                <InstaRecentPosts isMobile={mobileState.isSmallScreen} />
+                {/* <InstaRecentPosts isMobile={mobileState.isSmallScreen} /> */}
               </section>
             </section>
           </>

@@ -1,7 +1,7 @@
 'use client'
 import { cn } from '@/lib/utils'
 import './style.scss'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 
 type Props = {
@@ -9,6 +9,9 @@ type Props = {
 }
 
 export default function GameSceneCss({ classname }: Props) {
+  const [totalWidth, setTotalWidth] = useState(0)
+  const [totalHeight, setTotalHeight] = useState(0)
+  const [dinoX, setDinoX] = useState<number | undefined>(0)
   const bgRef = useRef<HTMLDivElement>(null)
   const dinoRef = useRef<HTMLImageElement>(null)
   const dinoCarRef = useRef<HTMLImageElement>(null)
@@ -20,8 +23,6 @@ export default function GameSceneCss({ classname }: Props) {
   const bgImages = [
     'https://i.postimg.cc/zvWy76Mj/Fundo-Pixel-Natal-01-SEMNOEL.png',
     'https://i.postimg.cc/L4ZgmgX1/Fundo-Pixel-Natal-02-SEMNOEL.png',
-    // 'https://i.postimg.cc/rsLpcZNy/Fundo-Pixel-Natal-01.png',
-    // 'https://i.postimg.cc/Ss9KBb8t/Fundo-Pixel-Natal-02.png',
     'https://i.postimg.cc/Lsn5V1sS/Fundo-Pixel-Natal-03.png',
     'https://i.postimg.cc/cJ2HkLKn/Fundo-Pixel-Natal-04.png',
     'https://i.postimg.cc/Y0fCSNd6/Fundo-Pixel-Natal-05.png',
@@ -30,12 +31,18 @@ export default function GameSceneCss({ classname }: Props) {
     'https://i.postimg.cc/NMZtC37k/bg8.png'
   ]
 
-
   useEffect(() => {
     if (bgRef.current && peCiceroref.current) {
       // const totalWidth = bgRef.current.children[0].clientWidth * 5 - 50;
       // const totalWidth = 3430;
-      const timeoutIds: any = []
+      // const timeoutIds: any = []
+      const triggers = document.getElementsByClassName('triggerJump')
+      // 
+      setTotalWidth(bgRef.current.clientWidth)
+      setTotalHeight(bgRef.current.clientHeight)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      setDinoX(dinoRef.current?.x)
+      // 
 
       const jump = () => {
         gsap.to(dinoRef.current, {
@@ -54,34 +61,18 @@ export default function GameSceneCss({ classname }: Props) {
         })
       }
 
-      const createTimeout = (callback: any, delay: number) => {
-        const timeoutId = setTimeout(callback, delay)
-        timeoutIds.push(timeoutId)
-      }
+      // const createTimeout = (callback: any, delay: number) => {
+      //   const timeoutId = setTimeout(callback, delay)
+      //   timeoutIds.push(timeoutId)
+      // }
 
-      const clearAllTimeoutsAndReset = () => {
-        timeoutIds.forEach((timeoutId: any) => {
-          clearTimeout(timeoutId)
-        })
+      // const clearAllTimeoutsAndReset = () => {
+      //   timeoutIds.forEach((timeoutId: any) => {
+      //     clearTimeout(timeoutId)
+      //   })
 
-        timeoutIds.splice(0, timeoutIds.length)
-      }
-
-      const jumps = () => {
-        // Pulos
-        createTimeout(() => {
-          jump()
-          createTimeout(() => {
-            jump()
-            createTimeout(() => {
-              jump()
-              createTimeout(() => {
-                jump()
-              }, 2750) // quarto pulo
-            }, 2550) // terceiro pulo
-          }, 3050) // segundo pulo
-        }, 3900) // primeiro pulo
-      }
+      //   timeoutIds.splice(0, timeoutIds.length)
+      // }
 
       // COMEÇO ANIMAÇÃO
       // Animação GSAP
@@ -94,8 +85,25 @@ export default function GameSceneCss({ classname }: Props) {
           gsap.set(bgRef.current, { x: 0 }); // Retorna à posição inicial imediatamente
           gsap.set(dinoRef.current, { opacity: 1, }); // Retorna à posição inicial imediatamente
           // Retorna à posição inicial imediatamente
-          clearAllTimeoutsAndReset()
+          // clearAllTimeoutsAndReset()
         },
+        onUpdate: () => {
+          Array.from(triggers).forEach((trigger, triggerIndex) => {
+            const triggerRect = trigger.getClientRects()[0];
+            const dinoRect = dinoRef.current?.getClientRects()[0];
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+            if (triggerIndex === 4) {
+              return
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+            if (Math.abs(triggerRect.left - dinoRect?.right!) <= 2.5) {
+              // console.log(`Trigger ${triggerIndex} está próximo ao DinoX:`, triggerRect);
+              jump()
+            }
+          });
+        }
       });
 
       // Dino FALL
@@ -119,12 +127,11 @@ export default function GameSceneCss({ classname }: Props) {
       }, 1.5);
 
       // Adiciona a primeira animação do fundo diretamente na timeline
+      const limit = document.getElementsByClassName('t-5')[0];
       tl.to(bgRef.current, {
-        // x: -totalWidth,
-        xPercent: -215,
+        right: limit.getBoundingClientRect().left,
         duration: 13.5,
-        // duration: 26.5,
-      }, 1.5);
+      }, 1.5)
 
       // Adiciona a segunda animação do fundo após a primeira ter terminado
       tl.to(bgRef.current, {
@@ -150,7 +157,7 @@ export default function GameSceneCss({ classname }: Props) {
         }
       })
 
-      tl.add(jumps, 0.4)
+      // tl.add(jumps, 0.4)
     }
 
 
@@ -158,16 +165,34 @@ export default function GameSceneCss({ classname }: Props) {
 
   return (
     <div className={cn('girosflin relative', classname)}>
+      <p className='absolute top-2 left-2 font-bold'>Total Width: {totalWidth}, Total Height: {totalHeight}</p>
+      <p className='absolute top-8 left-2 font-bold'>DinoX: {dinoX}</p>
       <img src={peCicero} ref={peCiceroref} alt="peCicero" className='w-max h-full absolute top-0 left-1 z-10' />
-      <section ref={bgRef} className='bgRef absolute w-full h-full flex z-30 bottom-0'>
+      {/* <section ref={bgRef} className='bgRef absolute h-full flex z-30 bottom-0'>
         {bgImages.map((image, index) => {
           return (
             <img src={image} key={index} className="bg" alt="bg" />
           )
         })
         }
-        {/* dino */}
+      </section> */}
+      <section ref={bgRef} className='bgRef absolute h-full flex z-30 bottom-0'>
+        {bgImages.map((image, index) => {
+          return (
+            <div key={index} className="bg relative" style={{ backgroundImage: `url(${image})`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
+              {index >= 1 && index <= 5 && (
+                <div className={cn(
+                  "triggerJump",
+                  `t-${index}`,
+                  "opacity-0",
+                )}
+                />
+              )}
+            </div>
+          )
+        })}
       </section>
+      {/* dino */}
       <img src={dino} ref={dinoRef} className="dino absolute left-[15%] z-50 opacity-0" width={90} height={95} alt="dino" />
       {/* <img src={dino} ref={dinoRef} className="dino absolute bottom-4 left-[15%] z-50" width={90} height={95} alt="dino" /> */}
       <img src={dinoCar} ref={dinoCarRef} className="dino absolute bottom-4 left-[15%] z-50 opacity-0" width={270} height={95} alt="dino" />
