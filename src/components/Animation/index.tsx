@@ -536,7 +536,7 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                 </div>
             </div>
             {/* Wheels */}
-            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[19%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
+            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[1%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
                 <div className={cn(
                     // "w-full md:!w-[60%] h-[5%] max-h-[20px]",
                     "h-[5%] xsm:min-w-full xsm:max-h-[12px] md:!max-h-[20px]",

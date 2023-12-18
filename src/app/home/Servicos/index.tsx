@@ -1,18 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useReducer, useRef, useState,
-} from 'react'
+import React, { useEffect, useReducer, useRef } from 'react'
 import Link from 'next/link'
 
 import { ServiceProps } from '@/types'
 import services from '@/common/data/services.json'
-import ServiceNav from '@/app/home/Servicos/ServiceNav'
 import styles from './Servicos.module.scss'
 import { useMobileContext } from '@/common/context/MobileDeviceContext'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 
 import { CriarEmpresa, Societario, Fiscal, Contabil } from '@/components/Animation'
 import Seletores from '@/components/ui/seletores'
