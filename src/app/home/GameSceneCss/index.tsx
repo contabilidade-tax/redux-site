@@ -126,12 +126,30 @@ export default function GameSceneCss({ classname }: Props) {
         // duration: 60,
       }, 1.5);
 
-      // Adiciona a primeira animação do fundo diretamente na timeline
+      // // Adiciona a primeira animação do fundo diretamente na timeline
       const limit = document.getElementsByClassName('t-5')[0];
-      tl.to(bgRef.current, {
-        right: limit.getBoundingClientRect().left,
-        duration: 13.5,
-      }, 1.5)
+      // const dino = dinoRef.current?.getClientRects()[0]
+      // tl.to(bgRef.current, {
+      //   x: -limit.getClientRects()[0].x,
+      //   duration: 13.5,
+      // }, 1.5)
+
+      const limitRect = limit.getBoundingClientRect();
+      const dinoRect = dinoRef.current?.getBoundingClientRect();
+
+      if (dinoRect) {
+        // Calcular a distância para mover o fundo, de modo que o 'right' do dino esteja próximo ao 'left' do limit.
+        // Isso será a posição 'left' do limit menos a posição 'right' do dino.
+        // Ajuste conforme necessário para definir o quão "próximo" você quer que eles estejam.
+        const buffer = 250; // Quantidade de pixels para parar antes do 'limit'.
+        const xPosition = limitRect.right - dinoRect.x + buffer;
+        // Se a posição calculada for positiva, isso significaria mover o fundo para a direita, o que não é desejado,
+        // então certifique-se de que a posição é negativa, pois queremos mover o fundo para a esquerda.
+        tl.to(bgRef.current, {
+          x: `-=${Math.abs(xPosition)}`, // Garante que o valor é negativo.
+          duration: 13.5,
+        }, 1.5);
+      }
 
       // Adiciona a segunda animação do fundo após a primeira ter terminado
       tl.to(bgRef.current, {
@@ -185,8 +203,7 @@ export default function GameSceneCss({ classname }: Props) {
                   "triggerJump",
                   `t-${index}`,
                   "opacity-0",
-                )}
-                />
+                )} />
               )}
             </div>
           )
