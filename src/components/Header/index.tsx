@@ -127,7 +127,7 @@ export default function Header({ className }: { className?: string }) {
           ))}
         </ul>
       </div>
-      <Link href="/login" className={`${styles.link} hidden md:block`}>
+      <div className={`${styles.link} hidden md:block`}>
         <Button
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -140,7 +140,7 @@ export default function Header({ className }: { className?: string }) {
             className={' relative top-[.29rem]'} />
           Login
         </Button>
-      </Link>
+      </div>
       {/* <Button
         onClick={() => {
           setMenuOpen(true)

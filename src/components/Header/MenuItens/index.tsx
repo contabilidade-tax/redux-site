@@ -123,7 +123,7 @@ export default function MenuItens({
             'absolute flex h-max w-full items-center justify-between'
           }
         >
-          <Link href="/login" target="blank">
+          <div>
             <Button
               className="flex items-center gap-3 text-lg font-semibold text-white bg-black hover:bg-primary-color rounded-full"
             >
@@ -134,7 +134,7 @@ export default function MenuItens({
                 className='relative top-[.29rem]' />
               Login
             </Button>
-          </Link>
+          </div>
           <XCircleIcon
             ref={xRef}
             color="white"
