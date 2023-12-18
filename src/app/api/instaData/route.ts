@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
             db_data = cached_data ?? await getInstaPostsData();
         }
 
-        if (!customKey) {
+        if (!customKey && !cached_data) {
             const message = "InstaPosts sem cache, verifique se o token está correto. Os posts exibidos estão guardados em banco e possivelmente, desatualizados.";
             const messageSent = await sendMessage(message);
 
