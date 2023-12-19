@@ -1,17 +1,11 @@
-async function getTokenData() {
-  const home = 'HTTP://192.168.10.57:3004';
-  try {
-    const response = await fetch(`${home}/api/instaData?key=token`, { method: 'GET' });
-    if (!response.ok) {
-      throw new Error(`Erro HTTP: status ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("não encontrado", error);
-    return null; // Ou como você deseja tratar o erro
-  }
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
+async function main() {
+  const currentUser = await prisma.currentUser.findUnique({ where: { id: 1 } });
+  console.log(currentUser);
 }
 
-// Como usar
-console.log(Date.now().toString())
+main().then()

@@ -671,30 +671,30 @@ function Fiscal({ className, title }: AnimationProps) {
         const baloes = [ref.balaoRef.current, ref.balaoRef2.current, ref.balaoRef3.current]
         const tl = gsap.timeline({
             delay: 3.2,
-            onStart: () => {
-                gsap.to(
-                    ref.carteira.current,
-                    {
-                        opacity: 1,
-                        duration: 5.5,
-                        delay: 2,
-                        onComplete: () => {
-                            gsap.to(
-                                ref.carteira.current,
-                                {
-                                    opacity: 0,
-                                    duration: .5,
-                                    delay: .5,
-                                }
-                            )
-                        }
-                    }
-                )
-            },
+            // onStart: () => {
+            //     gsap.to(
+            //         ref.carteira.current,
+            //         {
+            //             opacity: 1,
+            //             duration: 5.5,
+            //             delay: 2,
+            //             onComplete: () => {
+            //                 gsap.to(
+            //                     ref.carteira.current,
+            //                     {
+            //                         opacity: 0,
+            //                         duration: .5,
+            //                         delay: .5,
+            //                     }
+            //                 )
+            //             }
+            //         }
+            //     )
+            // },
         })
 
         const laserAnim = gsap.timeline({
-            repeat: 3, // Repete a animação 5 vezes
+            repeat: 2, // Repete a animação 5 vezes
         });
 
         laserAnim.to(
@@ -726,7 +726,7 @@ function Fiscal({ className, title }: AnimationProps) {
 
 
         const entrance = gsap.to(laser, {
-            opacity: 1,
+            opacity: .7,
             duration: .8
         })
 
@@ -856,9 +856,9 @@ function Fiscal({ className, title }: AnimationProps) {
                 {/* BALÃO */}
                 <div style={{ opacity: 0 }} ref={ref.balaoRef} className={cn(
                     "balao relative",
-                    "-top-[530%] -left-[290%]",
+                    "-top-[120%] -left-[120%]",
                     "md:!-top-[195%] md:!-left-[190%]",
-                    "xsm:scale-[.4] md:!scale-100"
+                    "xsm:scale-[.45] md:!scale-100"
                 )}>
                     <div ref={ref.balaoRef2} style={{
                         backgroundImage: `url('/assets/img/animations/3/balao-teste-2.png')`,
@@ -881,7 +881,7 @@ function Fiscal({ className, title }: AnimationProps) {
                 <div ref={ref.fogos} style={{ opacity: 0 }} className={cn(
                     "absolute w-48 h-28",
                     "xsm:scale-50 md:!scale-100",
-                    "xsm:-top-[420%] xsm:-right-[500%] md:!-top-[135%] md:!-right-[100%]",
+                    "xsm:-top-[95%] xsm:-right-[100%] md:!-top-[135%] md:!-right-[100%]",
                 )}>
                     {getLottie(fogos)}
                     <p ref={ref.text} className="w-64 text-center font-lg text-primary font-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{frases[0]}</p>
