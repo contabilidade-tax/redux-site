@@ -92,6 +92,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
             preserveAspectRatio: 'xMidYMid slice',
         },
     }
+    const fogosRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const iconDuration = 1.5
@@ -101,7 +102,9 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
                 repeat: -1,
             })
             const timeline2 = gsap.timeline({
-                repeat: -1,
+                onComplete: () => {
+                    setState({ ...state, isPaused: true })
+                }
             })
             // Use o método map para acessar o valor atual (.current) de cada referência.
             let predios = refArray.map(ref => ref.current)
@@ -114,9 +117,10 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
             leftArray = shuffleArray(leftArray)
             rightArray = gsap.utils.shuffle(rightArray)
             predios = gsap.utils.shuffle(predios)
-
+            // 
+            const ballons = document.getElementById('baloesWrapper')
             // Função para criar uma animação individual para um prédio
-            const createPredioAnimation = (predio: any, delay: number) => {
+            const createPredioAnimation = (predio: any, delay: number, hiddenOnEnd = true) => {
                 return gsap.fromTo(predio,
                     {
                         opacity: 0,
@@ -130,7 +134,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
                         duration: predioDuration,
                         delay,
                         onComplete: () => {
-                            gsap.to(predio, {
+                            hiddenOnEnd && gsap.to(predio, {
                                 opacity: 0,
                             });
                         },
@@ -156,12 +160,23 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
             }
 
             // Crie uma sequência de animações para os prédios usando map
-            const animations = predios.map((predio, index) => createPredioAnimation(predio, index * (predioDuration + 0.5)));
+            const animations = predios.map(
+                (predio, index) => createPredioAnimation(
+                    predio,
+                    index * (predioDuration + 0.5),
+                    index !== 4
+                )
+            );
             const ballonsLeftAnimations = leftArray.map((ballon, index) => ballonsAnimation(ballon, (index * iconDuration), 0.5));
             const ballonsRightAnimations = rightArray.map((ballon, index) => ballonsAnimation(ballon, (index * iconDuration), 0.2));
 
             // Adicione as animações à linha do tempo
-            timeline.add(animations, 0); // 2.5 segundos de atraso entre cada prédio
+            timeline2.add(animations, 0); // 2.5 segundos de atraso entre cada prédio
+            timeline2.to(
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                ballons,
+                { opacity: 0, delay: 1, onComplete: () => { gsap.to('#ok', { opacity: 1 }) } }
+            )
             timeline.add(ballonsLeftAnimations, 0); // 2.5 segundos de atraso entre cada prédio
             timeline.add(ballonsRightAnimations, 0); // 2.5 segundos de atraso entre cada prédio
 
@@ -213,7 +228,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
                     )
                 })}
             </div>
-            <section className={cn("baloesWrapper absolute w-full h-fit", "flex justify-between px-[7%]", "top-[10%]")}>
+            <section id="baloesWrapper" className={cn("baloesWrapper absolute h-fit xsm:scale-75 w-full ", "flex justify-between xsm:px-[2%] md:!px-[7%]", "top-[10%]")}>
                 <div className="balaoLeft relative">
                     <div className={cn(
                         "icons",
@@ -266,6 +281,11 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
                     </div>
                 </div>
             </section>
+            {/* FOGOS */}
+            <div ref={fogosRef} id="ok" className="w-[20%] h-[15%] top-[20%] opacity-0 absolute mx-auto z-[888]">
+                {getLottie(fogos)}
+            </div>
+            {/* <img src="/assets/img/NOFILL_animated.svg"  /> */}
         </section >
     )
 }
@@ -602,10 +622,12 @@ function Fiscal({ className, title }: AnimationProps) {
     const { mobileState } = useMobileContext()
 
     function dinoEntry(dino: HTMLDivElement | null, sprite: HTMLDivElement | null) {
-        const tl = gsap.timeline()
         const trigger = document.getElementById('trigger')
+        const wrapper = document.getElementById('wrapper')
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        const xPosition = trigger?.clientLeft! - wrapper?.clientLeft!
 
-        const animation = tl.fromTo(
+        const animation = gsap.fromTo(
             dino,
             {
                 x: -200,
@@ -613,7 +635,7 @@ function Fiscal({ className, title }: AnimationProps) {
             },
             {
                 // x: mobileState.isSmallScreen ? trigger?.offsetLeft : 240,
-                x: '+=240',
+                x: mobileState.isSmallScreen ? xPosition + 25 : xPosition + 150,
                 opacity: 1,
                 duration: 3,
                 onComplete: () => {
@@ -623,7 +645,7 @@ function Fiscal({ className, title }: AnimationProps) {
             }
         )
 
-        return tl
+        return animation
     }
 
     function greetings() {
@@ -785,6 +807,7 @@ function Fiscal({ className, title }: AnimationProps) {
 
     return (
         <div
+            id="wrapper"
             style={{
                 backgroundImage: `url('/assets/img/animations/3/predio.png')`,
                 backgroundSize: 'contain',
@@ -794,17 +817,9 @@ function Fiscal({ className, title }: AnimationProps) {
             className={cn(className, " z-1 relative", "h-[150px] xsm:w-[300px] md:!w-[814.41px]'")}
             title={title}
         >
-            <div id="trigger" className={cn("w-4 h-full bg-black/50 z-50 relative left-[20%] opacity-50")} />
-            {/* CARTEIRA */}
-            {/* <div ref={ref.carteira} style={{ opacity: 0 }} className="absolute w-48 h-28 top-0 left-0 border-2 border-orange-500">
-                {getLottie(carteira)}
-            </div> */}
+            <div id="trigger" className={cn("w-4 h-full bg-black/50 z-50 relative left-[20%] opacity-0")} />
             {/* DINO */}
-            <div ref={ref.dinoRef} className={cn(
-                "absolute z-30 w-[73px] h-[81px] xsm:scale-50 md:!scale-100",
-                "border border-black",
-                "xsm:-bottom-5 md:!bottom-0"
-            )}>
+            <div ref={ref.dinoRef} className="absolute z-30 w-[73px] h-[81px] bottom-0 left-10">
                 <div
                     ref={ref.dinoParado}
                     style={{
@@ -839,7 +854,12 @@ function Fiscal({ className, title }: AnimationProps) {
                     {/* <div className="origin-point"></div> */}
                 </div>
                 {/* BALÃO */}
-                <div style={{ opacity: 0 }} ref={ref.balaoRef} className="balao relative -top-[195%] -left-[190%]">
+                <div style={{ opacity: 0 }} ref={ref.balaoRef} className={cn(
+                    "balao relative",
+                    "-top-[530%] -left-[290%]",
+                    "md:!-top-[195%] md:!-left-[190%]",
+                    "xsm:scale-[.4] md:!scale-100"
+                )}>
                     <div ref={ref.balaoRef2} style={{
                         backgroundImage: `url('/assets/img/animations/3/balao-teste-2.png')`,
                         backgroundSize: 'contain',
@@ -858,7 +878,11 @@ function Fiscal({ className, title }: AnimationProps) {
                     }} className="balao2 absolute z-50 -bottom-10 -right-5" />
                 </div>
                 {/* FOGOS */}
-                <div ref={ref.fogos} style={{ opacity: 0 }} className="absolute w-48 h-28 -top-[135%] -right-[100%]">
+                <div ref={ref.fogos} style={{ opacity: 0 }} className={cn(
+                    "absolute w-48 h-28",
+                    "xsm:scale-50 md:!scale-100",
+                    "xsm:-top-[420%] xsm:-right-[500%] md:!-top-[135%] md:!-right-[100%]",
+                )}>
                     {getLottie(fogos)}
                     <p ref={ref.text} className="w-64 text-center font-lg text-primary font-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{frases[0]}</p>
                 </div>

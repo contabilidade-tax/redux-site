@@ -30,6 +30,11 @@
     animation: play .3s steps(2) infinite;
 }
 
+.animate-sprite-small {
+    margin: auto;
+    animation: playSmall .3s steps(2) infinite;
+}
+
 .animate-wheel {
     animation: rotate 1s linear infinite;
 }
@@ -78,6 +83,12 @@
 @keyframes play {
     100% {
         background-position-x: -150px;
+    }
+}
+
+@keyframes playSmall {
+    100% {
+        background-position-x: -70px;
     }
 }
 
