@@ -55,9 +55,9 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
         setUser(user);
     }
 
-    useEffect(() => {
-        console.log(user)
-    }, [user])
+    // useEffect(() => {
+    //     console.log(user)
+    // }, [user])
 
     useEffect(() => {
         if (state?.data && state.data.length > 0) {
@@ -75,7 +75,9 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
         <>
             {/* USER INFO */}
             <div className="currentUser relative min-w-52 w-max h-10 flex justify-center px-4 left-1/2 -translate-x-1/2 border border-[#191919] text-white font-bold rounded-full text-xl text-center bg-[#191919]">
-                <Link className='my-auto' target='_blank' href={`https://instagram.com/${user ? user.username : ''}`}>@{user ? user.username : ' Carregando ...'}</Link>
+                <Link className='my-auto' target='_blank' href={`https://instagram.com/${user ? user.username : ''}`}>
+                    <p className='text-center'>@{user ? user.username : ' Loading...'}</p>
+                </Link>
             </div>
             {/* POSTS */}
             <section className={cn(
