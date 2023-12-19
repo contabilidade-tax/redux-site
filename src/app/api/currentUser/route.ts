@@ -6,9 +6,9 @@ export async function GET() {
 
   try {
     const currentUser = await prisma.currentUser.findUnique({ where: { id: 1 } })
-    const { id, ...user } = currentUser!;
+    const { username, ...user } = currentUser!;
 
-    return NextResponse.json(user, { status: 200 })
+    return NextResponse.json(username, { status: 200 })
   } catch (error: any) {
     console.log(error)
     return NextResponse.json({ error: 'Error fetching data', message: error.message }, { status: 500 })

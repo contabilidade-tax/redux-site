@@ -17,8 +17,6 @@ type InstaRecentPostsProps = {
 }
 
 type instaUser = {
-    access_token: string
-    user_id: string
     username: string
 } | null
 
@@ -30,11 +28,14 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
 
     const fetchInstaData = async () => {
         try {
-            let posts: InstaPostData[] = [];
-            posts = await fetchData();
+            const posts: InstaPostData[] = await fetchData() ?? [];
+            const user: instaUser = await fetchUserData()
 
-            return posts;
-        } catch (error: any) { console.log(error.message) };
+            return { posts, user };
+        } catch (error: any) {
+            console.log(error.message);
+            return ({})
+        };
     }
 
     const fetchUserData = async () => {
@@ -49,10 +50,14 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     }
 
     const fetchAllData = async () => {
-        const [instaPosts, userData] = await Promise.all([fetchInstaData(), fetchUserData()])
-        setPosts(instaPosts!);
-        setUser(userData);
+        const { posts, user } = await fetchInstaData()
+        setPosts(posts!);
+        setUser(user);
     }
+
+    useEffect(() => {
+        console.log(user)
+    }, [user])
 
     useEffect(() => {
         if (state?.data && state.data.length > 0) {
