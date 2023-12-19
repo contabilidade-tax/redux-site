@@ -9,9 +9,10 @@ import chart from '@/common/data/animation/chart.json'
 import fogos from '@/common/data/animation/fogos.json'
 
 import './animation.scss'
-import { AnimationProps, GameSceneProps } from "@/types"
+import { AnimationProps } from "@/types"
 import { cn } from "@/lib/utils"
 import PixiPlugin from "gsap/PixiPlugin"
+import { useMobileContext } from "@/common/context/MobileDeviceContext"
 
 gsap.registerPlugin(PixiPlugin)
 
@@ -199,7 +200,8 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
                         <div
                             key={index}
                             ref={ref}
-                            className="w-[80px] h-[80px] absolute -translate-y-5 translate-x-4"
+                            // className="w-[80px] h-[80px] absolute -translate-y-5 translate-x-4"
+                            className="h-[25%] xsm:w-[15%] md:!w-[12%] absolute xsm:-translate-y-7 md:!-translate-y-5 translate-x-4"
                             style={{
                                 backgroundImage: `url('/assets/img/animations/1/p${index + 1}.png')`,
                                 backgroundSize: 'contain',
@@ -300,18 +302,28 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
             delay: 0
         }
     }
+    const { mobileState } = useMobileContext()
 
     function dinoEntry(dino: HTMLDivElement | null) {
+        const wrapper = document.getElementById("wrapper");
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         const animation = gsap.fromTo(dino,
             {
-                x: '-=250px',
-                y: 0
+                x: -150,
+                y: mobileState.isSmallScreen ? -15 : 0
             },
             {
-                x: 40,
-                duration: animationDelayPosition.entry.duration,
-                // delay: animationDelayPosition.entry.delay
-            })
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                x: mobileState.isSmallScreen ? 160 : () => wrapper?.clientLeft! + 100,
+                duration: animationDelayPosition.runEsteira.duration,
+                // onComplete: () => {
+                //     const outAnimation = gsap.to(dino, { opacity: 0, ease: 'none' });
+
+                //     outAnimation.eventCallback('onStart', () => {
+                //         setRaioXAnimation(true);
+                //     });
+                // }
+            });
 
         return animation
     }
@@ -320,14 +332,16 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
         const animation = gsap.to(dino,
             {
                 y: '-=100px',
-                x: '+=60px',
+                x: mobileState.isSmallScreen ? '+=20' : '+=60',
+                // xPercent: 70,
                 duration: animationDelayPosition.jump.duration,
                 // delay: animationDelayPosition.jump.delay,
                 ease: 'Power1.easeIn',
                 onComplete: () => {
                     gsap.to(dino, {
                         x: "+=40px",
-                        y: -38,
+                        // y: -38,
+                        yPercent: mobileState.isSmallScreen ? 86 : 65,
                         duration: animationDelayPosition.jump.duration - 0.1,
                         // ease: 'Power4.easeOut',
                         ease: 'CustomEase.create("custom", "M0,1,C0,1,0.332,0.845,0.52,0.657,0.809,0.368,1,0,1,0")',
@@ -341,16 +355,17 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
     function dinoJumpRegularizado(dino: HTMLDivElement | null) {
         const animation = gsap.to(dino,
             {
-                y: '-=50px',
-                x: '+=50px',
+                y: mobileState.isSmallScreen ? '-=25' : '-=50',
+                // x: '+=50px',
+                x: mobileState.isSmallScreen ? '+=25' : '+=50',
                 duration: animationDelayPosition.jump.duration,
                 delay: animationDelayPosition.jumpRegularizado.delay,
                 ease: 'Power1.easeIn',
                 onComplete: () => {
                     gsap.to(dino,
                         {
-                            x: "+=60px",
-                            y: 0,
+                            x: mobileState.isSmallScreen ? "+=30" : "+=60",
+                            yPercent: mobileState.isSmallScreen ? 0 : 60,
                             duration: animationDelayPosition.jump.duration - 0.1,
                             ease: 'CustomEase.create("custom", "M0,1,C0,1,0.332,0.845,0.52,0.657,0.809,0.368,1,0,1,0")',
                             onComplete: () => {
@@ -366,28 +381,43 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
         return animation
     }
 
-    const runDinoNaEsteira = (dino: HTMLDivElement | null) => {
+    const runDinoNaEsteira = (dino: any) => {
+        const wrapper = document.getElementById("wrapper")?.getBoundingClientRect();
+        const limit = document.getElementById("limit")?.getBoundingClientRect();
+
+        // A posição deve ser a diferença entre o left do wrapper e o left do limit.
+        // Como queremos mover o dino para a direita, subtraímos o left do limit do left do wrapper.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        const xPosition = limit?.left! - wrapper?.left! - 10;
+
         const animation = gsap.to(dino, {
-            x: 380,
+            x: xPosition,
             duration: animationDelayPosition.runEsteira.duration,
-            // delay: animationDelayPosition.runEsteira.delay,
             onComplete: () => {
-                const outAnimation = gsap.to(dino, { opacity: 0, ease: 'none' })
+                const outAnimation = gsap.to(dino, { opacity: 0, ease: 'none' });
 
                 outAnimation.eventCallback('onStart', () => {
-                    setRaioXAnimation(true)
-                })
+                    setRaioXAnimation(true);
+                });
             }
-        })
+        });
 
-        return animation;
-    }
+        return animation
+    };
 
     function dinoRegularizado(dino: HTMLDivElement | null) {
+        const wrapper = document.getElementById("wrapper");
+        const limit = document.getElementById("limit")?.getBoundingClientRect();
+
+        // A posição deve ser a diferença entre o left do wrapper e o left do limit.
+        // Como queremos mover o dino para a direita, subtraímos o left do limit do left do wrapper.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        const xPosition = limit?.left! - wrapper?.getBoundingClientRect().left! - 8;
+
         const animation = gsap.fromTo(dino,
-            { x: 380, y: -38, opacity: 1 },
+            { x: xPosition, yPercent: mobileState.isSmallScreen ? -65 : -54, opacity: 1 },
             {
-                x: `+=240px`,
+                x: mobileState.isSmallScreen ? '+=140' : '+=240',
                 duration: animationDelayPosition.regularizado.duration,
                 delay: 1,
                 // delay: animationDelayPosition.regularizado.delay,
@@ -408,24 +438,20 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
     function resetAnimation(dino: HTMLDivElement | null, dinoRegularizadoRef: HTMLDivElement | null, timeline: gsap.core.Timeline) {
         setRaioXAnimation(false)
 
+        const wrapper = document.getElementById("wrapper")?.getBoundingClientRect();
+        const limit = document.getElementById("limit")?.getBoundingClientRect();
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        const xPosition = limit?.left! - wrapper?.left! + 150;
+
         // Defina as posições iniciais e outras configurações iniciais aqui
-        gsap.set(dino, { x: -250, y: 0, opacity: 1 });
-        gsap.set(dinoRegularizadoRef, { x: 360, y: -110, opacity: 1 });
+        gsap.set(dino, { x: -150, yPercent: -10, opacity: 1 });
+        gsap.set(dinoRegularizadoRef, { x: xPosition, yPercent: mobileState.isSmallScreen ? -65 : -60, opacity: 1 });
 
         // Reinicie a timeline
         timeline.restart();
 
         // Configure o loop infinito
         timeline.repeat(-1); // -1 indica um loop infinito
-    }
-
-    const defaultWheelsOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animation,
-        rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice',
-        },
     }
 
     useEffect(() => {
@@ -469,24 +495,27 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
-                width: widthProp,
-                height: heightProp,
                 zIndex: 50,
             }}
             title={title ?? ''}
-            className={cn('flex items-end justify-center', className)}
-        // className={cn('flex items-end justify-center')}
+            id="wrapper"
+            className={cn(
+                'flex items-end justify-center h-[330px] xsm:w-[300px] md:!w-[814.41px]',
+                className,
+            )}
         >
             {/* DINOS */}
-            <section className="dinosArea absolute w-full h-full flex -z-30 scale-50 md:!scale-100">
+            <section className="dinosArea absolute w-full h-full flex -z-30">
                 <div
                     ref={refs.dino.desempregado}
                     style={{
                         backgroundImage: `url('/assets/img/animations/2/dino.png')`,
                         backgroundSize: 'contain',
                         backgroundRepeat: 'no-repeat',
-                        width: '5em',
-                        height: '5.5em'
+                        width: '10%',
+                        height: '25%'
+                        // width: '5rem',
+                        // height: '5.5rem'
                     }}
                     className="desempregado absolute bottom-0" />
                 <div
@@ -495,8 +524,8 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                         backgroundImage: `url('/assets/img/animations/2/dinoReg${Math.floor(Math.random() * 3) + 1}.png')`,
                         backgroundSize: 'contain',
                         backgroundRepeat: 'no-repeat',
-                        width: '5em',
-                        height: '5.5em',
+                        width: '10%',
+                        height: '25%',
                         opacity: 0,
                         zIndex: -20
                     }}
@@ -513,7 +542,7 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                     }}
                     // className="portal w-2/5 h-[42%] relative flex items-end translate-y-[38%]"
                     className={cn(
-                        "portal relative top-[8.4rem] md:top-[9.1rem] flex items-end w-2/5 md:!h-[42%]",
+                        "portal relative top-[9rem] md:top-[9.1rem] flex items-end w-2/5 md:!h-[42%]",
                         "xsm:h-[24%]"
                     )}
                 >
@@ -536,7 +565,7 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                 </div>
             </div>
             {/* Wheels */}
-            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[1%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
+            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[17%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
                 <div className={cn(
                     // "w-full md:!w-[60%] h-[5%] max-h-[20px]",
                     "h-[5%] xsm:min-w-full xsm:max-h-[12px] md:!max-h-[20px]",
@@ -551,11 +580,12 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                     ))}
                 </div>
             </div>
+            <section id="limit" className="w-4 h-full absolute bg-black/60 mx-auto z-[999] opacity-0" />
         </section>
     )
 }
 
-function Fiscal({ className, title, height: heightProp, width: widthProp }: AnimationProps) {
+function Fiscal({ className, title }: AnimationProps) {
     const ref = {
         dinoRef: useRef<HTMLDivElement>(null),
         spriteRef: useRef<HTMLDivElement>(null),
@@ -569,16 +599,21 @@ function Fiscal({ className, title, height: heightProp, width: widthProp }: Anim
         text: useRef<HTMLDivElement>(null),
     }
     const frases = ["Redução Tributária Concluída"]
+    const { mobileState } = useMobileContext()
 
     function dinoEntry(dino: HTMLDivElement | null, sprite: HTMLDivElement | null) {
         const tl = gsap.timeline()
-        const trigger: any = document.getElementById('trigger')
+        const trigger = document.getElementById('trigger')
 
-        tl.set(dino, { x: -110, y: 0 })
-        const animation = tl.to(
+        const animation = tl.fromTo(
             dino,
             {
-                x: trigger.offsetLeft,
+                x: -200,
+                y: 0
+            },
+            {
+                // x: mobileState.isSmallScreen ? trigger?.offsetLeft : 240,
+                x: '+=240',
                 opacity: 1,
                 duration: 3,
                 onComplete: () => {
@@ -755,19 +790,21 @@ function Fiscal({ className, title, height: heightProp, width: widthProp }: Anim
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'bottom center',
-                width: widthProp,
-                height: heightProp,
             }}
-            className={cn(className, "animation z-1 relative")}
+            className={cn(className, " z-1 relative", "h-[150px] xsm:w-[300px] md:!w-[814.41px]'")}
             title={title}
         >
-            <div id="trigger" className={cn("w-24 h-full bg-black/50 z-50 relative left-[20%] opacity-0")} />
+            <div id="trigger" className={cn("w-4 h-full bg-black/50 z-50 relative left-[20%] opacity-50")} />
             {/* CARTEIRA */}
             {/* <div ref={ref.carteira} style={{ opacity: 0 }} className="absolute w-48 h-28 top-0 left-0 border-2 border-orange-500">
                 {getLottie(carteira)}
             </div> */}
             {/* DINO */}
-            <div ref={ref.dinoRef} className="absolute z-30 w-[73px] h-[81px] xsm:scale-50 xsm:-bottom-5 xsm:left-4 md:!scale-100 md:!bottom-0 md:!left-10">
+            <div ref={ref.dinoRef} className={cn(
+                "absolute z-30 w-[73px] h-[81px] xsm:scale-50 md:!scale-100",
+                "border border-black",
+                "xsm:-bottom-5 md:!bottom-0"
+            )}>
                 <div
                     ref={ref.dinoParado}
                     style={{
