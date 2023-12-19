@@ -28,8 +28,10 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
 
     const fetchInstaData = async () => {
         try {
-            const posts: InstaPostData[] = await fetchData() ?? [];
-            const user: instaUser = await fetchUserData()
+            const [posts, user] = await Promise.all([
+                fetchData(),
+                fetchUserData()
+            ])
 
             return { posts, user };
         } catch (error: any) {
@@ -42,9 +44,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
         const home = process.env.NEXT_PUBLIC_HOME!
         try {
             const InstagramData = await axios.get(`${home}/api/currentUser`, {})
-
             return InstagramData.data;
-
         } catch (error: any) { console.log(error.message) };
 
     }
@@ -74,10 +74,9 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     return (
         <>
             {/* USER INFO */}
-            {user && <div className="currentUser relative min-w-52 w-max h-10 flex justify-center px-4 left-1/2 -translate-x-1/2 border border-[#191919] text-white font-bold rounded-full text-xl text-center bg-[#191919]">
-                <Link className='my-auto' target='_blank' href={`https://instagram.com/${user.username}`}>@{user.username}</Link>
+            <div className="currentUser relative min-w-52 w-max h-10 flex justify-center px-4 left-1/2 -translate-x-1/2 border border-[#191919] text-white font-bold rounded-full text-xl text-center bg-[#191919]">
+                <Link className='my-auto' target='_blank' href={`https://instagram.com/${user ? user.username : ''}`}>@{user ? user.username : ' Carregando ...'}</Link>
             </div>
-            }
             {/* POSTS */}
             <section className={cn(
                 'w-full h-full flex overflow-x-auto gap-4 py-4',
