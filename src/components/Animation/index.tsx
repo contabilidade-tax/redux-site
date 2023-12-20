@@ -106,7 +106,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
             const timeline2 = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#wrapper",
-                    start: "top top", // when the top of the trigger hits the top of the viewport
+                    start: "top 80%", // when the top of the trigger hits the top of the viewport
                 },
                 onComplete: () => {
                     setState({ ...state, isPaused: true })
@@ -126,7 +126,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
             // 
             const ballons = document.getElementById('baloesWrapper')
             // Função para criar uma animação individual para um prédio
-            const createPredioAnimation = (predio: any, delay: number, hiddenOnEnd = true) => {
+            const createPredioAnimation = (predio: any, delay: number, hiddenOnEnd: boolean) => {
                 return gsap.fromTo(predio,
                     {
                         opacity: 0,
@@ -341,7 +341,7 @@ function Societario({ className, title }: AnimationProps) {
             },
             {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-                x: mobileState.isSmallScreen ? 160 : () => wrapper?.clientLeft! + 100,
+                x: mobileState.isSmallScreen ? 160 : () => wrapper?.clientLeft! + 300,
                 duration: animationDelayPosition.runEsteira.duration,
                 // onComplete: () => {
                 //     const outAnimation = gsap.to(dino, { opacity: 0, ease: 'none' });
@@ -856,7 +856,7 @@ function Fiscal({ className, title }: AnimationProps) {
                 }}
                     ref={ref.laserRef}
                     // className="animate-lase z-50 absolute -right-[480%] -top-[65%] border-2 border-red-500"
-                    className="animate-laser z-50 absolute left-[78%] -top-[73%]"
+                    className="animate-laser z-50 absolute left-[68%] -top-[73%]"
                 >
                     {/* <div className="origin-point"></div> */}
                 </div>
@@ -888,7 +888,7 @@ function Fiscal({ className, title }: AnimationProps) {
                 <div ref={ref.fogos} style={{ opacity: 0 }} className={cn(
                     "absolute w-48 h-28",
                     "xsm:scale-50 md:!scale-100",
-                    "xsm:-top-[95%] xsm:-right-[100%] md:!-top-[135%] md:!-right-[100%]",
+                    "xsm:-top-[95%] xsm:-right-[80%] md:!-top-[135%] md:!-right-[100%]",
                 )}>
                     {getLottie(fogos)}
                     <p ref={ref.text} className="w-64 text-center font-lg text-primary font-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">{frases[0]}</p>

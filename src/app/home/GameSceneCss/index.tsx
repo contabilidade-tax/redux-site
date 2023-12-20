@@ -49,7 +49,10 @@ export default function GameSceneCss({ classname }: Props) {
           onComplete: (() => {
             gsap.to(dinoRef.current, {
               duration: 0.3,
-              y: 7,
+              // BUG LEGAL 
+              // yPercent: -10,
+              // y: 7,
+              y: 0,
               x: '-=20',
               ease: 'power2.in',
             })
@@ -94,7 +97,8 @@ export default function GameSceneCss({ classname }: Props) {
             }
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-            if (Math.abs(triggerRect.left - dinoRect?.right!) <= 2.5) {
+            if (Math.abs(triggerRect.left - dinoRect?.right!) <= 3.5) {
+              // if (Math.abs(triggerRect.left - dinoRect?.right!) <= 2.5) {
               // console.log(`Trigger ${triggerIndex} está próximo ao DinoX:`, triggerRect);
               jump()
             }
@@ -106,10 +110,9 @@ export default function GameSceneCss({ classname }: Props) {
       tl.fromTo(dinoRef.current,
         {
           yPercent: -100
-          // y: -250
         },
         {
-          yPercent: 255,
+          yPercent: 262,
           opacity: 1,
           duration: 1.1,
           ease: 'bounce',
@@ -181,7 +184,7 @@ export default function GameSceneCss({ classname }: Props) {
     <div className={cn('girosflin relative', classname)}>
       {/* <p className='absolute top-2 left-2 font-bold'>Total Width: {totalWidth}, Total Height: {totalHeight}</p> */}
       {/* <p className='absolute top-8 left-2 font-bold'>DinoX: {dinoX}</p> */}
-      <img src={peCicero} ref={peCiceroref} alt="peCicero" className='w-max h-full absolute top-0 left-1 z-10' />
+      <img src={peCicero} ref={peCiceroref} alt="peCicero" className='w-max min-w-[626px] h-full absolute top-0 left-1 z-10' />
       {/* <section ref={bgRef} className='bgRef absolute h-full flex z-30 bottom-0'>
         {bgImages.map((image, index) => {
           return (
