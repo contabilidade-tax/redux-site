@@ -10,6 +10,7 @@ import styles from './InstaRecentPosts.module.scss'
 import { InstaPostData } from '@/types';
 import axios from 'axios';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 type InstaRecentPostsProps = {
     className?: string
@@ -36,6 +37,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
             return { posts, user };
         } catch (error: any) {
             console.log(error.message);
+            // redirect('https://redux.app.br')
             return ({})
         };
     }
@@ -61,7 +63,12 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
 
     useEffect(() => {
         if (state?.data && state.data.length > 0) {
-            setPosts(state.data.sort((a, b) => Date.parse(b.timestamp!) - Date.parse(a.timestamp!)));
+            // Seleciona os 10 primeiros
+            const posts = state.data.slice(0, 9)
+            // Ordena por data
+            const orderedPosts = posts.sort((a, b) => Date.parse(b.timestamp!) - Date.parse(a.timestamp!))
+            // Enfim, seta o estado
+            setPosts(orderedPosts);
             setLoading(false);
         }
     }, [state]);
@@ -87,7 +94,7 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
             )}
             >
                 {loading ?
-                    <div className="relative min-w-full h-full !z-50 flex items-center gap-4 justify-evenly p-5" >
+                    <div className="relative h-full !z-50 flex items-center gap-4 justify-evenly p-5" >
                         {Array.from({ length: 6 }).map((_, index) => (
                             <Skeleton key={index} className="w-[300px] max-h-[384px] min-h-[300px] rounded-md bg-indigo-100 drop-shadow-custom border border-black" />
                         ))}

@@ -12,9 +12,11 @@ import './animation.scss'
 import { AnimationProps } from "@/types"
 import { cn } from "@/lib/utils"
 import PixiPlugin from "gsap/PixiPlugin"
+import ScrollTrigger from "gsap/ScrollTrigger"
+
 import { useMobileContext } from "@/common/context/MobileDeviceContext"
 
-gsap.registerPlugin(PixiPlugin)
+gsap.registerPlugin(PixiPlugin, ScrollTrigger)
 
 /**
  * Shuffles an array in a random order.
@@ -102,6 +104,10 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
                 repeat: -1,
             })
             const timeline2 = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#wrapper",
+                    start: "top 80%", // when the top of the trigger hits the top of the viewport
+                },
                 onComplete: () => {
                     setState({ ...state, isPaused: true })
                 }
@@ -198,6 +204,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
                 height: heightProp,
             }}
             ref={divRef}
+            id="wrapper"
             className={cn("animation flex flex-col items-center", className)}>
             <div
                 className="w-full h-full">
@@ -290,7 +297,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
     )
 }
 
-function Societario({ className, title, height: heightProp, width: widthProp }: AnimationProps) {
+function Societario({ className, title }: AnimationProps) {
     const [raioXAnimation, setRaioXAnimation] = useState(false);
     const refs = {
         dino: {
@@ -520,7 +527,7 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
             title={title ?? ''}
             id="wrapper"
             className={cn(
-                'flex items-end justify-center h-[330px] xsm:w-[300px] md:!w-[814.41px]',
+                'flex items-end justify-center min-h-[330px] xsm:w-[300px] md:!w-[814.41px]',
                 className,
             )}
         >
@@ -585,7 +592,7 @@ function Societario({ className, title, height: heightProp, width: widthProp }: 
                 </div>
             </div>
             {/* Wheels */}
-            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[17%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
+            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[16.5%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
                 <div className={cn(
                     // "w-full md:!w-[60%] h-[5%] max-h-[20px]",
                     "h-[5%] xsm:min-w-full xsm:max-h-[12px] md:!max-h-[20px]",
@@ -819,12 +826,12 @@ function Fiscal({ className, title }: AnimationProps) {
         >
             <div id="trigger" className={cn("w-4 h-full bg-black/50 z-50 relative left-[20%] opacity-0")} />
             {/* DINO */}
-            <div ref={ref.dinoRef} className="absolute z-30 w-[73px] h-[81px] bottom-0 left-10">
+            <div ref={ref.dinoRef} className="absolute z-30 w-[85px] h-[81px] bottom-0 left-10">
                 <div
                     ref={ref.dinoParado}
                     style={{
                         backgroundImage: `url('/assets/img/animations/3/dino-parado.png')`,
-                        width: '73px',
+                        width: '75px',
                         height: '81px',
                         opacity: 0
                     }}
@@ -833,7 +840,7 @@ function Fiscal({ className, title }: AnimationProps) {
                 <div
                     style={{
                         backgroundImage: `url('/assets/img/animations/3/dino-predio.png')`,
-                        width: '73px',
+                        width: '75px',
                         height: '81px',
                     }}
                     ref={ref.spriteRef}

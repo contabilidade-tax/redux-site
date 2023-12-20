@@ -126,7 +126,7 @@ export default function Home() {
                     <span className="text-primary-color">.</span>
                   </p>
                 </div>
-                <section className={cn("w-full row-span-3 mx-auto", "flex flex-col justify-center items-center h-[417.55px]")}>
+                <section className={cn("w-full row-span-3 mx-auto", "flex flex-col justify-center items-center !h-[417.55px]")}>
                   {/* <section className={cn("w-screen !mx-12 relative", "xsm:h-[230px] md:!flex-1", "border-2 border-black")}> */}
                   {/* <GameScene
                     // chProp={mobileState.isSmallScreen ? 250 : 450}
