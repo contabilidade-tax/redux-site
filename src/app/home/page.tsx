@@ -2,7 +2,7 @@
 'use client'
 import React, { useEffect, useLayoutEffect } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { redirect, useSearchParams } from 'next/navigation'
 import GameScene from './GameScene'
 import Servicos from './Servicos'
 import { ButtonBackgroundShine } from '@/components/Tools'
@@ -26,24 +26,24 @@ export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
   const { mobileState } = useMobileContext()
   const params = useSearchParams()
-  const dinoPositions = {
-    dino: {
-      X: 200,
-      Y: 324
-    },
-    dinoCar: {
-      X: 200,
-      Y: 269
-    },
-    dinoMobile: {
-      X: 200,
-      Y: 160
-    },
-    dinoCarMobile: {
-      X: 200,
-      Y: 105
-    }
-  }
+  // const dinoPositions = {
+  //   dino: {
+  //     X: 200,
+  //     Y: 324
+  //   },
+  //   dinoCar: {
+  //     X: 200,
+  //     Y: 269
+  //   },
+  //   dinoMobile: {
+  //     X: 200,
+  //     Y: 160
+  //   },
+  //   dinoCarMobile: {
+  //     X: 200,
+  //     Y: 105
+  //   }
+  // }
 
   function welcomeCookie(action: handleCookieActions) {
     const { has_been_welcomed } = parseCookies()
@@ -84,9 +84,18 @@ export default function Home() {
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
     // Lógica do toast de welcome após autorizar os recents posts
+    // ADDED Lógica de redirect ao autorizar pra garantir consistência entre estado e banco
     if (params.get('welcome') && !welcomeCookie({ type: 'GET' })) {
       handleWelcomeNotification()
+      const authRedirect = setTimeout(() => {
+        redirect('https://redux.app.br/home#recents')
+      }, 2000)
+
+      return () => {
+        clearTimeout(authRedirect)
+      }
     }
+
     // Lógica de loading
     if (isLoading) {
       const timer = setTimeout(() => {
