@@ -6,10 +6,16 @@ generator client {
 }
 
 // prisma/schema.prisma
+//datasource db {
+//  provider  = "postgresql"
+// url  	    = env("DATABASE_URL")
+//  directUrl = env("DIRECT_URL")
+//}
+
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url = env("PGVERCEL_PRISMA_URL") // uses connection pooling
+  directUrl = env("PGVERCEL_URL_NON_POOLING") // uses a direct connection
 }
 
 model Post {
