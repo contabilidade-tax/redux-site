@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Button } from '@material-tailwind/react'
+// import { Button } from '@material-tailwind/react'
+import { Button } from "@/components/ui/button"
 import { motion } from 'framer-motion'
 
 import { XCircleIcon, UserIcon } from '@heroicons/react/24/solid'
@@ -10,7 +11,6 @@ import { MenuItensProps } from '@/types'
 import styles from './MenuItens.module.scss'
 import { useEffect, useRef } from 'react'
 import { Icon } from '@/components/Tools'
-import { TLSSocket } from 'tls'
 
 export default function MenuItens({
   tabs,
@@ -124,9 +124,7 @@ export default function MenuItens({
           }
         >
           <div>
-            <Button
-              className="flex items-center gap-3 text-lg font-semibold text-white bg-black hover:bg-primary-color rounded-full"
-            >
+            <Button className="flex items-center gap-3 text-lg font-semibold text-white bg-black hover:bg-primary-color rounded-full">
               <Icon
                 src='/assets/img/dino-smile.png'
                 width={35}
