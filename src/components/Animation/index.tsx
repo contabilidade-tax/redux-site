@@ -106,7 +106,7 @@ function CriarEmpresa({ className, title, height: heightProp, width: widthProp }
             const timeline2 = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#wrapper",
-                    start: "top 80%", // when the top of the trigger hits the top of the viewport
+                    start: "top top", // when the top of the trigger hits the top of the viewport
                 },
                 onComplete: () => {
                     setState({ ...state, isPaused: true })
