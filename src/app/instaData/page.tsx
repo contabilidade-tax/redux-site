@@ -17,41 +17,41 @@ export default function Page() {
 
   return (
     <div className="flex flex-col items-center justify-center my-10 gap-10 max-w-[500px]">
-      <h1 className="text-3xl font-bold text-primary-color text-center">Descrição do Uso do Aplicativo:</h1>
-      <p>Este aplicativo foi desenvolvido especificamente para a autorização e credenciamento da TAX Contabilidade,
-        permitindo a obtenção de um token de acesso essencial para visualizações básicas de perfil e dos últimos posts da TAX Contabilidade no Instagram.</p>
+      <h1 className="text-3xl font-bold text-primary-color text-center">Application Usage Description:</h1>
+      <p>This application was specifically developed for the authorization and accreditation of TAX Accounting,
+        enabling the acquisition of an essential access token for basic profile views and recent posts of TAX Accounting on Instagram.</p>
       <Accordion type="single" collapsible className="w-full max-w-[459px]">
         <AccordionItem value="item-1">
-          <AccordionTrigger className="text-base">Autorização e Credenciamento</AccordionTrigger>
+          <AccordionTrigger className="text-base">Authorization and Accreditation</AccordionTrigger>
           <AccordionContent>
-            O aplicativo facilita o processo de autenticação, permitindo que a TAX Contabilidade obtenha os tokens de acesso necessários para interagir com a API do Instagram.
+            The application facilitates the authentication process, allowing TAX Accounting to obtain the necessary access tokens to interact with the Instagram API.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger className="text-base">Visualização de Perfil e Posts</AccordionTrigger>
+          <AccordionTrigger className="text-base">Profile and Posts Viewing</AccordionTrigger>
           <AccordionContent>
-            Uma vez autorizado, o aplicativo fornece uma visualização básica do perfil da TAX Contabilidade no Instagram, bem como dos posts mais recentes publicados.
+            Once authorized, the application provides a basic view of TAX Accounting's Instagram profile, as well as the most recent posts published.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
-          <AccordionTrigger className="text-base">Restrições de Uso por Terceiros</AccordionTrigger>
+          <AccordionTrigger className="text-base">Third-Party Usage Restrictions</AccordionTrigger>
           <AccordionContent>
-            O uso desta URL e do aplicativo por terceiros não resultará em nenhuma interação com o Facebook ou com a API do Instagram, além do escopo definido para a TAX Contabilidade. Qualquer tentativa de uso indevido ou fora do contexto autorizado não será atendida pelo sistema e pode estar sujeita a restrições ou consequências legais.
+            The use of this URL and application by third parties will not result in any interaction with Facebook or the Instagram API beyond the scope defined for TAX Accounting. Any attempts at misuse or unauthorized context will not be serviced by the system and may be subject to restrictions or legal consequences.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-4">
-          <AccordionTrigger className="text-base">Botão de Autorização</AccordionTrigger>
+          <AccordionTrigger className="text-base">Authorization Button</AccordionTrigger>
           <AccordionContent>
-            O botão abaixo serve como o ponto inicial para o processo de autorização. Ao clicar neste botão, você estará dando início ao processo de credenciamento e autorização, conforme descrito acima.
+            The button below serves as the starting point for the authorization process. By clicking this button, you will initiate the accreditation and authorization process, as described above.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-5">
-          <AccordionTrigger className="font-bold text-xl">Importante:</AccordionTrigger>
+          <AccordionTrigger className="font-bold text-xl">Important:</AccordionTrigger>
           <AccordionContent>
-            <span className="font-bold">- URL Privada:</span> A URL utilizada para a autorização é privada e destinada exclusivamente à TAX Contabilidade. Seu uso é estritamente limitado à obtenção de acesso para as finalidades mencionadas acima.
+            <span className="font-bold">- Private URL:</span> The URL used for authorization is private and intended exclusively for TAX Accounting. Its use is strictly limited to obtaining access for the purposes mentioned above.
             <br />
             <br />
-            <span className="font-bold">- Sobre o App:</span> Esta ferramenta foi criada para atender às necessidades específicas de acesso e visualização da TAX Contabilidade, assegurando conformidade e segurança no manejo de dados e informações públicas do perfil no Instagram.
+            <span className="font-bold">- About the App:</span> This tool was created to meet the specific access and viewing needs of TAX Accounting, ensuring compliance and security in the handling of public data and information from the Instagram profile.
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -63,5 +63,6 @@ export default function Page() {
         >Authorize</Button>
       </Link>
     </div>
+
   )
 }
