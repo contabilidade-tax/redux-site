@@ -36,7 +36,7 @@
 
     --radius: 0.5rem;
 
-    font-family: 'Montserrat', sans-serif;
+    // font-family: 'Montserrat', sans-serif;
 
     ::-webkit-scrollbar {
       width: 8px;
@@ -109,6 +109,8 @@
 body {
   color: rgb(0 0 0);
   background-color: rgb(250 250 250);
+
+  @include notSelect;
 }
 
 /* Espaçamento entre itens li num menu */
