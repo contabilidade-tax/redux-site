@@ -186,6 +186,20 @@ async function getPostsData(token: InstaTokenData): Promise<InstaPostData[] | nu
     }
 }
 
+async function getFromDb() {
+    try {
+        const response = await axios.get(`/api/instaData/db`);
+
+        // O Axios automaticamente trata a resposta como JSON,
+        // então não é necessário chamar response.json()
+        return response.data.data;
+
+    } catch (error: any) {
+        console.error(error);
+        return null;
+    }
+}
+
 
 export function InstaPostsContextProvider({ children }: InstaPostsProps) {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -195,7 +209,6 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
             const token = await fetchToken()
             const cache = await getRedisData()
             const dbData = await getPostsData(token!)
-
 
             if (cache) {
                 dispatch({
@@ -212,6 +225,10 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
                 });
                 return dbData
             }
+
+            // Pega do DB já que os early return não foram acionados
+            const data = await getFromDb()
+            return data
         } catch (error) {
             throw new Error('Token não recebido');
         }
