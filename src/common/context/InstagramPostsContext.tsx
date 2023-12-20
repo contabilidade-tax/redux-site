@@ -13,7 +13,7 @@ type ActionType = {
 };
 type InstaPostsContextValue = {
     state: typeof initialState | null;
-    fetchData: () => Promise<any>;
+    fetchData: () => Promise<InstaPostData[]>;
 }
 const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(undefined);
 
@@ -147,17 +147,17 @@ function updateTokenData(token: InstaTokenData, dispatch: Dispatch<ActionType>) 
     return newToken
 }
 
-async function getPostsData(token: InstaTokenData, dispatch: any) {
+async function getPostsData(token: InstaTokenData): Promise<InstaPostData[] | null> {
     try {
         let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
-        let allData: any = [];
+        let allData: InstaPostData[] = [];
 
         for (let i = 0; i === 0; i++) { // Limite de 1 requisições
             if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
 
             const response = await axios.get(url, {
                 params: {
-                    fields: 'id,caption,media_type,media_url,permalink,timestamp',
+                    fields: 'id,caption,media_type,media_url,permalink,timestamp,username',
                     access_token: token.access_token,
                 },
             });
@@ -171,12 +171,14 @@ async function getPostsData(token: InstaTokenData, dispatch: any) {
         }
 
         // Após o loop, atualizar o estado com os dados acumulados
-        dispatch({
-            type: 'UPDATE_POSTS_DATA',
-            value: allData,
-        });
+        // dispatch({
+        //     type: 'UPDATE_POSTS_DATA',
+        //     value: allData,
+        // });
         // Criar o cache com os dados e salvar no banco
         await setPostsData(allData)
+
+        return allData
 
     } catch (error: any) {
         console.log('Erro ao buscar os posts:', error.message, error.response?.data);
@@ -192,7 +194,7 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
         try {
             const token = await fetchToken()
             const cache = await getRedisData()
-            const dbData = await getPostsData(token!, dispatch)
+            const dbData = await getPostsData(token!)
 
 
             if (cache) {

@@ -17,44 +17,27 @@ type InstaRecentPostsProps = {
     isMobile?: boolean
 }
 
-type instaUser = {
-    username: string
-} | null
-
 function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     const { state, fetchData } = useInstaPostsContext();
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<InstaPostData[]>([]);  // Usando useState para posts
-    const [user, setUser] = useState<instaUser>();  // Usando useState para posts
+    const [user, setUser] = useState<string>();  // Usando useState para posts
 
     const fetchInstaData = async () => {
         try {
-            const [posts, user] = await Promise.all([
-                fetchData(),
-                fetchUserData()
-            ])
+            const posts = await fetchData()
 
-            return { posts, user };
+            return posts;
         } catch (error: any) {
             console.log(error.message);
             // redirect('https://redux.app.br')
-            return ({})
         };
     }
 
-    const fetchUserData = async () => {
-        const home = process.env.NEXT_PUBLIC_HOME!
-        try {
-            const InstagramData = await axios.get(`${home}/api/currentUser`, {})
-            return InstagramData.data;
-        } catch (error: any) { console.log(error.message) };
-
-    }
-
     const fetchAllData = async () => {
-        const { posts, user } = await fetchInstaData()
+        const posts = await fetchInstaData()
         setPosts(posts!);
-        setUser(user);
+        setUser(posts![0].username!);
     }
 
     // useEffect(() => {
@@ -82,8 +65,8 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
         <>
             {/* USER INFO */}
             <div className="currentUser relative min-w-52 w-max h-10 flex justify-center px-4 left-1/2 -translate-x-1/2 border border-[#191919] text-white font-bold rounded-full text-xl text-center bg-[#191919]">
-                <Link className='my-auto' target='_blank' href={`https://instagram.com/${user ? user.username : ''}`}>
-                    <p className='text-center'>@{user ? user.username : ' Loading...'}</p>
+                <Link className='my-auto' target='_blank' href={`https://instagram.com/${user ?? ''}`}>
+                    <p className='text-center'>@{user ?? ' Loading...'}</p>
                 </Link>
             </div>
             {/* POSTS */}

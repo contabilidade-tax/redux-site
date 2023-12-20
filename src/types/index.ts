@@ -39,6 +39,7 @@ type InstaPostData = {
   media_url: string | null
   permalink: string | null
   timestamp: string | null
+  username: string | null
 }
 
 interface VideoPlayerProps extends ComponentProps<'video'> {
