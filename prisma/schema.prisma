@@ -25,6 +25,7 @@ model Post {
   media_url      String
   permalink      String
   timestamp      DateTime
+  username       String
   instaPostsData InstaPostsData @relation(fields: [instaPostsDataId], references: [id])
   instaPostsDataId Int
 }
