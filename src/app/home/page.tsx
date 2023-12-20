@@ -85,15 +85,23 @@ export default function Home() {
   useEffect(() => {
     // Lógica do toast de welcome após autorizar os recents posts
     // ADDED Lógica de redirect ao autorizar pra garantir consistência entre estado e banco
-    if (params.get('welcome') && !welcomeCookie({ type: 'GET' })) {
-      handleWelcomeNotification()
-      const authRedirect = setTimeout(() => {
-        redirect('https://redux.app.br/home#recents')
+    if (params.get('welcome')) {
+      if (!welcomeCookie({ type: 'GET' })) {
+        handleWelcomeNotification()
+      }
+
+      const time = setTimeout(() => {
+        console.log("Esperou 2s pro redirect")
       }, 2000)
 
       return () => {
-        clearTimeout(authRedirect)
+        clearTimeout(time)
+        redirect('https://redux.app.br/home#recents')
       }
+
+      // return () => {
+      //   clearTimeout(authRedirect)
+      // }
     }
 
     // Lógica de loading
