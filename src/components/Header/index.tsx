@@ -62,6 +62,19 @@ export default function Header({ className }: { className?: string }) {
     }
   }
 
+  function getGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+
+    if (hour < 12) {
+      return "Bom dia";
+    } else if (hour < 18) {
+      return "Boa tarde";
+    } else {
+      return "Boa noite";
+    }
+  }
+
   // Não permite scroll na tela enquanto o menu está aberto
   useEffect(() => {
     // Verificar se o código está sendo executado no lado do cliente
@@ -138,7 +151,7 @@ export default function Header({ className }: { className?: string }) {
             width={30}
             height={30}
             className={' relative top-[.29rem]'} />
-          Login
+          {getGreeting()}
         </Button>
       </div>
       {/* <Button

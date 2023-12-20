@@ -171,8 +171,10 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
               </div>
             </div>
             {/* FOOTER TEXT AREA */}
-            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto', 'xsm:hidden sm:flex-col lg:!flex-row md:!flex xl:!flex-1')}>
-              <div className={cn(styles.fraseStyle, 'w-full text-3xl', 'sm:w-[150px] !sm:flex-1 !sm:text-5xl lg:w-full xl:flex-1 xl:min-w-[500px] xl-max:h-[200px] xl:text-7xl')}>
+            {/* <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto', 'xsm:hidden sm:flex-col md:!flex lg:!flex-row xl:!flex-1')}> */}
+            <div className={cn(styles.animationFooter, 'w-full h-max justify-between items-center relative mx-auto', 'xsm:hidden xsm:flex-col md:!flex lg:!flex-row xl:!flex-1', 'md:translate-y-4')}>
+              {/* <div className={cn(styles.fraseStyle, 'w-full text-3xl', 'sm:w-[150px] sm:flex-1 sm:text-5xl md:!flex-1 xl:min-w-[500px] xl-max:h-[200px] xl:text-6xl')}> */}
+              <div className={cn(styles.fraseStyle, 'w-full', 'sm:w-[150px] sm:flex-1 sm:text-5xl md:!w-max md:min-w-[420px] xl-max:h-[200px] xl:text-6xl')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
                   <h1
                     className={cn(
@@ -183,8 +185,8 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
                   </h1>
                 ))}
               </div>
-              <div className='flex-1 h-12 flex justify-center text-md'>
-                <Link className={cn('w-4/5 relative')} href={'/contato'}>
+              <div className='h-12 flex flex-1 md:max-w-[250px] justify-center text-md'>
+                <Link className={cn('w-full relative')} href={'/contato'}>
                   <ButtonBackgroundShine text='Fale com a gente! 🤙🏼' className='rounded-3xl min-w-full h-full' />
                 </Link>
               </div>

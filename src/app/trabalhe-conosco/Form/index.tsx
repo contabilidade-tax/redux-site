@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-// import { toast } from "@/components/ui/use-toast"
+import { parseCookies, setCookie } from "nookies"
 import { toast } from 'react-toastify';
 import * as z from 'zod'
 import {
@@ -28,8 +28,19 @@ import estados from '@/common/data/estadosBrasil.json'
 import { cn } from "@/lib/utils"
 import { CheckIcon } from "lucide-react"
 import { CaretSortIcon } from "@radix-ui/react-icons"
-import { ChangeEvent, useEffect, useState } from "react"
+import { useRef, useState } from "react"
 import axios from "axios"
+import ReCAPTCHA from "react-google-recaptcha"
+
+type Person = {
+    name: string
+    email: string
+    whatsapp: string
+}
+
+type cookieType = {
+    sent: Person[]
+}
 
 const formSchema: any = z.object({
     name: z.string().min(2, {
@@ -71,7 +82,10 @@ type FileState = {
 
 export default function ContactForm({ className }: { className?: string }) {
     const [whatsappValue, setWhatsappValue] = useState('');
+    const [isHuman, setIsHuman] = useState<boolean>(false);
     const [file, setFile] = useState<FileState>();
+    const { alreadySent } = parseCookies()
+    const recaptchaRef = useRef<ReCAPTCHA>(null)
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
@@ -105,10 +119,63 @@ export default function ContactForm({ className }: { className?: string }) {
     })
     // 2. Define a submit handler.
     function onSubmit(data: z.infer<typeof formSchema>) {
+        let cookieObj: cookieType;
+        if (alreadySent) {
+            cookieObj = JSON.parse(alreadySent)
+            let throwToastError = false;
+
+            cookieObj.sent.forEach(person => {
+                if (person.email === data.email || person.whatsapp === data.whatsapp) {
+                    throwToastError = true
+                    toast.error(
+                        <div className="space-y-1">
+                            <p className="font-bold">{person.name}</p>
+                            <p>Seja Paciente!</p>
+                            <p>Você já nos enviou seu currículo ;)</p>
+                        </div>,
+                        {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            className: '-translate-x-8 drop-shadow-custom',
+                        });
+                }
+            }) // FIM DO FOREACH
+            if (throwToastError) {
+                return
+            }
+        }
+        // Continue com o fluxo normal
         const emailRender = render(data)
         axios.post('/api/rh/sendProfile', { body: emailRender, arquivo: file })
             .then(
                 (response) => {
+                    // Adiciona a pessoa
+                    if (alreadySent) {
+                        cookieObj.sent.push({ name: data.name, email: data.email, whatsapp: data.whatsapp })
+                    }
+
+                    // Setar cookie para evitar flod
+                    setCookie(
+                        undefined,
+                        'alreadySent',
+                        JSON.stringify(
+                            alreadySent ?
+                                cookieObj
+                                :
+                                { sent: [{ name: data.name, email: data.email, whatsapp: data.whatsapp }] }
+                        ),
+                        {
+                            path: '/',
+                            maxAge: 24 * 60 * 60 * 1000 // 1 dias
+                        }
+                    )
+                    // Toastify Notification de sucesso
                     toast.success(
                         <div className="min-w-[300px] w-max font-base">
                             <p>
@@ -131,6 +198,8 @@ export default function ContactForm({ className }: { className?: string }) {
                             className: '-translate-x-8',
                         },
                     );
+                    // LIMPA o CAPTCHA
+                    recaptchaRef.current?.reset()
                 }
             )
             .catch((error: any) => {
@@ -146,8 +215,28 @@ export default function ContactForm({ className }: { className?: string }) {
                         progress: undefined,
                         theme: "light",
                     });
-
             })
+    }
+
+    function onChange() {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        const token = recaptchaRef.current?.getValue()!
+        axios.post(
+            `/api/recaptcha/validate`, { token }, {}
+        ).then(
+            (res: any) => {
+                if (res.data.success) {
+                    console.log(res.data.message);
+                    setIsHuman(true)
+                    // recaptchaRef.current?.reset()
+                } else {
+                    console.log(res)
+                }
+
+            }
+        ).catch(
+            error => { console.log(error.message) }
+        )
     }
 
     const errorMessageStyle = 'text-red-500 font-bold text-sm'
@@ -309,6 +398,12 @@ export default function ContactForm({ className }: { className?: string }) {
                         </FormControl>
                     </FormItem>
                 )} />
+                <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey={process.env.NEXT_PUBLIC_SITE_KEY!}
+                    onChange={onChange}
+                    className="mt-4 self-start"
+                />
                 <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-[#4EA929] text-white text-lg font-bold !rounded-2xl">Enviar</Button>
                 {/* <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-primary-color text-white text-lg font-bold !rounded-2xl">Enviar</Button> */}
             </form>

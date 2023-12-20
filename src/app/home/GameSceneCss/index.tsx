@@ -28,6 +28,18 @@ export default function GameSceneCss({ classname }: Props) {
     'https://i.postimg.cc/x1sqHRng/Fundo-Pixel-Natal-07.png',
     'https://i.postimg.cc/NMZtC37k/bg8.png'
   ]
+  // const bgImages = [
+  //   'https://i.postimg.cc/RV4b2Nry/bg2.png',
+  //   'https://i.postimg.cc/FzyFz1Gw/bg3.png',
+  //   'https://i.postimg.cc/4xtPdGTV/bg4.png',
+  //   'https://i.postimg.cc/CKSGxf7p/bg5.png',
+  //   'https://i.postimg.cc/m262mchN/bg6.png',
+  //   'https://i.postimg.cc/yxf51GVV/bg7.png',
+  //   'https://i.postimg.cc/NMZtC37k/bg8.png',
+  // ]
+  // const peCicero = 'https://i.postimg.cc/9Mxvc76L/cicao.png'
+  // const dino = 'https://i.postimg.cc/BZNyfc0w/3.png'
+  // const dinoCar = 'https://i.postimg.cc/VkP9SRd1/Dino-no-carro.png'
 
   useEffect(() => {
     if (bgRef.current && peCiceroref.current) {
@@ -82,6 +94,7 @@ export default function GameSceneCss({ classname }: Props) {
         repeat: -1, // Repetir a animação infinitamente
         onComplete: () => {
           gsap.set(bgRef.current, { x: 0 }); // Retorna à posição inicial imediatamente
+          gsap.set(peCiceroref.current, { x: 0 }); // Retorna à posição inicial imediatamente
           gsap.set(dinoRef.current, { opacity: 1, }); // Retorna à posição inicial imediatamente
           // Retorna à posição inicial imediatamente
           // clearAllTimeoutsAndReset()
@@ -120,10 +133,11 @@ export default function GameSceneCss({ classname }: Props) {
 
       // Adiciona a animação do peCicero diretamente na timeline
       tl.to(peCiceroref.current, {
-        xPercent: -100,
+        xPercent: -30,
         duration: 12,
+        delay: 1.5
         // duration: 60,
-      }, 1.5);
+      });
 
       // // Adiciona a primeira animação do fundo diretamente na timeline
       const limit = document.getElementsByClassName('t-5')[0];
@@ -157,16 +171,23 @@ export default function GameSceneCss({ classname }: Props) {
         delay: 1.5,
         onComplete: () => {
           gsap.to(dinoRef.current, { opacity: 0 })
+          // Então começa
           gsap.to(dinoCarRef.current, {
             opacity: 1, ease: 'none', delay: 1
           })
+          // Adiciona o Pe Cicero novamente
+          gsap.to(peCiceroref.current, {
+            xPercent: '-=5',
+            duration: 1.5,
+            delay: 1.5
+          });
         }
       }); // Isso irá adicionar a animação após 5 segundos da última animação terminar
 
       // RUN FINAL
       tl.to(bgRef.current, {
-        xPercent: '-=70',
-        duration: 2,
+        xPercent: '-=60',
+        duration: 4,
         delay: 1.5,
         onComplete: () => {
           gsap.set(dinoCarRef.current, { opacity: 0, ease: 'none' });
