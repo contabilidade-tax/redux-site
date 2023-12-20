@@ -46,10 +46,10 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
 
     useEffect(() => {
         if (state?.data && state.data.length > 0) {
-            // Seleciona os 10 primeiros
-            const posts = state.data.slice(0, 9)
             // Ordena por data
-            const orderedPosts = posts.sort((a, b) => Date.parse(b.timestamp!) - Date.parse(a.timestamp!))
+            const orderedPosts = state.data.sort((a, b) => Date.parse(b.timestamp!) - Date.parse(a.timestamp!))
+            // Seleciona os 10 primeiros
+            const posts = orderedPosts.slice(0, 10)
             // Enfim, seta o estado
             setPosts(orderedPosts);
             setLoading(false);

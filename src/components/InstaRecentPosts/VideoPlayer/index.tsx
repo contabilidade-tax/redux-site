@@ -26,14 +26,14 @@ export default function VideoPlayer({ className, src, width, height, ...rest }: 
             {isMuted ?
                 <VolumeX
                     onClick={handleVideoClick}
-                    className='absolute bottom-3 right-3 text-primary-color'
+                    className='absolute bottom-4 left-4 text-white'
                     fill='#202022'
                     size={30}
                 />
                 :
                 <Volume
                     onClick={handleVideoClick}
-                    className='absolute bottom-3 right-1 text-primary-color'
+                    className='absolute bottom-4 left-4 text-white'
                     fill='#202022'
                     size={30}
                 />}
