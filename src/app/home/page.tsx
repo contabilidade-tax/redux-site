@@ -84,24 +84,8 @@ export default function Home() {
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
     // Lógica do toast de welcome após autorizar os recents posts
-    // ADDED Lógica de redirect ao autorizar pra garantir consistência entre estado e banco
-    if (params.get('welcome')) {
-      if (!welcomeCookie({ type: 'GET' })) {
-        handleWelcomeNotification()
-      }
-
-      const time = setTimeout(() => {
-        console.log("Esperou 2s pro redirect")
-      }, 2000)
-
-      return () => {
-        clearTimeout(time)
-        redirect('https://redux.app.br/home#recents')
-      }
-
-      // return () => {
-      //   clearTimeout(authRedirect)
-      // }
+    if (params.get('welcome') && !welcomeCookie({ type: 'GET' })) {
+      handleWelcomeNotification()
     }
 
     // Lógica de loading
@@ -185,7 +169,7 @@ export default function Home() {
               <h1 className='text-center text-5xl md:!text-5xl sm:!text-2xl font-extrabold text-primary-color'>Posts recentes!</h1>
               {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
               <section className='posts w-full h-auto xsm:!scale-95 md:!scale-100'>
-                <InstaRecentPosts isMobile={mobileState.isSmallScreen} />
+                <InstaRecentPosts isMobile={mobileState.isSmallScreen} noRefresh={params.has('noRefresh')} />
               </section>
             </section>
           </>

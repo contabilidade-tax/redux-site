@@ -14,6 +14,7 @@ type ActionType = {
 type InstaPostsContextValue = {
     state: typeof initialState | null;
     fetchData: () => Promise<InstaPostData[]>;
+    updateState: () => Promise<InstaPostData[]>;
 }
 const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(undefined);
 
@@ -204,7 +205,7 @@ async function getFromDb() {
 export function InstaPostsContextProvider({ children }: InstaPostsProps) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const fetchData = async () => {
+    const fetchData = async (): Promise<InstaPostData[]> => {
         try {
             const token = await fetchToken()
             const cache = await getRedisData()
@@ -228,6 +229,10 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
 
             // Pega do DB já que os early return não foram acionados
             const data = await getFromDb()
+            dispatch({
+                type: 'UPDATE_POSTS_DATA',
+                value: data,
+            });
             return data
         } catch (error) {
             throw new Error('Token não recebido');
@@ -264,10 +269,14 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
             return token
         }
     }
-    // };
+
+    const updateState = async () => {
+        const data = await fetchData()
+        return data
+    }
 
     return (
-        <InstaPostsContext.Provider value={{ state, fetchData }}>
+        <InstaPostsContext.Provider value={{ state, fetchData, updateState }}>
             {children}
         </InstaPostsContext.Provider>
     );

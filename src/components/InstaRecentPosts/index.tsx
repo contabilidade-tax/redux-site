@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { InstaPostsContextProvider, useInstaPostsContext } from '@/common/context/InstagramPostsContext';
 import { cn } from '@/lib/utils';
@@ -8,16 +8,15 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 import styles from './InstaRecentPosts.module.scss'
 import { InstaPostData } from '@/types';
-import axios from 'axios';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 type InstaRecentPostsProps = {
     className?: string
     isMobile?: boolean
+    noRefresh?: boolean
 }
 
-function InstaRecentPosts({ className }: InstaRecentPostsProps) {
+function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
     const { state, fetchData } = useInstaPostsContext();
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<InstaPostData[]>([]);  // Usando useState para posts
@@ -35,30 +34,28 @@ function InstaRecentPosts({ className }: InstaRecentPostsProps) {
     }
 
     const fetchAllData = async () => {
-        const posts = await fetchInstaData()
-        setPosts(posts!);
-        setUser(posts![0].username!);
+        const fetchedPosts = await fetchInstaData()
+        setPosts(fetchedPosts!);
+        setUser(fetchedPosts![0].username!);
     }
 
-    // useEffect(() => {
-    //     console.log(user)
-    // }, [user])
-
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (state?.data && state.data.length > 0) {
             // Ordena por data
             const orderedPosts = state.data.sort((a, b) => Date.parse(b.timestamp!) - Date.parse(a.timestamp!))
             // Seleciona os 10 primeiros
             const posts = orderedPosts.slice(0, 10)
             // Enfim, seta o estado
-            setPosts(orderedPosts);
+            setPosts(posts);
             setLoading(false);
         }
     }, [state]);
 
 
     useLayoutEffect(() => {
-        fetchAllData().then()
+        if (!noRefresh) {
+            fetchAllData().then()
+        }
     }, []);
 
     return (
