@@ -527,7 +527,7 @@ function Societario({ className, title }: AnimationProps) {
             title={title ?? ''}
             id="wrapper"
             className={cn(
-                'flex items-end justify-center min-h-[330px] xsm:w-[300px] md:!w-[814.41px]',
+                'flex items-end justify-center h-[330px] xsm:w-[300px] md:!w-[814.41px]',
                 className,
             )}
         >

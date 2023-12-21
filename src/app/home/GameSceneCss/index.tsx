@@ -20,11 +20,11 @@ export default function GameSceneCss({ classname }: Props) {
   const dinoCar = 'https://i.postimg.cc/3wJQ4kP3/dino-Treno.png'
   const bgImages = [
     'https://i.postimg.cc/zvWy76Mj/Fundo-Pixel-Natal-01-SEMNOEL.png',
-    'https://i.postimg.cc/BnjqfvSJ/Fundo-Pixel-Natal-02.png',
+    'https://i.postimg.cc/50y0ym1F/Fundo-Pixel-Natal-02.png',
     'https://i.postimg.cc/Lsn5V1sS/Fundo-Pixel-Natal-03.png',
-    'https://i.postimg.cc/cJ2HkLKn/Fundo-Pixel-Natal-04.png',
+    'https://i.postimg.cc/B6zvK1Q7/Fundo-Pixel-Natal-04.png',
     'https://i.postimg.cc/Y0fCSNd6/Fundo-Pixel-Natal-05.png',
-    'https://i.postimg.cc/BZx6NsJj/Fundo-Pixel-Natal-06.png',
+    'https://i.postimg.cc/ncgLzmwX/Fundo-Pixel-Natal-06.png',
     'https://i.postimg.cc/x1sqHRng/Fundo-Pixel-Natal-07.png',
     'https://i.postimg.cc/NMZtC37k/bg8.png'
   ]
