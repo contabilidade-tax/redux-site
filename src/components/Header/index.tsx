@@ -110,16 +110,17 @@ export default function Header({ className }: { className?: string }) {
         )
       }
     >
-      <Link href={'/'} className={`h-[45px] w-[200px] ${styles.logo}`} >
+      <Link href={'/'} className={`h-[60px] w-[220px] ${styles.logo}`} >
         <Image
-          className='w-full h-full object-contain'
+          className='w-full h-full object-cover'
           src="/assets/img/redux-logo.svg"
           // src="/assets/img/logo-verde-2.png"
           alt="Redux Logo"
-          width={200}
-          height={45}
+          width={0}
+          height={0}
           priority={true}
         />
+
       </Link>
       <div className={`${styles.desktopTabs} ` + 'hidden h-auto w-max md:block'}>
         <ul className="flex items-center">
