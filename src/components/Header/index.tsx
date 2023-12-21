@@ -116,8 +116,8 @@ export default function Header({ className }: { className?: string }) {
           src="/assets/img/redux-logo.svg"
           // src="/assets/img/logo-verde-2.png"
           alt="Redux Logo"
-          width={1000}
-          height={1000}
+          width={200}
+          height={45}
           priority={true}
         />
       </Link>
