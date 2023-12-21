@@ -518,7 +518,7 @@ function Societario({ className, title }: AnimationProps) {
         <section
             ref={refs.cena}
             style={{
-                backgroundImage: `url('/assets/img/animations/2/esteira.png')`,
+                backgroundImage: `url('/assets/img/animations/2/esteira2.png')`,
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
@@ -592,7 +592,7 @@ function Societario({ className, title }: AnimationProps) {
                 </div>
             </div>
             {/* Wheels */}
-            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[16.5%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
+            <div className={cn("wheels absolute h-full", "xsm:-translate-y-[17%] md:!-translate-y-0 xsm:w-[81.5%] md:!w-[66%]")}>
                 <div className={cn(
                     // "w-full md:!w-[60%] h-[5%] max-h-[20px]",
                     "h-[5%] xsm:min-w-full xsm:max-h-[12px] md:!max-h-[20px]",
