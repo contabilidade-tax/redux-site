@@ -14,5 +14,5 @@ export default function Servicos() {
     }
   }
 
-  return redirect(`https://api.whatsapp.com/send?phone=5588988412833&text=${encodeURIComponent(`Ola ${getGreeting()}, gostaria de saber mais sobre seus serviços`)}`)
+  return redirect(`https://api.whatsapp.com/send?phone=5588999660188&text=${encodeURIComponent(`Ola ${getGreeting()}, gostaria de saber mais sobre seus serviços`)}`)
 }

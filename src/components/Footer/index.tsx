@@ -41,7 +41,7 @@ export default function Footer({ className }: { className?: string }) {
                         <div className="space-y-1 mt-2 xsm:text-sm md:!text-base">
                             <p>- Av. Virgílio Távora, 11 - Fátima, Juazeiro do Norte-CE</p>
                             <p>- comercial@contabilidade-tax.com.br</p>
-                            <Link target="_blank" href={'https://wa.me/send?phone=558888412833&text=Olá, gostaria de saber mais sobre seus serviços'}>- (88) 98841-2833</Link>
+                            <Link target="_blank" href={'https://api.whatsapp.com/send?phone=558899660188&text=Olá, gostaria de saber mais sobre seus serviços'}>- (88) 99966-0188</Link>
                             {/* <li>1111</li> */}
                         </div>
                     </div>
