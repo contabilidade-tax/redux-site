@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.minimal.css";
 
 import { LoadingProvider } from '@/common/context/LoadingContext'
 import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
-import ReCAPTCHA from "react-google-recaptcha";
 // import { Toaster } from "@/components/ui/toaster"
 import { ToastContainer } from 'react-toastify';
 import { SpeedInsights } from "@vercel/speed-insights/next"

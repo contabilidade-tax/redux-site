@@ -82,7 +82,7 @@ type FileState = {
 
 export default function ContactForm({ className }: { className?: string }) {
     const [whatsappValue, setWhatsappValue] = useState('');
-    const [isHuman, setIsHuman] = useState<boolean>(false);
+    const [captchaOk, setCaptchaOk] = useState<boolean>(false);
     const [file, setFile] = useState<FileState>();
     const { alreadySent } = parseCookies()
     const recaptchaRef = useRef<ReCAPTCHA>(null)
@@ -119,6 +119,38 @@ export default function ContactForm({ className }: { className?: string }) {
     })
     // 2. Define a submit handler.
     function onSubmit(data: z.infer<typeof formSchema>) {
+        if (!captchaOk) {
+            toast.error(
+                "Preencha o Captcha rapaz!!!",
+                {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            return
+        }
+
+        if (!file) {
+            toast.error(
+                "Tá esquecendo do currículo não??",
+                {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            return
+        }
+
         let cookieObj: cookieType;
         if (alreadySent) {
             cookieObj = JSON.parse(alreadySent)
@@ -226,8 +258,8 @@ export default function ContactForm({ className }: { className?: string }) {
         ).then(
             (res: any) => {
                 if (res.data.success) {
-                    console.log(res.data.message);
-                    setIsHuman(true)
+                    // console.log(res.data.message);
+                    setCaptchaOk(true)
                     // recaptchaRef.current?.reset()
                 } else {
                     console.log(res)
