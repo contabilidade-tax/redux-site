@@ -10,6 +10,7 @@ import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
 // import { Toaster } from "@/components/ui/toaster"
 import { ToastContainer } from 'react-toastify';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 // const inter = Montserrat({
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </main>
             <Footer />
             <SpeedInsights />
+            <Analytics />
             {/* <Toaster /> */}
           </body>
         </html>
