@@ -227,7 +227,7 @@ export default function ContactForm({ className }: { className?: string }) {
                             draggable: true,
                             progress: undefined,
                             theme: "light",
-                            className: '-translate-x-8',
+                            className: 'md:!-translate-x-8',
                         },
                     );
                     // LIMPA o CAPTCHA
