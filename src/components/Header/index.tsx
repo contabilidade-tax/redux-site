@@ -174,6 +174,7 @@ export default function Header({ className }: { className?: string }) {
             tabs={tabs}
             setCurrentPage={handleActualPage}
             setMenuOpen={setMenuOpen}
+            getGreeting={getGreeting}
           />
         )
       }

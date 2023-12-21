@@ -139,6 +139,7 @@ interface MenuItensProps {
   state: any
   setCurrentPage: (action: { type: string; value: Tab }) => void
   setMenuOpen: (value: boolean) => void
+  getGreeting: () => string
   style?: any
   ref?: React.LegacyRef<HTMLUListElement>
   className?: string

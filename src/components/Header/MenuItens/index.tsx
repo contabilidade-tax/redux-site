@@ -17,6 +17,7 @@ export default function MenuItens({
   state,
   setCurrentPage,
   setMenuOpen,
+  getGreeting,
   className,
   style,
 }: MenuItensProps) {
@@ -130,7 +131,7 @@ export default function MenuItens({
                 width={35}
                 height={35}
                 className='relative top-[.29rem]' />
-              Login
+              {getGreeting()}
             </Button>
           </div>
           <XCircleIcon
