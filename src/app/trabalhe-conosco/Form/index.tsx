@@ -235,6 +235,7 @@ export default function ContactForm({ className }: { className?: string }) {
                 }
             )
             .catch((error: any) => {
+                console.log(error)
                 toast.error(
                     error.message,
                     {
@@ -335,7 +336,7 @@ export default function ContactForm({ className }: { className?: string }) {
                 )} />
                 <div className="flex items-center w-full gap-8">
                     <FormField control={form.control} name="cidade" render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="flex-1">
                             <FormLabel className={labelStyle}>Cidade*</FormLabel>
                             <FormMessage className={errorMessageStyle} />
                             <FormControl>
@@ -344,7 +345,7 @@ export default function ContactForm({ className }: { className?: string }) {
                         </FormItem>
                     )} />
                     <FormField control={form.control} name="estado" render={({ field }) => (
-                        <FormItem className="flex flex-col gap-1 mt-2">
+                        <FormItem className="flex flex-col gap-1 mt-2 flex-1">
                             <FormLabel className={labelStyle}>Estado*</FormLabel>
                             <FormMessage className={errorMessageStyle} />
                             <Popover>
@@ -354,7 +355,7 @@ export default function ContactForm({ className }: { className?: string }) {
                                             variant="outline"
                                             role="combobox"
                                             className={cn(
-                                                "w-[200px] h-9 justify-between border border-gray-400/80 bg-gray-300/60",
+                                                "w-full max-w-[200px] h-9 justify-between border border-gray-400/80 bg-gray-300/60",
                                                 !field.value && "text-muted-foreground"
                                             )}
                                         >
@@ -405,7 +406,7 @@ export default function ContactForm({ className }: { className?: string }) {
                         <FormLabel className={labelStyle}>Currículo*</FormLabel>
                         <FormMessage className={errorMessageStyle} />
                         <FormControl>
-                            <div className="z-[999] cursor-pointer min-w-[176px] w-max border border-solid border-gray-400/80 p-1 px-2 rounded-md bg-gray-300/60">
+                            <div className="z-[999] cursor-pointer min-w-[176px] w-max max-w-[390px] border border-solid border-gray-400/80 p-1 px-2 rounded-md bg-gray-300/60">
                                 <input
                                     type="file"
                                     accept=".pdf,.doc,.docx"

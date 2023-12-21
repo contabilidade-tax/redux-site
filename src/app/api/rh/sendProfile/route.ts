@@ -43,10 +43,10 @@ export async function POST(req: NextRequest) {
       const emailResponse = await client.send(options)
       return NextResponse.json({ response: emailResponse, message: "Email enviado para o rh" }, { status: 200 });
     } catch (error: any) {
-      return NextResponse.json({ error: 'Internal Server Error', message: error.message }, { status: 500 });
+      return NextResponse.json({ error: 'Internal Server Error', message: error.message + `ESSA BUCETA DE SENDGRID` }, { status: 500 });
     }
 
   } catch (error: any) {
-    return NextResponse.json({ error: 'Internal Server Error', message: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Internal Server Error', message: error.message, details: error }, { status: 500 });
   }
 };
