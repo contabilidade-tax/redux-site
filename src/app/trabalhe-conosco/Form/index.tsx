@@ -163,7 +163,7 @@ export default function ContactForm({ className }: { className?: string }) {
                         <div className="space-y-1">
                             <p className="font-bold">{person.name}</p>
                             <p>Seja Paciente!</p>
-                            <p>Você já nos enviou seu currículo ;)</p>
+                            <p>Você já está em nossa seletiva</p>
                         </div>,
                         {
                             position: "top-right",
@@ -232,6 +232,7 @@ export default function ContactForm({ className }: { className?: string }) {
                     );
                     // LIMPA o CAPTCHA
                     recaptchaRef.current?.reset()
+                    setCaptchaOk(false)
                 }
             )
             .catch((error: any) => {
@@ -437,7 +438,7 @@ export default function ContactForm({ className }: { className?: string }) {
                     onChange={onChange}
                     className="mt-4 self-start"
                 />
-                <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-[#4EA929] text-white text-lg font-bold !rounded-2xl">Enviar</Button>
+                <Button type="submit" className="place-self-center self-center mt-4 w-1/3 bg-[#4EA929] text-white text-lg font-bold !rounded-2xl">Enviar</Button>
                 {/* <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-primary-color text-white text-lg font-bold !rounded-2xl">Enviar</Button> */}
             </form>
         </Form>
