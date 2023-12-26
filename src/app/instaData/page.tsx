@@ -24,7 +24,7 @@ export default function Page() {
   const key = process.env.NEXT_PUBLIC_CRYPTO_KEY
   const iv = process.env.NEXT_PUBLIC_CRYPTO_IV
   const token = process.env.NEXT_PUBLIC_BEARER_TOKEN
-  const redirectUri = `https://redux.app.br/api/instaData/authorize?auth=${encodeURIComponent(criptografar(token, key, iv))}`
+  const redirectUri = `https://redux.app.br/api/instaData/authorize/${encodeURIComponent(criptografar(token, key, iv))}/`
 
   return (
     <div className="flex flex-col items-center justify-center my-10 gap-10 max-w-[500px]">

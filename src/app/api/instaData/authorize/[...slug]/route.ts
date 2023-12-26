@@ -79,11 +79,11 @@ async function createInstaToken(apiUrl: string, Instadata: any) {
 
 // }
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest, context: any) {
 
   try {
     const code = req.nextUrl.searchParams.get('code');
-    const auth_param = req.nextUrl.searchParams.get('auth');
+    const auth_param = context.params.slug
 
     if (!code) {
       throw new Error('Code not found, this is a route to authorize app only');
