@@ -11,6 +11,7 @@ import { MobileContextProvider } from '@/common/context/MobileDeviceContext'
 import { ToastContainer } from 'react-toastify';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/react';
+import Script from 'next/script'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 // const inter = Montserrat({
@@ -75,6 +76,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <MobileContextProvider>
       <LoadingProvider>
         <html lang="pt-BR">
+          <head>
+            <Script async src="https://www.googletagmanager.com/gtag/js?id=G-1HJLSSGPVP"></Script>
+            <Script id='google-analytics'>
+              {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'G-1HJLSSGPVP');
+              `}
+            </Script>
+          </head>
           {/* <body className={inter.className}> */}
           <body className={`${montserrat.variable} flex justify-between flex-col min-h-screen items-center`}>
             <Header />
