@@ -121,7 +121,7 @@ export async function GET(req: NextRequest, context: any) {
     const graphApiUrl = process.env.NEXT_PUBLIC_API_IG_URL;
     const apiIgLongLivedTokenUrl = `${graphApiUrl}/access_token`
     const createTokenApiUrl = `${process.env.NEXT_PUBLIC_HOME}/api/createInstaData`
-    const redirect_uri = `${process.env.NEXT_PUBLIC_HOME}/api/instaData/authorize/${encodeURIComponent(criptografar(token, key, iv))}/`
+    const redirect_uri = `https://redux.app.br/api/instaData/authorize/${criptografar(token, key, iv)}/`
     const client_secret = process.env.NEXT_PUBLIC_API_IG_APP_SECRET!
     const client_id = process.env.NEXT_PUBLIC_API_IG_APP_ID
     const data = qs.stringify({
