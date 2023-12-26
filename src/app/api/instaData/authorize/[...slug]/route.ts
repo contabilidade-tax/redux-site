@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { NextRequest, NextResponse } from 'next/server'
 import qs from 'qs'
 import crypto from 'crypto';
+import { } from '@/app/instaData/page'
 
 async function getLongLivedToken(longLivedTokenurl: string, client_secret: string, access_token: string) {
   try {
@@ -13,6 +14,13 @@ async function getLongLivedToken(longLivedTokenurl: string, client_secret: strin
   } catch (error: any) {
     throw new Error(error.response?.data.error_message ?? error.message);
   }
+}
+
+function criptografar(texto: any, chave: any, iv: any) {
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(chave, 'hex'), Buffer.from(iv, 'hex'));
+  let textoCriptografado = cipher.update(texto);
+  textoCriptografado = Buffer.concat([textoCriptografado, cipher.final()]);
+  return iv.toString('hex') + ':' + textoCriptografado.toString('hex');
 }
 
 function descriptografar(textoCriptografado: any, chave: any) {
@@ -83,7 +91,10 @@ export async function GET(req: NextRequest, context: any) {
 
   try {
     const code = req.nextUrl.searchParams.get('code');
-    const auth_param = context.params.slug
+    const auth_param: string = context.params.slug[0]
+
+    // return NextResponse.json({ code, auth_param: auth_param.split(':') }, { status: 200 });
+    // return NextResponse.json({ code, auth_param }, { status: 200 });
 
     if (!code) {
       throw new Error('Code not found, this is a route to authorize app only');
@@ -95,7 +106,7 @@ export async function GET(req: NextRequest, context: any) {
     const chave = process.env.NEXT_PUBLIC_CRYPTO_KEY!
 
     try {
-      const token_auth = descriptografar(auth_param!, chave)
+      const token_auth = descriptografar(auth_param, chave)
       if (token_auth !== process.env.NEXT_PUBLIC_BEARER_TOKEN) {
         throw new Error('Token invalid!')
       }
@@ -103,11 +114,14 @@ export async function GET(req: NextRequest, context: any) {
       return NextResponse.json({ error: 'Não autorizado!', details: error.message }, { status: 401 });
     }
 
+    const key = process.env.NEXT_PUBLIC_CRYPTO_KEY
+    const iv = process.env.NEXT_PUBLIC_CRYPTO_IV
+    const token = process.env.NEXT_PUBLIC_BEARER_TOKEN
     const tokenUrl = "https://api.instagram.com/oauth/access_token"
     const graphApiUrl = process.env.NEXT_PUBLIC_API_IG_URL;
     const apiIgLongLivedTokenUrl = `${graphApiUrl}/access_token`
     const createTokenApiUrl = `${process.env.NEXT_PUBLIC_HOME}/api/createInstaData`
-    const redirect_uri = `${process.env.NEXT_PUBLIC_HOME}/api/instaData/authorize`
+    const redirect_uri = `${process.env.NEXT_PUBLIC_HOME}/api/instaData/authorize/${encodeURIComponent(criptografar(token, key, iv))}/`
     const client_secret = process.env.NEXT_PUBLIC_API_IG_APP_SECRET!
     const client_id = process.env.NEXT_PUBLIC_API_IG_APP_ID
     const data = qs.stringify({
