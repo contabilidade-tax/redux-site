@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { setRedisRegister, } from '@/common/middleware/redisConfig';
 import { Prisma, PrismaClient } from '@prisma/client'
+import crypto from 'crypto';
+
+function criptografar(texto: any, chave: any, iv: any) {
+    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(chave, 'hex'), Buffer.from(iv, 'hex'));
+    let textoCriptografado = cipher.update(texto);
+    textoCriptografado = Buffer.concat([textoCriptografado, cipher.final()]);
+    return iv.toString('hex') + ':' + textoCriptografado.toString('hex');
+}
+
 
 export async function POST(req: NextRequest) {
     const prisma = new PrismaClient()
@@ -38,10 +47,12 @@ export async function POST(req: NextRequest) {
         }
 
         const setCurrentUser = async (currentUserData: Prisma.CurrentUserCreateInput) => {
-            const allowedUserIds = process.env.ALLOWED_USER_IDS ? process.env.ALLOWED_USER_IDS.split(',') : [];
+            const allowedUserIds = process.env.ALLOWED_USER_ID ? process.env.ALLOWED_USER_ID.split(',').map(id => id.trim()) : [];
+            const userId = String(currentUserData.user_id).trim();
             // Verifica se o user_id de currentUser está na lista de permitidos
-            if (allowedUserIds.includes(currentUserData.user_id)) {
-                throw new Error("CONSERTAR TA FZNDO CONTRARIO - Usuário do app inválido! Este app somente deve ser usado pela TAX CONTABILIDADE");
+            if (!allowedUserIds.includes(userId)) {
+                console.log("Usuário do app inválido! Este app somente deve ser usado pela TAX CONTABILIDADE. code:", userId, allowedUserIds);
+                throw new Error(`Usuário do app inválido! Este app somente deve ser usado pela TAX CONTABILIDADE. code:${userId}:${allowedUserIds}`);
             }
 
             return await prisma.currentUser.upsert({
@@ -148,7 +159,7 @@ export async function POST(req: NextRequest) {
 
                         return NextResponse.json({ message: `Created Successfully for key: ${customKey}`, details: messages_array, keyData }, { status: 201 });
                     } catch (error: any) {
-                        console.error(error)
+                        console.error(error.message)
                     }
 
             }

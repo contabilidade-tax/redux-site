@@ -52,7 +52,6 @@ model CurrentUser {
   id Int @id @default(1)
   access_token String
   user_id String
-  username String 
 
   @@map("current_user")
 }
