@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   const { token } = await req.json()
   const auth = req.headers.get('Authorization')?.split(' ')[1]
 
-  if (auth !== process.env.NEXT_BEARER_TOKEN) {
+  if (auth !== process.env.NEXT_PUBLIC_BEARER_TOKEN) {
     return NextResponse.json({ error: 'Não autorizado!' }, { status: 401 });
   }
 

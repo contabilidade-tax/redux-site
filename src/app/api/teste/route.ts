@@ -7,7 +7,7 @@ export function GET(
 ) {
     const token = req.headers.get('Authorization')?.split(' ')[1]
 
-    if (token !== process.env.NEXT_BEARER_TOKEN) {
+    if (token !== process.env.NEXT_PUBLIC_BEARER_TOKEN) {
         return NextResponse.json({ error: 'Não autorizado!' }, { status: 401 });
     }
     return NextResponse.json(
