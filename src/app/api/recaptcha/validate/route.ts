@@ -4,6 +4,11 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   // Destructuring response token and input field value from request body
   const { token } = await req.json()
+  const auth = req.headers.get('Authorization')?.split(' ')[1]
+
+  if (auth !== process.env.NEXT_BEARER_TOKEN) {
+    return NextResponse.json({ error: 'Não autorizado!' }, { status: 401 });
+  }
 
   try {
     // Sending secret key and response token to Google Recaptcha API for authentication.

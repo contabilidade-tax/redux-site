@@ -9,6 +9,11 @@ export async function POST(req: NextRequest) {
     try {
         const data = await req.json()
         const customKey = req.nextUrl.searchParams.get('key');
+        const token = req.headers.get('Authorization')?.split(' ')[1]
+
+        if (token !== process.env.NEXT_BEARER_TOKEN) {
+            return NextResponse.json({ error: 'Não autorizado!' }, { status: 401 });
+        }
 
         // Verifica se o objeto 'data' está vazio
         if (Object.keys(data).length === 0) {
@@ -77,7 +82,7 @@ export async function POST(req: NextRequest) {
                     create: {
                         ...post,
                         timestamp,
-                        caption: post.caption ?? '...',
+                        caption: post.caption ?? ' Sem legenda...',
                         instaPostsData: {
                             connect: { id: 1 } // Conecta ao InstaPostsData existente com id 1
                         }
@@ -85,7 +90,7 @@ export async function POST(req: NextRequest) {
                     update: {
                         ...post,
                         timestamp,
-                        caption: post.caption ?? '...',
+                        caption: post.caption ?? ' Sem legenda...',
                         instaPostsData: {
                             connect: { id: 1 } // Conecta ao InstaPostsData existente com id 1
                         }

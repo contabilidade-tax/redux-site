@@ -184,7 +184,7 @@ export default function ContactForm({ className }: { className?: string }) {
         }
         // Continue com o fluxo normal
         const emailRender = render(data)
-        axios.post('/api/rh/sendProfile', { body: emailRender, arquivo: file })
+        axios.post('/api/rh/sendProfile', { body: emailRender, arquivo: file }, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } })
             .then(
                 (response) => {
                     // Adiciona a pessoa
@@ -256,7 +256,7 @@ export default function ContactForm({ className }: { className?: string }) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         const token = recaptchaRef.current?.getValue()!
         axios.post(
-            `/api/recaptcha/validate`, { token }, {}
+            `/api/recaptcha/validate`, { token }, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } }
         ).then(
             (res: any) => {
                 if (res.data.success) {

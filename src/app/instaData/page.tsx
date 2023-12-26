@@ -8,12 +8,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import crypto from 'crypto';
+
+function criptografar(texto: any, chave: any, iv: any) {
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(chave, 'hex'), Buffer.from(iv, 'hex'));
+  let textoCriptografado = cipher.update(texto);
+  textoCriptografado = Buffer.concat([textoCriptografado, cipher.final()]);
+  return iv.toString('hex') + ':' + textoCriptografado.toString('hex');
+}
 
 export default function Page() {
   const api_base = 'https://api.instagram.com/oauth/authorize'
-  const appId = `${process.env.NEXT_PUBLIC_API_IG_APP_ID}`
+  const appId = process.env.NEXT_PUBLIC_API_IG_APP_ID
   const scope = 'user_profile,user_media'
-  const redirectUri = `https://redux.app.br/api/instaData/authorize`
+  const key = process.env.NEXT_PUBLIC_CRYPTO_KEY
+  const iv = process.env.NEXT_PUBLIC_CRYPTO_IV
+  const token = process.env.NEXT_PUBLIC_BEARER_TOKEN
+  const redirectUri = `https://redux.app.br/api/instaData/authorize?auth=${encodeURIComponent(criptografar(token, key, iv))}`
 
   return (
     <div className="flex flex-col items-center justify-center my-10 gap-10 max-w-[500px]">

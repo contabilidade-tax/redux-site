@@ -65,7 +65,7 @@ export const useInstaPostsContext = () => {
 
 async function getTokenData(): Promise<InstaTokenData | null> {
     try {
-        const response = await axios.get(`/api/instaData?key=token`);
+        const response = await axios.get(`/api/instaData?key=token`, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } });
         return response.data.data;
     } catch (error: any) {
         console.error("Erro ao buscar token:", error.message);
@@ -76,7 +76,7 @@ async function getTokenData(): Promise<InstaTokenData | null> {
 
 async function getRedisData() {
     try {
-        const response = await axios.get(`/api/instaData`);
+        const response = await axios.get(`/api/instaData`, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } });
 
         // O Axios automaticamente trata a resposta como JSON,
         // então não é necessário chamar response.json()
@@ -101,6 +101,7 @@ function setTokenData(data: InstaTokenData): InstaTokenData | undefined | never 
     fetch(`/api/createInstaData?key=token`, {
         method: 'POST',
         headers: {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ data }),
@@ -120,6 +121,7 @@ async function setPostsData(data: InstaPostData[]) {
     try {
         const response = await axios.post('/api/createInstaData', { data }, {
             headers: {
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
                 'Content-Type': 'application/json',
             },
         });
@@ -189,7 +191,7 @@ async function getPostsData(token: InstaTokenData): Promise<InstaPostData[] | nu
 
 async function getFromDb() {
     try {
-        const response = await axios.get(`/api/instaData/db`);
+        const response = await axios.get(`/api/instaData/db`, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } });
 
         // O Axios automaticamente trata a resposta como JSON,
         // então não é necessário chamar response.json()

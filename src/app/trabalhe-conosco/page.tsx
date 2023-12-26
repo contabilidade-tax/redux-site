@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import ContactForm from './Form'
 
 import { cn } from '@/lib/utils'
@@ -13,6 +14,20 @@ export default function TrabalheConosco() {
       backgroundPositionY: '80%',
     }}
       className='flex justify-center items-center flex-1 w-full p-6'>
+      {/* GTAG */}
+      <div id='gtag'>
+        <Script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}></Script>
+        <Script id='google-analytics'>
+          {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', ${process.env.NEXT_PUBLIC_GA_TAG});
+              `}
+        </Script>
+      </div>
+      {/* GTAG END */}
       <ContactForm className='bg-[#fff] border-2 drop-shadow-custom border-gray-400 p-6 rounded-2xl flex flex-col z-50 max-h-[52rem] xsm:min-w-[50%] md:!min-w-[30rem]' />
       {/* <div style={{
         backgroundImage: 'url(/assets/img/redux-colorido/1.png)',

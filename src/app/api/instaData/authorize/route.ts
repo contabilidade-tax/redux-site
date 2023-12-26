@@ -2,6 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import axios, { AxiosError } from 'axios';
 import { NextRequest, NextResponse } from 'next/server'
 import qs from 'qs'
+import crypto from 'crypto';
 
 async function getLongLivedToken(longLivedTokenurl: string, client_secret: string, access_token: string) {
   try {
@@ -14,13 +15,25 @@ async function getLongLivedToken(longLivedTokenurl: string, client_secret: strin
   }
 }
 
+function descriptografar(textoCriptografado: any, chave: any) {
+  const partesTexto = textoCriptografado.split(':');
+  const iv = Buffer.from(partesTexto.shift(), 'hex');
+  const textoEncriptado = Buffer.from(partesTexto.join(':'), 'hex');
+  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(chave, 'hex'), iv);
+  let textoDecifrado = decipher.update(textoEncriptado);
+  textoDecifrado = Buffer.concat([textoDecifrado, decipher.final()]);
+  return textoDecifrado.toString();
+}
+
 
 async function createInstaToken(apiUrl: string, Instadata: any) {
   try {
     const response = await axios.post(
       apiUrl,
       { ...Instadata },
-      { params: { key: 'token' } }
+      {
+        headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` }, params: { key: 'token' }
+      }
     );
     return response.data;
   } catch (error: any) {
@@ -58,18 +71,38 @@ async function createInstaToken(apiUrl: string, Instadata: any) {
 //   }
 // }
 
-async function fetchUserData(apiUrl: string, access_token: string, user_id: string) {
-  try {
-    const InstagramData = await axios.get(`${apiUrl}/${user_id}`, { params: { fields: 'id,username', access_token } })
-    return InstagramData.data;
-  } catch (error: any) { console.log(error.message) };
+// async function fetchUserData(apiUrl: string, access_token: string, user_id: string) {
+//   try {
+//     const InstagramData = await axios.get(`${apiUrl}/${user_id}`, { params: { fields: 'id,username', access_token } })
+//     return InstagramData.data;
+//   } catch (error: any) { console.log(error.message) };
 
-}
+// }
 
 export async function GET(req: NextRequest, res: NextResponse) {
 
   try {
     const code = req.nextUrl.searchParams.get('code');
+    const auth_param = req.nextUrl.searchParams.get('auth');
+
+    if (!code) {
+      throw new Error('Code not found, this is a route to authorize app only');
+    }
+    if (!auth_param) {
+      throw new Error('Provide auth! This is a security route to authorize app only');
+    }
+
+    const chave = process.env.NEXT_PUBLIC_CRYPTO_KEY!
+
+    try {
+      const token_auth = descriptografar(auth_param!, chave)
+      if (token_auth !== process.env.NEXT_PUBLIC_BEARER_TOKEN) {
+        throw new Error('Token invalid!')
+      }
+    } catch (error: any) {
+      return NextResponse.json({ error: 'Não autorizado!', details: error.message }, { status: 401 });
+    }
+
     const tokenUrl = "https://api.instagram.com/oauth/access_token"
     const graphApiUrl = process.env.NEXT_PUBLIC_API_IG_URL;
     const apiIgLongLivedTokenUrl = `${graphApiUrl}/access_token`
@@ -85,10 +118,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
       code: code!.replace("#_", "")
     })
 
-    if (!code) {
-      throw new Error('Code not found, this is a route to authorize app only');
-    }
-
     try {
       const response = await axios.post(
         tokenUrl,
@@ -100,13 +129,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
       const shortLivedToken = response.data.access_token;
       const user_id = response.data.user_id;
       const longLivedTokenData = await getLongLivedToken(apiIgLongLivedTokenUrl, client_secret, shortLivedToken);
-      const instaUserInfo = await fetchUserData(graphApiUrl!, longLivedTokenData.access_token, user_id);
+      // const instaUserInfo = await fetchUserData(graphApiUrl!, longLivedTokenData.access_token, user_id);
       // const userData = await setCurrentUser(createTokenApiUrl, { access_token: longLivedTokenData.access_token, user_id, username: instaUserInfo.username });
       const createdToken = await createInstaToken(createTokenApiUrl, longLivedTokenData);
 
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/redirect`);
     } catch (error: any) {
-      throw new Error(error.response?.data.error_message ?? error.message);
+      throw new Error(error.response?.data.error_message + ':IG' ?? error.message);
     }
 
   } catch (e: any) {

@@ -76,18 +76,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <MobileContextProvider>
       <LoadingProvider>
         <html lang="pt-BR">
-          <head>
-            <Script async src="https://www.googletagmanager.com/gtag/js?id=G-1HJLSSGPVP"></Script>
+          {/* <div id='gtag'>
+            <Script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}></Script>
             <Script id='google-analytics'>
               {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
             
-              gtag('config', 'G-1HJLSSGPVP');
+              gtag('config', ${process.env.NEXT_PUBLIC_GA_TAG});
               `}
             </Script>
-          </head>
+          </div> */}
           {/* <body className={inter.className}> */}
           <body className={`${montserrat.variable} flex justify-between flex-col min-h-screen items-center`}>
             <Header />

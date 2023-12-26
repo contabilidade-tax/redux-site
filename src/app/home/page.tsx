@@ -17,6 +17,7 @@ import Sobre from '@/components/Sobre'
 import { toast } from 'react-toastify'
 import { setCookie, parseCookies } from "nookies";
 import GameSceneCss from './GameSceneCss'
+import Script from 'next/script'
 
 type handleCookieActions = {
   type: 'SET' | 'GET';
@@ -116,6 +117,19 @@ export default function Home() {
         ) : (
           <>
             {/* <Header /> */}
+            <div id='gtag'>
+              <Script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}></Script>
+              <Script id='google-analytics'>
+                {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', ${process.env.NEXT_PUBLIC_GA_TAG});
+              `}
+              </Script>
+            </div>
+            {/* GTAG */}
             <section className={cn(styles.contentArea, 'min-h-[90svh] w-full', 'pt-[10sh]')}>
               <div className={cn('min-h-[90svh] w-full py-[5%] md:!py-[3%] md:!gap-10', 'grid grid-rows-5')}>
                 <div className={cn('w-full tracking-wide lg:text-6xl text-7xl text-center p-0', 'row-span-1')}>

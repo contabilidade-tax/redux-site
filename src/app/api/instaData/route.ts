@@ -24,6 +24,12 @@ async function getTokenData() {
 
 
 export async function GET(req: NextRequest) {
+    const token = req.headers.get('Authorization')?.split(' ')[1]
+
+    if (token !== process.env.NEXT_BEARER_TOKEN) {
+        return NextResponse.json({ error: 'Não autorizado!' }, { status: 401 });
+    }
+
     const messages_array: Array<string> = [];
     try {
         const customKey = req.nextUrl.searchParams.get('key');
