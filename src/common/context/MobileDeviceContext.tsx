@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect } from 'react';
+import React, { createContext, useReducer, useContext, ReactNode, useLayoutEffect, useState, useEffect } from 'react';
 
 interface MobileContextProps {
     mobileState: {
@@ -47,8 +47,9 @@ export const MobileContextProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
     const initialState = { isSmallScreen: false, isMobileDevice: false, homePageindex: 0 };
+    const [isClient, setIsClient] = useState(false)
     const [mobileState, dispatch] = useReducer(reducer, initialState);
-    const currentWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+    const currentWidth = isClient ? window.innerWidth : 0;
 
     const handleCurrentSize = () => {
         dispatch({
@@ -63,6 +64,10 @@ export const MobileContextProvider: React.FC<{ children: ReactNode }> = ({
             value: index,
         })
     }
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     // LayoutEffect para mudança no tamanho de tela
     useLayoutEffect(() => {

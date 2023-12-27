@@ -20,7 +20,7 @@ import { string } from 'zod';
 //   weight: '400',
 // })
 
-const montserrat = localFont({
+export const montserrat = localFont({
   src: [
     {
       path: './fonts/body/Montserrat-Black.ttf',

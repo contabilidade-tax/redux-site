@@ -12,7 +12,7 @@ import { CriarEmpresa, Societario, Fiscal, Contabil } from '@/components/Animati
 import Seletores from '@/components/ui/seletores'
 import { ButtonBackgroundShine } from '@/components/Tools'
 
-function reducer(state: any, action: { type: string; value?: number; size?: { width: number, height: number } }) {
+function reducer(state: any, action: { type: string; value?: number; size?: { width: number, height: number }; isClient?: boolean; }) {
   switch (action.type) {
     case 'ANIMATE_START':
       return {
@@ -35,6 +35,11 @@ function reducer(state: any, action: { type: string; value?: number; size?: { wi
         ...state,
         animationArea: action.size,
       }
+    case 'CHANGE_IS_CLIENT':
+      return {
+        ...state,
+        isClient: action.isClient,
+      }
     default:
       return state
   }
@@ -47,6 +52,7 @@ function formatTextToArray(text: string) {
 interface initialStateProps {
   actualIndex: number
   selectedTab: typeof services[0]
+  isClient: boolean
   isAnimating: boolean
   animationArea: {
     width: number
@@ -59,13 +65,14 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
     actualIndex: 0,
     selectedTab: services[0],
     isAnimating: false,
-    animationArea: { width: 0, height: 0 }
+    animationArea: { width: 0, height: 0 },
+    isClient: false
   }
   const [state, dispatch] = useReducer(reducer, initialState)
   const { mobileState } = useMobileContext();
   const animations = [CriarEmpresa, Societario, Fiscal, Contabil];
   const animationAreaRef = useRef<HTMLDivElement>(null)
-  const currentWindowWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+  const currentWindowWidth = state.isClient ? window.innerWidth : 0;
 
   const switchTab = (index: number) => {
     if (state.isAnimating) return // Ignore se já estiver animando
@@ -86,6 +93,12 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
 
     // animateInAndOut(imageRef, index)
   }
+
+  useEffect(() => {
+    dispatch(
+      { type: 'CHANGE_IS_CLIENT', isClient: true }
+    )
+  }, [])
 
   useEffect(() => {
     if (animationAreaRef.current) {

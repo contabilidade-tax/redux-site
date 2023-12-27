@@ -21,7 +21,7 @@ const tabs = [
   { label: 'Trabalhe Conosco', src: '/trabalhe-conosco' },
 ]
 
-function reducer(state: any, action: { type: string; value?: any }) {
+function reducer(state: any, action: { type: string; value?: any; isClient?: boolean; }) {
   switch (action.type) {
     case 'OPEN':
       return {
@@ -38,6 +38,13 @@ function reducer(state: any, action: { type: string; value?: any }) {
         ...state,
         currentPage: action.value,
       }
+    case 'SET_IS_CLIENT':
+      return {
+        ...state,
+        isClient: action.isClient,
+      }
+    default:
+      return state;
   }
 }
 
@@ -46,6 +53,7 @@ export default function Header({ className }: { className?: string }) {
   const initialReducerState = {
     currentPage: tabs[0],
     menuIsOpen: false,
+    isClient: false,
   }
   const [state, dispatch] = useReducer(reducer, initialReducerState)
   const [isHovered, setIsHovered] = useState(false);
@@ -75,10 +83,14 @@ export default function Header({ className }: { className?: string }) {
     }
   }
 
+  useEffect(() => {
+    dispatch({ type: 'SET_IS_CLIENT', isClient: true })
+  }, [])
+
   // Não permite scroll na tela enquanto o menu está aberto
   useEffect(() => {
     // Verificar se o código está sendo executado no lado do cliente
-    if (typeof window !== 'undefined') {
+    if (state.isClient) {
       document.body.style.overflow = state.isMenuOpen ? 'hidden' : 'auto'
     }
   }, [state.isMenuOpen]) // A função no useEffect será executada sempre que isLoading mudar

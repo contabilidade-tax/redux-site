@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 'use client'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import Link from 'next/link'
 import { redirect, useSearchParams } from 'next/navigation'
 import GameScene from './GameScene'
@@ -25,26 +25,9 @@ type handleCookieActions = {
 
 export default function Home() {
   const { isLoading, setIsLoading } = useLoading()
+  const [isClient, setIsClient] = useState(false)
   const { mobileState } = useMobileContext()
   const params = useSearchParams()
-  // const dinoPositions = {
-  //   dino: {
-  //     X: 200,
-  //     Y: 324
-  //   },
-  //   dinoCar: {
-  //     X: 200,
-  //     Y: 269
-  //   },
-  //   dinoMobile: {
-  //     X: 200,
-  //     Y: 160
-  //   },
-  //   dinoCarMobile: {
-  //     X: 200,
-  //     Y: 105
-  //   }
-  // }
 
   function welcomeCookie(action: handleCookieActions) {
     const { has_been_welcomed } = parseCookies()
@@ -84,6 +67,10 @@ export default function Home() {
 
   // Define o mount do component de loading e timeout de saída
   useEffect(() => {
+    // Identifica que está no client 
+    // PS. isso é alternativa à typeof window != undefined afim de evitar erros de hydration
+    setIsClient(true)
+
     // Lógica do toast de welcome após autorizar os recents posts
     if (params.get('welcome') && !welcomeCookie({ type: 'GET' })) {
       handleWelcomeNotification()
@@ -99,12 +86,12 @@ export default function Home() {
         clearTimeout(timer)
       }
     }
-  })
+  }, [])
 
   // Não permite scroll na tela durante o loading
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Verificar se o código está sendo executado no lado do cliente
-    if (typeof window !== 'undefined') {
+    if (isClient) {
       document.body.style.overflow = isLoading ? 'hidden' : 'auto'
     }
   }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
