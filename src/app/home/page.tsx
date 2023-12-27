@@ -80,7 +80,7 @@ export default function Home() {
     if (isLoading) {
       const timer = setTimeout(() => {
         setIsLoading(false)
-      }, 3250) // Aqui você define o tempo de duração da animação
+      }, 3500) // Aqui você define o tempo de duração da animação
 
       return () => {
         clearTimeout(timer)
