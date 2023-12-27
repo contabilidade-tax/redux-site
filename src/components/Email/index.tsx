@@ -1,15 +1,8 @@
-'use client'
+// 'use client'
 import { Input } from '../ui/input'
 import { EmailProps } from '@/types'
 import { Container, Heading, Link, Text, Html, Head, Preview, Section, Row, Column, Img, Body, Hr } from "@react-email/components";
-import { render as Render } from '@react-email/render';
 import * as React from 'react';
-
-export function render(data: any) {
-  const htmlContent = Render(<Email {...data} />, { pretty: true });
-  return htmlContent
-}
-
 
 export default function Email({ name, cidade, email, message, estado, whatsapp }: EmailProps) {
 
@@ -30,7 +23,6 @@ export default function Email({ name, cidade, email, message, estado, whatsapp }
 
   const footerColumn = {
     marginBottom: '24px',
-    flex: '1',
     width: '280px',
   }
   const footerHeading = {

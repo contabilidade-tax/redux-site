@@ -14,6 +14,7 @@ import { Analytics } from '@vercel/analytics/react';
 import Script from 'next/script'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import { string } from 'zod';
 // const inter = Montserrat({
 //   subsets: ['latin'],
 //   weight: '400',
@@ -76,10 +77,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <MobileContextProvider>
       <LoadingProvider>
         <html lang="pt-BR">
-          {/* <!-- Meta Pixel Code --> */}
-          <Script id='meta-pixel'>
-            {
-              `
+          <head>
+            {/* <!-- Meta Pixel Code --> */}
+            <Script id='meta-pixel'>
+              {
+                `
               !function(f,b,e,v,n,t,s)
               {
                 if(f.fbq) return; 
@@ -91,15 +93,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   s.parentNode.insertBefore(t,s)
                 }
                 (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', ${process.env.NEXT_PUBLIC_FB_PIXEL_ID});
+                fbq('init', ${String(process.env.NEXT_PUBLIC_FB_PIXEL_ID)});
                 fbq('track', 'PageView');
                 <noscript>
-                  <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_FB_PIXEL_ID}&ev=PageView&noscript=1"/>
+                  <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${String(process.env.NEXT_PUBLIC_FB_PIXEL_ID)}&ev=PageView&noscript=1"/>
                 </noscript>
               `
-            }
-          </Script>
-          {/* <!-- End MetaPixelCode--> */}
+              }
+            </Script>
+            {/* <!-- End MetaPixelCode--> */}
+            <meta
+              name="format-detection"
+              content="telephone=no, date=no, email=no, address=no"
+            />
+          </head>
           {/* <body className={inter.className}> */}
           <body className={`${montserrat.variable} flex justify-between flex-col min-h-screen items-center`}>
             <Header />

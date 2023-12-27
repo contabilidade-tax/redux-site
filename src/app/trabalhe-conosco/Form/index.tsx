@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { render } from '@/components/Email'
+import { renderizar } from '@/components/Email/render'
 import { Form, FormControl, FormField, FormLabel, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -183,73 +183,77 @@ export default function ContactForm({ className }: { className?: string }) {
             }
         }
         // Continue com o fluxo normal
-        const emailRender = render(data)
-        axios.post('/api/rh/sendProfile', { body: emailRender, arquivo: file }, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } })
-            .then(
-                (response) => {
-                    // Adiciona a pessoa
-                    if (alreadySent) {
-                        cookieObj.sent.push({ name: data.name, email: data.email, whatsapp: data.whatsapp })
-                    }
+        const emailRender = renderizar(data).then(
+            html => {
+                axios.post('/api/rh/sendProfile', { body: html, arquivo: file }, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } })
+                    .then(
+                        (response) => {
+                            // Adiciona a pessoa
+                            if (alreadySent) {
+                                cookieObj.sent.push({ name: data.name, email: data.email, whatsapp: data.whatsapp })
+                            }
 
-                    // Setar cookie para evitar flod
-                    setCookie(
-                        undefined,
-                        'alreadySent',
-                        JSON.stringify(
-                            alreadySent ?
-                                cookieObj
-                                :
-                                { sent: [{ name: data.name, email: data.email, whatsapp: data.whatsapp }] }
-                        ),
-                        {
-                            path: '/',
-                            maxAge: 24 * 60 * 60 * 1000 // 1 dias
+                            // Setar cookie para evitar flod
+                            setCookie(
+                                undefined,
+                                'alreadySent',
+                                JSON.stringify(
+                                    alreadySent ?
+                                        cookieObj
+                                        :
+                                        { sent: [{ name: data.name, email: data.email, whatsapp: data.whatsapp }] }
+                                ),
+                                {
+                                    path: '/',
+                                    maxAge: 24 * 60 * 60 * 1000 // 1 dias
+                                }
+                            )
+                            // Toastify Notification de sucesso
+                            toast.success(
+                                <div className="min-w-[300px] w-max font-base">
+                                    <p>
+                                        Obrigado por nos enviar seu currículo! <br />
+                                        Até mais! 👋🏼
+                                    </p>
+                                    <p>
+                                        Equipe REDUX Contabilidade
+                                    </p>
+                                </div>,
+                                {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: "light",
+                                    className: 'md:!-translate-x-8',
+                                },
+                            );
+                            // LIMPA o CAPTCHA
+                            recaptchaRef.current?.reset()
+                            setCaptchaOk(false)
                         }
                     )
-                    // Toastify Notification de sucesso
-                    toast.success(
-                        <div className="min-w-[300px] w-max font-base">
-                            <p>
-                                Obrigado por nos enviar seu currículo! <br />
-                                Até mais! 👋🏼
-                            </p>
-                            <p>
-                                Equipe REDUX Contabilidade
-                            </p>
-                        </div>,
-                        {
-                            position: "top-right",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                            className: 'md:!-translate-x-8',
-                        },
-                    );
-                    // LIMPA o CAPTCHA
-                    recaptchaRef.current?.reset()
-                    setCaptchaOk(false)
-                }
-            )
-            .catch((error: any) => {
-                console.log(error)
-                toast.error(
-                    error.message,
-                    {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
-            })
+                    .catch((error: any) => {
+                        console.log(error)
+                        toast.error(
+                            error.message,
+                            {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                            });
+                    })
+            }
+        )
+
     }
 
     function onChange() {
