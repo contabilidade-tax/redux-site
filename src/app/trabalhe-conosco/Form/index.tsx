@@ -31,6 +31,7 @@ import { CaretSortIcon } from "@radix-ui/react-icons"
 import { useRef, useState } from "react"
 import axios from "axios"
 import ReCAPTCHA from "react-google-recaptcha"
+import './form.scss'
 
 type Person = {
     name: string
@@ -82,6 +83,7 @@ type FileState = {
 
 export default function ContactForm({ className }: { className?: string }) {
     const [whatsappValue, setWhatsappValue] = useState('');
+    const [isSending, setIsSending] = useState(false)
     const [captchaOk, setCaptchaOk] = useState<boolean>(false);
     const [file, setFile] = useState<FileState>();
     const { alreadySent } = parseCookies()
@@ -119,6 +121,7 @@ export default function ContactForm({ className }: { className?: string }) {
     })
     // 2. Define a submit handler.
     function onSubmit(data: z.infer<typeof formSchema>) {
+
         if (!captchaOk) {
             toast.error(
                 "Preencha o Captcha rapaz!!!",
@@ -182,12 +185,46 @@ export default function ContactForm({ className }: { className?: string }) {
                 return
             }
         }
+
+        // const emailRender = renderizar(data).then(
+        //     html => {
+        //         // Seta o IsSending
+        //         // Somete após validar o form
+        //         setIsSending(true)
+
+        //         setTimeout(() => {
+        //             toast.success("Sucesso moral",
+        //                 {
+        //                     position: "top-right",
+        //                     autoClose: 5000,
+        //                     hideProgressBar: false,
+        //                     closeOnClick: true,
+        //                     pauseOnHover: true,
+        //                     draggable: true,
+        //                     progress: undefined,
+        //                     theme: "light",
+        //                     className: 'md:!-translate-x-8',
+        //                 }
+        //             )
+        //             setIsSending(false)
+        //             // LIMPA o CAPTCHA
+        //             recaptchaRef.current?.reset()
+        //             setCaptchaOk(false)
+        //         }, 4000)
+        //     }
+        // )
         // Continue com o fluxo normal
         const emailRender = renderizar(data).then(
             html => {
+                // Seta o IsSending
+                // Somete após validar o form
+                setIsSending(true)
+
+                // Daí envia a requisição pra api pro envio
                 axios.post('/api/rh/sendProfile', { body: html, arquivo: file }, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } })
                     .then(
                         (response) => {
+
                             // Adiciona a pessoa
                             if (alreadySent) {
                                 cookieObj.sent.push({ name: data.name, email: data.email, whatsapp: data.whatsapp })
@@ -212,7 +249,7 @@ export default function ContactForm({ className }: { className?: string }) {
                             toast.success(
                                 <div className="min-w-[300px] w-max font-base">
                                     <p>
-                                        Obrigado por nos enviar seu currículo! <br />
+                                        Obrigado por nos enviar seu currículo!<br />
                                         Até mais! 👋🏼
                                     </p>
                                     <p>
@@ -231,6 +268,9 @@ export default function ContactForm({ className }: { className?: string }) {
                                     className: 'md:!-translate-x-8',
                                 },
                             );
+
+                            // Limpa pro próximo envio
+                            setIsSending(false)
                             // LIMPA o CAPTCHA
                             recaptchaRef.current?.reset()
                             setCaptchaOk(false)
@@ -250,10 +290,15 @@ export default function ContactForm({ className }: { className?: string }) {
                                 progress: undefined,
                                 theme: "light",
                             });
+
+                        // Limpa pro próximo envio
+                        setIsSending(false)
+                        // LIMPA o CAPTCHA
+                        recaptchaRef.current?.reset()
+                        setCaptchaOk(false)
                     })
             }
         )
-
     }
 
     function onChange() {
@@ -442,7 +487,28 @@ export default function ContactForm({ className }: { className?: string }) {
                     onChange={onChange}
                     className="mt-4 self-start"
                 />
-                <Button type="submit" className="place-self-center self-center mt-4 w-1/3 bg-[#4EA929] text-white text-lg font-bold !rounded-2xl">Enviar</Button>
+                {
+                    isSending ? (
+                        <Button disabled type="submit" className="place-self-center self-center mt-4 w-1/3 bg-[#4EA929] text-white text-lg font-bold !rounded-2xl">
+                            {/* Loading Spinner */}
+                            <div id="wrapper">
+                                <div className="profile-main-loader">
+                                    <div className="loader">
+                                        <svg className="circular-loader" viewBox="25 25 50 50" >
+                                            <circle className="loader-path" cx="50" cy="50" r="20" fill="none" stroke="#70c542" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            Enviar
+                        </Button>
+                    ) : (
+                        <Button type="submit" className="place-self-center self-center mt-4 w-1/3 bg-[#4EA929] text-white text-lg font-bold !rounded-2xl">
+                            Enviar
+                        </Button>
+                    )
+                }
+
                 {/* <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-primary-color text-white text-lg font-bold !rounded-2xl">Enviar</Button> */}
             </form>
         </Form>
