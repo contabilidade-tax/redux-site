@@ -47,8 +47,9 @@ export async function POST(req: NextRequest) {
     try {
       const emailResponse = await client.send(options)
       return NextResponse.json({ response: emailResponse, message: "Email enviado para o rh" }, { status: 200 });
+
     } catch (error: any) {
-      return NextResponse.json({ error: 'Internal Server Error', message: error.message + `ESSA BUCETA DE SENDGRID` }, { status: 500 });
+      return NextResponse.json({ error: 'Internal Server Error', message: error.message + `SENDGRID` }, { status: 500 });
     }
 
   } catch (error: any) {

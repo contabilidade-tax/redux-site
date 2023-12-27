@@ -85,6 +85,7 @@ export default function ContactForm({ className }: { className?: string }) {
     const [whatsappValue, setWhatsappValue] = useState('');
     const [isSending, setIsSending] = useState(false)
     const [captchaOk, setCaptchaOk] = useState<boolean>(false);
+    const [checkingCaptcha, setCheckingCaptcha] = useState(false)
     const [file, setFile] = useState<FileState>();
     const { alreadySent } = parseCookies()
     const recaptchaRef = useRef<ReCAPTCHA>(null)
@@ -119,8 +120,21 @@ export default function ContactForm({ className }: { className?: string }) {
             arquivo: "",
         },
     })
+
+    const clearForm = () => {
+        // Limpa pro próximo envio
+        setIsSending(false)
+        // LIMPA o CAPTCHA
+        recaptchaRef.current?.reset()
+        setCaptchaOk(false)
+    }
+
     // 2. Define a submit handler.
     function onSubmit(data: z.infer<typeof formSchema>) {
+        if (checkingCaptcha) return;
+        // Seta o IsSending
+        // Somete após validar o form
+        setIsSending(true)
 
         if (!captchaOk) {
             toast.error(
@@ -135,6 +149,8 @@ export default function ContactForm({ className }: { className?: string }) {
                     progress: undefined,
                     theme: "light",
                 });
+            // Limpa o form
+            clearForm()
             return
         }
 
@@ -151,6 +167,8 @@ export default function ContactForm({ className }: { className?: string }) {
                     progress: undefined,
                     theme: "light",
                 });
+            // Limpa o form
+            clearForm()
             return
         }
 
@@ -182,6 +200,8 @@ export default function ContactForm({ className }: { className?: string }) {
                 }
             }) // FIM DO FOREACH
             if (throwToastError) {
+                // Limpa o form
+                clearForm()
                 return
             }
         }
@@ -216,15 +236,10 @@ export default function ContactForm({ className }: { className?: string }) {
         // Continue com o fluxo normal
         const emailRender = renderizar(data).then(
             html => {
-                // Seta o IsSending
-                // Somete após validar o form
-                setIsSending(true)
-
                 // Daí envia a requisição pra api pro envio
                 axios.post('/api/rh/sendProfile', { body: html, arquivo: file }, { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } })
                     .then(
                         (response) => {
-
                             // Adiciona a pessoa
                             if (alreadySent) {
                                 cookieObj.sent.push({ name: data.name, email: data.email, whatsapp: data.whatsapp })
@@ -269,11 +284,8 @@ export default function ContactForm({ className }: { className?: string }) {
                                 },
                             );
 
-                            // Limpa pro próximo envio
-                            setIsSending(false)
-                            // LIMPA o CAPTCHA
-                            recaptchaRef.current?.reset()
-                            setCaptchaOk(false)
+                            // Limpa o form
+                            clearForm()
                         }
                     )
                     .catch((error: any) => {
@@ -291,17 +303,15 @@ export default function ContactForm({ className }: { className?: string }) {
                                 theme: "light",
                             });
 
-                        // Limpa pro próximo envio
-                        setIsSending(false)
-                        // LIMPA o CAPTCHA
-                        recaptchaRef.current?.reset()
-                        setCaptchaOk(false)
+                        // Limpa o form
+                        clearForm()
                     })
             }
         )
     }
 
     function onChange() {
+        setCheckingCaptcha(true)
         // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         const token = recaptchaRef.current?.getValue()!
         axios.post(
@@ -315,10 +325,11 @@ export default function ContactForm({ className }: { className?: string }) {
                 } else {
                     console.log(res)
                 }
-
             }
         ).catch(
             error => { console.log(error.message) }
+        ).finally(
+            () => setCheckingCaptcha(false)
         )
     }
 
