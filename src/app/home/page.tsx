@@ -23,7 +23,7 @@ type handleCookieActions = {
   type: 'SET' | 'GET';
 };
 
-export default function Home() {
+function Home() {
   const { isLoading, setIsLoading } = useLoading()
   const [isClient, setIsClient] = useState(false)
   const { mobileState } = useMobileContext()
@@ -97,7 +97,7 @@ export default function Home() {
   }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
 
   return (
-    <Suspense fallback={<div>Carregando...</div>}>
+    <>
       {
         isLoading ? (
           <Loading />
@@ -163,6 +163,10 @@ export default function Home() {
           </>
         )
       }
-    </Suspense>
+    </>
   )
+}
+
+export default function Page() {
+  return <Suspense><Home /></Suspense>
 }

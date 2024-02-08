@@ -11,7 +11,10 @@ const nextConfig = {
       'scontent.cdninstagram.com'
     ],
     dangerouslyAllowSVG: true,
-    unoptimized: true
+    unoptimized: true,
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
   },
   webpack: (config) => {
     config.resolve.alias['@'] = path.resolve(__dirname, './src/');
@@ -38,7 +41,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-cache', // Configura o cabeçalho de controle de cache para evitar o cache.
+            value: 'cache', // Configura o cabeçalho de controle de cache para evitar o cache.
           },
         ],
       },
