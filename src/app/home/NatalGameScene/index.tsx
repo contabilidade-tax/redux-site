@@ -8,7 +8,7 @@ type Props = {
   classname: string
 }
 
-export default function GameSceneCss({ classname }: Props) {
+export default function NatalGameScene({ classname }: Props) {
   const [dinoX, setDinoX] = useState<number | undefined>(0)
   const bgRef = useRef<HTMLDivElement>(null)
   const dinoRef = useRef<HTMLImageElement>(null)
@@ -28,19 +28,6 @@ export default function GameSceneCss({ classname }: Props) {
     'https://i.postimg.cc/x1sqHRng/Fundo-Pixel-Natal-07.png',
     'https://i.postimg.cc/NMZtC37k/bg8.png'
   ]
-  // const bgImages = [
-  //   'https://i.postimg.cc/RV4b2Nry/bg2.png',
-  //   'https://i.postimg.cc/FzyFz1Gw/bg3.png',
-  //   'https://i.postimg.cc/4xtPdGTV/bg4.png',
-  //   'https://i.postimg.cc/CKSGxf7p/bg5.png',
-  //   'https://i.postimg.cc/m262mchN/bg6.png',
-  //   'https://i.postimg.cc/yxf51GVV/bg7.png',
-  //   'https://i.postimg.cc/NMZtC37k/bg8.png',
-  // ]
-  // const peCicero = 'https://i.postimg.cc/9Mxvc76L/cicao.png'
-  // const dino = 'https://i.postimg.cc/BZNyfc0w/3.png'
-  // const dinoCar = 'https://i.postimg.cc/VkP9SRd1/Dino-no-carro.png'
-
   useEffect(() => {
     if (bgRef.current && peCiceroref.current) {
       // const totalWidth = bgRef.current.children[0].clientWidth * 5 - 50;

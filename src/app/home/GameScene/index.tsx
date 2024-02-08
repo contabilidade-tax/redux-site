@@ -1,595 +1,189 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
-import { PixiPlugin } from 'gsap/PixiPlugin'
+import { cn } from '@/lib/utils'
+import './style.scss'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import { GameSceneProps } from '@/types'
 
-gsap.registerPlugin(PixiPlugin)
+type Props = {
+  classname: string
+}
 
-function GameScene({ className, chProp = 500, cwProp = 550, scaleProp, speedProp, ...props }: GameSceneProps) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  // Array para armazenar os IDs dos timeouts
-  const timeoutIds: any = []
-  const dinoPositions = {
-    dinoY: 220,
-    dinoCarY: 195
-    // y: 248
-  }
+export default function GameScene({ classname }: Props) {
+  const [dinoX, setDinoX] = useState<number | undefined>(0)
+  const bgRef = useRef<HTMLDivElement>(null)
+  const dinoRef = useRef<HTMLImageElement>(null)
+  const dinoCarRef = useRef<HTMLImageElement>(null)
+  const peCiceroref = useRef<HTMLImageElement>(null)
+  // 
+  const peCicero = 'https://i.postimg.cc/WzwdGfSC/cicao.png'
+  const dino = 'https://i.postimg.cc/wM8NcNzy/Dino-de-Skate.png'
+  const dinoCar = 'https://i.postimg.cc/4ygKhTvp/Dino-no-carro.png'
+  const bgImages = [
+    'https://i.postimg.cc/NF6HN0GN/bg1.png',
+    'https://i.postimg.cc/DwjbpHFK/bg2.png',
+    'https://i.postimg.cc/T2gg2tjr/bg3.png',
+    'https://i.postimg.cc/TwmLwPbR/bg4.png',
+    'https://i.postimg.cc/jjDnpcdn/bg5.png',
+    'https://i.postimg.cc/X7g5dXzq/bg6.png',
+    'https://i.postimg.cc/sDzSM5Kb/bg7.png',
+    'https://i.postimg.cc/YCqW3k53/bg8.png'
+  ]
 
-  // Monta e permanece em loop
   useEffect(() => {
-    if (canvasRef.current) {
-      const canvas = canvasRef.current
-      const ctx = canvas.getContext('2d')!
-      const cw = canvas.offsetWidth
-      const ch = 500
-      console.log(cw, ch)
-      const peCicero = { img: new Image(), x: 0, y: -5 } // Defina a posição y de acordo com a posição onde você quer desenhar 
-      const dino = {
-        img: new Image(),
-        spriteOffsetX: 0,
-        x: cw / 5,
-        y: -dinoPositions.dinoY,
-        visible: true,
-        isJumping: false,
-      }
-      const dinoCar = {
-        img: new Image(),
-        x: dino.x - 10,
-        y: dinoPositions.dinoCarY,
-        visible: false,
-      }
-      const dinoPaused = {
-        img: new Image(),
-        spriteOffsetX: 0,
-        x: cw / 5,
-        y: dinoPositions.dinoY,
-        // y: 250,
-      }
-      const bg = [
-        { img: new Image(), x: cw / 2 },
-        { img: new Image(), x: cw + 1000 },
-        { img: new Image(), x: cw + 2000 },
-        { img: new Image(), x: cw + 3000 },
-        { img: new Image(), x: cw + 4000 },
-        { img: new Image(), x: cw + 5000 },
-        { img: new Image(), x: cw + 6000 },
-        { img: new Image(), x: cw + 7000 },
-      ]
+    if (bgRef.current && peCiceroref.current) {
+      const triggers = document.getElementsByClassName('triggerJump')
+      // 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      setDinoX(dinoRef.current?.x)
+      // 
 
-      // Links das imagens
-      // bg[0].img.src = 'https://i.postimg.cc/P5YRpYk6/bg1.png'
-      // bg[1].img.src = 'https://i.postimg.cc/RV4b2Nry/bg2.png'
-      // bg[2].img.src = 'https://i.postimg.cc/FzyFz1Gw/bg3.png'
-      // bg[3].img.src = 'https://i.postimg.cc/4xtPdGTV/bg4.png'
-      // bg[4].img.src = 'https://i.postimg.cc/CKSGxf7p/bg5.png'
-      // bg[5].img.src = 'https://i.postimg.cc/m262mchN/bg6.png'
-      // bg[6].img.src = 'https://i.postimg.cc/yxf51GVV/bg7.png'
-      // bg[7].img.src = 'https://i.postimg.cc/NMZtC37k/bg8.png'
-      // peCicero.img.src = 'https://i.postimg.cc/9Mxvc76L/cicao.png'
-      // dino.img.src = 'https://i.postimg.cc/BZNyfc0w/3.png'
-      // dinoCar.img.src = 'https://i.postimg.cc/VkP9SRd1/Dino-no-carro.png'
-      // dinoPaused.img.src = 'https://i.postimg.cc/x1NB2PWQ/1.png'
-      bg[0].img.src = 'https://i.postimg.cc/rsLpcZNy/Fundo-Pixel-Natal-01.png'
-      bg[1].img.src = 'https://i.postimg.cc/Ss9KBb8t/Fundo-Pixel-Natal-02.png'
-      bg[2].img.src = 'https://i.postimg.cc/Lsn5V1sS/Fundo-Pixel-Natal-03.png'
-      bg[3].img.src = 'https://i.postimg.cc/cJ2HkLKn/Fundo-Pixel-Natal-04.png'
-      bg[4].img.src = 'https://i.postimg.cc/Y0fCSNd6/Fundo-Pixel-Natal-05.png'
-      bg[5].img.src = 'https://i.postimg.cc/BZx6NsJj/Fundo-Pixel-Natal-06.png'
-      bg[6].img.src = 'https://i.postimg.cc/x1sqHRng/Fundo-Pixel-Natal-07.png'
-      bg[7].img.src = 'https://i.postimg.cc/NMZtC37k/bg8.png'
-      peCicero.img.src = 'https://i.postimg.cc/HszLD2cH/Fundo-Pixel-PE-CICERO.png'
-      dino.img.src = 'https://i.postimg.cc/MTxS2GDC/dino-Patins.png'
-      dinoCar.img.src = 'https://i.postimg.cc/SxQJJ5FJ/Dino-no-Treno.png'
-      dinoPaused.img.src = 'https://i.postimg.cc/MTxS2GDC/dino-Patins.png'
-
-      // Wrapper da animação
-      const startAnimation = (speed = speedProp, scale = scaleProp) => {
-        const scaledImageWidth = 1000 * scale // largura da imagem reescalonada
-        const scaledImageHeight = 600 * scale
-        const totalWidth = bg.length * scaledImageWidth // largura total do cenário
-        const timeline = gsap.timeline({ delay: 1.5 })
-        const bgSpeed = speed // velocidade das imagens
-
-        setupBackgroundAnimations(
-          timeline,
-          bg,
-          bgSpeed,
-          scaledImageWidth,
-          totalWidth,
-        )
-        setupPeCiceroAnimation(timeline, peCicero, cw)
-        setupDinoAnimation(timeline, dino, dinoCar)
-        setupTimelineControl(timeline, bg, bgSpeed, totalWidth, dino, dinoCar)
-        setupResetAndRestart(
-          timeline,
-          bg,
-          ctx,
-          scaledImageWidth,
-          cw,
-          ch,
-          { dino, dinoCar, peCicero, dinoPaused },
-          startAnimation,
-        )
-
-        // função do gsap que é acionada a cada quadro do canvas desenhando os elementos em tela
-        gsap.ticker.add(() =>
-          drawCanvas(timeline, scaledImageWidth, scaledImageHeight),
-        )
-      }
-
-      const drawCanvas = (
-        timeline: gsap.core.Timeline,
-        scaledImageWidth: number,
-        scaledImageHeight: number,
-      ) => {
-        ctx.clearRect(0, 0, cw, ch)
-
-        // Desenha o Padre cícero
-        drawObjectToCanvas(
-          ctx,
-          peCicero,
-          undefined,
-          undefined,
-          scaledImageWidth,
-          scaledImageHeight,
-        )
-
-        // Seta as imagens do fundo na tela
-        bg.forEach((bgImage) => {
-          drawObjectToCanvas(
-            ctx,
-            bgImage,
-            undefined,
-            0,
-            scaledImageWidth,
-            scaledImageHeight,
-          )
-        })
-
-        // Seta o dino na tela
-        if (
-          (timeline.paused() || dino.isJumping) &&
-          !dinoCar.visible &&
-          dino.visible
-        ) {
-          drawDinoOnCanvas(
-            ctx,
-            dinoPaused,
-            dinoPaused.spriteOffsetX,
-            0,
-            110,
-            115,
-            // 78,
-            // 78,
-            dino.x - 4,
-            dino.y - 39,
-            110,
-            115,
-            // 78,
-            // 78,
-          )
-        } else {
-          if (
-            (timeline.paused() && dino.visible) ||
-            (!timeline.paused() && dino.visible)
-          ) {
-            drawDinoOnCanvas(
-              ctx,
-              dino,
-              dino.spriteOffsetX + 1,
-              0,
-              110,
-              115,
-              // 74,
-              // 78,
-              dino.x,
-              dino.y - 39,
-              110,
-              115,
-              // 74,
-              // 78,
-            )
-          }
-        }
-
-        // Desenha o dino no carro por trás do cenário
-        if (dinoCar.visible) {
-          drawDinoOnCanvas(
-            ctx,
-            dinoCar,
-            bg[5].img.x,
-            0,
-            300,
-            95,
-            // 170,
-            // 95,
-            dinoCar.x,
-            dinoCar.y,
-            300,
-            95,
-            // 170,
-            // 95,
-          )
-        }
-      }
-
-      startAnimation()
-    }
-  })
-
-  function setupBackgroundAnimations(
-    timeline: gsap.core.Timeline,
-    bg: {
-      img: HTMLImageElement
-      x: number
-    }[],
-    imageSpeed: number,
-    scaledImageWidth: number,
-    totalWidth: number,
-  ) {
-    // Ajuste a posição inicial das imagens de acordo com a nova escala
-    bg.forEach((bgImage, index) => {
-      if (index === 0) {
-        // Posicione a primeira imagem no início do canvas
-        bgImage.x = 0
-      } else {
-        // Posicione as outras imagens de acordo com a largura da imagem reescalada
-        bgImage.x = index * scaledImageWidth
-      }
-    })
-
-    timeline.set(bg, { x: '+=0' }) // Mantém todas as animações de fundo na mesma posição inicial
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    bg.forEach((bgImage, index) => {
-      const time = totalWidth / imageSpeed // tempo que levará para a imagem passar completamente pelo quadro
-
-      // Adiciona cada animação ao timeline
-      timeline.to(
-        bgImage,
-        {
-          x: '-=' + totalWidth,
-          duration: time,
-          ease: 'none',
-        },
-        0,
-      ) // Começa todas as animações simultaneamente
-    })
-  }
-
-  function setupPeCiceroAnimation(
-    timeline: gsap.core.Timeline,
-    peCicero: any,
-    cw: number,
-    peCiceroSpeed = 20,
-  ) {
-    // Define a velocidade da imagem do Pe cicero
-    const timePeCicero = cw / peCiceroSpeed // Calcula o tempo necessário para a imagem de teste passar completamente pelo quadro
-
-    // Adiciona a animação da imagem do padre cícero ao timeline
-    timeline.to(
-      peCicero,
-      {
-        x: '-=' + cw,
-        duration: timePeCicero,
-        ease: 'none',
-      },
-      0,
-    ) // Começa a animação da imagem de teste simultaneamente com as imagens de fundo
-  }
-
-  function setupDinoAnimation(timeline: any, dino: any, dinoCar: any) {
-    // Crie uma função de animação personalizada
-    // const animateDino = () => {
-    //   gsap.to(dino, {
-    //     duration: 0.25,
-    //     spriteOffsetX: 150,
-    //     ease: 'steps(2)',
-    //     repeat: -1,
-    //   })
-    // }
-
-    // Função do pulo do dino
-    const dinoJump = () => {
-      dino.isJumping = true
-      if (dino.visible) {
-        gsap
-          .to(dino, {
-            duration: 0.3,
-            y: '-=120',
-            x: '+=20',
-            ease: 'power2.out',
-          })
-          .then(() => {
-            gsap.to(dino, {
+      const jump = () => {
+        gsap.to(dinoRef.current, {
+          duration: 0.3,
+          y: '-=120',
+          x: '+=20',
+          ease: 'power2.out',
+          onComplete: (() => {
+            gsap.to(dinoRef.current, {
               duration: 0.3,
-              y: dinoPositions.dinoY,
+              // BUG LEGAL 
+              // yPercent: -10,
+              // y: 7,
+              y: 0,
               x: '-=20',
               ease: 'power2.in',
             })
-            createTimeout(() => {
-              dino.isJumping = false
-            }, 350)
           })
-      } else if (dinoCar.visible) {
-        gsap
-          .to(dinoCar, {
-            duration: 0.4,
-            y: '-=120',
-            x: '+=20',
-            ease: 'power2.out',
-          })
-          .then(() => {
-            gsap.to(dinoCar, {
-              duration: 0.2,
-              y: dinoPositions.dinoCarY,
-              x: '-=20',
-              ease: 'power2.in',
-            })
-            createTimeout(() => {
-              dino.isJumping = false
-            }, 350)
-          })
+        })
       }
-    }
 
-    const dinoFall = () => {
-      gsap.to(dino, {
-        y: dinoPositions.dinoY,
-        // y: 248,
-        duration: 1.1,
-        ease: 'bounce',
-      })
-    }
+      // COMEÇO ANIMAÇÃO
+      // Animação GSAP
+      const tl = gsap.timeline({
+        defaults: {
+          ease: 'none', // Tipo de easing, 'none' para uma animação linear
+        },
+        repeat: -1, // Repetir a animação infinitamente
+        onComplete: () => {
+          gsap.set(bgRef.current, { x: 0 }); // Retorna à posição inicial imediatamente
+          gsap.set(peCiceroref.current, { x: 0 }); // Retorna à posição inicial imediatamente
+          gsap.set(dinoRef.current, { opacity: 1, }); // Retorna à posição inicial imediatamente
+          // Retorna à posição inicial imediatamente
+          // clearAllTimeoutsAndReset()
+        },
+        onUpdate: () => {
+          Array.from(triggers).forEach((trigger, triggerIndex) => {
+            const triggerRect = trigger.getClientRects()[0];
+            const dinoRect = dinoRef.current?.getClientRects()[0];
 
-    const jumps = () => {
-      // Pulos
-      createTimeout(() => {
-        dinoJump()
-        createTimeout(() => {
-          dinoJump()
-          createTimeout(() => {
-            dinoJump()
-            createTimeout(() => {
-              dinoJump()
-            }, 2950) // quarto pulo
-          }, 2900) // terceiro pulo
-        }, 3150) // segundo pulo
-      }, 3600) // primeiro pulo
-    }
+            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+            if (triggerIndex === 4) {
+              return
+            }
 
-    // Adicione a animação do dino ao timeline
-    // timeline.add(animateDino, 0)
-    timeline.add(dinoFall, -1.2)
-    timeline.add(jumps, 0)
-  }
+            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+            if (Math.abs(triggerRect.left - dinoRect?.right!) <= 3.5) {
+              jump()
+            }
+          });
+        }
+      });
 
-  function setupTimelineControl(
-    timeline: gsap.core.Timeline,
-    bg: object[],
-    bgSpeed: number,
-    totalWidth: number,
-    dino: any,
-    dinoCar: any,
-  ) {
-    const pauseTimeline = () => {
-      timeline.pause()
-    }
-
-    const changeSpeedAndAnimations = () => {
-      bgSpeed = 100
-      timeline.clear()
-
-      bg.forEach((bgImage, index) => {
-        const time = totalWidth / bgSpeed
-        timeline.to(
-          bgImage,
-          {
-            x: '-=' + totalWidth,
-            duration: time,
-            ease: 'none',
-          },
-          0,
-        )
-      })
-
-      timeline.play()
-
-      createTimeout(() => {
-        dino.visible = false
-        pauseTimeline()
-
-        createTimeout(() => {
-          dinoCar.visible = true
-        }, 1500)
-
-        createTimeout(() => {
-          bgSpeed = 200
-          timeline.clear()
-
-          bg.forEach((bgImage, index) => {
-            const time = totalWidth / bgSpeed
-            timeline.to(
-              bgImage,
-              {
-                x: '-=' + totalWidth,
-                duration: time,
-                ease: 'none',
-              },
-              0,
-            )
-          })
-
-          const progress = timeline.progress()
-          timeline.play()
-          timeline.progress(progress)
-        }, 2500)
-      }, 1700)
-    }
-
-    const startTimeline = () => {
-      createTimeout(pauseTimeline, 15250)
-      createTimeout(changeSpeedAndAnimations, 16750)
-    }
-
-    timeline.add(startTimeline, 0)
-  }
-
-  function drawObjectToCanvas(
-    ctx: CanvasRenderingContext2D,
-    objImg: any,
-    x: number | undefined,
-    y: number | undefined,
-    width: number,
-    height: number,
-  ) {
-    // Desenha o Padre cícero
-    if (objImg.img.complete) {
-      // Desenha a imagem com um tamanho escalonado.
-      // Desenha a imagem com um tamanho escalonado.
-      ctx.drawImage(
-        objImg.img,
-        x !== undefined ? x : objImg.x,
-        y !== undefined ? y : objImg.y,
-        width,
-        height,
-      )
-    } else {
-      objImg.img.onload = () => {
-        // Desenha a imagem com um tamanho escalonado.
-        ctx.drawImage(
-          objImg.img,
-          x !== undefined ? x : objImg.x,
-          y !== undefined ? y : objImg.y,
-          width, // Largura da imagem do teste
-          height, // Altura da imagem do teste
-        )
-      }
-    }
-  }
-
-  function drawDinoOnCanvas(
-    ctx: CanvasRenderingContext2D,
-    objImg: any,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    dx: number,
-    dy: number,
-    dw: number,
-    dh: number,
-  ) {
-    // Desenha o Padre cícero
-    if (objImg.img.complete) {
-      // Desenha a imagem com um tamanho escalonado.
-      ctx.drawImage(
-        objImg.img,
-        x,
-        y,
-        width, // Largura da imagem do teste
-        height, // Altura da imagem do teste
-        dx,
-        dy,
-        dw,
-        dh,
-      )
-    } else {
-      objImg.img.onload = () => {
-        // Desenha a imagem com um tamanho escalonado.
-        ctx.drawImage(
-          objImg.img,
-          objImg.x,
-          objImg.y,
-          width, // Largura da imagem do teste
-          height, // Altura da imagem do teste
-        )
-      }
-    }
-  }
-
-  function setupResetAndRestart(
-    timeline: any,
-    bg: {
-      img: HTMLImageElement
-      x: number
-    }[],
-    ctx: any,
-    scaledImageWidth: any,
-    cw: number,
-    ch: number,
-    objects: any,
-    startAnimation: () => void,
-  ) {
-    const clearAllTimeoutsAndReset = (timeline: any) => {
-      timeline.pause()
-      timeline.clear()
-
-      timeoutIds.forEach((timeoutId: any) => {
-        clearTimeout(timeoutId)
-      })
-
-      timeoutIds.splice(0, timeoutIds.length)
-    }
-
-    const restart = () => {
-      // Reiniciar a timeline após 24 segundos
-      createTimeout(() => {
-        // Limpar o contexto do canvas antes de reiniciar a animação
-        ctx.clearRect(0, 0, cw, ch)
-
-        // Reiniciar as configurações das imagens
-        bg.forEach((bgImage, index) => {
-          if (index === 0) {
-            bgImage.x = 0
-          } else {
-            bgImage.x = index * scaledImageWidth
-          }
+      // Dino FALL
+      tl.fromTo(dinoRef.current,
+        {
+          yPercent: -100
+        },
+        {
+          yPercent: 262,
+          opacity: 1,
+          duration: 1.1,
+          ease: 'bounce',
         })
 
-        // Reiniciar as configurações do dino
-        objects.dino.spriteOffsetX = 0
-        objects.dino.y = -248
-        objects.dino.visible = true
+      // Adiciona a animação do peCicero diretamente na timeline
+      tl.to(peCiceroref.current, {
+        xPercent: -30,
+        duration: 12,
+        delay: 1.5
+        // duration: 60,
+      });
 
-        // Reiniciar as configurações do dinoPaused
-        objects.dinoPaused.spriteOffsetX = 0
-        objects.dinoPaused.y = 250
+      // // Adiciona a primeira animação do fundo diretamente na timeline
+      const limit = document.getElementsByClassName('t-5')[0];
 
-        // Reiniciar as configurações do dinoCar
-        objects.dinoCar.x = cw / 5 - 30
-        objects.dinoCar.y = 195
-        objects.dinoCar.visible = false
+      const limitRect = limit.getBoundingClientRect();
+      const dinoRect = dinoRef.current?.getBoundingClientRect();
 
-        // Reiniciar as configurações do peCicero
-        objects.peCicero.x = 0
-        objects.peCicero.y = -5
+      if (dinoRect) {
+        // Calcular a distância para mover o fundo, de modo que o 'right' do dino esteja próximo ao 'left' do limit.
+        // Isso será a posição 'left' do limit menos a posição 'right' do dino.
+        // Ajuste conforme necessário para definir o quão "próximo" você quer que eles estejam.
+        const buffer = 280; // Quantidade de pixels para parar antes do 'limit'.
+        const xPosition = limitRect.right - dinoRect.x + buffer;
+        // Se a posição calculada for positiva, isso significaria mover o fundo para a direita, o que não é desejado,
+        // então certifique-se de que a posição é negativa, pois queremos mover o fundo para a esquerda.
+        tl.to(bgRef.current, {
+          x: `-=${Math.abs(xPosition)}`, // Garante que o valor é negativo.
+          duration: 13.5,
+        }, 1.5);
+      }
 
-        // Limpar a timeline e iniciar a animação novamente
-        clearAllTimeoutsAndReset(timeline)
+      // Adiciona a segunda animação do fundo após a primeira ter terminado
+      tl.to(bgRef.current, {
+        xPercent: '-=12',
+        duration: 2.2,
+        delay: 1.5,
+        onComplete: () => {
+          gsap.to(dinoRef.current, { opacity: 0 })
+          // Então começa
+          gsap.to(dinoCarRef.current, {
+            opacity: 1, ease: 'none', delay: 1
+          })
+          // Adiciona o Pe Cicero novamente
+          gsap.to(peCiceroref.current, {
+            xPercent: '-=5',
+            duration: 1.5,
+            delay: 1.5
+          });
+        }
+      }); // Isso irá adicionar a animação após 5 segundos da última animação terminar
 
-        // Iniciar a animação novamente
-        startAnimation()
-      }, 24000)
+      // RUN FINAL
+      tl.to(bgRef.current, {
+        xPercent: '-=60',
+        duration: 4,
+        delay: 1.5,
+        onComplete: () => {
+          gsap.set(dinoCarRef.current, { opacity: 0, ease: 'none' });
+          gsap.set(dinoRef.current, { opacity: 1, });
+        }
+      })
     }
 
-    timeline.add(restart, 0)
-  }
 
-  // Função para criar timeouts e armazenar seus IDs
-  function createTimeout(callback: any, delay: number) {
-    const timeoutId = setTimeout(callback, delay)
-    timeoutIds.push(timeoutId)
-  }
+  }, [bgRef, peCiceroref]);
 
   return (
-    <div className={className}>
-      <canvas
-        ref={canvasRef}
-        className='w-full h-full object-contain'
-      />
+    <div className={cn('girosflin relative', classname)}>
+      <img src={peCicero} ref={peCiceroref} alt="peCicero" className='w-max min-w-[626px] h-full absolute top-0 left-1 z-10' />
+      <section ref={bgRef} className='bgRef absolute h-full flex z-30 bottom-0'>
+        {bgImages.map((image, index) => {
+          return (
+            <div key={index} className="bg relative" style={{ backgroundImage: `url(${image})`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
+              {index >= 1 && index <= 5 && (
+                <div className={cn(
+                  "triggerJump",
+                  `t-${index}`,
+                  "opacity-0",
+                )} />
+              )}
+            </div>
+          )
+        })}
+      </section>
+      <img src={dino} ref={dinoRef} className="dino absolute left-[15%] z-50 opacity-0" width={90} height={95} alt="dino" />
+      <img src={dinoCar} ref={dinoCarRef} className="dino absolute bottom-4 left-[15%] z-50 opacity-0" width={200} height={95} alt="dino" />
     </div>
   )
 }
-
-export default GameScene

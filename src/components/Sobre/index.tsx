@@ -9,8 +9,8 @@ function Figure({ image, name, description, className, style: styleProps }: Figu
   return (
     <div style={styleProps} className={cn("flex flex-col items-center justify-center", className)}>
       <img src={image} alt={name} className="object-contain max-h-[300px]" />
-      <h3 className="md:!text-2xl font-semibold xsm:text-sm">{name}</h3>
-      <h4 className="md:!text-xl xsm:text-base">{description}</h4>
+      <h3 className="md:!text-2xl font-semibold xsm:text-sm --font-jetbrains">{name}</h3>
+      <h4 className="md:!text-xl xsm:text-base --font-jetbrains">{description}</h4>
     </div>
   )
 }
@@ -20,7 +20,7 @@ export default function Sobre() {
   const figureContents = [
     { image: 'isaac', name: 'Isaac Pinheiro', description: 'CFO' },
     { image: 'thales', name: 'Thales Andrey', description: 'CEO' },
-    { image: 'neto', name: 'Clodomiro Neto', description: 'COO' },
+    { image: 'neto', name: 'Clodomiro Neto', description: 'CMO' },
     { image: 'fran', name: 'Francylanio Araújo', description: 'Tributarista' },
     { image: 'richard', name: 'Richard Oliveira', description: 'Tributarista' },
     { image: 'junior', name: 'Junior Luiz', description: 'Tributarista' },
@@ -28,8 +28,9 @@ export default function Sobre() {
     { image: 'joao', name: 'João Ferreira', description: 'Analista Contábil' },
     { image: 'sarah', name: 'Sarah Farias', description: 'Analista Pessoal' },
     { image: 'lucas', name: 'José Lucas', description: 'Desenvolvedor FullStack' },
-    { image: 'alisson', name: 'Alisson Santos', description: 'Marketing' },
+    { image: 'alisson', name: 'Alisson Santos', description: 'VideoMaker' },
     { image: 'jose', name: 'José Pinheiro', description: 'Desenvolvedor FullStack' },
+    { image: 'vetor', name: 'Vitor Figueiredo', description: 'Gestor de Tráfego' },
   ]
 
   return (

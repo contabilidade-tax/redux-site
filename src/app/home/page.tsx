@@ -3,7 +3,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import Link from 'next/link'
 import { redirect, useSearchParams } from 'next/navigation'
-import GameScene from './GameScene'
 import Servicos from './Servicos'
 import { ButtonBackgroundShine } from '@/components/Tools'
 import { useMobileContext } from '@/common/context/MobileDeviceContext'
@@ -16,7 +15,8 @@ import styles from './Home.module.scss'
 import Sobre from '@/components/Sobre'
 import { toast } from 'react-toastify'
 import { setCookie, parseCookies } from "nookies";
-import GameSceneCss from './GameSceneCss'
+import NatalGameScene from './NatalGameScene'
+import GameScene from './GameScene'
 import Script from 'next/script'
 
 type handleCookieActions = {
@@ -129,20 +129,7 @@ export default function Home() {
                   </p>
                 </div>
                 <section className={cn("w-full row-span-3 mx-auto", "flex flex-col justify-center items-center !h-[417.55px]")}>
-                  {/* <section className={cn("w-screen !mx-12 relative", "xsm:h-[230px] md:!flex-1", "border-2 border-black")}> */}
-                  {/* <GameScene
-                    // chProp={mobileState.isSmallScreen ? 250 : 450}
-                    // cwProp={typeof window !== 'undefined' ? window.innerWidth : 1580}
-                    scaleProp={1}
-                    speedProp={200}
-                    timeToReset={26.5}
-                    dino={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
-                    dinoPaused={mobileState.isMobileDevice ? dinoPositions.dinoMobile : dinoPositions.dino}
-                    dinoCar={mobileState.isMobileDevice ? dinoPositions.dinoCarMobile : dinoPositions.dinoCar}
-                    className={cn('w-full h-full', 'object-contain md:max-h-[400px]', 'border-2 border-yellow-500')}
-                  /> */}
-                  <GameSceneCss classname='w-full h-full xsm:scale-90' />
-                  {/* <video src="/assets/video/dinoAnimation.mp4" autoPlay loop muted disablePictureInPicture={true} disableRemotePlayback={true} className="w-full h-full object-fill"></video> */}
+                  <GameScene classname='w-full h-full xsm:scale-90' />
                 </section>
                 <div className={`${styles.bottomTextContent} flex flex-col w-full h-max row-span-1`}>
                   <h2 className="text-2xl lg:text-4xl text-center">

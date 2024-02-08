@@ -1,0 +1,67 @@
+.girosflin {
+  // border: 2px solid yellow;
+
+  overflow-x: hidden;
+}
+
+.peCicero {
+  object-fit: cover;
+}
+
+.bgRef {
+  width: 1592px;
+  min-height: 375.79;
+  flex-direction: row;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+}
+
+.bg {
+  background-size: cover;
+  background-position: center;
+  /* Outras propriedades de estilização conforme necessário */
+  position: relative;
+  /* Para os pontos de ação */
+  width: 700px;
+  height: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  // border: 1px solid yellow;
+}
+
+.triggerJump {
+  position: absolute;
+  z-index: 999;
+  width: 25px;
+  height: 400px;
+  background-color: black;
+  /* Posicionamento e estilização dos pontos de ação */
+}
+
+.t-1 {
+  left: 350px;
+}
+
+.t-2 {
+  left: 380px;
+}
+
+.t-3 {
+  left: 350px;
+}
+
+.t-4 {
+  left: 360px;
+}
+
+.t-5 {
+  left: 200px;
+}
