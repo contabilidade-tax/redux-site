@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 'use client'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
 import { redirect, useSearchParams } from 'next/navigation'
 import Servicos from './Servicos'
@@ -97,7 +97,7 @@ export default function Home() {
   }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
 
   return (
-    <>
+    <Suspense fallback={<div>Carregando...</div>}>
       {
         isLoading ? (
           <Loading />
@@ -163,6 +163,6 @@ export default function Home() {
           </>
         )
       }
-    </>
+    </Suspense>
   )
 }
