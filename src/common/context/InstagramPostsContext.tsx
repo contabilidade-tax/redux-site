@@ -2,6 +2,15 @@
 import React, { createContext, useReducer, useContext, useLayoutEffect, Dispatch, useEffect } from 'react';
 import { InstaPostData, InstaTokenData, InstaPostsProps } from '@/types';
 import axios from 'axios';
+import { useRouter } from "next/navigation"
+import crypto from 'crypto';
+
+function criptografar(texto: any, chave: any, iv: any) {
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(chave, 'hex'), Buffer.from(iv, 'hex'));
+  let textoCriptografado = cipher.update(texto);
+  textoCriptografado = Buffer.concat([textoCriptografado, cipher.final()]);
+  return iv.toString('hex') + ':' + textoCriptografado.toString('hex');
+}
 
 const initialState = {
     data: [] as InstaPostData[],
@@ -19,7 +28,15 @@ type InstaPostsContextValue = {
 const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(undefined);
 
 
-async function renewToken(old_token: string) {
+async function renewToken(old_token: string, router:any) {
+    const api_base = 'https://api.instagram.com/oauth/authorize'
+    const appId = process.env.NEXT_PUBLIC_API_IG_APP_ID
+    const scope = 'user_profile,user_media'
+    const key = process.env.NEXT_PUBLIC_CRYPTO_KEY
+    const iv = process.env.NEXT_PUBLIC_CRYPTO_IV
+    const token = process.env.NEXT_PUBLIC_BEARER_TOKEN
+    const redirectUri = `https://redux.app.br/api/instaData/authorize/${encodeURIComponent(criptografar(token, key, iv))}/`
+
     try {
         const url = `${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${old_token}`;
         const response = await axios.get(url);
@@ -28,12 +45,14 @@ async function renewToken(old_token: string) {
             ...response.data,
             generated_at: Date.now().toString()
         };
-        console.log(responseDataWithTimestamp);
         return responseDataWithTimestamp; // Retorna os dados do novo token com generated_at
 
     } catch (error: any) {
         console.error('Erro ao renovar o token:', error.message);
-        throw error; // Relança o erro para um tratamento adicional, se necessário
+        // Se code 190 pega um novo
+        if (error.response.data.error.code === 190) {
+            router.replace(`${api_base}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`)
+        }
     }
 }
 
@@ -206,6 +225,7 @@ async function getFromDb() {
 
 export function InstaPostsContextProvider({ children }: InstaPostsProps) {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const router = useRouter()
 
     const fetchData = async (): Promise<InstaPostData[]> => {
         try {
@@ -255,7 +275,7 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
 
             if (Date.now() >= (token.generated_at! + token.expires_in! * 1000)) {
                 try {
-                    const newTokenData = await renewToken(token.access_token!);
+                    const newTokenData = await renewToken(token.access_token!, router);
                     const actualTimestampTokenData = {
                         ...newTokenData,
                         generated_at: Date.now(),
