@@ -2,24 +2,19 @@ import type { MetadataRoute } from 'next'
 import { env } from 'process'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+    const home = env.NEXT_PUBLIC_HOME ?? 'https://redux.app.br';
     return [
         {
-            url: env.NEXT_PUBLIC_HOME ?? 'https://redux.app.br',
+            url: home,
             lastModified: new Date(),
-            changeFrequency: 'yearly',
+            changeFrequency: 'monthly',
             priority: 1,
         },
         {
-            url: 'https://acme.com/about',
+            url: `${home}/trabalhe-conosco`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
             priority: 0.8,
-        },
-        {
-            url: 'https://acme.com/blog',
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.5,
         },
     ]
 }
