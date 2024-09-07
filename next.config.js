@@ -52,9 +52,8 @@ const nextConfig = {
           { key: "Vary", value: "nosniff" },
           { key: "X-Robots-Tag", value: "index, follow" },
           { key: "X-Frame-Options", value: "DENY" },
-          { key: "X-Content-Type-Options", value: "User-Agent" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
-          { key: "Content-Type", value: "text/html; charset=UTF-8" },
           { key: "Cache-Control", value: "max-age=3600, must-revalidate" }
         ]
       },
