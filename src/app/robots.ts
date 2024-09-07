@@ -1,18 +1,19 @@
 import type { MetadataRoute } from 'next'
+import { env } from 'process'
 
 export default function robots(): MetadataRoute.Robots {
     return {
         rules: [
             {
-                userAgent: 'Googlebot',
-                allow: ['/'],
-                disallow: '/private/',
+                userAgent: '*',
+                allow: '/*',
+                disallow: ['/api/*', '/instaData', '/redirect'],
             },
             {
-                userAgent: ['Applebot', 'Bingbot'],
-                disallow: ['/'],
-            },
+                userAgent: ['seekbot', 'Exabot', 'Slurp', 'Cliqzbot'],
+                disallow: '/',
+            }
         ],
-        sitemap: 'https://acme.com/sitemap.xml',
+        sitemap: `${env.NEXT_PUBLIC_HOME ?? 'https://redux.app.br'}/sitemap.xml`,
     }
 }

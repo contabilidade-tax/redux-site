@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next'
+import { env } from 'process'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
-            url: 'https://acme.com',
+            url: env.NEXT_PUBLIC_HOME ?? 'https://redux.app.br',
             lastModified: new Date(),
             changeFrequency: 'yearly',
             priority: 1,

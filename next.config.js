@@ -22,16 +22,16 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      {
-        source: '/',
-        destination: '/home',
-        permanent: true,
-      },
       // {
-      //   source: '/contato',
-      //   destination: `https://wa.me/send?phone=5588999660188&text=${encodeURIComponent('Ola, gostaria de saber mais sobre seus serviços')}`,
+      //   source: '/',
+      //   destination: '/home',
       //   permanent: true,
       // },
+      {
+        source: '/contato',
+        destination: `https://wa.me/send?phone=5588999660188&text=${encodeURIComponent('Olá, gostaria de saber mais sobre seus serviços')}`,
+        permanent: true,
+      },
     ]
   },
   async headers() {
@@ -46,9 +46,41 @@ const nextConfig = {
         ],
       },
       {
-        // matching all API routes
+        source: "/:path*", headers: [
+          { key: "hreflang", value: "pt-BR" },
+          { key: "Content-Language", value: "pt-BR" },
+          { key: "Vary", value: "nosniff" },
+          { key: "X-Robots-Tag", value: "index, follow" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "User-Agent" },
+          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
+          { key: "Content-Type", value: "text/html; charset=UTF-8" },
+          { key: "Cache-Control", value: "max-age=3600, must-revalidate" }
+        ]
+      },
+      {
+        source: "/instaData",
+        headers: [
+          { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
+        ]
+      },
+      {
+        source: "/loading",
+        headers: [
+          { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
+        ]
+      },
+      {
+        source: "/email",
+        headers: [
+          { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
+        ]
+      },
+      {
         source: "/api/:path*",
         headers: [
+          { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
           { key: "Access-Control-Allow-Credentials", value: "true" },
           { key: "Access-Control-Allow-Origin", value: "https://redux.app.br" }, // replace this your actual origin
           { key: "Access-Control-Allow-Origin", value: "http://192.168.10.57:3004" },
