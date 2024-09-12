@@ -87,25 +87,27 @@ function Home() {
             "grid grid-rows-5"
           )}
         >
-          <h1
+          <div
             className={cn(
               "w-full p-0 text-center text-7xl tracking-wide lg:text-6xl",
               "row-span-1"
             )}
           >
-            <span
-              className={cn(
-                "h-max w-full font-normal",
-                "md:!text-6xl xsm:text-4xl"
-              )}
-            >
-              Não somos obrigação,
-            </span>
-            <span className="font-black md:!text-6xl xsm:text-4xl">
-              <span className="text-primary-color"> somos ferramenta</span>
-              <span className="text-primary-color">.</span>
-            </span>
-          </h1>
+            <h1>
+              <span
+                className={cn(
+                  "h-max w-full font-normal",
+                  "md:!text-6xl xsm:text-4xl"
+                )}
+              >
+                Não somos obrigação,
+              </span>
+              <span className="font-black md:!text-6xl xsm:text-4xl">
+                <span className="text-primary-color"> somos ferramenta</span>
+                <span className="">.</span>
+              </span>
+            </h1>
+          </div>
           <section
             className={cn(
               "row-span-3 mx-auto w-full",
@@ -117,13 +119,14 @@ function Home() {
           <div
             className={`bottomTextContent row-span-1 flex h-max w-full flex-col`}
           >
-            <h2 className="text-center text-2xl lg:text-4xl">
-              A{" "}
+            <h3 className="text-center text-2xl lg:text-4xl">
+              A
               <span className="font-black text-primary-color">
-                melhor solução
-              </span>{" "}
+                {" "}
+                melhor solução{" "}
+              </span>
               para sua empresa.
-            </h2>
+            </h3>
             <Link
               href="/contato"
               className="mx-auto h-auto w-1/2 min-w-[261px] text-lg lg:w-1/6"
