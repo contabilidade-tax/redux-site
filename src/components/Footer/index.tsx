@@ -1,14 +1,12 @@
 'use client'
 import { cn } from "@/lib/utils";
-import { Facebook, Instagram, Linkedin, Youtube, YoutubeIcon } from "lucide-react";
+import { Facebook, Instagram, YoutubeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import style from '@/components/Footer/Footer.module.scss';
-import { useLoading } from "@/common/context/LoadingContext";
 
 export default function Footer({ className }: { className?: string }) {
-    const { isLoading, setIsLoading } = useLoading()
     const linkStyle = 'bg-[#fafafa] rounded-full p-2'
     return (
         <footer className={cn(
@@ -16,7 +14,6 @@ export default function Footer({ className }: { className?: string }) {
             className,
             "h-[4%] lg:min-h-[160px] w-full text-white bg-[#202020] shadow-2xl shadow-black z-10 relative !bottom-0",
             "flex flex-col justify-around font-medium text-sm py-4 md:py-6",
-            { 'hidden': isLoading }
         )}>
             {/* <div className="wrapper flex flex-col w-full h-full justify-center items-center gap-5"> */}
             <section className="w-full h-full flex justify-between items-start flex-col xl:flex-row flex-grow gap-6">

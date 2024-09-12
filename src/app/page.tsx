@@ -1,17 +1,14 @@
 /* eslint-disable no-unused-vars */
 'use client'
-import React, { useEffect, useLayoutEffect, useState, Suspense } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { setCookie, parseCookies } from "nookies";
 import { toast } from 'react-toastify'
-import Script from 'next/script'
 import Link from 'next/link'
-import { redirect, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 // 
 import Servicos from './home/Servicos'
-import Loading from '@/components/Loading'
 import { ButtonBackgroundShine } from '@/components/Tools'
 import { useMobileContext } from '@/common/context/MobileDeviceContext'
-import { useLoading } from '@/common/context/LoadingContext'
 import InstaRecentPosts from '@/components/InstaRecentPosts'
 import { cn } from '@/lib/utils'
 import Sobre from '@/components/Sobre'
@@ -26,8 +23,7 @@ type handleCookieActions = {
 };
 
 function Home() {
-  const { isLoading, setIsLoading } = useLoading()
-  const [isClient, setIsClient] = useState(false)
+  // const [isClient, setIsClient] = useState(false)
   const { mobileState } = useMobileContext()
   const params = useSearchParams()
 
@@ -71,48 +67,17 @@ function Home() {
   useEffect(() => {
     // Identifica que está no client 
     // PS. isso é alternativa à typeof window != undefined afim de evitar erros de hydration
-    setIsClient(true)
+    // setIsClient(true)
 
     // Lógica do toast de welcome após autorizar os recents posts
     if (params.get('welcome') && !welcomeCookie({ type: 'GET' })) {
       handleWelcomeNotification()
     }
 
-    // Lógica de loading
-    if (isLoading) {
-      const timer = setTimeout(() => {
-        setIsLoading(false)
-      }, 3500) // Aqui você define o tempo de duração da animação
-
-      return () => {
-        clearTimeout(timer)
-      }
-    }
   }, [])
-
-  // Não permite scroll na tela durante o loading
-  useEffect(() => {
-    // Verificar se o código está sendo executado no lado do cliente
-    if (isClient) {
-      document.body.style.overflow = isLoading ? 'hidden' : 'auto'
-    }
-  }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
 
   return (
     <>
-      <div id='gtag'>
-        <Script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}></Script>
-        <Script id='google-analytics'>
-          {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-            
-              gtag('config', ${process.env.NEXT_PUBLIC_GA_TAG});
-              `}
-        </Script>
-      </div>
-      {/* GTAG */}
       <section className={cn('contentArea', 'min-h-[90svh] w-full', 'pt-[10sh]')}>
         <div className={cn('min-h-[90svh] w-full py-[5%] md:!py-[3%] md:!gap-10', 'grid grid-rows-5')}>
           <div className={cn('w-full tracking-wide lg:text-6xl text-7xl text-center p-0', 'row-span-1')}>
@@ -143,12 +108,12 @@ function Home() {
       <section id='servicos' className={cn('wrapper', 'w-full min-h-[90svh]', '!mt-[10svh] !pt-[5svh]', "flex justify-center items-center servicos py-10")}>
         <Servicos className={cn('h-full w-full')} />
       </section>
-      <section id='sobre' className={cn('wrapper', 'w-full h-auto min-h-[90svh] max-w-[1500px]', '!pt-[10svh]', "flex flex-col gap-5 justify-center items-center notSelected-G")}>
+      {/* <section id='sobre' className={cn('wrapper', 'w-full h-auto min-h-[90svh] max-w-[1500px]', '!pt-[10svh]', "flex flex-col gap-5 justify-center items-center notSelected-G")}>
         <div className='intraSection space-y-2'>
           <h1 className='self-center text-left md:text-7xl font-extrabold text-primary-color xsm:text-5xl'>Conheça nosso time:</h1>
           <Sobre />
         </div>
-      </section>
+      </section> */}
       <section id='recents' className={cn('wrapper', 'max-h-[90svh] h-auto max-w-full mt-[10svh] mb-[5svh]', 'flex flex-col justify-center notSelected-G')}>
         <h1 className='text-center text-5xl md:!text-5xl sm:!text-2xl font-extrabold text-primary-color'>Posts recentes!</h1>
         {/* <section className='posts max-h-[38rem] min-h-[450px] w-full'> */}
