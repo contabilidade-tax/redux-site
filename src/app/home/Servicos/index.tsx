@@ -112,7 +112,7 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
   return (
     <section className={cn(styles.servicos, className)} {...rest}>
       <section className={cn('max-h-[90vh] w-full flex flex-col justify-center items-center py-8')}>
-        <h1 className={cn("font-semibold md:text-4xl lg:text-6xl text-center text-3xl", styles.title)}>Como podemos ajudar<span className={cn('font-black md:text-5xl lg:text-7xl text-3xl', 'text-primary-color')}>?</span></h1>
+        <h2 className={cn("font-semibold md:text-4xl lg:text-6xl text-center text-3xl", styles.title)}>Como podemos ajudar<span className={cn('font-black md:text-5xl lg:text-7xl text-3xl', 'text-primary-color')}>?</span></h2>
         <div className={cn(styles.contentWrapper, 'flex h-full w-full justify-center items-center md:my-10 gap-4 md:px-10 xsm:flex-col-reverse md:!flex-row')}>
           {/* LEFT AREA */}
           <div className={cn(styles.left, 'h-full self-start xsm:w-full md:!w-2/5')}>
@@ -189,13 +189,13 @@ export default function Servicos({ scrollerRef, className, ...rest }: ServicePro
               {/* <div className={cn(styles.fraseStyle, 'w-full text-3xl', 'sm:w-[150px] sm:flex-1 sm:text-5xl md:!flex-1 xl:min-w-[500px] xl-max:h-[200px] xl:text-6xl')}> */}
               <div className={cn(styles.fraseStyle, 'w-full', 'sm:w-[150px] sm:flex-1 sm:text-5xl md:!w-max md:min-w-[420px] xl-max:h-[200px] xl:text-6xl')}>
                 {state.selectedTab.frase.split('\\').map((sentence: any, index: any) => (
-                  <h1
+                  <h2
                     className={cn(
                       { 'text-primary-color font-bold': index !== 0 }
                     )}
                     key={index}>
                     {sentence}
-                  </h1>
+                  </h2>
                 ))}
               </div>
               <div className='h-12 flex flex-1 md:max-w-[250px] justify-center text-md'>
