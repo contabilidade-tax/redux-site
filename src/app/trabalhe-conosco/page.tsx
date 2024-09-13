@@ -1,19 +1,24 @@
-'use client'
-import ContactForm from './Form'
+"use client";
+import ContactForm from "./Form";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Trabalhe Conosco",
+};
 
 export default function TrabalheConosco() {
-
   return (
-    <div style={{
-      backgroundImage: 'url(/assets/img/bg/dinoTrabalheConoscoNatal.png)',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPositionX: 'center',
-      backgroundPositionY: '80%',
-    }}
-      className='flex justify-center items-center flex-1 w-full p-6'>
-      <ContactForm className='bg-[#fff] border-2 drop-shadow-custom border-gray-400 p-6 rounded-2xl flex flex-col z-50 max-h-[52rem] xsm:min-w-[50%] md:!min-w-[30rem]' />
-    </div >
-  )
-
+    <div
+      style={{
+        backgroundImage: "url(/assets/img/bg/dinoTrabalheConoscoNatal.png)",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPositionX: "center",
+        backgroundPositionY: "80%",
+      }}
+      className="flex w-full flex-1 items-center justify-center p-6"
+    >
+      <ContactForm className="z-50 flex max-h-[52rem] flex-col rounded-2xl border-2 border-gray-400 bg-[#fff] p-6 drop-shadow-custom md:!min-w-[30rem] xsm:min-w-[50%]" />
+    </div>
+  );
 }

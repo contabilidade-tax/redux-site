@@ -5,7 +5,6 @@ import type { Metadata as Meta } from "next";
 import "@/styles/globals.scss";
 import "react-toastify/dist/ReactToastify.minimal.css";
 
-import { LoadingProvider } from "@/common/context/LoadingContext";
 import { MobileContextProvider } from "@/common/context/MobileDeviceContext";
 // import { Toaster } from "@/components/ui/toaster"
 import { ToastContainer } from "react-toastify";
@@ -67,31 +66,21 @@ export const montserrat = localFont({
 
 export const metadata: Meta = {
   title: {
-    default: "Redux Contabilidade",
+    default:
+      "Contabilidade Simplificada para MEI e Pequenos Empreendedores | Redux Contabilidade",
     template: "%s | Redux Contabilidade",
   },
   description:
     "Precisa abrir o MEI, reduzir impostos, ou imposto de renda? Venha conhecer a Redux Contabilidade! Não somos obrigação, somos ferramenta!",
   keywords: [
-    "Contabilidade",
-    "contabilidade",
-    "redux",
     "empresa de contabilidade",
-    "contabilidade empresarial",
     "contabilidade mei",
     "contabilidade juazeiro do norte",
-    "serviços contábeis",
     "escrituração contábil",
-    "contabilidade para comércio",
-    "contabilidade gerencial",
     "contabilidade impostos",
-    "impostos contador",
     "assessoria contábil",
-    "contabilidade empreendedorismo",
     "contabilidade fiscal",
-    "consultoria contábil",
     "contabilidade tributária",
-    "assessoria tributária",
     "consultoria empresarial",
     "imposto de renda",
   ],
