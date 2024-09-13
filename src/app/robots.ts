@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     return {
         rules: [
             {
-                userAgent: '*',
+                userAgent: ['*', 'Googlebot', 'Googlebot-image', 'Mediapartners-Google', 'Adsbot-Google', 'Adsbot-Google'],
                 allow: '/*',
                 disallow: ['/api/*', '/instaData', '/redirect'],
             },

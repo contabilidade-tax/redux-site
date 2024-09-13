@@ -684,7 +684,7 @@ function Societario({ className, title }: AnimationProps) {
           {Array(20)
             .fill(0)
             .map((_, index) => (
-              <Image
+              <img
                 className="animate-wheel h-full w-full object-contain"
                 src="/assets/img/animations/3/wheel.png"
                 alt="wheel"

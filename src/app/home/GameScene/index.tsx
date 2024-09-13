@@ -173,13 +173,15 @@ export default function GameScene({ classname }: Props) {
 
   return (
     <div className={cn("girosflin relative", classname)}>
-      <Image
+      <img
         src={peCicero}
         ref={peCiceroref}
         loading="eager"
         title="peCicero_animation_backgound"
         alt="peCicero"
-        className="absolute left-1 top-0 z-10 h-full w-max min-w-[626px]"
+        width={1}
+        height={1}
+        className="absolute left-1 top-0 z-10 !h-full !w-max !min-w-[626px]"
       />
       <section ref={bgRef} className="bgRef absolute bottom-0 z-30 flex h-full">
         {bgImages.map((image, index) => {

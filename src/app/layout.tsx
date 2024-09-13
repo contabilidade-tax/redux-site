@@ -1,7 +1,7 @@
 // import { Montserrat } from 'next/font/google'
 import localFont from "next/font/local";
 import { ReactNode } from "react";
-import type { Metadata as Meta } from "next";
+import type { Viewport, Metadata as Meta } from "next";
 import "@/styles/globals.scss";
 import "react-toastify/dist/ReactToastify.minimal.css";
 
@@ -21,42 +21,42 @@ import Header from "@/components/Header";
 export const montserrat = localFont({
   src: [
     {
-      path: "./fonts/body/Montserrat-Black.ttf",
+      path: "../../public/fonts/body/Montserrat-Black.ttf",
       weight: "900",
       style: "normal",
     },
     {
-      path: "./fonts/body/Montserrat-ExtraBold.ttf",
+      path: "../../public/fonts/body/Montserrat-ExtraBold.ttf",
       weight: "800",
       style: "normal",
     },
     {
-      path: "./fonts/body/Montserrat-Bold.ttf",
+      path: "../../public/fonts/body/Montserrat-Bold.ttf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "./fonts/body/Montserrat-SemiBold.ttf",
+      path: "../../public/fonts/body/Montserrat-SemiBold.ttf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "./fonts/body/Montserrat-Medium.ttf",
+      path: "../../public/fonts/body/Montserrat-Medium.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "./fonts/body/Montserrat-Regular.ttf",
+      path: "../../public/fonts/body/Montserrat-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "./fonts/body/Montserrat-Light.ttf",
+      path: "../../public/fonts/body/Montserrat-Light.ttf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "./fonts/body/Montserrat-Italic.ttf",
+      path: "../../public/fonts/body/Montserrat-Italic.ttf",
       weight: "500",
       style: "italic",
     },
@@ -64,10 +64,17 @@ export const montserrat = localFont({
   variable: "--font-montserrat",
 });
 
+export const viewport: Viewport = {
+  initialScale: 1,
+  maximumScale: 0.5,
+  width: "device-width",
+  viewportFit: "auto",
+};
+
 export const metadata: Meta = {
   title: {
     default:
-      "Redux Contabilidade, Contabilidade Simplificada para MEI e Pequenos Empreendedores",
+      "Redux Contabilidade Simplificada p/ MEI e Pequenos Empreendedores",
     template: "%s | Redux Contabilidade",
   },
   description:
@@ -99,15 +106,18 @@ export const metadata: Meta = {
   },
   formatDetection: { address: true, email: true, telephone: true, url: true },
   robots: { follow: true, index: true, "max-snippet": -1 },
-  viewport: { initialScale: 1, maximumScale: 0.5, width: "device-width" },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
       <head>
-        <meta http-equiv="Cache-Control" content="max-age=36000" />
-        <meta charSet="utf-8" />
+        <meta http-equiv="Cache-Control" content="max-age=7200" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta
+          property="og:image"
+          content="https://contabilidade.gruporedux.com.br/favicon.ico"
+        />
       </head>
       <body
         className={`${montserrat.variable} flex min-h-screen flex-col items-center justify-between`}

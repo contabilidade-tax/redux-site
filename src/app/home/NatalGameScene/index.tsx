@@ -199,13 +199,15 @@ export default function NatalGameScene({ classname }: Props) {
     <div className={cn("girosflin relative", classname)}>
       {/* <p className='absolute top-2 left-2 font-bold'>Total Width: {totalWidth}, Total Height: {totalHeight}</p> */}
       {/* <p className='absolute top-8 left-2 font-bold'>DinoX: {dinoX}</p> */}
-      <Image
+      <img
         title="peCicero_animation_bg"
         src={peCicero}
         ref={peCiceroref}
         alt="peCicero"
         loading="eager"
-        className="absolute left-1 top-0 z-10 h-full w-max min-w-[626px]"
+        width={1}
+        height={1}
+        className="absolute left-1 top-0 z-10 !h-full !w-max !min-w-[626px]"
       />
       {/* <section ref={bgRef} className='bgRef absolute h-full flex z-30 bottom-0'>
         {bgImages.map((image, index) => {
