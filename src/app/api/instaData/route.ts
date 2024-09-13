@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRedisValue, getDateTime } from '@/common/middleware/redisConfig';
 import { PrismaClient } from '@prisma/client';
-import axios from 'axios';
 
 const prisma = new PrismaClient();
 

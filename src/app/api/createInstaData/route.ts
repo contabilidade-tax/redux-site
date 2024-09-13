@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { setRedisRegister, } from '@/common/middleware/redisConfig';
 import { Prisma, PrismaClient } from '@prisma/client'
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 function criptografar(texto: any, chave: any, iv: any) {
     const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(chave, 'hex'), Buffer.from(iv, 'hex'));

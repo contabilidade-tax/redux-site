@@ -62,7 +62,7 @@ async function setCurrentUser(apiUrl: string, userData: Prisma.CurrentUserCreate
     // Após validar, limpa o cache e o banco de dados deste usuário
     try {
       // CACHE
-      await axios.get("https://redux.app.br/api/deleteInstaData").then(res => console.log("Cache limpo", res.data))
+      await axios.get("/api/deleteInstaData").then(res => console.log("Cache limpo", res.data))
       // DATABASE
       await prisma.post.deleteMany({ where: { instaPostsDataId: 1 } })
 
@@ -121,7 +121,7 @@ export async function GET(req: NextRequest, context: any) {
     const graphApiUrl = process.env.NEXT_PUBLIC_API_IG_URL;
     const apiIgLongLivedTokenUrl = `${graphApiUrl}/access_token`
     const createTokenApiUrl = `${process.env.NEXT_PUBLIC_HOME}/api/createInstaData`
-    const redirect_uri = `https://redux.app.br/api/instaData/authorize/${criptografar(token, key, iv)}/`
+    const redirect_uri = `/api/instaData/authorize/${criptografar(token, key, iv)}/`
     const client_secret = process.env.NEXT_PUBLIC_API_IG_APP_SECRET!
     const client_id = process.env.NEXT_PUBLIC_API_IG_APP_ID
     const data = qs.stringify({

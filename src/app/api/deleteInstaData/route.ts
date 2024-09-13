@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { clearCache, getDateTime } from '@/common/middleware/redisConfig';
 
-
-
 export async function GET(req: NextRequest) {
     try {
         const customKey = req.nextUrl.searchParams.get('key') || `last_insta_posts-${getDateTime()}`; // Define um valor padrão se customKey não for fornecido

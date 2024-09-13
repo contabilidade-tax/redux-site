@@ -1,4 +1,3 @@
-"use client";
 import ContactForm from "./Form";
 import type { Metadata } from "next";
 

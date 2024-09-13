@@ -90,7 +90,7 @@ export default function Email({
             >
               <Row align="center">
                 <Column align="center">
-                  <Image
+                  <img
                     src="/assets/img/logo-verde-cortada.png"
                     alt="Logo TAX"
                     title="logo_TAX"
