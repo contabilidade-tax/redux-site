@@ -1,70 +1,73 @@
-'use client'
-import { Bars3Icon } from '@heroicons/react/24/solid'
-import { useEffect, useReducer, useRef, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+"use client";
+import { Bars3Icon } from "@heroicons/react/24/solid";
+import { useEffect, useReducer, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
-import { Icon } from '../Tools'
+import { Icon } from "../Tools";
 
-import styles from './Header.module.scss'
-import MenuItens from './MenuItens'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import styles from "./Header.module.scss";
+import MenuItens from "./MenuItens";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const tabs = [
-  { label: 'Home', src: '/home' },
-  { label: 'Sobre', src: '/home#sobre' },
-  { label: 'Serviços', src: '/home#servicos' },
-  { label: 'Trabalhe Conosco', src: '/trabalhe-conosco' },
-]
+  { label: "Home", src: "/home" },
+  { label: "Sobre", src: "/home#sobre" },
+  { label: "Serviços", src: "/home#servicos" },
+  { label: "Trabalhe Conosco", src: "/trabalhe-conosco" },
+];
 
-function reducer(state: any, action: { type: string; value?: any; isClient?: boolean; }) {
+function reducer(
+  state: any,
+  action: { type: string; value?: any; isClient?: boolean }
+) {
   switch (action.type) {
-    case 'OPEN':
+    case "OPEN":
       return {
         ...state,
         menuIsOpen: true,
-      }
-    case 'CLOSE':
+      };
+    case "CLOSE":
       return {
         ...state,
         menuIsOpen: false,
-      }
-    case 'SWITCH_PAGE':
+      };
+    case "SWITCH_PAGE":
       return {
         ...state,
         currentPage: action.value,
-      }
-    case 'SET_IS_CLIENT':
+      };
+    case "SET_IS_CLIENT":
       return {
         ...state,
         isClient: action.isClient,
-      }
+      };
     default:
       return state;
   }
 }
 
 export default function Header({ className }: { className?: string }) {
-  const currentPage = usePathname()
+  const currentPage = usePathname();
   const initialReducerState = {
     currentPage: tabs[0],
     menuIsOpen: false,
     isClient: false,
-  }
-  const [state, dispatch] = useReducer(reducer, initialReducerState)
+  };
+  const [state, dispatch] = useReducer(reducer, initialReducerState);
   const [isHovered, setIsHovered] = useState(false);
-  const menuRef = useRef<HTMLUListElement>(null)
+  const menuRef = useRef<HTMLUListElement>(null);
   const handleActualPage = (action: { type: string; value: any }) => {
-    return dispatch(action)
-  }
+    return dispatch(action);
+  };
   function setMenuOpen(isOpen: boolean) {
     if (isOpen) {
-      dispatch({ type: 'OPEN' })
+      dispatch({ type: "OPEN" });
     } else {
-      dispatch({ type: 'CLOSE' })
+      dispatch({ type: "CLOSE" });
     }
   }
 
@@ -82,70 +85,71 @@ export default function Header({ className }: { className?: string }) {
   }
 
   useEffect(() => {
-    dispatch({ type: 'SET_IS_CLIENT', isClient: true })
-  }, [])
+    dispatch({ type: "SET_IS_CLIENT", isClient: true });
+  }, []);
 
   // Não permite scroll na tela enquanto o menu está aberto
   useEffect(() => {
     // Verificar se o código está sendo executado no lado do cliente
     if (state.isClient) {
-      document.body.style.overflow = state.isMenuOpen ? 'hidden' : 'auto'
+      document.body.style.overflow = state.isMenuOpen ? "hidden" : "auto";
     }
-  }, [state.isMenuOpen]) // A função no useEffect será executada sempre que isLoading mudar
+  }, [state.isMenuOpen]); // A função no useEffect será executada sempre que isLoading mudar
 
   useEffect(() => {
     if (currentPage !== state.currentPage.src) {
       // Se a página atual for diferente da página no estado, atualize a página atual no estado
       // Isso mudará o estado para refletir a página atual e atualizará o indicador no menu
-      const newCurrentPage = tabs.find(tab => tab.src === currentPage)
+      const newCurrentPage = tabs.find((tab) => tab.src === currentPage);
       if (newCurrentPage) {
-        dispatch({ type: 'SWITCH_PAGE', value: newCurrentPage })
+        dispatch({ type: "SWITCH_PAGE", value: newCurrentPage });
       }
     }
-  }, [currentPage, state.currentPage.src])
+  }, [currentPage, state.currentPage.src]);
 
-  useEffect(() => {
-
-  }, [isHovered])
+  useEffect(() => {}, [isHovered]);
 
   return (
     <header
-      className={
-        cn(
-          styles.head,
-          styles.wrapper,
-          'bg-zinc-50 sticky top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#fafafa] shadow-md',
-          className,
-        )
-      }
+      className={cn(
+        styles.head,
+        styles.wrapper,
+        "bg-zinc-50 sticky top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#fafafa] shadow-md",
+        className
+      )}
     >
-      <Link href={'/'} className={`h-[60px] w-[220px] ${styles.logo}`} >
+      <Link href={"/"} className={`h-[60px] w-[220px] ${styles.logo}`}>
         <Image
-          className='w-full h-full object-cover'
+          className="h-full w-full object-cover"
           src="/assets/img/redux-logo.svg"
           // src="/assets/img/logo-verde-2.png"
           alt="Redux Logo"
+          title="logo"
           width={0}
           height={0}
           priority={true}
         />
-
       </Link>
-      <div className={`${styles.desktopTabs} ` + 'hidden h-auto w-max md:block'}>
+      <div
+        className={`${styles.desktopTabs} ` + "hidden h-auto w-max md:block"}
+      >
         <ul className="flex items-center">
           {tabs.map((tab, index) => (
             <li key={index}>
               <Link
                 href={tab.src}
                 onClick={() =>
-                  handleActualPage({ type: 'SWITCH_PAGE', value: tab })
+                  handleActualPage({ type: "SWITCH_PAGE", value: tab })
                 }
               >
                 {tab.label}
               </Link>
               {tab === state.currentPage ? (
-                <motion.div className={cn(styles.underline, '!bg-primary-color')} layoutId="underline" />
-              ) : (null)}
+                <motion.div
+                  className={cn(styles.underline, "!bg-primary-color")}
+                  layoutId="underline"
+                />
+              ) : null}
             </li>
           ))}
         </ul>
@@ -154,13 +158,18 @@ export default function Header({ className }: { className?: string }) {
         <Button
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className="flex items-center gap-3 text-lg font-semibold text-white bg-black hover:bg-primary-color rounded-full"
+          className="flex items-center gap-3 rounded-full bg-black text-lg font-semibold text-white hover:bg-primary-color"
         >
           <Icon
-            src={isHovered ? '/assets/img/dino-smile.png' : '/assets/img/dino-serio.png'}
+            src={
+              isHovered
+                ? "/assets/img/dino-smile.png"
+                : "/assets/img/dino-serio.png"
+            }
             width={30}
             height={30}
-            className={' relative top-[.29rem]'} />
+            className={" relative top-[.29rem]"}
+          />
           {getGreeting()}
         </Button>
       </div>
@@ -170,24 +179,26 @@ export default function Header({ className }: { className?: string }) {
         }}
         className={`${styles.hamburguerButton} ` + 'w-[4em] h-[3em] lg:hidden'}
       > */}
-      <Bars3Icon onClick={() => {
-        setMenuOpen(true)
-      }}
-        className={`${styles.hamburguerButton} ` + 'w-[2em] h-[2em] lg:hidden'} width={40} height={40} />
+      <Bars3Icon
+        onClick={() => {
+          setMenuOpen(true);
+        }}
+        className={`${styles.hamburguerButton} ` + "h-[2em] w-[2em] lg:hidden"}
+        width={40}
+        height={40}
+      />
       {/* </Button> */}
-      {
-        state.menuIsOpen && (
-          <MenuItens
-            ref={menuRef}
-            state={state}
-            className="items-center justify-center bg-black/90 p-4 text-3xl text-white backdrop-blur-sm"
-            tabs={tabs}
-            setCurrentPage={handleActualPage}
-            setMenuOpen={setMenuOpen}
-            getGreeting={getGreeting}
-          />
-        )
-      }
-    </header >
-  )
+      {state.menuIsOpen && (
+        <MenuItens
+          ref={menuRef}
+          state={state}
+          className="items-center justify-center bg-black/90 p-4 text-3xl text-white backdrop-blur-sm"
+          tabs={tabs}
+          setCurrentPage={handleActualPage}
+          setMenuOpen={setMenuOpen}
+          getGreeting={getGreeting}
+        />
+      )}
+    </header>
+  );
 }

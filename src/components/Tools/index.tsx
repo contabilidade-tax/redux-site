@@ -1,21 +1,29 @@
-import Image from 'next/image'
-import { ButtonProps, IconProps } from '@/types'
+import Image from "next/image";
+import { ButtonProps, IconProps } from "@/types";
 
-import styles from './Tools.module.scss'
+import styles from "./Tools.module.scss";
 
 export function Icon({
   src,
-  alt = 'icon',
+  alt = "icon",
   width = 50,
   height = 50,
-  className
+  className,
 }: IconProps) {
   return (
-    <Image src={src} loading="lazy" alt={alt} width={width} height={height} className={className} />
-  )
+    <Image
+      src={src}
+      loading="lazy"
+      title={alt}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+    />
+  );
 }
 export function ButtonBackgroundShine({
-  text = 'Fale Conosco',
+  text = "Fale Conosco",
   className,
   ...rest
 }: ButtonProps) {
@@ -28,5 +36,5 @@ export function ButtonBackgroundShine({
         {text}
       </button>
     </>
-  )
+  );
 }

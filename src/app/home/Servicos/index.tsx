@@ -137,9 +137,9 @@ export default function Servicos({
           "flex max-h-[90vh] w-full flex-col items-center justify-center py-8"
         )}
       >
-        <h4
+        <h3
           className={cn(
-            "text-center text-3xl font-semibold md:text-4xl lg:text-6xl",
+            "w-full text-center text-3xl font-semibold md:text-4xl lg:text-6xl",
             styles.title
           )}
         >
@@ -152,7 +152,7 @@ export default function Servicos({
           >
             ?
           </span>
-        </h4>
+        </h3>
         <div
           className={cn(
             styles.contentWrapper,

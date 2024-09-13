@@ -67,22 +67,24 @@ export const montserrat = localFont({
 export const metadata: Meta = {
   title: {
     default:
-      "Contabilidade Simplificada para MEI e Pequenos Empreendedores | Redux Contabilidade",
+      "Redux Contabilidade, Contabilidade Simplificada para MEI e Pequenos Empreendedores",
     template: "%s | Redux Contabilidade",
   },
   description:
-    "Precisa abrir o MEI, reduzir impostos, ou imposto de renda? Venha conhecer a Redux Contabilidade! Não somos obrigação, somos ferramenta!",
+    "Precisa abrir o MEI, reduzir impostos, ou declarara imposto de renda? Venha conhecer a Redux Contabilidade! Não somos obrigação, somos ferramenta!",
   keywords: [
     "empresa de contabilidade",
     "contabilidade mei",
     "contabilidade juazeiro do norte",
-    "escrituração contábil",
+    "contador em juazeiro",
+    "tax contabilidade",
     "contabilidade impostos",
     "assessoria contábil",
     "contabilidade fiscal",
+    "ferramenta contabilidade",
     "contabilidade tributária",
     "consultoria empresarial",
-    "imposto de renda",
+    "imposto de renda juazeiro",
   ],
   appleWebApp: true,
   authors: { name: "Redux Contabilidade by Grupo Redux" },
@@ -97,6 +99,7 @@ export const metadata: Meta = {
   },
   formatDetection: { address: true, email: true, telephone: true, url: true },
   robots: { follow: true, index: true, "max-snippet": -1 },
+  viewport: { initialScale: 1, maximumScale: 0.5, width: "device-width" },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
