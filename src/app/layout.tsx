@@ -19,52 +19,6 @@ const font = Montserrat({
   preload: true,
 });
 
-// export const montserrat = localFont({
-//   src: [
-//     {
-//       path: "/fonts/body/Montserrat-Black.ttf",
-//       weight: "900",
-//       style: "normal",
-//     },
-//     {
-//       path: "/fonts/body/Montserrat-ExtraBold.ttf",
-//       weight: "800",
-//       style: "normal",
-//     },
-//     {
-//       path: "/fonts/body/Montserrat-Bold.ttf",
-//       weight: "700",
-//       style: "normal",
-//     },
-//     {
-//       path: "/fonts/body/Montserrat-SemiBold.ttf",
-//       weight: "600",
-//       style: "normal",
-//     },
-//     {
-//       path: "/fonts/body/Montserrat-Medium.ttf",
-//       weight: "500",
-//       style: "normal",
-//     },
-//     {
-//       path: "/fonts/body/Montserrat-Regular.ttf",
-//       weight: "400",
-//       style: "normal",
-//     },
-//     {
-//       path: "/fonts/body/Montserrat-Light.ttf",
-//       weight: "300",
-//       style: "normal",
-//     },
-//     {
-//       path: "/fonts/body/Montserrat-Italic.ttf",
-//       weight: "500",
-//       style: "italic",
-//     },
-//   ],
-//   variable: "--font-montserrat",
-// });
-
 export const viewport: Viewport = {
   initialScale: 1,
   width: "device-width",
@@ -77,7 +31,7 @@ export const metadata: Meta = {
     template: "%s | Redux Contabilidade",
   },
   description:
-    "Precisa abrir o MEI, reduzir impostos, ou declarar o imposto de renda? Venha conhecer a Redux Contabilidade! Não somos obrigação, somos ferramenta!",
+    "Precisa abrir o MEI, reduzir impostos ou declarar imposto de renda? Venha conhecer a Redux Contabilidade em Juazeiro do Norte! Não somos obrigação, somos ferramenta!",
   keywords: [
     "empresa de contabilidade",
     "contabilidade mei",
