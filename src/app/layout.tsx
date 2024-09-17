@@ -12,56 +12,58 @@ import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-// const inter = Montserrat({
-//   subsets: ['latin'],
-//   weight: '400',
-// })
-
-export const montserrat = localFont({
-  src: [
-    {
-      path: "/fonts/body/Montserrat-Black.ttf",
-      weight: "900",
-      style: "normal",
-    },
-    {
-      path: "/fonts/body/Montserrat-ExtraBold.ttf",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "/fonts/body/Montserrat-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "/fonts/body/Montserrat-SemiBold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "/fonts/body/Montserrat-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "/fonts/body/Montserrat-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "/fonts/body/Montserrat-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "/fonts/body/Montserrat-Italic.ttf",
-      weight: "500",
-      style: "italic",
-    },
-  ],
+const font = Montserrat({
+  subsets: ["latin"],
+  weight: ["900", "800", "700", "600", "500", "400", "300"],
   variable: "--font-montserrat",
+  preload: true,
 });
+
+// export const montserrat = localFont({
+//   src: [
+//     {
+//       path: "/fonts/body/Montserrat-Black.ttf",
+//       weight: "900",
+//       style: "normal",
+//     },
+//     {
+//       path: "/fonts/body/Montserrat-ExtraBold.ttf",
+//       weight: "800",
+//       style: "normal",
+//     },
+//     {
+//       path: "/fonts/body/Montserrat-Bold.ttf",
+//       weight: "700",
+//       style: "normal",
+//     },
+//     {
+//       path: "/fonts/body/Montserrat-SemiBold.ttf",
+//       weight: "600",
+//       style: "normal",
+//     },
+//     {
+//       path: "/fonts/body/Montserrat-Medium.ttf",
+//       weight: "500",
+//       style: "normal",
+//     },
+//     {
+//       path: "/fonts/body/Montserrat-Regular.ttf",
+//       weight: "400",
+//       style: "normal",
+//     },
+//     {
+//       path: "/fonts/body/Montserrat-Light.ttf",
+//       weight: "300",
+//       style: "normal",
+//     },
+//     {
+//       path: "/fonts/body/Montserrat-Italic.ttf",
+//       weight: "500",
+//       style: "italic",
+//     },
+//   ],
+//   variable: "--font-montserrat",
+// });
 
 export const viewport: Viewport = {
   initialScale: 1,
@@ -116,7 +118,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body
-        className={`--font-montserrat flex min-h-screen flex-col items-center justify-between`}
+        className={`${font.variable} flex min-h-screen flex-col items-center justify-between`}
       >
         <Header />
         <MobileContextProvider>
