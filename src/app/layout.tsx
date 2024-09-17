@@ -17,57 +17,55 @@ import Header from "@/components/Header";
 //   weight: '400',
 // })
 
-export const montserrat = localFont({
-  src: [
-    {
-      path: "./fonts/body/Montserrat-Black.ttf",
-      weight: "900",
-      style: "normal",
-    },
-    {
-      path: "./fonts/body/Montserrat-ExtraBold.ttf",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "./fonts/body/Montserrat-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "./fonts/body/Montserrat-SemiBold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "./fonts/body/Montserrat-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "./fonts/body/Montserrat-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/body/Montserrat-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "./fonts/body/Montserrat-Italic.ttf",
-      weight: "500",
-      style: "italic",
-    },
-  ],
-  variable: "--font-montserrat",
-});
+// export const montserrat = localFont({
+//   src: [
+//     {
+//       path: "./fonts/body/Montserrat-Black.ttf",
+//       weight: "900",
+//       style: "normal",
+//     },
+//     {
+//       path: "./fonts/body/Montserrat-ExtraBold.ttf",
+//       weight: "800",
+//       style: "normal",
+//     },
+//     {
+//       path: "./fonts/body/Montserrat-Bold.ttf",
+//       weight: "700",
+//       style: "normal",
+//     },
+//     {
+//       path: "./fonts/body/Montserrat-SemiBold.ttf",
+//       weight: "600",
+//       style: "normal",
+//     },
+//     {
+//       path: "./fonts/body/Montserrat-Medium.ttf",
+//       weight: "500",
+//       style: "normal",
+//     },
+//     {
+//       path: "./fonts/body/Montserrat-Regular.ttf",
+//       weight: "400",
+//       style: "normal",
+//     },
+//     {
+//       path: "./fonts/body/Montserrat-Light.ttf",
+//       weight: "300",
+//       style: "normal",
+//     },
+//     {
+//       path: "./fonts/body/Montserrat-Italic.ttf",
+//       weight: "500",
+//       style: "italic",
+//     },
+//   ],
+//   variable: "--font-montserrat",
+// });
 
 export const viewport: Viewport = {
   initialScale: 1,
-  maximumScale: 0.5,
   width: "device-width",
-  viewportFit: "auto",
 };
 
 export const metadata: Meta = {
@@ -77,7 +75,7 @@ export const metadata: Meta = {
     template: "%s | Redux Contabilidade",
   },
   description:
-    "Precisa abrir o MEI, reduzir impostos, ou declarara imposto de renda? Venha conhecer a Redux Contabilidade! Não somos obrigação, somos ferramenta!",
+    "Precisa abrir o MEI, reduzir impostos, ou declarar o imposto de renda? Venha conhecer a Redux Contabilidade! Não somos obrigação, somos ferramenta!",
   keywords: [
     "empresa de contabilidade",
     "contabilidade mei",
@@ -87,10 +85,9 @@ export const metadata: Meta = {
     "contabilidade impostos",
     "assessoria contábil",
     "contabilidade fiscal",
-    "ferramenta contabilidade",
     "contabilidade tributária",
     "consultoria empresarial",
-    "imposto de renda juazeiro",
+    "declarar imposto de renda",
   ],
   appleWebApp: true,
   authors: { name: "Redux Contabilidade by Grupo Redux" },
@@ -119,7 +116,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body
-        className={`${montserrat.variable} flex min-h-screen flex-col items-center justify-between`}
+        className={`--font-montserrat flex min-h-screen flex-col items-center justify-between`}
       >
         <Header />
         <MobileContextProvider>
