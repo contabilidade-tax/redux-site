@@ -7,11 +7,11 @@ import Image from "next/image";
 
 import { Icon } from "../Tools";
 
-import styles from "./Header.module.scss";
 import MenuItens from "./MenuItens";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import "./header.scss";
 
 const tabs = [
   { label: "Home", src: "/home" },
@@ -112,13 +112,13 @@ export default function Header({ className }: { className?: string }) {
   return (
     <header
       className={cn(
-        styles.head,
-        styles.wrapper,
+        "head",
+        "wrapper",
         "bg-zinc-50 sticky top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#fafafa] shadow-md",
         className
       )}
     >
-      <Link href={"/"} className={`h-[60px] w-[220px] ${styles.logo}`}>
+      <Link href={"/"} className={`logo h-[60px] w-[220px]`}>
         <Image
           className="h-full w-full object-cover"
           src="/assets/img/redux-logo.svg"
@@ -130,9 +130,7 @@ export default function Header({ className }: { className?: string }) {
           priority={true}
         />
       </Link>
-      <div
-        className={`${styles.desktopTabs} ` + "hidden h-auto w-max md:block"}
-      >
+      <div className={"desktopTabs hidden h-auto w-max md:block"}>
         <ul className="flex items-center">
           {tabs.map((tab, index) => (
             <li key={index}>
@@ -146,7 +144,7 @@ export default function Header({ className }: { className?: string }) {
               </Link>
               {tab === state.currentPage ? (
                 <motion.div
-                  className={cn(styles.underline, "!bg-primary-color")}
+                  className={cn("underline", "!bg-primary-color")}
                   layoutId="underline"
                 />
               ) : null}
@@ -154,7 +152,7 @@ export default function Header({ className }: { className?: string }) {
           ))}
         </ul>
       </div>
-      <div className={`${styles.link} hidden md:block`}>
+      <div className={"link hidden md:block"}>
         <Button
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -168,7 +166,7 @@ export default function Header({ className }: { className?: string }) {
             }
             width={30}
             height={30}
-            className={" relative top-[.29rem]"}
+            className={"relative top-[.29rem]"}
           />
           {getGreeting()}
         </Button>
@@ -183,7 +181,7 @@ export default function Header({ className }: { className?: string }) {
         onClick={() => {
           setMenuOpen(true);
         }}
-        className={`${styles.hamburguerButton} ` + "h-[2em] w-[2em] lg:hidden"}
+        className="hamburguerButton h-[2em] w-[2em] lg:hidden"
         width={40}
         height={40}
       />

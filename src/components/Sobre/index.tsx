@@ -3,8 +3,9 @@
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { FigureProps } from "@/types";
-import styles from "./Sobre.module.scss";
 import Image from "next/image";
+
+import "./sobre.scss";
 
 function Figure({
   image,
@@ -76,7 +77,7 @@ export default function Sobre() {
           image={`/assets/img/sobre/${figure.image}.png`}
           name={figure.name}
           description={figure.description}
-          className={cn(styles.figure, "md:!scale-100 xsm:scale-110")}
+          className={cn("figure", "md:!scale-100 xsm:scale-110")}
           style={{ flexBasis: "30%" }}
         />
       ))}

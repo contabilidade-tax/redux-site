@@ -4,14 +4,14 @@ import { Facebook, Instagram, YoutubeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import style from "@/components/Footer/Footer.module.scss";
+import "@/components/Footer/footer.scss";
 
 export default function Footer({ className }: { className?: string }) {
   const linkStyle = "bg-[#fafafa] rounded-full p-2";
   return (
     <footer
       className={cn(
-        style.footer,
+        "footer",
         className,
         "relative !bottom-0 z-10 h-[4%] w-full bg-[#202020] text-white shadow-2xl shadow-black lg:min-h-[160px]",
         "flex flex-col justify-around py-4 text-sm font-medium md:py-6"

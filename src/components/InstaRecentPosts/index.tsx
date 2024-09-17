@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 import { Card } from "./Card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import styles from "./InstaRecentPosts.module.scss";
 import { InstaPostData } from "@/types";
 import Link from "next/link";
+import "./instaRecentPosts.scss";
 
 type InstaRecentPostsProps = {
   className?: string;
@@ -78,7 +78,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
       <section
         className={cn(
           "flex h-full w-full gap-4 overflow-x-auto py-4",
-          styles.instaPostsWrapper,
+          "instaPostsWrapper",
           className
         )}
       >
@@ -96,7 +96,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
             <div
               key={index}
               className={cn(
-                styles.instaPost,
+                "instaPost",
                 "relative h-[90%] self-start px-4 drop-shadow-custom"
                 // { 'scale:.8': isMobile },
               )}
@@ -107,7 +107,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
                   post={post}
                   index={index}
                   className={cn(
-                    styles.instaMidia,
+                    "instaMidia",
                     "relative w-1/2",
                     "!max-h-[335px]"
                   )}

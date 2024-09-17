@@ -1,4 +1,4 @@
-// import { Montserrat } from 'next/font/google'
+import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import { ReactNode } from "react";
 import type { Viewport, Metadata as Meta } from "next";
@@ -6,7 +6,6 @@ import "@/styles/globals.scss";
 import "react-toastify/dist/ReactToastify.minimal.css";
 
 import { MobileContextProvider } from "@/common/context/MobileDeviceContext";
-// import { Toaster } from "@/components/ui/toaster"
 import { ToastContainer } from "react-toastify";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
@@ -21,42 +20,42 @@ import Header from "@/components/Header";
 export const montserrat = localFont({
   src: [
     {
-      path: "../../public/fonts/body/Montserrat-Black.ttf",
+      path: "./fonts/body/Montserrat-Black.ttf",
       weight: "900",
       style: "normal",
     },
     {
-      path: "../../public/fonts/body/Montserrat-ExtraBold.ttf",
+      path: "./fonts/body/Montserrat-ExtraBold.ttf",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../../public/fonts/body/Montserrat-Bold.ttf",
+      path: "./fonts/body/Montserrat-Bold.ttf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../../public/fonts/body/Montserrat-SemiBold.ttf",
+      path: "./fonts/body/Montserrat-SemiBold.ttf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../../public/fonts/body/Montserrat-Medium.ttf",
+      path: "./fonts/body/Montserrat-Medium.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/body/Montserrat-Regular.ttf",
+      path: "./fonts/body/Montserrat-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/body/Montserrat-Light.ttf",
+      path: "./fonts/body/Montserrat-Light.ttf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../../public/fonts/body/Montserrat-Italic.ttf",
+      path: "./fonts/body/Montserrat-Italic.ttf",
       weight: "500",
       style: "italic",
     },
