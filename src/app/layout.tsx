@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 };
 
 const descriptionText =
-  "Oferecemos serviços para empresas e profissionais, incluindo consultoria fiscal, contabilidade geral e planejamento tributário. Precisa abrir o MEI, reduzir impostos ou declarar imposto de renda? Venha conhecer a Redux Contabilidade em Juazeiro do Norte! Não somos obrigação, somos ferramenta para seu sucesso!";
+  "Precisa abrir o MEI, reduzir impostos ou declarar imposto de renda? Venha conhecer a Redux Contabilidade em Juazeiro do Norte! Oferecemos serviços para empresas e profissionais, incluindo consultoria fiscal, contabilidade geral e planejamento tributário. Não somos obrigação, somos ferramenta para seu sucesso!";
 
 export const metadata: Meta = {
   title: {
@@ -141,6 +141,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           property="og:image"
           content="https://contabilidade.gruporedux.com.br/favicon.ico"
         />
+        <link rel="canonical" href="https://contabilidade.gruporedux.com.br" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
