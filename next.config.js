@@ -10,7 +10,6 @@ const nextConfig = {
       "www.flaticon.com",
       "scontent.cdninstagram.com",
       "contabilidade.gruporedux.com.br",
-      "redux.app.br",
     ],
     dangerouslyAllowSVG: true,
     unoptimized: true,
@@ -32,7 +31,7 @@ const nextConfig = {
       {
         source: "/contato",
         destination: `https://wa.me/send?phone=5588999660188&text=${encodeURIComponent(
-          "Olá, gostaria de saber mais sobre seus serviços"
+          "Olá, vim do site e gostaria de saber mais sobre seus serviços!"
         )}`,
         permanent: true,
       },

@@ -24,14 +24,16 @@ export const viewport: Viewport = {
   width: "device-width",
 };
 
+const descriptionText =
+  "Oferecemos serviços para empresas e profissionais, incluindo consultoria fiscal, contabilidade geral e planejamento tributário. Precisa abrir o MEI, reduzir impostos ou declarar imposto de renda? Venha conhecer a Redux Contabilidade em Juazeiro do Norte! Não somos obrigação, somos ferramenta para seu sucesso!";
+
 export const metadata: Meta = {
   title: {
     default:
       "Redux Contabilidade Simplificada p/ MEI e Pequenos Empreendedores",
     template: "%s | Redux Contabilidade",
   },
-  description:
-    "Precisa abrir o MEI, reduzir impostos ou declarar imposto de renda? Venha conhecer a Redux Contabilidade em Juazeiro do Norte! Não somos obrigação, somos ferramenta!",
+  description: descriptionText,
   keywords: [
     "empresa de contabilidade",
     "contabilidade mei",
@@ -60,6 +62,75 @@ export const metadata: Meta = {
   robots: { follow: true, index: true, "max-snippet": -1 },
 };
 
+export const ldJson = {
+  "@context": "https://schema.org",
+  "@type": "AccountingService",
+  name: "Redux Contabilidade",
+  description: descriptionText,
+  url: "https://contabilidade.gruporedux.com.br",
+  logo: "https://contabilidade.gruporedux.com.br/assets/img/redux-logo.svg",
+  image: "https://contabilidade.gruporedux.com.br/favicon.ico",
+  telephone: "+55-88-2178-7987",
+  email: "adm@contabilidade-tax.com.br",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Av Gov. Virgílio Távora - Fátima, 11",
+    addressLocality: "Juazeiro do Norte",
+    addressRegion: "CE",
+    postalCode: "63020-735",
+    addressCountry: "BR",
+  },
+  areaServed: {
+    "@type": "Place",
+    name: "Juazeiro do Norte, CE, Brasil",
+  },
+  priceRange: "$$$",
+  currenciesAccepted: "BRL",
+  paymentAccepted: "Cash, Credit Card, Bank Transfer",
+  openingHours: ["Mo-Fr 08:00-12:00", "Mo-Fr 13:15-18:00"],
+  sameAs: [
+    "https://www.facebook.com/taxcontabilidade",
+    "https://www.instagram.com/reduxcontabilidade",
+    "https://www.linkedin.com/company/tax-assessoria-cont%C3%A1bil/",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+55-88-2178-7987",
+    contactType: "Customer Support",
+    areaServed: "BR",
+    availableLanguage: "Portuguese",
+  },
+  founder: {
+    "@type": "Person",
+    name: "Redux Contabilidade by Grupo Redux",
+    jobTitle: "CEO",
+  },
+  keywords: [
+    "empresa de contabilidade",
+    "contabilidade mei",
+    "contabilidade juazeiro do norte",
+    "contador em juazeiro",
+    "tax contabilidade",
+    "contabilidade impostos",
+    "assessoria contábil",
+    "contabilidade fiscal",
+    "contabilidade tributária",
+    "consultoria empresarial",
+    "declarar imposto de renda",
+  ],
+  author: {
+    "@type": "Organization",
+    name: "Redux Contabilidade by Grupo Redux",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Redux Contabilidade",
+  },
+  verification: {
+    google: "gFLlRnT1yQns0_synm8jvFQgqN1cC5eJYz89upK4JZw",
+  },
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
@@ -69,6 +140,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta
           property="og:image"
           content="https://contabilidade.gruporedux.com.br/favicon.ico"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
         />
       </head>
       <body
