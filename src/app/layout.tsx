@@ -50,7 +50,6 @@ export const metadata: Meta = {
   appleWebApp: true,
   authors: { name: "Redux Contabilidade by Grupo Redux" },
   publisher: "/",
-  verification: { google: "gFLlRnT1yQns0_synm8jvFQgqN1cC5eJYz89upK4JZw" },
   openGraph: {
     type: "website",
     description:
