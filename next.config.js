@@ -23,11 +23,11 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      {
-        source: "/",
-        destination: "https://contabilidade.gruporedux.com.br",
-        permanent: true,
-      },
+      // {
+      //   source: "https://",
+      //   destination: "https://contabilidade.gruporedux.com.br",
+      //   permanent: true,
+      // },
       {
         source: "/contato",
         destination: `https://wa.me/send?phone=5588999660188&text=${encodeURIComponent(
@@ -90,7 +90,6 @@ const nextConfig = {
           { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
           { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: "https://redux.app.br" },
           {
             key: "Access-Control-Allow-Origin",
             value: "https://contabilidade.gruporedux.com.br",
