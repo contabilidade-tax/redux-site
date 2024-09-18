@@ -28,7 +28,7 @@ export default function Page() {
   const key = process.env.NEXT_PUBLIC_CRYPTO_KEY;
   const iv = process.env.NEXT_PUBLIC_CRYPTO_IV;
   const token = process.env.NEXT_PUBLIC_BEARER_TOKEN;
-  const redirectUri = `https://redux.app.br/api/instaData/authorize/${encodeURIComponent(
+  const redirectUri = `https://contabilidade.gruporedux.com.br/api/instaData/authorize/${encodeURIComponent(
     criptografar(token, key, iv)
   )}/`;
 

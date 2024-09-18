@@ -33,6 +33,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
     } catch (error: any) {
       console.log(error.message);
       // redirect('https://redux.app.br')
+      // redirect('https://contabilidade.gruporedux.com.br')
     }
   };
 

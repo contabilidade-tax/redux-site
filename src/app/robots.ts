@@ -14,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: '/',
             }
         ],
-        sitemap: `${env.NEXT_PUBLIC_HOME ?? 'https://redux.app.br'}/sitemap.xml`,
+        sitemap: `${env.NEXT_PUBLIC_HOME ?? 'https://contabilidade.gruporedux.com.br'}/sitemap.xml`,
     }
 }

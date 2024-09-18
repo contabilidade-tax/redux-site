@@ -297,7 +297,7 @@ export default function Email({
                   <Row style={{ display: "flex", flexDirection: "column" }}>
                     <Column>
                       <Link
-                        href="https://redux.app.br/home"
+                        href="https://contabilidade.gruporedux.com.br"
                         style={{
                           marginBottom: "4px",
                           fontSize: "14px",
@@ -312,7 +312,7 @@ export default function Email({
                   <Row>
                     <Column>
                       <Link
-                        href="https://redux.app.br/home#servicos"
+                        href="https://contabilidade.gruporedux.com.br/#servicos"
                         style={{
                           marginBottom: "4px",
                           fontSize: "14px",
@@ -326,7 +326,7 @@ export default function Email({
                   <Row>
                     <Column>
                       <Link
-                        href="https://redux.app.br/trabalhe-conosco"
+                        href="https://contabilidade.gruporedux.com.br/trabalhe-conosco"
                         style={{
                           marginBottom: "4px",
                           fontSize: "14px",

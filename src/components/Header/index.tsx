@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 import "./header.scss";
 
 const tabs = [
-  { label: "Home", src: "/home" },
-  { label: "Sobre", src: "/home#sobre" },
-  { label: "Serviços", src: "/home#servicos" },
+  { label: "Home", src: "/" },
+  { label: "Sobre", src: "/#sobre" },
+  { label: "Serviços", src: "/#servicos" },
   { label: "Trabalhe Conosco", src: "/trabalhe-conosco" },
 ];
 

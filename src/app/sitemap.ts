@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { env } from 'process'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const home = env.NEXT_PUBLIC_HOME ?? 'https://redux.app.br';
+    const home = env.NEXT_PUBLIC_HOME ?? 'https://contabilidade.gruporedux.com.br';
     return [
         {
             url: home,

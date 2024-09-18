@@ -116,7 +116,7 @@ export default function Loading() {
       >
         <p className="font-semibold">Produzido por: </p>
         <img
-          src="https://redux.app.br/assets/img/logo-verde-cortada.png"
+          src="https://redux/assets/img/logo-verde-cortada.png"
           alt="Logo TAX"
           width={0}
           height={0}
