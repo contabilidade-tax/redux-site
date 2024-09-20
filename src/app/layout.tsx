@@ -25,7 +25,16 @@ export const viewport: Viewport = {
 };
 
 const descriptionText =
-  "Precisa abrir o MEI, reduzir impostos ou declarar imposto de renda? Venha conhecer a Redux Contabilidade em Juazeiro do Norte! Oferecemos serviços para empresas e profissionais, incluindo consultoria fiscal, contabilidade geral e planejamento tributário. Não somos obrigação, somos ferramenta para seu sucesso!";
+  "Precisa abrir o MEI, reduzir impostos ou declarar imposto de renda? Venha para a Redux Contabilidade em Juazeiro do Norte. Oferecemos serviços para empresas e profissionais, incluindo consultoria fiscal, contabilidade geral e planejamento tributário. Não somos obrigação, somos ferramenta para seu sucesso!";
+const keywords = [
+  "Contabilidade em Juazeiro do Norte e Região",
+  "Declarar Imposto de Renda",
+  "Contabilidade MEI",
+  "Contabilidade Crajubar",
+  "Redução de impostos",
+  "Contabilidade",
+  "Tax",
+];
 
 export const metadata: Meta = {
   title: {
@@ -34,31 +43,23 @@ export const metadata: Meta = {
     template: "%s | Redux Contabilidade",
   },
   description: descriptionText,
-  keywords: [
-    "empresa de contabilidade",
-    "contabilidade mei",
-    "contabilidade juazeiro do norte",
-    "contador em juazeiro",
-    "tax contabilidade",
-    "contabilidade impostos",
-    "assessoria contábil",
-    "contabilidade fiscal",
-    "contabilidade tributária",
-    "consultoria empresarial",
-    "declarar imposto de renda",
-  ],
+  keywords: keywords,
   appleWebApp: true,
-  authors: { name: "Redux Contabilidade by Grupo Redux" },
+  authors: { name: "Contabilidade by Grupo Redux" },
   publisher: "/",
   openGraph: {
     type: "website",
-    description:
-      "Precisa abrir o MEI, reduzir impostos, ou imposto de renda? Venha conhecer a Redux Contabilidade! Não somos obrigação, somos ferramenta.",
+    description: descriptionText,
     url: "/",
     emails: ["adm@contabilidade-tax.com.br"],
   },
   formatDetection: { address: true, email: true, telephone: true, url: true },
-  robots: { follow: true, index: true, "max-snippet": -1 },
+  robots: {
+    follow: true,
+    index: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+  },
 };
 
 export const ldJson = {
@@ -83,9 +84,6 @@ export const ldJson = {
     "@type": "Place",
     name: "Juazeiro do Norte, CE, Brasil",
   },
-  priceRange: "$$$",
-  currenciesAccepted: "BRL",
-  paymentAccepted: "Cash, Credit Card, Bank Transfer",
   openingHours: ["Mo-Fr 08:00-12:00", "Mo-Fr 13:15-18:00"],
   sameAs: [
     "https://www.facebook.com/taxcontabilidade",
@@ -101,32 +99,17 @@ export const ldJson = {
   },
   founder: {
     "@type": "Person",
-    name: "Redux Contabilidade by Grupo Redux",
+    name: "Thales Andrey",
     jobTitle: "CEO",
   },
-  keywords: [
-    "empresa de contabilidade",
-    "contabilidade mei",
-    "contabilidade juazeiro do norte",
-    "contador em juazeiro",
-    "tax contabilidade",
-    "contabilidade impostos",
-    "assessoria contábil",
-    "contabilidade fiscal",
-    "contabilidade tributária",
-    "consultoria empresarial",
-    "declarar imposto de renda",
-  ],
+  keywords: keywords,
   author: {
     "@type": "Organization",
-    name: "Redux Contabilidade by Grupo Redux",
+    name: "Grupo Redux",
   },
   publisher: {
     "@type": "Organization",
     name: "Redux Contabilidade",
-  },
-  verification: {
-    google: "gFLlRnT1yQns0_synm8jvFQgqN1cC5eJYz89upK4JZw",
   },
 };
 
@@ -136,6 +119,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <meta http-equiv="Cache-Control" content="max-age=7200" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <meta charSet="UTF-8" />
         <meta
           property="og:image"
           content="https://contabilidade.gruporedux.com.br/favicon.ico"
