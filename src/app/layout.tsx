@@ -53,7 +53,7 @@ export const metadata: Meta = {
     url: "/",
     emails: ["adm@contabilidade-tax.com.br"],
   },
-  formatDetection: { address: true, email: true, telephone: true, url: true },
+  formatDetection: { address: true, email: true, telephone: true },
   robots: {
     follow: true,
     index: true,
