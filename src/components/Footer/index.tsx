@@ -22,11 +22,11 @@ export default function Footer({ className }: { className?: string }) {
         <section className="flex flex-1 items-center justify-around gap-4 md:!scale-100 xsm:scale-90 xsm:gap-5">
           <div className="logo_itens flex h-max w-max max-w-[350px] flex-col items-start justify-center gap-2 px-4">
             <Image
-              src="/assets/img/reduxbranco.png"
+              src="/assets/img/redux/logo_redux_rodape.png"
               title="logo_footer"
-              alt="logo-cortada"
-              className="h-[50px] w-36 object-contain grayscale-0"
-              width={100}
+              alt="logo_footer"
+              className="h-[100px] w-36 object-contain grayscale-0"
+              width={144}
               height={100}
             />
             {/* <Image src="/assets/img/re" alt="logo-cortada" className="grayscale-0 w-inherit h-[50px] object-contain" width={100} height={100} /> */}

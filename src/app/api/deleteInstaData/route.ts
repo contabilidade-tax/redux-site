@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { clearCache, getDateTime } from '@/common/middleware/redisConfig';
+import { clearCache, getDateTime } from '@/common/redis/config';
 
 export async function GET(req: NextRequest) {
     try {

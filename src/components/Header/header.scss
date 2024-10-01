@@ -1,103 +1,32 @@
-@import '@/styles/variaveis';
+@import "@/styles/variaveis";
 
 .underline {
-    position: relative;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: $primary-color;
+  position: relative;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: $primary-color;
 }
 
 .wrapper {
-    @include xsmScreen() {
-        padding: $xsm-padding;
-    }
+  @include xsmScreen() {
+    padding: $xsm-padding;
+  }
 
-    @include smScreen() {
-        padding: $sm-padding;
-    }
+  @include smScreen() {
+    padding: $sm-padding;
+  }
 
-    @include mdScreen() {
-        padding: $md-padding;
-    }
+  @include mdScreen() {
+    padding: $md-padding;
+  }
 
-    @include lgScreen() {
-        padding: $lg-padding;
-    }
+  @include lgScreen() {
+    padding: $lg-padding;
+  }
 
-    @include xlScreen() {
-        padding: $xl-padding;
-    }
+  @include xlScreen() {
+    padding: $xl-padding;
+  }
 }
-
-// .head {
-//     padding: $xsm-padding;
-// }
-
-// @include customMedia("max-width: 450px") {
-//     .head {
-//         min-height: 8vh;
-//     }
-
-//     .logo {
-//         width: 100%;
-//         height: 90%;
-
-//         transform: translateX(-55px);
-//     }
-// }
-
-// @include smScreen() {
-//     .head {
-//         padding: $sm-padding;
-//     }
-// }
-
-// @include mdScreen() {
-//     .head {
-//         padding: $md-padding;
-
-//         min-height: 9vh;
-//     }
-// }
-
-// @include lgScreen() {
-//     .head {
-//         padding: $lg-padding;
-
-//         .desktopTabs {
-//             display: flex;
-
-//             font-size: 16px;
-//             font-weight: 400
-//         }
-
-//         .link {
-//             display: block;
-//         }
-
-//         .link:hover button .iconContainer {
-//             .dinoSerio {
-//                 display: hidden;
-//             }
-
-//             .dinoSorrindo {
-//                 display: block !important;
-//             }
-//         }
-
-//     }
-
-//     .hamburguerButton {
-//         display: none;
-//     }
-
-
-// }
-
-// @include xlScreen() {
-//     .head {
-//         padding: $xl-padding;
-//     }
-// }

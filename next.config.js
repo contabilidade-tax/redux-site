@@ -14,24 +14,16 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     unoptimized: true,
   },
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
   webpack: (config) => {
     config.resolve.alias["@"] = path.resolve(__dirname, "./src/");
     return config;
   },
   async redirects() {
     return [
-      // {
-      //   source: "https://",
-      //   destination: "https://contabilidade.gruporedux.com.br",
-      //   permanent: true,
-      // },
       {
         source: "/contato",
-        destination: `https://wa.me/send?phone=5588999660188&text=${encodeURIComponent(
-          "Olá, vim do site e gostaria de saber mais sobre seus serviços!"
+        destination: `https://wa.me/send?phone=5588996960337&text=${encodeURIComponent(
+          "Olá, vim pelo site e gostaria de saber mais sobre seus serviços!"
         )}`,
         permanent: true,
       },

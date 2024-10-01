@@ -1,104 +1,29 @@
-@import '@/styles/variaveis';
-
+@import "@/styles/variaveis";
 
 .servicos {
-    width: auto;
-    height: auto;
-    // border: 1px solid rgb(255 235 59);
+  width: auto;
+  height: auto;
+  // border: 1px solid rgb(255 235 59);
 }
 
 .wrapper {
-    @include xsmScreen() {
-        padding: $xsm-padding;
-    }
+  @include xsmScreen() {
+    padding: $xsm-padding;
+  }
 
+  @include smScreen() {
+    padding: $sm-padding;
+  }
 
-    @include smScreen() {
-        padding: $sm-padding;
-    }
+  @include mdScreen() {
+    padding: $md-padding;
+  }
 
-    @include mdScreen() {
-        padding: $md-padding;
-    }
+  @include lgScreen() {
+    padding: $lg-padding;
+  }
 
-    @include lgScreen() {
-        padding: $lg-padding;
-    }
-
-    @include xlScreen() {
-        padding: $xl-padding;
-    }
+  @include xlScreen() {
+    padding: $xl-padding;
+  }
 }
-
-// .contentArea {
-//     .leftArea .mobileGameScene {
-//         margin: 2rem auto;
-//     }
-// }
-
-// @include customMedia("min-width: 640px") {
-//     .contentArea {
-//         .leftArea {
-//             height: 90vh !important;
-
-//             display: flex;
-//             flex-direction: column;
-//             justify-content: space-between;
-//             align-items: center;
-//         }
-//     }
-
-//     .introText {
-//         margin: 0;
-//         padding: 0;
-
-//         font-size: 2rem;
-//         line-height: 3.5rem;
-//         letter-spacing: .1rem;
-//     }
-// }
-
-// @include smScreen() {
-//     .gameScene {
-//         margin: auto 0;
-//     }
-// }
-
-// @include mdScreen() {
-//     .introText {
-//         font-size: 3rem;
-//         line-height: 3.5rem;
-//         letter-spacing: .2rem;
-//     }
-
-// }
-
-// @include lgScreen() {
-//     .contentArea {
-//         .leftArea {
-//             display: flex;
-//             flex-direction: column;
-//             justify-content: space-between;
-//             align-items: center;
-//         }
-//     }
-
-//     .introText {
-//         // padding: 1rem 4.9rem;
-//         margin-top: 1% !important;
-
-//         font-size: 4rem !important;
-//         line-height: 3.5rem;
-//     }
-// }
-
-// @include xlScreen {
-//     .introText {
-//         padding: 1rem 8rem;
-//         margin: 0 0;
-
-//         font-size: 4.5rem;
-//         line-height: 4.8rem;
-//         letter-spacing: .3rem;
-//     }
-// }

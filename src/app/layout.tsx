@@ -1,5 +1,5 @@
 import { Montserrat } from "next/font/google";
-import localFont from "next/font/local";
+// import localFont from "next/font/local";
 import { ReactNode } from "react";
 import type { Viewport, Metadata as Meta } from "next";
 import "@/styles/globals.scss";
@@ -12,6 +12,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+
 const font = Montserrat({
   subsets: ["latin"],
   weight: ["900", "800", "700", "600", "500", "400", "300"],
@@ -46,7 +47,7 @@ export const metadata: Meta = {
   keywords: keywords,
   appleWebApp: true,
   authors: { name: "Contabilidade by Grupo Redux" },
-  publisher: "/",
+  publisher: "https://www.gruporedux.com.br",
   openGraph: {
     type: "website",
     description: descriptionText,
@@ -117,7 +118,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
       <head>
-        <meta http-equiv="Cache-Control" content="max-age=7200" />
+        <meta httpEquiv="Cache-Control" content="max-age=7200" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta charSet="UTF-8" />
         <meta
@@ -125,6 +126,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           content="https://contabilidade.gruporedux.com.br/favicon.ico"
         />
         <link rel="canonical" href="https://contabilidade.gruporedux.com.br" />
+        <link rel="image_src" href="https://contabilidade.gruporedux.com.br" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
@@ -145,21 +147,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Analytics />
       </body>
       {/* <!-- GTAG --> */}
-      <div id="gtag">
-        <Script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}
-        ></Script>
-        <Script id="google-analytics">
-          {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-            
-              gtag('config', ${process.env.NEXT_PUBLIC_GA_TAG});
-              `}
-        </Script>
-      </div>
+      <Script 
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}
+      />
+      <Script id="google-analytics">
+        {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          
+            gtag('config', ${process.env.NEXT_PUBLIC_GA_TAG});
+            `}
+      </Script>
       {/* <!-- End GTAG --> */}
       {/* <!-- Meta Pixel Code --> */}
       <Script id="meta-pixel">
@@ -186,5 +186,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </Script>
       {/* <!-- End MetaPixelCode--> */}
     </html>
-  );
+    );
 }

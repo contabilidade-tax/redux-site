@@ -1,12 +1,9 @@
 import React, { CSSProperties, ComponentProps, HTMLAttributes, ReactNode, Ref } from 'react'
 
-import services from '@/common/data/services.json'
 import { Tab } from '@material-tailwind/react'
 import { SwiperRef } from 'swiper/react'
-import Image, { StaticImageData } from 'next/image'
-import { Prisma } from '@prisma/client'
+import { StaticImageData } from 'next/image'
 
-type Service = (typeof services)[0]
 
 type InstaMidiaProps = {
   // eslint-disable-next-line no-use-before-define
@@ -60,7 +57,7 @@ type SeletorProps = {
   className?: string
   styles?: any
   state: any
-  services: typeof services
+  // services: typeof services
   switchTab: (index: number) => void
 }
 
@@ -112,10 +109,6 @@ interface FullPageLayoutProps {
   homePageIndex?: number
 }
 
-interface ServiceProps extends HTMLAttributes<HTMLElement> {
-  className?: string | undefined
-  scrollerRef?: Ref<SwiperRef> | undefined
-}
 
 interface LoadingProps extends HTMLAttributes<HTMLElement> {
   XRef: React.RefObject<HTMLImageElement>
@@ -125,14 +118,6 @@ interface LoadingProps extends HTMLAttributes<HTMLElement> {
   contabilidadeRef: React.RefObject<HTMLImageElement>
 }
 
-interface ServiceNavProps {
-  navRef?: React.RefObject<HTMLDivElement>
-  state: any,
-  mobileState: any,
-  services: typeof services
-  className?: string
-  switchTab: (index: number) => void
-}
 
 interface MenuItensProps {
   tabs: Tab[]
@@ -172,10 +157,7 @@ export type {
   ButtonProps,
   IconProps,
   FullPageLayoutProps,
-  Service,
-  ServiceProps,
   LoadingProps,
-  ServiceNavProps,
   MenuItensProps,
   Tab,
   GameSceneProps,

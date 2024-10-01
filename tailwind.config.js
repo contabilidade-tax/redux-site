@@ -37,8 +37,8 @@ module.exports = withMT({
         // 'primary-color': 'rgb(49,188,175)',
         "secondary-color": "#202020",
         // 'primary-color': '#666',
-        // 'primary-color': '#037367',
-        "primary-color": "#D5A115",
+        "primary-color": "#00e769",
+        // "primary-color": "#D5A115",
         // 'primary-color': '#ff0000',
       },
       keyframes: {
@@ -71,6 +71,9 @@ module.exports = withMT({
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+    },
+    fontFamily: {
+      calibri: ["--font-calibri", "Calibri", "Montserrat", "sans-serif"],
     },
   },
   plugins: [require("tailwindcss-animate")],

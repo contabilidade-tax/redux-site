@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { setRedisRegister, } from '@/common/middleware/redisConfig';
+import { setRedisRegister, } from '@/common/redis/config';
 import { Prisma, PrismaClient } from '@prisma/client'
 import crypto from 'node:crypto';
 

@@ -2,12 +2,12 @@
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import Image from "next/image";
-
+import { useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
 import { Icon } from "../Tools";
 
-import MenuItens from "./MenuItens";
+import MenuItens from "./MenuMobile";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -51,7 +51,9 @@ function reducer(
 }
 
 export default function Header({ className }: { className?: string }) {
-  const currentPage = usePathname();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [fullPath, setFullPath] = useState("");
   const initialReducerState = {
     currentPage: tabs[0],
     menuIsOpen: false,
@@ -88,24 +90,21 @@ export default function Header({ className }: { className?: string }) {
     dispatch({ type: "SET_IS_CLIENT", isClient: true });
   }, []);
 
-  // Não permite scroll na tela enquanto o menu está aberto
   useEffect(() => {
-    // Verificar se o código está sendo executado no lado do cliente
     if (state.isClient) {
-      document.body.style.overflow = state.isMenuOpen ? "hidden" : "auto";
+      const hash = window.location.hash;
+      setFullPath(`${pathname}${hash}`);
     }
-  }, [state.isMenuOpen]); // A função no useEffect será executada sempre que isLoading mudar
+  }, [pathname, searchParams, state.isClient]);
 
   useEffect(() => {
-    if (currentPage !== state.currentPage.src) {
-      // Se a página atual for diferente da página no estado, atualize a página atual no estado
-      // Isso mudará o estado para refletir a página atual e atualizará o indicador no menu
-      const newCurrentPage = tabs.find((tab) => tab.src === currentPage);
+    if (fullPath !== state.currentPage.src) {
+      const newCurrentPage = tabs.find((tab) => tab.src === fullPath);
       if (newCurrentPage) {
         dispatch({ type: "SWITCH_PAGE", value: newCurrentPage });
       }
     }
-  }, [currentPage, state.currentPage.src]);
+  }, [fullPath, state.currentPage.src]);
 
   useEffect(() => {}, [isHovered]);
 
@@ -114,35 +113,37 @@ export default function Header({ className }: { className?: string }) {
       className={cn(
         "head",
         "wrapper",
-        "bg-zinc-50 sticky top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#fafafa] shadow-md",
+        "sticky top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#151515] opacity-85 shadow-md",
         className
       )}
     >
-      <Link href={"/"} className={`logo h-[60px] w-[220px]`}>
+      <Link href={"/"} className="logo relative h-[60px] w-[260px]">
         <Image
-          className="h-full w-full object-cover"
-          src="/assets/img/redux-logo.svg"
-          // src="/assets/img/logo-verde-2.png"
+          src="/assets/img/redux/logo_branca.webp"
           alt="Redux Logo"
-          title="logo"
-          width={0}
-          height={0}
-          priority={true}
+          title="Redux Logo"
+          fill
+          quality={100}
+          style={{ objectFit: "contain" }}
+          sizes="(max-width: 768px) 95vw, (max-width: 1200px) 45vw, 30vw"
+          priority
         />
       </Link>
       <div className={"desktopTabs hidden h-auto w-max md:block"}>
-        <ul className="flex items-center">
+        <ul className="flex items-center font-semibold text-white">
           {tabs.map((tab, index) => (
             <li key={index}>
               <Link
                 href={tab.src}
-                onClick={() =>
-                  handleActualPage({ type: "SWITCH_PAGE", value: tab })
-                }
+                className={cn(tab.src === fullPath ? "text-primary-color" : "")}
+                onClick={() => {
+                  handleActualPage({ type: "SWITCH_PAGE", value: tab });
+                  setFullPath(tab.src);
+                }}
               >
                 {tab.label}
               </Link>
-              {tab === state.currentPage ? (
+              {tab.src === fullPath ? (
                 <motion.div
                   className={cn("underline", "!bg-primary-color")}
                   layoutId="underline"
@@ -171,12 +172,6 @@ export default function Header({ className }: { className?: string }) {
           {getGreeting()}
         </Button>
       </div>
-      {/* <Button
-        onClick={() => {
-          setMenuOpen(true)
-        }}
-        className={`${styles.hamburguerButton} ` + 'w-[4em] h-[3em] lg:hidden'}
-      > */}
       <Bars3Icon
         onClick={() => {
           setMenuOpen(true);
@@ -185,7 +180,6 @@ export default function Header({ className }: { className?: string }) {
         width={40}
         height={40}
       />
-      {/* </Button> */}
       {state.menuIsOpen && (
         <MenuItens
           ref={menuRef}

@@ -1,5 +1,5 @@
+import { getRedisValue, getDateTime } from '@/common/redis/config';
 import { NextRequest, NextResponse } from 'next/server';
-import { getRedisValue, getDateTime } from '@/common/middleware/redisConfig';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -19,8 +19,6 @@ async function getTokenData() {
         expires_in: Number(data.expires_in.toString())
     };
 }
-
-
 
 export async function GET(req: NextRequest) {
     const token = req.headers.get('Authorization')?.split(' ')[1]
