@@ -113,11 +113,14 @@ export default function Header({ className }: { className?: string }) {
       className={cn(
         "head",
         "wrapper",
-        "fixed top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#181818] opacity-85 shadow-md",
+        "fixed top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-around bg-[#181818] opacity-85 shadow-md",
         className
       )}
     >
-      <Link href={"/"} className="logo relative h-[50px] w-[260px]">
+      <Link
+        href={"/"}
+        className="logo relative h-[50px] w-[260px] xsm:w-[180px]"
+      >
         <Image
           src="/assets/img/redux/logo_branca.webp"
           alt="Redux Logo"
@@ -125,7 +128,7 @@ export default function Header({ className }: { className?: string }) {
           quality={100}
           fill
           style={{ objectFit: "contain" }}
-          sizes="(max-width: 768px) 95vw, (max-width: 1200px) 45vw, 30vw"
+          sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 30vw"
           priority
         />
       </Link>
@@ -178,6 +181,7 @@ export default function Header({ className }: { className?: string }) {
           setMenuOpen(true);
         }}
         className="hamburguerButton h-[2em] w-[2em] lg:hidden"
+        color="#fff"
         width={40}
         height={40}
       />

@@ -1,5 +1,11 @@
 @import "@/styles/variaveis";
 
+.serviceCard {
+  img {
+    height: 200px;
+  }
+}
+
 .wrapper {
   @include xsmScreen() {
     padding: $xsm-padding;

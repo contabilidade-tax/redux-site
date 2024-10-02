@@ -131,39 +131,24 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
         />
-      </head>
-      <body
-        className={`${font.variable} flex min-h-screen flex-col items-center justify-between`}
-      >
-        <Header />
-        <MobileContextProvider>
-          <main className="Wrapper relative flex w-full flex-1 flex-col items-center justify-between bg-[#fafafa] font-montserrat">
-            {children}
-            <ToastContainer />
-          </main>
-        </MobileContextProvider>
-        <Footer />
-        <SpeedInsights />
-        <Analytics />
-      </body>
-      {/* <!-- GTAG --> */}
-      <Script
-        async
-        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}
-      />
-      <Script id="google-analytics">
-        {`
+        {/* <!-- GTAG --> */}
+        <Script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}
+        />
+        <Script id="google-analytics">
+          {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
           
             gtag('config', ${process.env.NEXT_PUBLIC_GA_TAG});
             `}
-      </Script>
-      {/* <!-- End GTAG --> */}
-      {/* <!-- Meta Pixel Code --> */}
-      <Script id="meta-pixel">
-        {`
+        </Script>
+        {/* <!-- End GTAG --> */}
+        {/* <!-- Meta Pixel Code --> */}
+        <Script id="meta-pixel">
+          {`
               !function(f,b,e,v,n,t,s)
               {
                 if(f.fbq) return; 
@@ -183,8 +168,44 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   )}&ev=PageView&noscript=1"/>
                 </noscript>
               `}
-      </Script>
-      {/* <!-- End MetaPixelCode--> */}
+        </Script>
+        {/* <!-- End MetaPixelCode--> */}
+        {/* <!-- Google Tag Manager --> */}
+        <Script>
+          {`
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer',${String(
+              process.env.NEXT_PUBLIC_GTAG_MANAGER
+            )});
+          `}
+        </Script>
+        {/* <!-- End Google Tag Manager --> */}
+      </head>
+      <body
+        className={`${font.variable} flex min-h-screen flex-col items-center justify-between`}
+      >
+        <Header />
+        <MobileContextProvider>
+          <main className="Wrapper relative flex w-full flex-1 flex-col items-center justify-between bg-[#fafafa] font-montserrat">
+            {children}
+            <ToastContainer />
+          </main>
+        </MobileContextProvider>
+        <Footer />
+        <SpeedInsights />
+        <Analytics />
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTAG_MANAGER}`}
+            height="0"
+            width="0"
+            style={{ display: "none;", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
+      </body>
     </html>
   );
 }

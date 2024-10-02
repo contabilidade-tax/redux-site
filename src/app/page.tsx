@@ -107,10 +107,10 @@ export default function Page() {
         className={cn(
           "wrapper",
           "min-h-[100svh] w-full max-w-[1500px]",
-          "notSelected-G flex items-center justify-between px-4"
+          "notSelected-G flex flex-col items-center justify-between px-4 md:flex-row"
         )}
       >
-        <aside className="left flex flex-1 flex-col items-center justify-around gap-8">
+        <aside className="left flex flex-1 scale-90 flex-col flex-wrap items-center justify-around gap-8 md:scale-100 md:flex-nowrap">
           {/* MISSÃO */}
           <div className="flex items-start justify-center gap-4">
             <div className="flex h-max w-max justify-end">
@@ -175,8 +175,8 @@ export default function Page() {
             </div>
           </div>
         </aside>
-        <aside className="right mr-4 flex flex-1 flex-col items-end justify-center gap-10 text-end">
-          <h2 className="w-[95%] text-6xl font-normal">
+        <aside className="right mr-4 flex flex-1 flex-col items-end justify-center gap-10 text-end xsm:text-center">
+          <h2 className="w-full text-4xl font-normal md:w-[95%] md:text-6xl">
             A <span className="font-bold">melhor solução</span> para sua
             empresa.
           </h2>
@@ -188,7 +188,7 @@ export default function Page() {
         </aside>
       </section>
       {/* Serviços */}
-      <section
+      {/* <section
         id="servicos"
         className={cn(
           "wrapper",
@@ -200,9 +200,9 @@ export default function Page() {
           Como podemos te ajudar hoje
           <span className="text-primary-color">?</span>
         </h2>
-        <div className="serviceCard-Container flex flex-wrap items-center justify-evenly">
+        <div className="serviceCard-Container flex flex-wrap items-center justify-evenly"> */}
           {/* Abertura de Empresa */}
-          <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+          {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
@@ -226,9 +226,9 @@ export default function Page() {
                 </Button>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* Regularização */}
-          <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+          {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
@@ -252,12 +252,12 @@ export default function Page() {
                 </Button>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* Redução de Impostos */}
-          <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+          {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
-                className="rounded-2xl"
+                className="max-h-[200px] rounded-2xl"
                 src="/assets/img/redux/servicos/institucional_servicos_3.webp"
                 width={280}
                 height={200}
@@ -278,9 +278,9 @@ export default function Page() {
                 </Button>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* Assessoria Contábil */}
-          <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+          {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
@@ -304,9 +304,9 @@ export default function Page() {
                 </Button>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </div> */}
+        {/* </div>
+      </section> */}
       {/* Posts Recentes */}
       <section
         id="recents"
