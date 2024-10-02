@@ -1,20 +1,14 @@
 /* eslint-disable no-unused-vars */
 "use client";
-import React, { useEffect, Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { setCookie, parseCookies } from "nookies";
 import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
 //
-import Servicos from "./home/Servicos";
-import { ButtonBackgroundShine } from "@/components/Tools";
 import { useMobileContext } from "@/common/context/MobileDeviceContext";
 import InstaRecentPosts from "@/components/InstaRecentPosts";
 import { cn } from "@/lib/utils";
-//
-// import NatalGameScene from "./home/NatalGameScene";
-// import GameScene from "./home/GameScene";
-//
-import "@/app/home/home.scss";
+import "@/app/page.scss";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
@@ -23,7 +17,7 @@ type handleCookieActions = {
   type: "SET" | "GET";
 };
 
-export default function Page() {
+function Home() {
   const { mobileState } = useMobileContext();
   const params = useSearchParams();
 
@@ -201,8 +195,8 @@ export default function Page() {
           <span className="text-primary-color">?</span>
         </h2>
         <div className="serviceCard-Container flex flex-wrap items-center justify-evenly"> */}
-          {/* Abertura de Empresa */}
-          {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+      {/* Abertura de Empresa */}
+      {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
@@ -227,8 +221,8 @@ export default function Page() {
               </div>
             </div>
           </div> */}
-          {/* Regularização */}
-          {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+      {/* Regularização */}
+      {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
@@ -253,8 +247,8 @@ export default function Page() {
               </div>
             </div>
           </div> */}
-          {/* Redução de Impostos */}
-          {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+      {/* Redução de Impostos */}
+      {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="max-h-[200px] rounded-2xl"
@@ -279,8 +273,8 @@ export default function Page() {
               </div>
             </div>
           </div> */}
-          {/* Assessoria Contábil */}
-          {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+      {/* Assessoria Contábil */}
+      {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
@@ -305,7 +299,7 @@ export default function Page() {
               </div>
             </div>
           </div> */}
-        {/* </div>
+      {/* </div>
       </section> */}
       {/* Posts Recentes */}
       <section
@@ -327,5 +321,13 @@ export default function Page() {
         </section>
       </section>
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <Home />
+    </Suspense>
   );
 }

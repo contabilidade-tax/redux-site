@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { Suspense, useEffect, useReducer, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams, usePathname } from "next/navigation";
@@ -49,7 +49,7 @@ function reducer(
   }
 }
 
-export default function Header({ className }: { className?: string }) {
+function HeaderContent({ className }: { className?: string }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [fullPath, setFullPath] = useState("");
@@ -196,5 +196,13 @@ export default function Header({ className }: { className?: string }) {
         />
       )}
     </header>
+  );
+}
+
+export default function Header() {
+  return (
+    <Suspense>
+      <HeaderContent />
+    </Suspense>
   );
 }
