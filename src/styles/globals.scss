@@ -1,6 +1,19 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 @import "@/styles/variaveis";
 @import "@/styles/imports";
 @import "@/styles/toastfy/main";
+
+@layer components {
+  .b-test-yellow {
+    @apply border-2 border-yellow-500;
+  }
+  .b-test-red {
+    @apply border-2 border-red-500;
+  }
+}
 
 @layer base {
   :root {
@@ -34,63 +47,6 @@
 
     --radius: 0.5rem;
 
-    // font-family: 'Montserrat', sans-serif;
-    @font-face {
-      font-family: "Montserrat";
-      src: url("/fonts/body/Montserrat-Black.ttf") format("truetype");
-      font-weight: 900;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: "Montserrat";
-      src: url("/fonts/body/Montserrat-ExtraBold.ttf") format("truetype");
-      font-weight: 800;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: "Montserrat";
-      src: url("/fonts/body/Montserrat-Bold.ttf") format("truetype");
-      font-weight: 700;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: "Montserrat";
-      src: url("/fonts/body/Montserrat-SemiBold.ttf") format("truetype");
-      font-weight: 600;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: "Montserrat";
-      src: url("/fonts/body/Montserrat-Medium.ttf") format("truetype");
-      font-weight: 500;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: "Montserrat";
-      src: url("/fonts/body/Montserrat-Regular.ttf") format("truetype");
-      font-weight: 400;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: "Montserrat";
-      src: url("/fonts/body/Montserrat-Light.ttf") format("truetype");
-      font-weight: 300;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: "Montserrat";
-      src: url("/fonts/body/Montserrat-Italic.ttf") format("truetype");
-      font-weight: 500;
-      font-style: italic;
-    }
-
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -102,7 +58,7 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background-color: #d5a115;
+      background-color: $primary-color;
       // background-color: #037367;
       border-radius: 100px;
     }
@@ -139,29 +95,9 @@
   }
 }
 
-// .Wrapper {
-//   @include smScreen() {
-//     padding: $sm-padding;
-//   }
-
-//   @include mdScreen() {
-//     padding: $md-padding;
-//   }
-
-//   @include lgScreen() {
-//     padding: $lg-padding;
-//   }
-
-//   @include xlScreen() {
-//     padding: $xl-padding;
-//   }
-// }
-
 body {
   color: rgb(0 0 0);
   background-color: rgb(250 250 250);
-
-  font-family: var(--font-montserrat);
 
   @include notSelect;
 }

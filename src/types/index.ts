@@ -100,6 +100,7 @@ interface IconProps extends ComponentProps<'image'> {
   width?: number
   height?: number
   className?: string
+  styles?: {}
 }
 
 interface FullPageLayoutProps {

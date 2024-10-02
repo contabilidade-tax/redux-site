@@ -22,10 +22,12 @@ export default function Footer({ className }: { className?: string }) {
         <section className="flex flex-1 items-center justify-around gap-4 md:!scale-100 xsm:scale-90 xsm:gap-5">
           <div className="logo_itens flex h-max w-max max-w-[350px] flex-col items-start justify-center gap-2 px-4">
             <Image
-              src="/assets/img/redux/logo_redux_rodape.png"
-              title="logo_footer"
-              alt="logo_footer"
+              src="/assets/img/redux/logo_branca.webp"
+              title="Logo Redux"
+              alt="Logo Redux"
               className="h-[100px] w-36 object-contain grayscale-0"
+              quality={100}
+              loading="eager"
               width={144}
               height={100}
             />
@@ -61,13 +63,14 @@ export default function Footer({ className }: { className?: string }) {
             <h3 className="font-bold md:!text-lg xsm:text-base">Contate-nos</h3>
             <div className="mt-2 space-y-1 md:!text-base xsm:text-sm">
               <p>- Av. Virgílio Távora, 11 - Fátima, Juazeiro do Norte-CE</p>
-              <p>- comercial@contabilidade-tax.com.br</p>
               <Link
+                className="block"
                 target="_blank"
-                href={
-                  "https://api.whatsapp.com/send?phone=558899660188&text=Olá, gostaria de saber mais sobre seus serviços"
-                }
+                href="mailto:comercial@contabilidade-tax.com.br"
               >
+                - comercial@contabilidade-tax.com.br
+              </Link>
+              <Link target="_blank" href="/contato">
                 - (88) 99966-0188
               </Link>
               {/* <li>1111</li> */}

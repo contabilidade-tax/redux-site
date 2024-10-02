@@ -12,6 +12,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Head from "next/head";
 
 const font = Montserrat({
   subsets: ["latin"],
@@ -38,11 +39,7 @@ const keywords = [
 ];
 
 export const metadata: Meta = {
-  title: {
-    default:
-      "Redux Contabilidade Simplificada p/ MEI e Pequenos Empreendedores",
-    template: "%s | Redux Contabilidade",
-  },
+  title: "Redux Contabilidade Simplificada p/ MEI e Pequenos Empreendedores",
   description: descriptionText,
   keywords: keywords,
   appleWebApp: true,
@@ -119,14 +116,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="pt-BR">
       <head>
         <meta httpEquiv="Cache-Control" content="max-age=7200" />
-        <meta name="mobile-web-app-capable" content="yes" />
+        {/* <meta name="mobile-web-app-capable" content="yes" /> */}
         <meta charSet="UTF-8" />
         <meta
           property="og:image"
           content="https://contabilidade.gruporedux.com.br/favicon.ico"
         />
         <link rel="canonical" href="https://contabilidade.gruporedux.com.br" />
-        <link rel="image_src" href="https://contabilidade.gruporedux.com.br" />
+        <link
+          rel="image_src"
+          href="https://contabilidade.gruporedux.com.br/assets/img/redux/logo_preta.webp"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
@@ -147,7 +147,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Analytics />
       </body>
       {/* <!-- GTAG --> */}
-      <Script 
+      <Script
         async
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}
       />
@@ -186,5 +186,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </Script>
       {/* <!-- End MetaPixelCode--> */}
     </html>
-    );
+  );
 }

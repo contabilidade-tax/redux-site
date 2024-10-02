@@ -9,6 +9,7 @@ export function Icon({
   width = 50,
   height = 50,
   className,
+  styles,
 }: IconProps) {
   return (
     <Image
@@ -19,6 +20,7 @@ export function Icon({
       width={width}
       height={height}
       className={className}
+      style={styles}
     />
   );
 }

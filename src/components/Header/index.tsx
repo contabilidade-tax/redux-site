@@ -106,24 +106,24 @@ export default function Header({ className }: { className?: string }) {
     }
   }, [fullPath, state.currentPage.src]);
 
-  useEffect(() => {}, [isHovered]);
+  // useEffect(() => {}, [isHovered]);
 
   return (
     <header
       className={cn(
         "head",
         "wrapper",
-        "sticky top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#151515] opacity-85 shadow-md",
+        "fixed top-0 z-[1000] flex min-h-[10svh] w-full items-center justify-between bg-[#181818] opacity-85 shadow-md",
         className
       )}
     >
-      <Link href={"/"} className="logo relative h-[60px] w-[260px]">
+      <Link href={"/"} className="logo relative h-[50px] w-[260px]">
         <Image
           src="/assets/img/redux/logo_branca.webp"
           alt="Redux Logo"
           title="Redux Logo"
-          fill
           quality={100}
+          fill
           style={{ objectFit: "contain" }}
           sizes="(max-width: 768px) 95vw, (max-width: 1200px) 45vw, 30vw"
           priority
@@ -157,7 +157,7 @@ export default function Header({ className }: { className?: string }) {
         <Button
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className="flex items-center gap-3 rounded-full bg-black text-lg font-semibold text-white hover:bg-primary-color"
+          className="flex items-center gap-3 rounded-full bg-[#fafafa] text-lg font-semibold text-black hover:bg-primary-color"
         >
           <Icon
             src={
@@ -167,6 +167,7 @@ export default function Header({ className }: { className?: string }) {
             }
             width={30}
             height={30}
+            styles={{ filter: isHovered ? "" : "invert(1)" }}
             className={"relative top-[.29rem]"}
           />
           {getGreeting()}

@@ -22,7 +22,8 @@ const nextConfig = {
     return [
       {
         source: "/contato",
-        destination: `https://wa.me/send?phone=5588996960337&text=${encodeURIComponent(
+        // https://api.whatsapp.com/send?phone=558899660188&text=Ol%C3%A1,%20gostaria%20de%20saber%20mais%20sobre%20seus%20servi%C3%A7os
+        destination: `https://api.whatsapp.com/send?phone=5588996960337&text=${encodeURIComponent(
           "Olá, vim pelo site e gostaria de saber mais sobre seus serviços!"
         )}`,
         permanent: true,
