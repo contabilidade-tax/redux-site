@@ -1,15 +1,14 @@
 "use client";
-import { Bars3Icon } from "@heroicons/react/24/solid";
 import { useEffect, useReducer, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useSearchParams, usePathname } from "next/navigation";
+import { Bars3Icon } from "@heroicons/react/24/solid";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Icon } from "../Tools";
 
 import MenuItens from "./MenuMobile";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import "./header.scss";
 

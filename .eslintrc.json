@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "@rocketseat/eslint-config/react"
-  ],
+  "extends": ["next/core-web-vitals", "@rocketseat/eslint-config/react"],
   "rules": {
     "react/no-unescaped-entities": "off",
     "react/react-in-jsx-scope": "off",
@@ -16,6 +13,8 @@
     "@typescript-eslint/no-empty-function": "off",
     "prettier/prettier": "off", // Desativando a regra prettier/prettier
     "react-hooks/exhaustive-deps": "off",
-    "react/no-unknown-property": "off"
+    "react/no-unknown-property": "off",
+    "object-shorthand": "off",
+    "no-useless-constructor": "off"
   }
 }
