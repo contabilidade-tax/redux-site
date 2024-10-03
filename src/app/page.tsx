@@ -81,11 +81,11 @@ function Home() {
           "flex flex-col items-center justify-around"
         )}
       >
-        <div className="content flex min-h-max w-full flex-col items-center justify-center gap-20 text-white">
+        <div className="content flex min-h-max w-full flex-col items-center justify-center gap-24 text-white">
           <div className="text-center">
             <h1 className="mx-[1vw] text-5xl font-extrabold">
               Não somos obrigação,{" "}
-              <span className="text-primary-color">somos ferramenta.</span>
+              <span className="text-primary-color">somos ferramenta</span>.
             </h1>
           </div>
           <Link href="/contato">
@@ -118,7 +118,11 @@ function Home() {
             </div>
             <div className="flex w-[50%] flex-col gap-2">
               <h2 className="block text-3xl">
-                Nossa <span className="font-bold">missão</span>
+                Nossa{" "}
+                <span className="font-bold">
+                  missão
+                  <span className="font-bold text-primary-color">:</span>
+                </span>
               </h2>
               <p className="block text-base font-normal">
                 Oferecer serviços contábeis precisos e acessíveis com soluções
@@ -139,7 +143,10 @@ function Home() {
             </div>
             <div className="flex w-[50%] flex-col gap-2">
               <h2 className="block text-3xl">
-                Nossa <span className="font-bold">visão</span>
+                Nossa{" "}
+                <span className="font-bold">
+                  visão<span className="font-bold text-primary-color">:</span>
+                </span>
               </h2>
               <p className="block text-base font-normal">
                 Ser reconhecida pela presteza na informação, excelência no
@@ -160,7 +167,10 @@ function Home() {
             </div>
             <div className="flex w-[50%] flex-col gap-2">
               <h2 className="block text-3xl">
-                Nossos <span className="font-bold">valores</span>
+                Nossos{" "}
+                <span className="font-bold">
+                  valores<span className="font-bold text-primary-color">:</span>
+                </span>
               </h2>
               <p className="block text-base font-normal">
                 Respeito, integridade, empatia, dedicação, clareza,
@@ -169,7 +179,7 @@ function Home() {
             </div>
           </div>
         </aside>
-        <aside className="right mr-4 flex flex-1 flex-col items-end justify-center gap-10 text-end xsm:text-center">
+        <aside className="right mr-4 flex flex-1 flex-col items-end justify-center gap-10 text-center md:text-end">
           <h2 className="w-full text-4xl font-normal md:w-[95%] md:text-6xl">
             A <span className="font-bold">melhor solução</span> para sua
             empresa.
@@ -306,14 +316,15 @@ function Home() {
         id="recents"
         className={cn(
           "wrapper",
-          "mb-[5svh] mt-[10svh] h-auto max-h-[90svh] max-w-full",
+          "mb-[5svh] h-[100svh] w-full",
           "notSelected-G flex flex-col justify-center"
         )}
       >
-        <h2 className="text-center text-5xl font-extrabold text-primary-color sm:!text-2xl md:!text-5xl">
-          Publicações mais recentes!
+        <h2 className="text-center text-5xl font-medium text-black sm:!text-2xl md:!text-5xl">
+          Publicações mais recentes
+          <span className="text-primary-color">.</span>
         </h2>
-        <section className="posts h-auto w-full md:!scale-100 xsm:!scale-95">
+        <section className="posts h-auto w-full scale-95 md:!scale-100">
           <InstaRecentPosts
             isMobile={mobileState.isSmallScreen}
             noRefresh={params.has("noRefresh")}

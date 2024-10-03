@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { InstaPostData } from "@/types";
 import Link from "next/link";
 import "./instaRecentPosts.scss";
+import { Button } from "../ui/button";
 
 type InstaRecentPostsProps = {
   className?: string;
@@ -65,7 +66,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
 
   return (
     <>
-      {/* USER INFO */}
+      {/* USER INFO
       <div className="currentUser relative left-1/2 flex h-10 w-max min-w-52 -translate-x-1/2 justify-center rounded-full border border-[#191919] bg-[#191919] px-4 text-center text-xl font-bold text-white">
         <Link
           className="my-auto"
@@ -74,7 +75,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
         >
           <p className="text-center">@{user ?? " Loading..."}</p>
         </Link>
-      </div>
+      </div> */}
       {/* POSTS */}
       <section
         className={cn(
@@ -84,7 +85,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
         )}
       >
         {loading ? (
-          <div className="relative !z-50 flex h-full items-center justify-evenly gap-4 p-5">
+          <div className="relative z-50 flex h-full items-center justify-evenly gap-4 p-5">
             {Array.from({ length: 6 }).map((_, index) => (
               <Skeleton
                 key={index}
@@ -110,7 +111,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
                   className={cn(
                     "instaMidia",
                     "relative w-1/2",
-                    "!max-h-[335px]"
+                    "!max-h-[310px]"
                   )}
                 />
                 <Card.Caption
@@ -118,6 +119,15 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
                   text={post.caption!}
                   timestamp={post.timestamp!}
                 />
+                <Link
+                  href={post.permalink!}
+                  target="_blank"
+                  className="__postLink"
+                >
+                  <Button className="bg-primary-color px-4 py-2 text-white">
+                    Clique para ver mais
+                  </Button>
+                </Link>
               </Card.Root>
             </div>
           ))

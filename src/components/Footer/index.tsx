@@ -78,7 +78,7 @@ export default function Footer({ className }: { className?: string }) {
           </div>
         </section>
         <div className="copy h-max w-auto max-w-[390px] flex-1 font-semibold md:!self-end md:!text-sm xsm:self-center xsm:text-xs">
-          <p>© 2023 Redux. Todos os direitos reservados.</p>
+          <p>© 2024 Grupo Redux. Todos os direitos reservados.</p>
         </div>
       </section>
       {/* <div className= w-full h-[1.5px]"></div> */}
