@@ -47,10 +47,10 @@ interface VideoPlayerProps extends ComponentProps<'video'> {
 }
 
 type InstaTokenData = {
-  access_token: string | null
-  token_type: string | null
-  expires_in: number | null
-  generated_at: number | null
+  access_token: string
+  token_type: string
+  expires_in: number
+  generated_at: number
 }
 
 type SeletorProps = {

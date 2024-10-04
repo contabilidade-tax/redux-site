@@ -1,16 +1,10 @@
 "use client";
-import React, {
-  createContext,
-  useReducer,
-  useContext,
-  useLayoutEffect,
-  Dispatch,
-  useEffect,
-} from "react";
+import React, { createContext, useReducer, useContext, Dispatch } from "react";
 import { InstaPostData, InstaTokenData, InstaPostsProps } from "@/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import crypto from "crypto";
+import { StringValidation } from "zod";
 
 function criptografar(texto: any, chave: any, iv: any) {
   const cipher = crypto.createCipheriv(
@@ -40,34 +34,37 @@ const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(
   undefined
 );
 
-async function renewToken(old_token: string, router: any) {
+async function renewToken(expiredToken: string) {
+  const key = process.env.NEXT_PUBLIC_CRYPTO_KEY;
+  const iv = process.env.NEXT_PUBLIC_CRYPTO_IV;
+  const authorization = process.env.NEXT_PUBLIC_BEARER_TOKEN;
+  //
   const api_base = "https://api.instagram.com/oauth/authorize";
   const appId = process.env.NEXT_PUBLIC_API_IG_APP_ID;
   const scope = "user_profile,user_media";
-  const key = process.env.NEXT_PUBLIC_CRYPTO_KEY;
-  const iv = process.env.NEXT_PUBLIC_CRYPTO_IV;
-  const token = process.env.NEXT_PUBLIC_BEARER_TOKEN;
   const redirectUri = `/api/instaData/authorize/${encodeURIComponent(
-    criptografar(token, key, iv)
+    criptografar(authorization, key, iv)
   )}/`;
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${old_token}`;
+    const url = `${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${expiredToken}`;
     const response = await axios.get(url);
-
     const responseDataWithTimestamp = {
       ...response.data,
-      generated_at: Date.now().toString(),
+      generated_at: Date.now(),
     };
-    return responseDataWithTimestamp; // Retorna os dados do novo token com generated_at
+
+    return responseDataWithTimestamp;
   } catch (error: any) {
     console.error("Erro ao renovar o token:", error.message);
     // Se code 190 pega um novo
-    if (error.response.data.error.code === 190) {
-      router.replace(
-        `${api_base}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`
-      );
-    }
+    // GAMBIARRA BRABA MAS FUNCIONA
+    // SE NÃO FOR POSSÍVEL RENOVAR AUTOMATICAMENTE FORÇA À RELOGAR COM O INSTA
+    // if (error.response.data.error.code === 190) {
+    //   router.replace(
+    //     `${api_base}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`
+    //   );
+    // }
   }
 }
 
@@ -98,7 +95,7 @@ export const useInstaPostsContext = () => {
   return context;
 };
 
-async function getTokenData(): Promise<InstaTokenData | null> {
+async function getAlreadySavedToken(): Promise<InstaTokenData | null> {
   try {
     const response = await axios.get(`/api/instaData?key=token`, {
       headers: {
@@ -108,7 +105,7 @@ async function getTokenData(): Promise<InstaTokenData | null> {
     return response.data.data;
   } catch (error: any) {
     console.error("Erro ao buscar token:", error.message);
-    return null; // Ou outra lógica de tratamento de erro
+    return null;
   }
 }
 
@@ -139,18 +136,15 @@ async function getRedisData() {
 function setTokenData(
   data: InstaTokenData
 ): InstaTokenData | undefined | never | any {
-  // const home = process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_VERCEL_API_URL
-  fetch(`/api/createInstaData?key=token`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ data }),
-  })
-    .then((resultado) => {
-      const responseData = resultado.json();
-      return responseData;
+  axios
+    .post(`/api/createInstaData?key=token`, JSON.stringify({ data }), {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => {
+      return res;
     })
     .catch((error) => {
       console.log(`HTTP error! status: ${error.message}`);
@@ -182,20 +176,7 @@ async function setPostsData(data: InstaPostData[]) {
   }
 }
 
-function updateTokenData(
-  token: InstaTokenData,
-  dispatch: Dispatch<ActionType>
-) {
-  const newToken = setTokenData(token);
-  dispatch({
-    type: "UPDATE_TOKEN",
-    value: newToken,
-  });
-
-  return newToken;
-}
-
-async function getPostsData(
+async function getPostsDataFromIGApi(
   token: InstaTokenData
 ): Promise<InstaPostData[] | null> {
   try {
@@ -203,7 +184,6 @@ async function getPostsData(
     let allData: InstaPostData[] = [];
 
     for (let i = 0; i === 0; i++) {
-      // Limite de 1 requisições
       if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
 
       const response = await axios.get(url, {
@@ -213,26 +193,15 @@ async function getPostsData(
           access_token: token.access_token,
         },
       });
-      // Juntar os dados de cada requisição
+
       if (response.data && response.data.data) {
         allData = [...allData, ...response.data.data];
       }
 
-      // Atualiza a URL para a próxima página, se existir
-      url =
-        response.data.paging && response.data.paging.next
-          ? response.data.paging.next
-          : null;
+      url = response.data.paging?.next || null;
     }
 
-    // Após o loop, atualizar o estado com os dados acumulados
-    // dispatch({
-    //     type: 'UPDATE_POSTS_DATA',
-    //     value: allData,
-    // });
-    // Criar o cache com os dados e salvar no banco
     await setPostsData(allData);
-
     return allData;
   } catch (error: any) {
     console.log(
@@ -244,7 +213,7 @@ async function getPostsData(
   }
 }
 
-async function getFromDb() {
+async function getPostsDataFromDbLocalCopy() {
   try {
     const response = await axios.get(`/api/instaData/db`, {
       headers: {
@@ -252,8 +221,6 @@ async function getFromDb() {
       },
     });
 
-    // O Axios automaticamente trata a resposta como JSON,
-    // então não é necessário chamar response.json()
     return response.data.data;
   } catch (error: any) {
     console.error(error);
@@ -263,93 +230,66 @@ async function getFromDb() {
 
 export function InstaPostsContextProvider({ children }: InstaPostsProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const router = useRouter();
 
   const fetchData = async (): Promise<InstaPostData[]> => {
     try {
-      const token = await fetchToken();
+      const token = await fetchOrUpdateFBAcessToken();
       const cache = await getRedisData();
-      const dbData = await getPostsData(token!);
 
       if (cache) {
-        dispatch({
-          type: "UPDATE_POSTS_DATA",
-          value: cache,
-        });
+        dispatch({ type: "UPDATE_POSTS_DATA", value: cache });
         return cache;
       }
-      // Pega da API ou do Banco
-      if (dbData) {
-        dispatch({
-          type: "UPDATE_POSTS_DATA",
-          value: dbData,
-        });
-        return dbData;
+
+      const apiIGData = await getPostsDataFromIGApi(token!);
+      if (apiIGData) {
+        dispatch({ type: "UPDATE_POSTS_DATA", value: apiIGData });
+        return apiIGData;
       }
 
-      // Pega do DB já que os early return não foram acionados
-      const data = await getFromDb();
-      dispatch({
-        type: "UPDATE_POSTS_DATA",
-        value: data,
-      });
+      const data = await getPostsDataFromDbLocalCopy();
+      dispatch({ type: "UPDATE_POSTS_DATA", value: data });
       return data;
     } catch (error) {
+      console.error("Erro ao buscar dados:", error);
       throw new Error("Token não recebido");
     }
   };
 
-  const fetchToken = async () => {
-    // if (!state.token || Object.keys(state.token).length === 0) {
-    // Lógica para buscar e atualizar o token
-    const fetchedToken = await getTokenData();
+  async function fetchOrUpdateFBAcessToken(): Promise<
+    InstaTokenData | undefined
+  > {
+    const savedToken = await getAlreadySavedToken();
 
-    if (fetchedToken) {
-      const token = fetchedToken;
-      // dispatch({
-      //     type: 'UPDATE_TOKEN',
-      //     value: token,
-      // })
+    if (savedToken) {
+      if (
+        Date.now() >=
+        savedToken.generated_at + savedToken.expires_in * 1000
+      ) {
+        const newTokenData = await renewToken(savedToken.access_token);
+        const newToken = setTokenData(newTokenData);
+        dispatch({
+          type: "UPDATE_TOKEN",
+          value: newToken,
+        });
 
-      if (Date.now() >= token.generated_at! + token.expires_in! * 1000) {
-        try {
-          const newTokenData = await renewToken(token.access_token!, router);
-          const actualTimestampTokenData = {
-            ...newTokenData,
-            generated_at: Date.now(),
-          };
-
-          updateTokenData(actualTimestampTokenData, dispatch);
-        } catch (error) {
-          console.log("Erro ao renovar o token:", error);
-        }
+        return newToken;
       }
 
-      return token;
+      return savedToken;
     }
-  };
+  }
 
-  const updateState = async () => {
+  async function updatePostsState() {
     const data = await fetchData();
     return data;
-  };
+  }
 
   return (
-    <InstaPostsContext.Provider value={{ state, fetchData, updateState }}>
+    <InstaPostsContext.Provider
+      value={{ state, fetchData, updateState: updatePostsState }}
+    >
       {children}
     </InstaPostsContext.Provider>
   );
 }
-
-// export async function getServerSideProps(context: any) {
-//     try {
-//         const tokenData = await getTokenData();
-//         const postsData = await getRedisData();
-
-//         return { props: { tokenData, postsData } };
-//     } catch (error) {
-//         console.error("Erro em getServerSideProps:", error);
-//         // Retorna null para ambos os props em caso de erro
-//         return { props: { tokenData: null, postsData: null } };
-//     }
-// }

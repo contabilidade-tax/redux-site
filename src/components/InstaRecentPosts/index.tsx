@@ -104,14 +104,14 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
               )}
             >
               {/* <Card.Root className='rounded-3xl overflow-hidden w-full h-full md:!py-8 xsm:py-2 px-1 space-y-1'> */}
-              <Card.Root className="flex h-max max-h-[34rem] min-h-[30rem] w-full flex-col justify-around rounded-3xl">
+              <Card.Root className="flex h-max min-h-[30rem] w-full flex-col justify-around rounded-3xl">
                 <Card.Post
                   post={post}
                   index={index}
                   className={cn(
                     "instaMidia",
                     "relative w-1/2",
-                    "!max-h-[310px]"
+                    "!max-h-[334px]"
                   )}
                 />
                 <Card.Caption

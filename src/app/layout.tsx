@@ -42,7 +42,6 @@ export const metadata: Meta = {
   title: "Redux Contabilidade Simplificada p/ MEI e Pequenos Empreendedores",
   description: descriptionText,
   keywords: keywords,
-  appleWebApp: true,
   authors: { name: "Contabilidade by Grupo Redux" },
   publisher: "https://www.gruporedux.com.br",
   openGraph: {
@@ -117,11 +116,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="pt-BR">
       <head>
         <meta httpEquiv="Cache-Control" content="max-age=7200" />
-        {/* <meta name="mobile-web-app-capable" content="yes" /> */}
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta charSet="UTF-8" />
         <meta
           property="og:image"
-          content="https://contabilidade.gruporedux.com.br/favicon.ico"
+          content="https://contabilidade.gruporedux.com.br/assets/img/redux/logo_preta.webp"
         />
         <link rel="canonical" href="https://contabilidade.gruporedux.com.br" />
         <link
@@ -143,7 +142,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
           
-            gtag('config', ${process.env.NEXT_PUBLIC_GA_TAG});
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_TAG}');
             `}
         </Script>
         {/* <!-- End GTAG --> */}
@@ -154,9 +153,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer',${String(
+            })(window,document,'script','dataLayer', '${String(
               process.env.NEXT_PUBLIC_GTAG_MANAGER
-            )});
+            )}');
           `}
         </Script>
         {/* <!-- End Google Tag Manager --> */}
@@ -179,7 +178,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTAG_MANAGER}`}
             height="0"
             width="0"
-            style={{ display: "none;", visibility: "hidden" }}
+            style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
         {/* <!-- Meta Pixel Code --> */}

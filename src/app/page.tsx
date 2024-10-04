@@ -100,7 +100,7 @@ function Home() {
         id="sobre"
         className={cn(
           "wrapper",
-          "min-h-[100svh] w-full max-w-[1500px]",
+          "h-auto w-full max-w-[1500px] !py-[15svh]",
           "notSelected-G flex flex-col items-center justify-between px-4 md:flex-row"
         )}
       >
@@ -192,25 +192,24 @@ function Home() {
         </aside>
       </section>
       {/* Serviços */}
-      {/* <section
+      <section
         id="servicos"
         className={cn(
-          "wrapper",
-          "min-h-[100svh] w-full",
-          "servicos flex flex-col items-center justify-evenly text-center"
+          "h-auto w-full !p-0 !py-[15svh]",
+          "servicos flex flex-col gap-20 text-center"
         )}
       >
         <h2 className="block text-4xl font-medium">
           Como podemos te ajudar hoje
           <span className="text-primary-color">?</span>
         </h2>
-        <div className="serviceCard-Container flex flex-wrap items-center justify-evenly"> */}
-      {/* Abertura de Empresa */}
-      {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+        <div className="serviceCard-Container b-test-yellow !m-0 flex flex-wrap justify-around">
+          {/* Abertura de Empresa */}
+          <div className="serviceCard-Wrapper h-[420px] max-w-[280px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
-                src="/assets/img/redux/servicos/institucional_servicos_1.webp"
+                src="/assets/img/redux/servicos/inst_redux_1.webp"
                 width={280}
                 height={200}
                 loading="eager"
@@ -230,13 +229,13 @@ function Home() {
                 </Button>
               </div>
             </div>
-          </div> */}
-      {/* Regularização */}
-      {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+          </div>
+          {/* Regularização */}
+          <div className="serviceCard-Wrapper h-[420px] max-w-[280px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
-                src="/assets/img/redux/servicos/institucional_servicos_2.webp"
+                src="/assets/img/redux/servicos/inst_redux_2.webp"
                 width={280}
                 height={200}
                 loading="eager"
@@ -256,13 +255,13 @@ function Home() {
                 </Button>
               </div>
             </div>
-          </div> */}
-      {/* Redução de Impostos */}
-      {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+          </div>
+          {/* Redução de Impostos */}
+          <div className="serviceCard-Wrapper h-[420px] max-w-[280px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="max-h-[200px] rounded-2xl"
-                src="/assets/img/redux/servicos/institucional_servicos_3.webp"
+                src="/assets/img/redux/servicos/inst_redux_3.webp"
                 width={280}
                 height={200}
                 loading="eager"
@@ -282,13 +281,13 @@ function Home() {
                 </Button>
               </div>
             </div>
-          </div> */}
-      {/* Assessoria Contábil */}
-      {/* <div className="serviceCard-Wrapper h-[380px] max-w-[300px] rounded-3xl bg-[#eee] p-4">
+          </div>
+          {/* Assessoria Contábil */}
+          <div className="serviceCard-Wrapper h-[420px] max-w-[280px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
-                src="/assets/img/redux/servicos/institucional_servicos_4.webp"
+                src="/assets/img/redux/servicos/inst_redux_4.webp"
                 width={280}
                 height={200}
                 loading="eager"
@@ -308,9 +307,9 @@ function Home() {
                 </Button>
               </div>
             </div>
-          </div> */}
-      {/* </div>
-      </section> */}
+          </div>
+        </div>
+      </section>
       {/* Posts Recentes */}
       <section
         id="recents"

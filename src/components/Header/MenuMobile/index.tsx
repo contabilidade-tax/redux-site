@@ -121,6 +121,7 @@ export default function MenuItens({
                     ? "/assets/img/dino-smile.png"
                     : "/assets/img/dino-serio.png"
                 }
+                styles={{ filter: isHovered ? "" : "invert(1)" }}
                 width={35}
                 height={35}
                 className="relative top-[.29rem]"

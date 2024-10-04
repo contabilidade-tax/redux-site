@@ -17,7 +17,7 @@ export default function TrabalheConosco() {
       }}
       className="flex min-h-[100svh] w-full flex-1 items-center justify-center p-6"
     >
-      <ContactForm className="z-50 flex max-h-[52rem] flex-col rounded-2xl border-2 border-gray-400 bg-[#fff] p-6 drop-shadow-custom md:!min-w-[30rem] xsm:min-w-[50%]" />
+      <ContactForm className="z-50 mt-[10svh] flex max-h-[52rem] flex-col rounded-2xl border-2 border-gray-400 bg-[#fff] p-6 drop-shadow-custom md:!min-w-[30rem] xsm:min-w-[50%]" />
     </div>
   );
 }

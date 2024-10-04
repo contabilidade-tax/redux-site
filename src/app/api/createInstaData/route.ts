@@ -37,10 +37,12 @@ export async function POST(req: NextRequest) {
                 create: {
                     id: 1,
                     ...tokenData,
+                    access_token: tokenData.access_token,
                     generated_at: new Date()
                 },
                 update: {
                     ...tokenData,
+                    access_token: tokenData.access_token,
                     generated_at: new Date()
                 }
             })
