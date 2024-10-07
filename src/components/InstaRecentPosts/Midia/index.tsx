@@ -1,9 +1,8 @@
+"use client";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import VideoPlayer from "@/components/InstaRecentPosts/VideoPlayer";
 import { InstaMidiaProps } from "@/types";
-import Link from "next/link";
-import { Instagram } from "lucide-react";
 import "./midia.scss";
 
 export default function Midia({ post, index, className }: InstaMidiaProps) {

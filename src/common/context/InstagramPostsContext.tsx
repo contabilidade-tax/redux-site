@@ -86,7 +86,7 @@ async function renewToken(expiredToken: string) {
     const response = await axios.get(url);
     const responseDataWithTimestamp = {
       ...response.data,
-      generated_at: Date.now(),
+      generated_at: Date.now().toString(),
     };
 
     return responseDataWithTimestamp;
