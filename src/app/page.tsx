@@ -77,7 +77,7 @@ function Home() {
           backgroundSize: "cover",
         }}
         className={cn(
-          "min-h-[100svh] w-full",
+          "h-[70svh] w-full",
           "flex flex-col items-center justify-around"
         )}
       >
@@ -109,7 +109,7 @@ function Home() {
           <div className="flex items-start justify-center gap-4">
             <div className="flex h-max w-max justify-end">
               <Image
-                src="/assets/img/redux/sobre/icone_missao.svg"
+                src="/assets/img/redux/sobre/icone_missao.webp"
                 width={50}
                 height={50}
                 alt="Ícone Missão"
@@ -134,7 +134,7 @@ function Home() {
           <div className="flex items-start justify-center gap-4">
             <div className="flex h-max w-max justify-end">
               <Image
-                src="/assets/img/redux/sobre/icone_visao.svg"
+                src="/assets/img/redux/sobre/icone_visao.webp"
                 width={50}
                 height={50}
                 alt="Ícone Visão"
@@ -158,7 +158,7 @@ function Home() {
           <div className="flex items-start justify-center gap-4">
             <div className="flex h-max w-max justify-end">
               <Image
-                src="/assets/img/redux/sobre/icone_valores.svg"
+                src="/assets/img/redux/sobre/icone_valores.webp"
                 width={50}
                 height={50}
                 alt="Ícone Valores"
@@ -195,13 +195,13 @@ function Home() {
       <section
         id="servicos"
         className={cn(
-          "h-auto w-full !p-0",
+          "h-auto w-full max-w-[1300px] !p-0",
           "servicos flex flex-col gap-20 text-center"
         )}
       >
         <h2 className="block text-4xl font-medium">
           Como podemos te ajudar hoje
-          <span className="text-primary-color">?</span>
+          <span className="font-semibold text-primary-color">?</span>
         </h2>
         <div className="serviceCard-Container !m-0 flex flex-wrap items-center justify-evenly gap-7 gap-x-7 md:gap-0">
           {/* Abertura de Empresa */}
@@ -224,7 +224,7 @@ function Home() {
                   Está pensando em abrir sua empresa? Aqui, tornamos esse
                   processo simples e sem complicações.
                 </p>
-                <Button className="max-w-[45%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
+                <Button className="max-w-[65%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
                   Saiba mais!
                 </Button>
               </div>
@@ -250,7 +250,7 @@ function Home() {
                   regularize seus colaboradores de forma rápida e segura com
                   nossa equipe especializada.
                 </p>
-                <Button className="max-w-[45%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
+                <Button className="max-w-[65%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
                   Saiba mais!
                 </Button>
               </div>
@@ -276,7 +276,7 @@ function Home() {
                   Otimize sua carga tributária e pague apenas o necessário com
                   nossas estratégias.
                 </p>
-                <Button className="max-w-[45%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
+                <Button className="max-w-[65%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
                   Saiba mais!
                 </Button>
               </div>
@@ -302,7 +302,7 @@ function Home() {
                   Conte com nossa assessoria contábil para garantir uma gestão
                   financeira eficiente e tranquila
                 </p>
-                <Button className="max-w-[45%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
+                <Button className="max-w-[65%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
                   Saiba mais!
                 </Button>
               </div>
@@ -319,9 +319,9 @@ function Home() {
           "notSelected-G flex flex-col justify-center"
         )}
       >
-        <h2 className="text-center text-2xl font-medium text-black md:text-5xl">
+        <h2 className="text-center text-2xl font-medium text-black md:text-4xl">
           Publicações mais recentes
-          <span className="text-primary-color">.</span>
+          <span className="font-semibold text-primary-color">.</span>
         </h2>
         <section className="posts h-auto max-h-[80%] w-full scale-95 md:scale-100">
           <InstaRecentPosts

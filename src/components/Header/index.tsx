@@ -118,7 +118,7 @@ function HeaderContent({ className }: { className?: string }) {
     >
       <Link
         href={"/"}
-        className="logo relative h-[50px] w-[260px] xsm:w-[180px]"
+        className="logo relative h-[65px] w-[260px] xsm:w-[180px]"
       >
         <Image
           src="/assets/img/redux/logo_branca.webp"
@@ -132,12 +132,15 @@ function HeaderContent({ className }: { className?: string }) {
         />
       </Link>
       <div className={"desktopTabs hidden h-auto w-max md:block"}>
-        <ul className="flex items-center font-semibold text-white">
+        <ul className="flex items-center font-normal text-white">
           {tabs.map((tab, index) => (
             <li key={index}>
               <Link
                 href={tab.src}
-                className={cn(tab.src === fullPath ? "text-primary-color" : "")}
+                className={cn(
+                  { "text-primary-color": tab.src === fullPath },
+                  { "font-bold": tab.src === fullPath }
+                )}
                 onClick={() => {
                   handleActualPage({ type: "SWITCH_PAGE", value: tab });
                   setFullPath(tab.src);
