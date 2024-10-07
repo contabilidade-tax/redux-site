@@ -203,7 +203,7 @@ function Home() {
           Como podemos te ajudar hoje
           <span className="text-primary-color">?</span>
         </h2>
-        <div className="serviceCard-Container !m-0 flex flex-wrap items-center justify-center gap-7 gap-x-7 md:gap-0">
+        <div className="serviceCard-Container !m-0 flex flex-wrap items-center justify-evenly gap-7 gap-x-7 md:gap-0">
           {/* Abertura de Empresa */}
           <div className="serviceCard-Wrapper h-[420px] max-w-[280px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
@@ -315,15 +315,15 @@ function Home() {
         id="recents"
         className={cn(
           "wrapper",
-          "mb-[5svh] h-[100svh] w-full",
+          "h-auto w-full !py-[10svh]",
           "notSelected-G flex flex-col justify-center"
         )}
       >
-        <h2 className="text-center text-5xl font-medium text-black sm:!text-2xl md:!text-5xl">
+        <h2 className="text-center text-2xl font-medium text-black md:text-5xl">
           Publicações mais recentes
           <span className="text-primary-color">.</span>
         </h2>
-        <section className="posts h-auto w-full scale-95 md:!scale-100">
+        <section className="posts h-auto max-h-[80%] w-full scale-95 md:scale-100">
           <InstaRecentPosts
             isMobile={mobileState.isSmallScreen}
             noRefresh={params.has("noRefresh")}
