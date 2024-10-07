@@ -15,8 +15,8 @@ async function getTokenData() {
 
     return {
         ...data,
-        generated_at: data.generated_at.getTime(),
-        expires_in: Number(data.expires_in.toString())
+        generated_at: Number(data.generated_at),
+        expires_in: Number(data.expires_in)
     };
 }
 

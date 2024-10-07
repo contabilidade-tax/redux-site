@@ -10,9 +10,11 @@ export default function PostsCoreContent({
   posts: InstaPostData[];
 }) {
   return posts?.map((post, index) => (
-    <div className="insta__Post__Wrapper flex h-max max-h-[85%] w-max flex-col items-center justify-between gap-4">
+    <div
+      key={index}
+      className="insta__Post__Wrapper flex h-max max-h-[85%] w-max flex-col items-center justify-between gap-4"
+    >
       <div
-        key={index}
         className={cn(
           "instaPost",
           "rounded-3xl !bg-[#eee]",

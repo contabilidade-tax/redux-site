@@ -39,7 +39,9 @@ const keywords = [
 ];
 
 export const metadata: Meta = {
-  title: "Redux Contabilidade Simplificada p/ MEI e Pequenos Empreendedores",
+  // title: "Redux Contabilidade Simplificada p/ MEI e Pequenos Empreendedores",
+  title:
+    "Redux Contabilidade: Soluções contábeis p/ MEI e Pequenos Empreendedores",
   description: descriptionText,
   keywords: keywords,
   authors: { name: "Contabilidade by Grupo Redux" },
@@ -133,20 +135,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
         {/* <!-- GTAG --> */}
         <Script
+          id="g-tag"
           async
-          rel="preload"
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}
-        />
-        <Script id="google-analytics">
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16721885854"
+        ></Script>
+        <Script id="analytics">
           {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-          
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_TAG}');
-            `}
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'AW-16721885854');
+          `}
         </Script>
-        {/* <!-- End GTAG --> */}
         {/* <!-- Google Tag Manager --> */}
         <Script id="gtag-manager">
           {`
@@ -198,12 +199,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
                 fbq('init', ${String(process.env.NEXT_PUBLIC_FB_PIXEL_ID)});
                 fbq('track', 'PageView');
-                <noscript>
-                  <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${String(
-                    process.env.NEXT_PUBLIC_FB_PIXEL_ID
-                  )}&ev=PageView&noscript=1"/>
-                </noscript>
-              `}
+          `}
+          <noscript>
+            <img
+              alt="fb-noscript"
+              height="1"
+              width="1"
+              style={{ display: "none" }}
+              src={`https://www.facebook.com/tr?id=${String(
+                process.env.NEXT_PUBLIC_FB_PIXEL_ID
+              )}&ev=PageView&noscript=1`}
+            />
+          </noscript>
         </Script>
         {/* <!-- End MetaPixelCode--> */}
       </body>
