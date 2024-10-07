@@ -39,11 +39,11 @@ model InstaPostsData {
 }
 
 model TokenData {
-  id           Int      @id @default(1)
+  id           Int     @id @default(1)
   access_token String
-  token_type   String   @default("bearer")
-  expires_in   BigInt
-  generated_at DateTime @default(now())
+  token_type   String  @default("bearer")
+  expires_in   String
+  generated_at String
   permissions  String?
 
   @@map("token")

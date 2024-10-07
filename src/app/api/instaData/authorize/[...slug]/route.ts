@@ -4,10 +4,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import qs from 'qs'
 import crypto from 'crypto';
 import { } from '@/app/instaData/page'
+import { setTokenDataOnDb } from '@/common/actions/ig/igTokenManager';
+import { setCurrentProfile } from '@/common/actions/ig/igProfileManager';
 
-async function getLongLivedToken(longLivedTokenurl: string, client_secret: string, access_token: string) {
+async function getLongLivedToken(client_secret: string, access_token: string) {
+  const graphApiUrl = process.env.NEXT_PUBLIC_API_IG_URL;
+  const apiIgLongLivedTokenUrl = `${graphApiUrl}/access_token`
   try {
-    const response = await axios.get(longLivedTokenurl, {
+    const response = await axios.get(apiIgLongLivedTokenUrl, {
       params: { grant_type: "ig_exchange_token", client_secret, access_token }
     });
     return response.data;
@@ -34,20 +38,20 @@ function descriptografar(textoCriptografado: any, chave: any) {
 }
 
 
-async function createInstaToken(apiUrl: string, Instadata: any) {
-  try {
-    const response = await axios.post(
-      apiUrl,
-      { ...Instadata },
-      {
-        headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` }, params: { key: 'token' }
-      }
-    );
-    return response.data;
-  } catch (error: any) {
-    throw new Error(`${error.response?.data.details ?? error.response?.data} - INTERNO`);
-  }
-}
+// async function createInstaToken(apiUrl: string, Instadata: any) {
+//   try {
+//     const response = await axios.post(
+//       apiUrl,
+//       { ...Instadata },
+//       {
+//         headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` }, params: { key: 'token' }
+//       }
+//     );
+//     return response.data;
+//   } catch (error: any) {
+//     throw new Error(`${error.response?.data.details ?? error.response?.data} - INTERNO`);
+//   }
+// }
 
 async function setCurrentUser(apiUrl: string, userData: Prisma.CurrentUserCreateInput) {
   const prisma = new PrismaClient();
@@ -118,9 +122,6 @@ export async function GET(req: NextRequest, context: any) {
     const iv = process.env.NEXT_PUBLIC_CRYPTO_IV
     const token = process.env.NEXT_PUBLIC_BEARER_TOKEN
     const tokenUrl = "https://api.instagram.com/oauth/access_token"
-    const graphApiUrl = process.env.NEXT_PUBLIC_API_IG_URL;
-    const apiIgLongLivedTokenUrl = `${graphApiUrl}/access_token`
-    const createTokenApiUrl = `${process.env.NEXT_PUBLIC_HOME}/api/createInstaData`
     const redirect_uri = `/api/instaData/authorize/${criptografar(token, key, iv)}/`
     const client_secret = process.env.NEXT_PUBLIC_API_IG_APP_SECRET!
     const client_id = process.env.NEXT_PUBLIC_API_IG_APP_ID
@@ -133,29 +134,27 @@ export async function GET(req: NextRequest, context: any) {
     })
 
     try {
-      const response = await axios.post(
+      const igApiExchangeTokenResponse = await axios.post(
         tokenUrl,
         data,
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
       );
-      // console.log(response.data);
 
-      const shortLivedToken = response.data.access_token;
-      const user_id = response.data.user_id;
-      const generateLongLivedToken = await getLongLivedToken(apiIgLongLivedTokenUrl, client_secret, shortLivedToken);
-      // const instaUserInfo = await fetchUserData(graphApiUrl!, longLivedTokenData.access_token, user_id);
-      const setUserData = await setCurrentUser(createTokenApiUrl, { access_token: generateLongLivedToken.access_token, user_id });
-      const SaveGeneratedToken = await createInstaToken(createTokenApiUrl, generateLongLivedToken);
+      const shortLivedToken = igApiExchangeTokenResponse.data.access_token;
+      const user_id = igApiExchangeTokenResponse.data.user_id;
+      const generatedLongLivedToken = await getLongLivedToken(client_secret, shortLivedToken);
+      const setUserData = await setCurrentProfile({ access_token: generatedLongLivedToken.access_token, user_id });
+      // const setUserData = await setCurrentUser(createTokenApiUrl, { access_token: generateLongLivedToken.access_token, user_id });
+      const saveGeneratedToken = await setTokenDataOnDb(generatedLongLivedToken)
+      // const saveGeneratedToken = await createInstaToken(createTokenApiUrl, generatedLongLivedToken);
 
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/redirect`);
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/find-current-profile-posts`);
     } catch (error: any) {
       throw new Error(error.response?.data.error_message ? error.response?.data.error_message + ':IG' : error.message);
     }
 
   } catch (e: any) {
-    if (e instanceof Error) {
-      return NextResponse.json({ error: e.message }, { status: 500 });
-    }
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 
 }

@@ -30,12 +30,12 @@ type Tab = {
 // }
 
 type InstaPostData = {
-  id: string | null
+  id: string
   caption: string | null
   media_type: string | null
   media_url: string | null
   permalink: string | null
-  timestamp: string | null
+  timestamp: string | null | Date
   username: string | null
 }
 
@@ -49,8 +49,9 @@ interface VideoPlayerProps extends ComponentProps<'video'> {
 type InstaTokenData = {
   access_token: string
   token_type: string
-  expires_in: number
-  generated_at: number
+  expires_in: number | string | Date | bigint
+  generated_at: number | string | Date
+  permissions?: string | null
 }
 
 type SeletorProps = {
