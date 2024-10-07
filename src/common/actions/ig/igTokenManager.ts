@@ -18,6 +18,7 @@ async function setTokenDataOnDb(tokenData: Prisma.TokenDataCreateInput) {
             update: {
                 ...tokenData,
                 access_token: tokenData.access_token,
+                expires_in: tokenData.expires_in.toString()
             }
         })
 
