@@ -3,14 +3,6 @@ import { setRedisRegister, } from '@/common/redis/config';
 import { Prisma, PrismaClient } from '@prisma/client'
 import crypto from 'node:crypto';
 
-function criptografar(texto: any, chave: any, iv: any) {
-    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(chave, 'hex'), Buffer.from(iv, 'hex'));
-    let textoCriptografado = cipher.update(texto);
-    textoCriptografado = Buffer.concat([textoCriptografado, cipher.final()]);
-    return iv.toString('hex') + ':' + textoCriptografado.toString('hex');
-}
-
-
 export async function POST(req: NextRequest) {
     const prisma = new PrismaClient()
     const messages_array: Array<string> = []
@@ -38,12 +30,10 @@ export async function POST(req: NextRequest) {
                     id: 1,
                     ...tokenData,
                     access_token: tokenData.access_token,
-                    generated_at: new Date()
                 },
                 update: {
                     ...tokenData,
                     access_token: tokenData.access_token,
-                    generated_at: new Date()
                 }
             })
         }
@@ -133,7 +123,7 @@ export async function POST(req: NextRequest) {
                         // Salva no cache do prisma
                         setRedisRegister(data, customKey),
                     ]).then(([data, cache]) => {
-                        tokenData = { ...data, expires_in: data.expires_in.toString() }
+                        tokenData = { ...data, expires_in: data.expires_in }
                         messages_array.push("Created Successfully register on db");
                         messages_array.push("Created Successfully on cache: " + cache);
                     }).catch((error: any) => {

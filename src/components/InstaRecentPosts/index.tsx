@@ -21,10 +21,9 @@ type InstaRecentPostsProps = {
 };
 
 function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
-  const { state, fetchData } = useInstaPostsContext();
+  const { state, fetchPostsData: fetchData } = useInstaPostsContext();
   const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState<InstaPostData[]>([]); // Usando useState para posts
-  const [user, setUser] = useState<string>(); // Usando useState para posts
+  const [posts, setPosts] = useState<InstaPostData[]>([]);
 
   const fetchInstaData = async () => {
     try {
@@ -33,15 +32,12 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
       return posts;
     } catch (error: any) {
       console.log(error.message);
-      // redirect('https://redux.app.br')
-      // redirect('https://contabilidade.gruporedux.com.br')
     }
   };
 
   const fetchAllData = async () => {
     const fetchedPosts = await fetchInstaData();
     setPosts(fetchedPosts!);
-    setUser(fetchedPosts![0].username!);
   };
 
   useEffect(() => {
@@ -137,7 +133,7 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
   );
 }
 
-function InstaRecentPostsWrapper({
+export default function InstaRecentPostsWrapper({
   className,
   isMobile,
 }: InstaRecentPostsProps) {
@@ -147,5 +143,3 @@ function InstaRecentPostsWrapper({
     </InstaPostsContextProvider>
   );
 }
-
-export default InstaRecentPostsWrapper;

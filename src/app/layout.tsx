@@ -134,6 +134,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* <!-- GTAG --> */}
         <Script
           async
+          rel="preload"
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TAG}`}
         />
         <Script id="google-analytics">

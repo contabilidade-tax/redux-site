@@ -203,7 +203,7 @@ function Home() {
           Como podemos te ajudar hoje
           <span className="text-primary-color">?</span>
         </h2>
-        <div className="serviceCard-Container b-test-yellow !m-0 flex flex-wrap justify-around">
+        <div className="serviceCard-Container !m-0 flex flex-wrap justify-around gap-7 md:gap-0">
           {/* Abertura de Empresa */}
           <div className="serviceCard-Wrapper h-[420px] max-w-[280px] rounded-3xl bg-[#eee] p-4">
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">

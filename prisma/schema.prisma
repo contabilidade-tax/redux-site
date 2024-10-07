@@ -13,45 +13,46 @@ generator client {
 //}
 
 datasource db {
-  provider = "postgresql"
-  url = env("PGVERCEL_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("PGVERCEL_PRISMA_URL") // uses connection pooling
   directUrl = env("PGVERCEL_URL_NON_POOLING") // uses a direct connection
 }
 
 model Post {
-  id             String         @id
-  caption        String
-  media_type     String
-  media_url      String
-  permalink      String
-  timestamp      DateTime
-  username       String
-  instaPostsData InstaPostsData @relation(fields: [instaPostsDataId], references: [id])
+  id               String         @id
+  caption          String
+  media_type       String
+  media_url        String
+  permalink        String
+  timestamp        DateTime
+  username         String
+  instaPostsData   InstaPostsData @relation(fields: [instaPostsDataId], references: [id])
   instaPostsDataId Int
 }
 
 model InstaPostsData {
-  id          Int    @id @default(1)
-  data        Post[] 
+  id           Int      @id @default(1)
+  data         Post[]
   generated_at DateTime @default(now())
 
   @@map("posts")
 }
 
 model TokenData {
-  id Int @id @default(1)
+  id           Int      @id @default(1)
   access_token String
-  token_type String @default("bearer")
-  expires_in BigInt
+  token_type   String   @default("bearer")
+  expires_in   BigInt
   generated_at DateTime @default(now())
+  permissions  String?
 
   @@map("token")
 }
 
 model CurrentUser {
-  id Int @id @default(1)
+  id           Int    @id @default(1)
   access_token String
-  user_id String
+  user_id      String
 
   @@map("current_user")
 }

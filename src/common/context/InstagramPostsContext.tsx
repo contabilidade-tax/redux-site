@@ -27,8 +27,8 @@ type ActionType = {
 };
 type InstaPostsContextValue = {
   state: typeof initialState | null;
-  fetchData: () => Promise<InstaPostData[]>;
-  updateState: () => Promise<InstaPostData[]>;
+  fetchPostsData: () => Promise<InstaPostData[]>;
+  updatePostsState: () => Promise<InstaPostData[]>;
 };
 const InstaPostsContext = createContext<InstaPostsContextValue | undefined>(
   undefined
@@ -134,20 +134,29 @@ async function getRedisData() {
 }
 
 function setTokenData(
-  data: InstaTokenData
+  token: InstaTokenData
 ): InstaTokenData | undefined | never | any {
+  console.log(
+    "ENCONTREI O B.O, NÃO TO RECEBENDO O TOKEN PRA SETAR NO CACHE",
+    token
+  );
   axios
-    .post(`/api/createInstaData?key=token`, JSON.stringify({ data }), {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    })
+    .post(
+      `/api/createInstaData?key=token`,
+      { ...token },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
     .then((res) => {
-      return res;
+      return token;
     })
     .catch((error) => {
       console.log(`HTTP error! status: ${error.message}`);
+      throw error;
     });
 }
 
@@ -180,6 +189,7 @@ async function getPostsDataFromIGApi(
   token: InstaTokenData
 ): Promise<InstaPostData[] | null> {
   try {
+    console.log("Tentando buscar os posts", "TOKEN", token);
     let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
     let allData: InstaPostData[] = [];
 
@@ -205,9 +215,9 @@ async function getPostsDataFromIGApi(
     return allData;
   } catch (error: any) {
     console.log(
-      "Erro ao buscar os posts:",
-      error.message,
-      error.response?.data
+      "Erro ao buscar os posts da API INSTA:",
+      `Message: ${error.message}`,
+      `Response: ${error.response?.data}`
     );
     return null;
   }
@@ -231,17 +241,19 @@ async function getPostsDataFromDbLocalCopy() {
 export function InstaPostsContextProvider({ children }: InstaPostsProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const fetchData = async (): Promise<InstaPostData[]> => {
+  async function fetchPostsData(): Promise<InstaPostData[]> {
     try {
+      console.log("FETCH DATA INICIO");
       const token = await fetchOrUpdateFBAcessToken();
       const cache = await getRedisData();
-
       if (cache) {
+        console.log("ACEITAS CACHE?", cache);
         dispatch({ type: "UPDATE_POSTS_DATA", value: cache });
         return cache;
       }
 
       const apiIGData = await getPostsDataFromIGApi(token!);
+      console.log("SEM CACHE, VAMO DIRETO PRO IG MESMO");
       if (apiIGData) {
         dispatch({ type: "UPDATE_POSTS_DATA", value: apiIGData });
         return apiIGData;
@@ -254,11 +266,12 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
       console.error("Erro ao buscar dados:", error);
       throw new Error("Token não recebido");
     }
-  };
+  }
 
   async function fetchOrUpdateFBAcessToken(): Promise<
     InstaTokenData | undefined
   > {
+    console.log("TOKEN INICIO");
     const savedToken = await getAlreadySavedToken();
 
     if (savedToken) {
@@ -273,21 +286,27 @@ export function InstaPostsContextProvider({ children }: InstaPostsProps) {
           value: newToken,
         });
 
+        console.log("TOKEN FIM, ATUALIZADO", newToken);
         return newToken;
       }
+      console.log("TOKEN FIM", savedToken);
 
       return savedToken;
     }
   }
 
   async function updatePostsState() {
-    const data = await fetchData();
+    const data = await fetchPostsData();
     return data;
   }
 
   return (
     <InstaPostsContext.Provider
-      value={{ state, fetchData, updateState: updatePostsState }}
+      value={{
+        state,
+        fetchPostsData,
+        updatePostsState,
+      }}
     >
       {children}
     </InstaPostsContext.Provider>

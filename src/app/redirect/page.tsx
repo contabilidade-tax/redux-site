@@ -9,7 +9,7 @@ import "./styles.scss";
 import { Instagram } from "lucide-react";
 
 function Core() {
-  const { updateState } = useInstaPostsContext();
+  const { updatePostsState: updateState } = useInstaPostsContext();
   const router = useRouter();
 
   useEffect(() => {
