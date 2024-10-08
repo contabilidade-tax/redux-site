@@ -22,7 +22,7 @@ export default function PostsCoreContent({
         )}
       >
         {/* <Card.Root className='rounded-3xl overflow-hidden w-full h-full md:!py-8 xsm:py-2 px-1 space-y-1'> */}
-        <Card.Root className="flex h-auto min-h-[30rem] w-full flex-col justify-around rounded-3xl">
+        <Card.Root className="flex h-auto max-h-[30rem] w-full flex-col justify-around rounded-3xl">
           <Card.Post
             post={post}
             index={index}
@@ -39,7 +39,12 @@ export default function PostsCoreContent({
         </Card.Root>
       </div>
       {/* VEJA MAIS */}
-      <Link href={post.permalink!} target="_blank" className="__postLink">
+      <Link
+        href={post.permalink!}
+        target="_blank"
+        title="Ver publicação no instagram"
+        className="__postLink"
+      >
         <Button className="rounded-3xl bg-primary-color px-4 py-2 text-xl font-semibold text-white">
           Clique para ver mais.
         </Button>

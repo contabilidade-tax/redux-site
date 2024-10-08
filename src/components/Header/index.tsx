@@ -118,7 +118,7 @@ function HeaderContent({ className }: { className?: string }) {
     >
       <Link
         href={"/"}
-        className="logo relative h-[65px] w-[260px] xsm:w-[180px]"
+        className="logo relative h-[65px] w-[180px] md:w-[260px]"
       >
         <Image
           src="/assets/img/redux/logo_branca.webp"
@@ -139,7 +139,7 @@ function HeaderContent({ className }: { className?: string }) {
                 href={tab.src}
                 className={cn(
                   { "text-primary-color": tab.src === fullPath },
-                  { "font-bold": tab.src === fullPath }
+                  { "text-lg font-extrabold": tab.src === fullPath }
                 )}
                 onClick={() => {
                   handleActualPage({ type: "SWITCH_PAGE", value: tab });
@@ -148,12 +148,12 @@ function HeaderContent({ className }: { className?: string }) {
               >
                 {tab.label}
               </Link>
-              {tab.src === fullPath ? (
+              {/* {tab.src === fullPath ? (
                 <motion.div
                   className={cn("underline", "!bg-primary-color")}
                   layoutId="underline"
                 />
-              ) : null}
+              ) : null} */}
             </li>
           ))}
         </ul>

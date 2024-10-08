@@ -77,15 +77,18 @@ function Home() {
           backgroundSize: "cover",
         }}
         className={cn(
-          "h-[70svh] w-full",
-          "flex flex-col items-center justify-around"
+          "h-[100svh] w-full lg:h-[75svh]",
+          "flex flex-col items-center justify-evenly"
         )}
       >
-        <div className="content flex min-h-max w-full flex-col items-center justify-center gap-24 text-white">
+        <div className="content flex h-full w-full flex-col items-center justify-evenly gap-0 text-white">
           <div className="text-center">
-            <h1 className="mx-[1vw] text-5xl font-extrabold">
+            <h1 className="mx-[1vw] text-5xl font-normal">
               Não somos obrigação,{" "}
-              <span className="text-primary-color">somos ferramenta</span>.
+              <span className="font-extrabold text-primary-color">
+                somos ferramenta
+              </span>
+              .
             </h1>
           </div>
           <Link href="/contato">
@@ -173,8 +176,8 @@ function Home() {
                 </span>
               </h2>
               <p className="block text-base font-normal">
-                Respeito, integridade, empatia, dedicação, clareza,
-                responsabilidade e ter um ambiente leve
+                Respeito, integridade, empatia, dedicação, clareza e
+                responsabilidade.
               </p>
             </div>
           </div>
@@ -195,13 +198,13 @@ function Home() {
       <section
         id="servicos"
         className={cn(
-          "h-auto w-full max-w-[1300px] !p-0",
-          "servicos flex flex-col gap-20 text-center"
+          "h-auto w-full max-w-[1350px] !p-0",
+          "servicos flex flex-col gap-14 text-center"
         )}
       >
         <h2 className="block text-4xl font-medium">
           Como podemos te ajudar hoje
-          <span className="font-semibold text-primary-color">?</span>
+          <span className="font-bold text-primary-color">?</span>
         </h2>
         <div className="serviceCard-Container !m-0 flex flex-wrap items-center justify-evenly gap-7 gap-x-7 md:gap-0">
           {/* Abertura de Empresa */}
@@ -222,11 +225,18 @@ function Home() {
               <div className="cta mt-2 flex w-full flex-1 flex-col items-center justify-between px-2 text-start font-semibold">
                 <p className="mx-auto block h-[80%] font-medium">
                   Está pensando em abrir sua empresa? Aqui, tornamos esse
-                  processo simples e sem complicações.
+                  processo simples e sem complicação.
                 </p>
-                <Button className="max-w-[65%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
-                  Saiba mais!
-                </Button>
+                <Link
+                  href="/contato"
+                  className="self-end"
+                  target="_blank"
+                  title="Fale com nossos especialistas"
+                >
+                  <Button className="h-7 rounded-full bg-primary-color px-5 font-bold text-white">
+                    Saiba mais!
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -247,12 +257,19 @@ function Home() {
               </h3>
               <div className="cta mt-2 flex w-full flex-1 flex-col items-center justify-between px-2 text-start font-semibold">
                 <p className="mx-auto block h-[80%] font-medium">
-                  regularize seus colaboradores de forma rápida e segura com
+                  Regularize seus colaboradores de forma rápida e segura com
                   nossa equipe especializada.
                 </p>
-                <Button className="max-w-[65%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
-                  Saiba mais!
-                </Button>
+                <Link
+                  href="/contato"
+                  className="self-end"
+                  target="_blank"
+                  title="Fale com nossos especialistas"
+                >
+                  <Button className="h-7 rounded-full bg-primary-color px-5 font-bold text-white">
+                    Saiba mais!
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -276,9 +293,16 @@ function Home() {
                   Otimize sua carga tributária e pague apenas o necessário com
                   nossas estratégias.
                 </p>
-                <Button className="max-w-[65%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
-                  Saiba mais!
-                </Button>
+                <Link
+                  href="/contato"
+                  className="self-end"
+                  target="_blank"
+                  title="Fale com nossos especialistas"
+                >
+                  <Button className="h-7 rounded-full bg-primary-color px-5 font-bold text-white">
+                    Saiba mais!
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -288,6 +312,7 @@ function Home() {
               <Image
                 className="rounded-2xl"
                 src="/assets/img/redux/servicos/inst_redux_4.webp"
+                style={{ aspectRatio: "auto" }}
                 width={280}
                 height={200}
                 loading="eager"
@@ -300,11 +325,18 @@ function Home() {
               <div className="cta mt-2 flex w-full flex-1 flex-col items-center justify-between px-2 text-start font-semibold">
                 <p className="mx-auto block h-[80%] font-medium">
                   Conte com nossa assessoria contábil para garantir uma gestão
-                  financeira eficiente e tranquila
+                  financeira eficiente e tranquila.
                 </p>
-                <Button className="max-w-[65%] self-end rounded-full bg-primary-color px-1 py-[0.1rem] font-bold text-white">
-                  Saiba mais!
-                </Button>
+                <Link
+                  href="/contato"
+                  className="self-end"
+                  target="_blank"
+                  title="Fale com nossos especialistas"
+                >
+                  <Button className="h-7 rounded-full bg-primary-color px-5 font-bold text-white">
+                    Saiba mais!
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -315,13 +347,13 @@ function Home() {
         id="recents"
         className={cn(
           "wrapper",
-          "h-auto w-full !py-[10svh]",
+          "h-auto w-full max-w-[1400px] gap-14 !py-[10svh]",
           "notSelected-G flex flex-col justify-center"
         )}
       >
         <h2 className="text-center text-2xl font-medium text-black md:text-4xl">
           Publicações mais recentes
-          <span className="font-semibold text-primary-color">.</span>
+          <span className="font-bold text-primary-color">.</span>
         </h2>
         <section className="posts h-auto max-h-[80%] w-full scale-95 md:scale-100">
           <InstaRecentPosts

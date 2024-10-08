@@ -35,7 +35,8 @@ export default function Footer({ className }: { className?: string }) {
             <div className="links flex h-max w-max flex-wrap items-center justify-center gap-2">
               <Link
                 className={linkStyle}
-                href="https://www.instagram.com/taxcontabilidade.adm/"
+                href="https://www.instagram.com/reduxcontabilidade/"
+                title="Visite nosso Instagram"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -46,11 +47,13 @@ export default function Footer({ className }: { className?: string }) {
                 href="https://www.facebook.com/taxcontabilidade/?locale=pt_BR"
                 target="_blank"
                 rel="noreferrer"
+                title="Estamos no Facebook"
               >
                 <Facebook fill="#CCC" color="#000" />
               </Link>
               <Link
                 className={linkStyle}
+                title="Veja nosso youtube"
                 href="https://www.youtube.com/@taxcontabilidadde"
                 target="_blank"
                 rel="noreferrer"
@@ -66,12 +69,13 @@ export default function Footer({ className }: { className?: string }) {
               <Link
                 className="block"
                 target="_blank"
+                title="Mande uma mensagem para nosso time comercial"
                 href="mailto:comercial@contabilidade-tax.com.br"
               >
                 - comercial@contabilidade-tax.com.br
               </Link>
-              <Link target="_blank" href="/contato">
-                - (88) 99966-0188
+              <Link title="Fale conosco" target="_blank" href="/contato">
+                - (88) 99696-0337
               </Link>
               {/* <li>1111</li> */}
             </div>

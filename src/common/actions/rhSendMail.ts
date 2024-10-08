@@ -32,7 +32,9 @@ async function sendWorkWithUsMail(data: { body: string, arquivo: any }) {
         }
 
         const emailResponse = await client.send(options)
-        return emailResponse
+        const response = emailResponse[0].body
+        console.log(response)
+        return response
     } catch (error: any) {
         console.error(error.message)
         throw error
