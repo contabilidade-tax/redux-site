@@ -12,7 +12,7 @@ export default function Midia({ post, index, className }: InstaMidiaProps) {
           <Image
             className={cn(
               "postMidia",
-              "rounded-2xl object-contain object-center"
+              "rounded-2xl object-cover object-center"
             )}
             key={index}
             src={post.media_url!}
@@ -25,7 +25,10 @@ export default function Midia({ post, index, className }: InstaMidiaProps) {
         ) : (
           <VideoPlayer
             src={post.media_url!}
-            className={cn("postMidia", "postMidiaVideo")}
+            className={cn(
+              "postMidia postMidiaVideo",
+              "object-cover object-center"
+            )}
           />
         )}
       </div>

@@ -289,7 +289,7 @@ function Home() {
       <section
         id="recents"
         className={cn(
-          "wrapper",
+          // "wrapper",
           "h-auto w-full max-w-[1400px] gap-14 !py-[10svh]",
           "notSelected-G flex flex-col justify-center"
         )}
@@ -298,7 +298,7 @@ function Home() {
           Publicações mais recentes
           <span className="font-bold text-primary-color">.</span>
         </h2>
-        <section className="posts h-auto max-h-[80%] w-full scale-95 md:scale-100">
+        <section className="posts h-auto w-full scale-[.98] !p-0 md:scale-100">
           <InstaRecentPosts />
         </section>
       </section>

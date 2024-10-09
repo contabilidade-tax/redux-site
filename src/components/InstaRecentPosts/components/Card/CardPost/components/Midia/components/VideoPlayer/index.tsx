@@ -20,7 +20,7 @@ export default function VideoPlayer({
   return (
     <div className="relative h-full w-full">
       <video
-        className={cn(className, "rounded-2xl object-cover")}
+        className={cn(className, "rounded-2xl")}
         autoPlay
         muted={isMuted}
         loop

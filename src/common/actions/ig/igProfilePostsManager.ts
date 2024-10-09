@@ -49,12 +49,18 @@ async function deleteProfilePostsCache(key?: string) {
 };
 
 async function getCachedProfilePostsData() {
-    const cached_data = await getRedisValue(`last_insta_posts-${getDateTime()}`);
-    if (cached_data) {
-        return JSON.parse(cached_data)
+    try {
+        const cached_data = await getRedisValue(`last_insta_posts-${getDateTime()}`);
+        if (cached_data) {
+            return JSON.parse(cached_data)
+        }
+
+        // Não deu erro mas nao tem cache
+        return null
+    } catch (error) {
+        return null
     }
 
-    return null
 }
 
 async function getProfilePostsDataOnLocalCopy() {

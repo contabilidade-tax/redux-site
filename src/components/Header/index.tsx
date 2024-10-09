@@ -118,7 +118,7 @@ function HeaderContent({ className }: { className?: string }) {
     >
       <Link
         href={"/"}
-        className="logo relative h-[65px] w-[180px] md:w-[260px]"
+        className="logo relative h-[65px] w-[180px] md:w-[250px]"
       >
         <Image
           src="/assets/img/redux/logo_branca.webp"

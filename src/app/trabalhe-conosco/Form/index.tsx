@@ -30,12 +30,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import InputMask from "react-input-mask";
-import estados from "@/common/data/estadosBrasil.json";
 import { cn } from "@/lib/utils";
 import { CheckIcon } from "lucide-react";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useRef, useState } from "react";
-import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import "./form.scss";
 import { validateRecaptcha } from "@/common/actions/recaptcha";
@@ -553,7 +551,7 @@ export default function ContactForm({ className }: { className?: string }) {
                         )}
                       >
                         {field.value
-                          ? estados.states.find(
+                          ? estadosDoBrasil.find(
                               (estado) => estado.UF === field.value
                             )?.name
                           : "Selecione o Estado"}

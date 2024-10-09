@@ -8,7 +8,6 @@ export function CardPost({ index, post, className, styles }: InstaMidiaProps) {
       post={post}
       key={index}
       index={index}
-      styles={styles}
       className={cn(className, "relative mx-auto")}
     />
   );

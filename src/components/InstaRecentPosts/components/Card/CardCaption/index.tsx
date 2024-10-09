@@ -34,8 +34,8 @@ export function CardCaption({ timestamp, text, className }: CardCaptionProps) {
       {/* Caption */}
       <div id="card__caption__caption" className="modal">
         <article className="modal-container">
-          <section className="modal-container-body rtf text-center">
-            <p className="px-3">{text}</p>
+          <section className="modal-container-body rtf p-2 text-center shadow-sm">
+            <p className="px-2">{text}</p>
           </section>
         </article>
       </div>

@@ -3,14 +3,14 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import "./styles.scss";
 import { Instagram } from "lucide-react";
-import { fetchPostsData } from "@/components/InstaRecentPosts/actions/fetchOrUpdatePosts";
+import { fetchPosts } from "@/components/InstaRecentPosts/actions/fetchOrUpdatePosts";
 
 export default function Core() {
   const router = useRouter();
 
   useEffect(() => {
     // Atualiza o estado e, em seguida, redireciona após a atualização
-    fetchPostsData().then(() => {
+    fetchPosts().then(() => {
       // Use router.push para navegar programaticamente após a atualização do estado
       router.push("/?welcome=1&noRefresh=1");
     });

@@ -7,18 +7,17 @@ import {
   Virtual,
   Navigation,
   Pagination,
-  Mousewheel,
   Keyboard,
+  Scrollbar,
 } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "../../../ui/button";
 import { InstaPostData } from "@/types";
-import { useEffect } from "react";
 
 // Import Swiper styles
-import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css";
 
 type Props = {
   posts?: InstaPostData[];
@@ -27,40 +26,33 @@ type Props = {
 export default function PostsCoreContent({ posts }: Props) {
   return (
     <Swiper
-      modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+      modules={[Scrollbar, Navigation, Pagination]}
       slidesPerView={"auto"}
       centeredSlides={true}
-      spaceBetween={30}
-      pagination={{
-        type: "bullets",
-      }}
+      spaceBetween={50}
       navigation={true}
-      mousewheel
-      keyboard
-      className="!h-full !w-full !max-w-[1450px]"
+      rewind
+      className="flex !h-full !w-full !max-w-[1450px]"
     >
       {posts
         ? posts.map((post, index) => (
             <SwiperSlide
-              className="!grid !h-fit !w-fit !place-items-center"
+              className="!m-0 !grid !h-fit !w-fit !place-items-center space-y-4 !p-0"
               key={index}
             >
               <div
                 className={cn(
                   // "instaPost",
-                  "h-max w-[27%] min-w-[350px] max-w-[380px]",
+                  "h-max w-[20%] min-w-[300px] max-w-[380px] scale-100 md:min-w-[320px] md:scale-100",
                   "rounded-3xl !bg-[#eee]",
-                  "h-max w-max self-start p-4"
+                  "h-max w-max self-start p-3"
                 )}
               >
                 <Card.Root className="flex h-auto max-h-[30rem] w-full flex-col justify-around rounded-3xl">
                   <Card.Post
                     post={post}
                     index={index}
-                    className={cn(
-                      "insta__Post",
-                      "relative h-[20rem] min-h-max w-[80%]"
-                    )}
+                    className={cn("insta__Post", "relative min-h-max w-[80%]")}
                   />
                   <Card.Caption
                     className="h-[120px] self-end"

@@ -15,7 +15,7 @@ export default function InstaRecentPosts({ className }: InstaRecentPostsProps) {
   return (
     <section
       className={cn(
-        "flex h-full w-full gap-4 overflow-x-auto py-4",
+        "flex h-full w-full overflow-x-auto",
         "instaPostsWrapper",
         className
       )}
