@@ -1,5 +1,5 @@
 import { InstaMidiaProps } from "@/types";
-import Midia from "../Midia";
+import Midia from "./components/Midia";
 import { cn } from "@/lib/utils";
 
 export function CardPost({ index, post, className, styles }: InstaMidiaProps) {

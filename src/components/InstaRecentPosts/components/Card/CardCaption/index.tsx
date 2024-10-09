@@ -1,5 +1,7 @@
-import Caption from "@/components/InstaRecentPosts/Caption";
+import React from "react";
 import { cn } from "@/lib/utils";
+
+import "./caption.scss";
 
 type CardCaptionProps = {
   className?: string;
@@ -17,15 +19,26 @@ function convertToPublishedFormat(timestamp: string): string {
 export function CardCaption({ timestamp, text, className }: CardCaptionProps) {
   return (
     <div
+      id="card__caption__wrapper"
       className={cn(
         "relative mx-auto flex flex-col justify-evenly bg-white",
         className
       )}
     >
-      <h3 className="text-md text-center font-sans font-semibold leading-snug tracking-normal text-blue-gray-900">
+      <h3
+        id="card__caption__timestamp"
+        className="text-md text-center font-sans font-semibold leading-snug tracking-normal text-blue-gray-900"
+      >
         {convertToPublishedFormat(timestamp)}
       </h3>
-      <Caption text={text} />
+      {/* Caption */}
+      <div id="card__caption__caption" className="modal">
+        <article className="modal-container">
+          <section className="modal-container-body rtf text-center">
+            <p className="px-3">{text}</p>
+          </section>
+        </article>
+      </div>
     </div>
   );
 }

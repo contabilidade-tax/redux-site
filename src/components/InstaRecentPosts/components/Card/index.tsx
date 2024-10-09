@@ -3,7 +3,7 @@ import { CardPost } from "./CardPost";
 import { CardRoot } from "./CardRoot";
 
 export const Card = {
-    Root: CardRoot,
-    Caption: CardCaption,
-    Post: CardPost
-}
+  Root: CardRoot,
+  Caption: CardCaption,
+  Post: CardPost,
+};

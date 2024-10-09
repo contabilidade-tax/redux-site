@@ -1,24 +1,20 @@
 "use client";
 import { useRouter } from "next/navigation";
-import {
-  useInstaPostsContext,
-  InstaPostsContextProvider,
-} from "@/common/context/InstagramPostsContext";
 import { useEffect } from "react";
 import "./styles.scss";
 import { Instagram } from "lucide-react";
+import { fetchPostsData } from "@/components/InstaRecentPosts/actions/fetchOrUpdatePosts";
 
-function Core() {
-  const { updatePostsState: updateState } = useInstaPostsContext();
+export default function Core() {
   const router = useRouter();
 
   useEffect(() => {
     // Atualiza o estado e, em seguida, redireciona após a atualização
-    updateState().then(() => {
+    fetchPostsData().then(() => {
       // Use router.push para navegar programaticamente após a atualização do estado
       router.push("/?welcome=1&noRefresh=1");
     });
-  }, [updateState, router]);
+  }, [router]);
 
   // O componente não deve renderizar nada que vá para o output,
   // pois o objetivo é apenas redirecionar após a atualização do estado.
@@ -55,13 +51,5 @@ function Core() {
         <div className="spoke"></div>
       </div>
     </section>
-  );
-}
-
-export default function Wrapper() {
-  return (
-    <InstaPostsContextProvider>
-      <Core />
-    </InstaPostsContextProvider>
   );
 }

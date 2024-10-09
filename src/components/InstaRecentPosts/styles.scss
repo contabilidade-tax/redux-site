@@ -1,0 +1,27 @@
+$instaPostHeight: 30rem;
+
+// .instaPost {
+//   width: 27%;
+//   max-width: 380px;
+//   min-width: 350px;
+//   overflow: hidden;
+
+//   // .instaMidia {
+//   // width: 85%;
+//   // height: inherit;
+//   // max-height: $instaPostHeight;
+//   // }
+// }
+
+.swiper-button-next,
+.swiper-button-prev {
+  @apply text-primary-color;
+}
+
+.instaPostsWrapper {
+  ::-webkit-scrollbar-track {
+    background-color: #fff !important;
+    border-radius: 100px;
+    display: none;
+  }
+}

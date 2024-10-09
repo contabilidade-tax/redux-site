@@ -1,70 +1,13 @@
-/* eslint-disable no-unused-vars */
-"use client";
-import React, { Suspense, useEffect } from "react";
-import { setCookie, parseCookies } from "nookies";
-import { toast } from "react-toastify";
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 //
-import { useMobileContext } from "@/common/context/MobileDeviceContext";
-import InstaRecentPosts from "@/components/InstaRecentPosts";
 import { cn } from "@/lib/utils";
 import "@/app/page.scss";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-
-type handleCookieActions = {
-  type: "SET" | "GET";
-};
+import InstaRecentPosts from "@/components/InstaRecentPosts";
 
 function Home() {
-  const { mobileState } = useMobileContext();
-  const params = useSearchParams();
-
-  function welcomeCookie(action: handleCookieActions) {
-    const { has_been_welcomed } = parseCookies();
-
-    switch (action.type) {
-      case "SET":
-        setCookie(undefined, "has_been_welcomed", "true", {
-          path: "/",
-          maxAge: 24 * 60 * 60 * 1000, // 1 dias
-        });
-        break;
-      case "GET":
-        return has_been_welcomed;
-    }
-  }
-
-  const handleWelcomeNotification = () => {
-    toast.success(
-      <div>
-        <p>Bem vindo!</p>
-        <p>Recent Posts autorizado com sucesso</p>
-      </div>,
-      {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        className: "-translate-x-12 translate-y-16",
-      }
-    );
-
-    welcomeCookie({ type: "SET" });
-  };
-
-  // Define o mount do component de loading e timeout de saída
-  useEffect(() => {
-    if (params.get("welcome") && !welcomeCookie({ type: "GET" })) {
-      handleWelcomeNotification();
-    }
-  }, []);
-
   return (
     <>
       {/* Apresentação */}
@@ -356,10 +299,7 @@ function Home() {
           <span className="font-bold text-primary-color">.</span>
         </h2>
         <section className="posts h-auto max-h-[80%] w-full scale-95 md:scale-100">
-          <InstaRecentPosts
-            isMobile={mobileState.isSmallScreen}
-            noRefresh={params.has("noRefresh")}
-          />
+          <InstaRecentPosts />
         </section>
       </section>
     </>

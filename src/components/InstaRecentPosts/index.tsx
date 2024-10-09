@@ -1,16 +1,9 @@
-"use client";
-import { Suspense, useEffect, useState } from "react";
-
-import {
-  InstaPostsContextProvider,
-  useInstaPostsContext,
-} from "@/common/context/InstagramPostsContext";
+import { Suspense } from "react";
 import { cn } from "@/lib/utils";
+import PostsCoreContentServer from "./components/Core";
+import PostSkeleton from "./components/LoadingSkeleton";
 
-import { InstaPostData } from "@/types";
-import "./instaRecentPosts.scss";
-import PostsCoreContent from "./core";
-import PostSkeleton from "./skeleton";
+import "./styles.scss";
 
 type InstaRecentPostsProps = {
   className?: string;
@@ -18,47 +11,7 @@ type InstaRecentPostsProps = {
   noRefresh?: boolean;
 };
 
-function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
-  const { state, fetchPostsData: fetchData } = useInstaPostsContext();
-  const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState<InstaPostData[]>([]);
-
-  const fetchInstaData = async () => {
-    try {
-      const posts = await fetchData();
-
-      return posts;
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
-
-  const fetchAllData = async () => {
-    const fetchedPosts = await fetchInstaData();
-    setPosts(fetchedPosts!);
-  };
-
-  useEffect(() => {
-    if (state?.data && state.data.length > 0) {
-      // Ordena por data
-      const orderedPosts = state.data.sort(
-        (a, b) =>
-          Date.parse(String(b.timestamp)) - Date.parse(String(a.timestamp))
-      );
-      // Seleciona os 10 primeiros
-      const posts = orderedPosts.slice(0, 10);
-      // Enfim, seta o estado
-      setPosts(posts);
-      setLoading(false);
-    }
-  }, [state]);
-
-  useEffect(() => {
-    if (!noRefresh) {
-      fetchAllData().then();
-    }
-  }, []);
-
+export default function InstaRecentPosts({ className }: InstaRecentPostsProps) {
   return (
     <section
       className={cn(
@@ -68,19 +21,8 @@ function InstaRecentPosts({ className, noRefresh }: InstaRecentPostsProps) {
       )}
     >
       <Suspense fallback={<PostSkeleton qtd={4} />}>
-        <PostsCoreContent posts={posts} />
+        <PostsCoreContentServer />
       </Suspense>
     </section>
-  );
-}
-
-export default function InstaRecentPostsWrapper({
-  className,
-  isMobile,
-}: InstaRecentPostsProps) {
-  return (
-    <InstaPostsContextProvider>
-      <InstaRecentPosts className={className} isMobile={isMobile} />
-    </InstaPostsContextProvider>
   );
 }

@@ -100,6 +100,117 @@ type FileState = {
   name: string;
 } | null;
 
+const estadosDoBrasil = [
+  {
+    name: "Acre",
+    UF: "AC",
+  },
+  {
+    name: "Alagoas",
+    UF: "AL",
+  },
+  {
+    name: "Amapá",
+    UF: "AP",
+  },
+  {
+    name: "Amazonas",
+    UF: "AM",
+  },
+  {
+    name: "Bahia",
+    UF: "BA",
+  },
+  {
+    name: "Ceará",
+    UF: "CE",
+  },
+  {
+    name: "Distrito Federal",
+    UF: "DF",
+  },
+  {
+    name: "Espírito Santo",
+    UF: "ES",
+  },
+  {
+    name: "Goiás",
+    UF: "GO",
+  },
+  {
+    name: "Maranhão",
+    UF: "MA",
+  },
+  {
+    name: "Mato Grosso",
+    UF: "MT",
+  },
+  {
+    name: "Mato Grosso do Sul",
+    UF: "MS",
+  },
+  {
+    name: "Minas Gerais",
+    UF: "MG",
+  },
+  {
+    name: "Pará",
+    UF: "PA",
+  },
+  {
+    name: "Paraíba",
+    UF: "PB",
+  },
+  {
+    name: "Paraná",
+    UF: "PR",
+  },
+  {
+    name: "Pernambuco",
+    UF: "PE",
+  },
+  {
+    name: "Piauí",
+    UF: "PI",
+  },
+  {
+    name: "Rio de Janeiro",
+    UF: "RJ",
+  },
+  {
+    name: "Rio Grande do Norte",
+    UF: "RN",
+  },
+  {
+    name: "Rio Grande do Sul",
+    UF: "RS",
+  },
+  {
+    name: "Rondônia",
+    UF: "RO",
+  },
+  {
+    name: "Roraima",
+    UF: "RR",
+  },
+  {
+    name: "Santa Catarina",
+    UF: "SC",
+  },
+  {
+    name: "São Paulo",
+    UF: "SP",
+  },
+  {
+    name: "Sergipe",
+    UF: "SE",
+  },
+  {
+    name: "Tocantins",
+    UF: "TO",
+  },
+];
+
 export default function ContactForm({ className }: { className?: string }) {
   const [whatsappValue, setWhatsappValue] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -319,6 +430,7 @@ export default function ContactForm({ className }: { className?: string }) {
   return (
     <Form {...form}>
       <form className={className} onSubmit={form.handleSubmit(onSubmit)}>
+        {/* Name */}
         <FormField
           control={form.control}
           name="name"
@@ -337,6 +449,7 @@ export default function ContactForm({ className }: { className?: string }) {
             </FormItem>
           )}
         />
+        {/* Email */}
         <FormField
           control={form.control}
           name="email"
@@ -355,6 +468,7 @@ export default function ContactForm({ className }: { className?: string }) {
             </FormItem>
           )}
         />
+        {/* Whatsapp */}
         <FormField
           control={form.control}
           name="whatsapp"
@@ -400,6 +514,7 @@ export default function ContactForm({ className }: { className?: string }) {
             </FormItem>
           )}
         />
+        {/* Cidade e Estado */}
         <div className="flex w-full items-center gap-8">
           <FormField
             control={form.control}
@@ -452,7 +567,7 @@ export default function ContactForm({ className }: { className?: string }) {
                       <CommandEmpty>Estado não existe</CommandEmpty>
                       <CommandGroup>
                         <CommandList>
-                          {estados.states.map((estado) => (
+                          {estadosDoBrasil.map((estado) => (
                             <CommandItem
                               value={estado.name}
                               key={estado.UF}

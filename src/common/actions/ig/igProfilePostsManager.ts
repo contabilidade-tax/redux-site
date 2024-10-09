@@ -1,9 +1,10 @@
 'use server'
 import { Prisma, PrismaClient } from "@prisma/client";
 import { clearCache, getDateTime, getRedisValue } from '@/common/redis/config';
-import { InstaPostData } from "@/types";
+import { InstaPostData, InstaTokenData } from "@/types";
+import axios from "axios";
 
-async function updateOrCreatePostsDataOnDb(postsData: any[]) {
+async function createOrUpdatePostsDataLocalCopy(postsData: any[]) {
     const prisma = new PrismaClient()
     try {
         // Certifique-se de que InstaPostsData com id 1 existe pra evitar erros
@@ -56,7 +57,7 @@ async function getCachedProfilePostsData() {
     return null
 }
 
-async function getProfilePostsDataOnDb() {
+async function getProfilePostsDataOnLocalCopy() {
     const prisma = new PrismaClient()
     try {
         const data = await prisma.instaPostsData.findUnique({
@@ -70,9 +71,47 @@ async function getProfilePostsDataOnDb() {
     }
 }
 
+async function getPostsDataFromIGApi(
+    token: string
+): Promise<InstaPostData[] | null> {
+    try {
+        let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
+        let allData: InstaPostData[] = [];
+
+        for (let i = 0; i === 0; i++) {
+            if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
+
+            const response = await axios.get(url, {
+                params: {
+                    fields:
+                        "id,caption,media_type,media_url,permalink,timestamp,username",
+                    access_token: token,
+                },
+            });
+
+            if (response.data && response.data.data) {
+                allData = [...allData, ...response.data.data];
+            }
+
+            url = response.data.paging?.next || null;
+        }
+
+        return allData;
+    } catch (error: any) {
+        console.log(
+            "Erro ao buscar os posts da API INSTA:",
+            `Message: ${error.message}`,
+            `Response: ${error.response?.data}`
+        );
+        return null;
+    }
+}
+
+
 export {
-    updateOrCreatePostsDataOnDb,
+    createOrUpdatePostsDataLocalCopy,
     deleteProfilePostsCache,
     getCachedProfilePostsData,
-    getProfilePostsDataOnDb
+    getProfilePostsDataOnLocalCopy,
+    getPostsDataFromIGApi
 }

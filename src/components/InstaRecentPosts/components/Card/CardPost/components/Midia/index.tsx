@@ -1,7 +1,6 @@
-"use client";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import VideoPlayer from "@/components/InstaRecentPosts/VideoPlayer";
+import VideoPlayer from "@/components/InstaRecentPosts/components/Card/CardPost/components/Midia/components/VideoPlayer";
 import { InstaMidiaProps } from "@/types";
 import "./midia.scss";
 
