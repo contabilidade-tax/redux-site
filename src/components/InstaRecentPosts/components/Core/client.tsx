@@ -37,7 +37,7 @@ export default function PostsCoreContent({ posts }: Props) {
       {posts
         ? posts.map((post, index) => (
             <SwiperSlide
-              className="!m-0 !grid !h-fit !w-fit !place-items-center space-y-4 !p-0"
+              className="!m-0 !mr-7 !grid !h-fit !w-fit !place-items-center space-y-4 !p-0"
               key={index}
             >
               <div

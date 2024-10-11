@@ -38,8 +38,7 @@ const keywords = [
 
 export const metadata: Meta = {
   // title: "Redux Contabilidade Simplificada p/ MEI e Pequenos Empreendedores",
-  title:
-    "Redux Contabilidade: Soluções contábeis p/ MEI e Pequenos Empreendedores",
+  title: "Redux Contabilidade: Soluções p/ MEI e Pequenos Empreendedores",
   description: descriptionText,
   keywords: keywords,
   authors: { name: "Contabilidade by Grupo Redux" },
@@ -126,6 +125,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link
           rel="image_src"
           href="https://contabilidade.gruporedux.com.br/assets/img/redux/logo_preta.webp"
+        />
+        {/* <!-- The callback parameter is required, so we use console.debug as a noop --> */}
+        <Script
+          id="G_MAP_CALLBACK"
+          async
+          src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyD8OzhmYg10oF0N6Pmo0Z1Sb9VYyNCaQRo&callback=console.debug&libraries=maps,marker&v=beta`}
         />
         <script
           type="application/ld+json"

@@ -1,18 +1,19 @@
-@import '@/styles/variaveis';
+@import "@/styles/variaveis";
+@import "@/styles/mixins";
 
 .underline {
-    position: relative;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: $primary-color;
+  position: relative;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: $primary-color;
 }
 
 .headMenuMobile {
-    margin: $xsm-padding;
+  margin: $xsm-padding;
 }
 
 .ulWrapper {
-    @include notSelect
+  @include notSelect;
 }

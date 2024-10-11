@@ -1,26 +1,26 @@
-@import '@/styles/variaveis';
-
+@import "@/styles/variaveis";
+@import "@/styles/mixins";
 
 @include smScreen() {
-    .footer {
-        padding: $sm-padding;
-    }
+  .footer {
+    padding: $sm-padding;
+  }
 }
 
 @include mdScreen() {
-    .footer {
-        padding: $md-padding;
-    }
+  .footer {
+    padding: $md-padding;
+  }
 }
 
 @include lgScreen() {
-    .footer {
-        padding: $lg-padding;
-    }
+  .footer {
+    padding: $lg-padding;
+  }
 }
 
 @include xlScreen() {
-    .footer {
-        padding: $xl-padding;
-    }
+  .footer {
+    padding: $xl-padding;
+  }
 }

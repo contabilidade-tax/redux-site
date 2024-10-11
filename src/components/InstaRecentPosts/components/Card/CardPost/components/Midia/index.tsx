@@ -20,6 +20,7 @@ export default function Midia({ post, index, className }: InstaMidiaProps) {
             title={`${post.username}_${post.media_type}`}
             width={1000}
             height={800}
+            priority={false}
             loading="lazy"
           />
         ) : (

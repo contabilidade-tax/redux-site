@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Facebook, Instagram, YoutubeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Facebook, Instagram, YoutubeIcon } from "lucide-react";
 
 import "@/components/Footer/footer.scss";
 
@@ -16,8 +16,7 @@ export default function Footer({ className }: { className?: string }) {
         "flex flex-col justify-around py-4 text-sm font-medium md:py-6"
       )}
     >
-      {/* <div className="wrapper flex flex-col w-full h-full justify-center items-center gap-5"> */}
-      <section className="flex h-full w-full flex-grow flex-col items-start justify-between gap-6 xl:flex-row">
+      <section className="flex h-full w-full flex-grow flex-col flex-wrap items-start justify-between gap-6 md:flex-row">
         <section className="flex flex-1 items-center justify-around gap-4 md:!scale-100 xsm:scale-90 xsm:gap-5">
           <div className="logo_itens flex h-max w-max max-w-[350px] flex-col items-start justify-center gap-2 px-4">
             <Image
@@ -30,7 +29,6 @@ export default function Footer({ className }: { className?: string }) {
               width={144}
               height={100}
             />
-            {/* <Image src="/assets/img/re" alt="logo-cortada" className="grayscale-0 w-inherit h-[50px] object-contain" width={100} height={100} /> */}
             <div className="links flex h-max w-max flex-wrap items-center justify-center gap-2">
               <Link
                 className={linkStyle}
@@ -76,16 +74,22 @@ export default function Footer({ className }: { className?: string }) {
               <Link title="Fale conosco" target="_blank" href="/contato">
                 - (88) 99696-0337
               </Link>
-              {/* <li>1111</li> */}
             </div>
           </div>
         </section>
-        <div className="copy h-max w-auto max-w-[390px] flex-1 font-semibold md:!self-end md:!text-sm xsm:self-center xsm:text-xs">
-          <p>© 2024 Grupo Redux. Todos os direitos reservados.</p>
+        <div className="copy flex h-max w-auto max-w-[390px] flex-1 flex-col justify-center gap-4 self-center md:self-auto">
+          <Image
+            alt="Localização redux"
+            title="Localização redux"
+            width={300}
+            height={250}
+            src="https://maps.googleapis.com/maps/api/staticmap?center=-7.20663595199585,-39.30320358276367&maptype=roadmap&zoom=15&scale=2&size=390x250&markers=size:mid%7Ccolor:green%7C-7.206551,%20-39.303191&key=AIzaSyDHMwnYDgd_fedJCX7JQUT3Z4NYccUCsjg"
+          />
+          <p className="self-center text-xs font-semibold md:text-sm">
+            © 2024 Grupo Redux. Todos os direitos reservados.
+          </p>
         </div>
       </section>
-      {/* <div className= w-full h-[1.5px]"></div> */}
-      {/* </div> */}
     </footer>
   );
 }
