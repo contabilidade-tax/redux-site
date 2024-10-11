@@ -148,7 +148,7 @@ export async function GET(req: NextRequest, context: any) {
       const saveGeneratedToken = await setTokenDataOnDb(generatedLongLivedToken)
       // const saveGeneratedToken = await createInstaToken(createTokenApiUrl, generatedLongLivedToken);
 
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/find-current-profile-posts`);
+      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOME}/?welcome=1`);
     } catch (error: any) {
       throw new Error(error.response?.data.error_message ? error.response?.data.error_message + ':IG' : error.message);
     }

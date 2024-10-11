@@ -6,6 +6,8 @@
 @import "@/styles/imports";
 @import "@/styles/toastfy/main";
 
+@import "@/styles/normalize/typography";
+
 @layer components {
   .b-test-yellow {
     @apply border-2 border-yellow-500;

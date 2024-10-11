@@ -158,7 +158,7 @@ function Home() {
                 src="/assets/img/redux/servicos/inst_redux_1.webp"
                 width={280}
                 height={200}
-                loading="eager"
+                loading="lazy"
                 alt="Imagem institucional Redux"
                 title="Imagem institucional Redux"
               />
@@ -191,7 +191,7 @@ function Home() {
                 src="/assets/img/redux/servicos/inst_redux_2.webp"
                 width={280}
                 height={200}
-                loading="eager"
+                loading="lazy"
                 alt="Imagem institucional Redux"
                 title="Imagem institucional Redux"
               />
@@ -224,7 +224,7 @@ function Home() {
                 src="/assets/img/redux/servicos/inst_redux_3.webp"
                 width={280}
                 height={200}
-                loading="eager"
+                loading="lazy"
                 alt="Imagem institucional Redux"
                 title="Imagem institucional Redux"
               />
@@ -258,7 +258,7 @@ function Home() {
                 style={{ aspectRatio: "auto" }}
                 width={280}
                 height={200}
-                loading="eager"
+                loading="lazy"
                 alt="Imagem institucional Redux"
                 title="Imagem institucional Redux"
               />

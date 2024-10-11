@@ -79,5 +79,4 @@ module.exports = withMT({
       calibri: ["--font-calibri", "Calibri", "Montserrat", "sans-serif"],
     },
   },
-  plugins: [require("tailwindcss-animate")],
 });

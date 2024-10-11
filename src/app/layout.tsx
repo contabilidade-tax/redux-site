@@ -5,14 +5,12 @@ import type { Viewport, Metadata as Meta } from "next";
 import "@/styles/globals.scss";
 import "react-toastify/dist/ReactToastify.minimal.css";
 
-import { MobileContextProvider } from "@/common/context/MobileDeviceContext";
 import { ToastContainer } from "react-toastify";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import Head from "next/head";
 
 const font = Montserrat({
   subsets: ["latin"],
@@ -117,7 +115,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
       <head>
-        <meta httpEquiv="Cache-Control" content="max-age=100" />
+        <meta httpEquiv="Cache-Control" content="max-age=1000" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta charSet="UTF-8" />
         <meta
@@ -166,23 +164,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         className={`${font.variable} flex min-h-screen flex-col items-center justify-between`}
       >
         <Header />
-        <MobileContextProvider>
-          <main className="Wrapper relative flex w-full flex-1 flex-col items-center justify-between bg-[#fafafa] font-montserrat">
-            {children}
-            <ToastContainer />
-          </main>
-        </MobileContextProvider>
+        <main className="Wrapper relative flex w-full flex-1 flex-col items-center justify-between bg-[#fafafa] font-montserrat">
+          {children}
+          <ToastContainer />
+        </main>
         <Footer />
-        <SpeedInsights />
-        <Analytics />
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTAG_MANAGER}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          ></iframe>
-        </noscript>
         {/* <!-- Meta Pixel Code --> */}
         <Script id="meta-pixel">
           {`
@@ -200,19 +186,32 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 fbq('init', ${String(process.env.NEXT_PUBLIC_FB_PIXEL_ID)});
                 fbq('track', 'PageView');
           `}
-          <noscript>
-            <img
-              alt="fb-noscript"
-              height="1"
-              width="1"
-              style={{ display: "none" }}
-              src={`https://www.facebook.com/tr?id=${String(
-                process.env.NEXT_PUBLIC_FB_PIXEL_ID
-              )}&ev=PageView&noscript=1`}
-            />
-          </noscript>
         </Script>
         {/* <!-- End MetaPixelCode--> */}
+        {/* NOSCRIPT GOOGLE */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTAG_MANAGER}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
+        {/* NOSCRIPT FB */}
+        <noscript>
+          <img
+            alt="fb-noscript"
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${String(
+              process.env.NEXT_PUBLIC_FB_PIXEL_ID
+            )}&ev=PageView&noscript=1`}
+          />
+        </noscript>
+        {/* Vercel Analytics */}
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );

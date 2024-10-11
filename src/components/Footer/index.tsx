@@ -26,7 +26,7 @@ export default function Footer({ className }: { className?: string }) {
               alt="Logo Redux"
               className="h-[100px] w-36 object-contain grayscale-0"
               quality={100}
-              loading="eager"
+              loading="lazy"
               width={144}
               height={100}
             />
