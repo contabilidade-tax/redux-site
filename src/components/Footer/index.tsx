@@ -77,7 +77,7 @@ export default function Footer({ className }: { className?: string }) {
             </div>
           </div>
         </section>
-        <div className="copy flex h-max w-auto max-w-[390px] flex-1 flex-col justify-center gap-4 self-center md:self-auto">
+        <div className="copy flex h-max w-auto max-w-[390px] flex-1 flex-col items-center justify-center gap-4 self-center md:self-auto">
           <Image
             alt="Localização redux"
             title="Localização redux"
@@ -85,7 +85,7 @@ export default function Footer({ className }: { className?: string }) {
             height={250}
             src="https://maps.googleapis.com/maps/api/staticmap?center=-7.20663595199585,-39.30320358276367&maptype=roadmap&zoom=15&scale=2&size=390x250&markers=size:mid%7Ccolor:green%7C-7.206551,%20-39.303191&key=AIzaSyDHMwnYDgd_fedJCX7JQUT3Z4NYccUCsjg"
           />
-          <p className="self-center text-xs font-semibold md:text-sm">
+          <p className="text-xs font-semibold md:text-sm">
             © 2024 Grupo Redux. Todos os direitos reservados.
           </p>
         </div>
