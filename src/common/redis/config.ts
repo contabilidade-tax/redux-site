@@ -1,6 +1,5 @@
 import { InstaPostData } from '@/types'
 import Redis, { RedisOptions } from 'ioredis'
-import { v4 } from 'uuid'
 
 const redisConfigurations = {
     port: process.env.NEXT_PUBLIC_REDIS_PORT ? parseInt(process.env.NEXT_PUBLIC_REDIS_PORT) : undefined,
@@ -99,8 +98,4 @@ export async function clearCache(customKey?: string): Promise<boolean> {
         console.error('[Redis] Erro ao limpar cache:', error);
         return false;
     }
-}
-
-export function getRandomRedisKey(): string {
-    return v4();
 }

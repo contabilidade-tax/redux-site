@@ -61,7 +61,7 @@ async function fetchAndSlicePosts() {
                 Date.parse(String(b.timestamp)) - Date.parse(String(a.timestamp))
         );
         // Seleciona os 10 primeiros
-        const slicedPosts = orderedPosts.slice(0, 10);
+        const slicedPosts = orderedPosts.slice(0, 7);
 
         return slicedPosts;
     }

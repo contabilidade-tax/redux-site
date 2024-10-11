@@ -124,6 +124,7 @@ interface LoadingProps extends HTMLAttributes<HTMLElement> {
 interface MenuItensProps {
   tabs: Tab[]
   state: any
+  fullPath: string
   setCurrentPage: (action: { type: string; value: Tab }) => void
   setMenuOpen: (value: boolean) => void
   getGreeting: () => string

@@ -1,19 +1,20 @@
 import Link from "next/link";
-// import { Button } from '@material-tailwind/react'
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 
-import { XCircleIcon, UserIcon } from "@heroicons/react/24/solid";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 
 import { gsap } from "gsap";
 
 import { MenuItensProps } from "@/types";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/Tools";
+import { cn } from "@/lib/utils";
+
 import "./menuItens.scss";
 
 export default function MenuItens({
   tabs,
+  fullPath,
   state,
   setCurrentPage,
   setMenuOpen,
@@ -30,14 +31,6 @@ export default function MenuItens({
     const tl = gsap.timeline({ delay: 0 });
 
     tl.to(loginRef.current, { x: -1000, opacity: 0, duration: 0.5 }, 0);
-
-    // if (navRef.current) {
-    //   tl.to(
-    //     navRef.current.querySelectorAll('li'),
-    //     { y: '-100%', opacity: 0, duration: 0.5, stagger: 0.1 },
-    //     0
-    //   );
-    // }
 
     tl.to(xRef.current, { rotation: 360, duration: 1, ease: "power2.out" }, 0);
   };
@@ -98,12 +91,16 @@ export default function MenuItens({
               setCurrentPage({ type: "SWITCH_PAGE", value: item });
             }}
           >
-            <Link href={item.src} className="text-left">
+            <Link
+              href={item.src}
+              className={cn(
+                "text-left",
+                { "text-primary-color": item.src === fullPath },
+                { "text-lg font-extrabold": item.src === fullPath }
+              )}
+            >
               {item.label}
             </Link>
-            {item === state.currentPage ? (
-              <motion.div className="underline" layoutId="underline" />
-            ) : null}
           </li>
         ))}
       </ul>

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useSearchParams, usePathname } from "next/navigation";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import { Icon } from "../Tools";
 
 import MenuItens from "./MenuMobile";
@@ -148,12 +147,6 @@ function HeaderContent({ className }: { className?: string }) {
               >
                 {tab.label}
               </Link>
-              {/* {tab.src === fullPath ? (
-                <motion.div
-                  className={cn("underline", "!bg-primary-color")}
-                  layoutId="underline"
-                />
-              ) : null} */}
             </li>
           ))}
         </ul>
@@ -189,6 +182,7 @@ function HeaderContent({ className }: { className?: string }) {
       />
       {state.menuIsOpen && (
         <MenuItens
+          fullPath={fullPath}
           ref={menuRef}
           state={state}
           className="items-center justify-center bg-black/90 p-4 text-3xl text-white backdrop-blur-sm"

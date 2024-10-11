@@ -14,6 +14,19 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     unoptimized: true,
   },
+  experimental: {
+    optimizePackageImports: [
+      "@heroicons/react",
+      "gsap",
+      "ioredis",
+      "swiper",
+      "tailwind-merge",
+      "react-input-mask",
+      "react-google-recaptcha",
+      "@radix-ui/*",
+      "react-email/*",
+    ],
+  },
   webpack: (config) => {
     config.resolve.alias["@"] = path.resolve(__dirname, "./src/");
     return config;
@@ -22,7 +35,6 @@ const nextConfig = {
     return [
       {
         source: "/contato",
-        // https://api.whatsapp.com/send?phone=558899660188&text=Ol%C3%A1,%20gostaria%20de%20saber%20mais%20sobre%20seus%20servi%C3%A7os
         destination: `https://api.whatsapp.com/send?phone=5588996960337&text=${encodeURIComponent(
           "Olá, vim pelo site e gostaria de saber mais sobre seus serviços!"
         )}`,
@@ -45,6 +57,7 @@ const nextConfig = {
         source: "/:path*",
         headers: [
           // { key: "", value: "" },
+          { key: "Accept-Encoding", value: "brotli, compress, gzip" },
           { key: "hreflang", value: "pt-BR" },
           { key: "Content-Language", value: "pt-BR" },
           { key: "Vary", value: "nosniff" },
@@ -53,7 +66,7 @@ const nextConfig = {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload",
           },
-          { key: "Cache-Control", value: "max-age=3600, must-revalidate" },
+          { key: "Cache-Control", value: "max-age=1000, must-revalidate" },
           { key: "X-Robots-Tag", value: "index, follow" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },

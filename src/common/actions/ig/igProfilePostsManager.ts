@@ -1,5 +1,5 @@
 'use server'
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { clearCache, getDateTime, getRedisValue } from '@/common/redis/config';
 import { InstaPostData, InstaTokenData } from "@/types";
 import axios from "axios";
