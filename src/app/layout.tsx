@@ -127,14 +127,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           href="https://contabilidade.gruporedux.com.br/assets/img/redux/logo_preta.webp"
         />
         {/* <!-- The callback parameter is required, so we use console.debug as a noop --> */}
-        <Script
-          id="G_MAP_CALLBACK"
-          async
-          src={`https://maps.googleapis.com/maps/api/js?key=AIzaSyD8OzhmYg10oF0N6Pmo0Z1Sb9VYyNCaQRo&callback=console.debug&libraries=maps,marker&v=beta`}
-        />
-        <script
+        <Script id="ld+json"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+          defer
         />
         {/* <!-- GTAG --> */}
         <Script
@@ -142,7 +138,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-16721885854"
         ></Script>
-        <Script id="analytics">
+        <Script id="analytics" async >
           {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
@@ -152,7 +148,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
         </Script>
         {/* <!-- Google Tag Manager --> */}
-        <Script id="gtag-manager">
+        <Script id="gtag-manager" async>
           {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -175,7 +171,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </main>
         <Footer />
         {/* <!-- Meta Pixel Code --> */}
-        <Script id="meta-pixel">
+        <Script async id="meta-pixel">
           {`
               !function(f,b,e,v,n,t,s)
               {
