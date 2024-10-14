@@ -14,7 +14,7 @@ function Home() {
       <section
         id="presentation"
         style={{
-          backgroundImage: "url('/assets/img/redux/capa_redux.webp')",
+          backgroundImage: `url('${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/capa_redux.webp')`,
           backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
@@ -55,7 +55,7 @@ function Home() {
           <div className="flex items-start justify-center gap-4">
             <div className="flex h-max w-max justify-end">
               <Image
-                src="/assets/img/redux/sobre/icone_missao.webp"
+                src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/sobre/icone_missao.webp`}
                 width={50}
                 height={50}
                 alt="Ícone Missão"
@@ -80,7 +80,7 @@ function Home() {
           <div className="flex items-start justify-center gap-4">
             <div className="flex h-max w-max justify-end">
               <Image
-                src="/assets/img/redux/sobre/icone_visao.webp"
+                src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/sobre/icone_visao.webp`}
                 width={50}
                 height={50}
                 alt="Ícone Visão"
@@ -104,7 +104,7 @@ function Home() {
           <div className="flex items-start justify-center gap-4">
             <div className="flex h-max w-max justify-end">
               <Image
-                src="/assets/img/redux/sobre/icone_valores.webp"
+                src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/sobre/icone_valores.webp`}
                 width={50}
                 height={50}
                 alt="Ícone Valores"
@@ -155,7 +155,7 @@ function Home() {
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
-                src="/assets/img/redux/servicos/inst_redux_1.webp"
+                src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/inst_redux_1.webp`}
                 width={280}
                 height={200}
                 loading="lazy"
@@ -188,7 +188,7 @@ function Home() {
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
-                src="/assets/img/redux/servicos/inst_redux_2.webp"
+                src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/inst_redux_2.webp`}
                 width={280}
                 height={200}
                 loading="lazy"
@@ -221,7 +221,7 @@ function Home() {
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="max-h-[200px] rounded-2xl"
-                src="/assets/img/redux/servicos/inst_redux_3.webp"
+                src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/inst_redux_3.webp`}
                 width={280}
                 height={200}
                 loading="lazy"
@@ -254,7 +254,7 @@ function Home() {
             <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
               <Image
                 className="rounded-2xl"
-                src="/assets/img/redux/servicos/inst_redux_4.webp"
+                src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/inst_redux_4.webp`}
                 style={{ aspectRatio: "auto" }}
                 width={280}
                 height={200}

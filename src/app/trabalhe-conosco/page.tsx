@@ -9,7 +9,7 @@ export default function TrabalheConosco() {
   return (
     <div
       style={{
-        backgroundImage: "url(/assets/img/bg/dinoTrabalheConoscoNatal.png)",
+        backgroundImage: `url(${process.env.NEXT_PUBLIC_CDN}/assets/img/bg/dinoTrabalheConoscoNatal.png)`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPositionX: "center",

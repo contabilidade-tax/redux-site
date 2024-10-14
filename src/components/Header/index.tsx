@@ -120,7 +120,7 @@ function HeaderContent({ className }: { className?: string }) {
         className="logo relative h-[65px] w-[180px] md:w-[250px]"
       >
         <Image
-          src="/assets/img/redux/logo_branca.webp"
+          src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_branca.webp`}
           alt="Redux Logo"
           title="Redux Logo"
           quality={100}
@@ -160,8 +160,8 @@ function HeaderContent({ className }: { className?: string }) {
           <Icon
             src={
               isHovered
-                ? "/assets/img/dino-smile.png"
-                : "/assets/img/dino-serio.png"
+                ? `${process.env.NEXT_PUBLIC_CDN}/assets/img/dino-smile.png`
+                : `${process.env.NEXT_PUBLIC_CDN}/assets/img/dino-serio.png`
             }
             width={30}
             height={30}

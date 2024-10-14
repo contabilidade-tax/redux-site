@@ -91,7 +91,7 @@ export default function Email({
               <Row align="center">
                 <Column align="center">
                   <img
-                    src="/assets/img/logo-verde-cortada.png"
+                    src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/logo-verde-cortada.png`}
                     alt="Logo TAX"
                     title="logo_TAX"
                     width={280}

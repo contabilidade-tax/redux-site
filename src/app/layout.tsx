@@ -64,9 +64,8 @@ export const ldJson = {
   name: "Redux Contabilidade",
   description: descriptionText,
   url: "https://contabilidade.gruporedux.com.br",
-  logo: "https://contabilidade.gruporedux.com.br/assets/img/redux/logo_preta.webp",
-  image:
-    "https://contabilidade.gruporedux.com.br/assets/img/redux/logo_preta.webp",
+  logo: `${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_preta.webp`,
+  image: `${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_preta.webp`,
   telephone: "+55-88-2178-7987",
   email: "adm@contabilidade-tax.com.br",
   address: {
@@ -119,18 +118,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta charSet="UTF-8" />
         <meta
           property="og:image"
-          content="https://contabilidade.gruporedux.com.br/assets/img/redux/logo_preta.webp"
+          content={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_preta.webp`}
         />
         <link rel="canonical" href="https://contabilidade.gruporedux.com.br" />
         <link
           rel="image_src"
-          href="https://contabilidade.gruporedux.com.br/assets/img/redux/logo_preta.webp"
-        />
-        {/* <!-- The callback parameter is required, so we use console.debug as a noop --> */}
-        <Script id="ld+json"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
-          defer
+          href={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_preta.webp`}
         />
         {/* <!-- GTAG --> */}
         <Script
@@ -138,7 +131,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           async
           src="https://www.googletagmanager.com/gtag/js?id=AW-16721885854"
         ></Script>
-        <Script id="analytics" async >
+        <Script id="analytics" async>
           {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
@@ -160,6 +153,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
         </Script>
         {/* <!-- End Google Tag Manager --> */}
+        <Script
+          id="ld+json"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+          defer
+        />
       </head>
       <body
         className={`${font.variable} flex min-h-screen flex-col items-center justify-between`}

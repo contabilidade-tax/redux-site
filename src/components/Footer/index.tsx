@@ -20,7 +20,7 @@ export default function Footer({ className }: { className?: string }) {
         <section className="flex flex-1 items-center justify-around gap-4 md:!scale-100 xsm:scale-90 xsm:gap-5">
           <div className="logo_itens flex h-max w-max max-w-[350px] flex-col items-start justify-center gap-2 px-4">
             <Image
-              src="/assets/img/redux/logo_branca.webp"
+              src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_branca.webp`}
               title="Logo Redux"
               alt="Logo Redux"
               className="h-[100px] w-36 object-contain grayscale-0"

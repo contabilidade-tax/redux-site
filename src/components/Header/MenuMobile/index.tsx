@@ -115,8 +115,8 @@ export default function MenuItens({
               <Icon
                 src={
                   isHovered
-                    ? "/assets/img/dino-smile.png"
-                    : "/assets/img/dino-serio.png"
+                    ? `${process.env.NEXT_PUBLIC_CDN}/assets/img/dino-smile.png`
+                    : `${process.env.NEXT_PUBLIC_CDN}/assets/img/dino-serio.png`
                 }
                 styles={{ filter: isHovered ? "" : "invert(1)" }}
                 width={35}
