@@ -128,10 +128,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* <!-- GTAG --> */}
         <Script
           id="g-tag"
-          defer
+          async
           src="https://www.googletagmanager.com/gtag/js?id=AW-16721885854"
         ></Script>
-        <Script id="analytics" defer>
+        <Script id="analytics" async>
           {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
@@ -141,7 +141,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
         </Script>
         {/* <!-- Google Tag Manager --> */}
-        <Script id="gtag-manager" defer>
+        <Script id="gtag-manager" async>
           {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -170,7 +170,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </main>
         <Footer />
         {/* <!-- Meta Pixel Code --> */}
-        <Script defer id="meta-pixel">
+        <Script async id="meta-pixel">
           {`
               !function(f,b,e,v,n,t,s)
               {
