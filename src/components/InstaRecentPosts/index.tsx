@@ -1,6 +1,6 @@
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { cn } from "@/lib/utils";
-import PostsCoreContentServer from "./components/Core";
+// import PostsCoreContentServer from "./components/Core";
 import PostSkeleton from "./components/LoadingSkeleton";
 
 import "./styles.scss";
@@ -10,6 +10,8 @@ type InstaRecentPostsProps = {
   isMobile?: boolean;
   noRefresh?: boolean;
 };
+
+const LazyPostsCoreContentServer = lazy(() => import("./components/Core"));
 
 export default function InstaRecentPosts({ className }: InstaRecentPostsProps) {
   return (
@@ -21,7 +23,7 @@ export default function InstaRecentPosts({ className }: InstaRecentPostsProps) {
       )}
     >
       <Suspense fallback={<PostSkeleton qtd={4} />}>
-        <PostsCoreContentServer />
+        <LazyPostsCoreContentServer />
       </Suspense>
     </section>
   );
