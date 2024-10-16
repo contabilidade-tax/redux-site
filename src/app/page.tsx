@@ -15,7 +15,10 @@ export default function Page() {
       <section
         id="presentation"
         style={{
-          backgroundImage: `url('${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/capa_redux.webp')`,
+          backgroundImage: `image-set(
+            url('${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/capa_redux.webp') 1x,
+            url('${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/capa_redux_smaller.webp') 0.5x
+          )`,
           backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
