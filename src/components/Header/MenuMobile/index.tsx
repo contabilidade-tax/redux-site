@@ -110,7 +110,7 @@ export default function MenuItens({
             <Button
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              className="flex items-center gap-3 rounded-full bg-black text-lg font-semibold text-white hover:bg-primary-color"
+              className="flex items-center gap-3 rounded-full bg-[#fafafa] text-lg font-semibold text-black hover:bg-primary-color"
             >
               <Icon
                 src={
