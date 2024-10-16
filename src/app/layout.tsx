@@ -111,7 +111,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
       <head>
-        <meta httpEquiv="Cache-Control" content="max-age=31536000" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta charSet="UTF-8" />
         <meta
