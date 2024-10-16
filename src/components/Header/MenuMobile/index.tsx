@@ -83,7 +83,7 @@ export default function MenuItens({
         {tabs.map((item) => (
           <li
             className={
-              (item === state.currentPage ? "selected " : "") + "font-norma p-1"
+              (item === state.currentPage ? "selected " : "") + "font-normal p-1"
             }
             key={item.label}
             onClick={() => {
@@ -96,7 +96,7 @@ export default function MenuItens({
               className={cn(
                 "text-left",
                 { "text-primary-color": item.src === fullPath },
-                { "text-lg font-extrabold": item.src === fullPath }
+                { "font-extrabold": item.src === fullPath }
               )}
             >
               {item.label}

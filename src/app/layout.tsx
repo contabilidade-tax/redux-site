@@ -119,7 +119,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           content={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_preta.webp`}
         />
         <link rel="canonical" href="https://contabilidade.gruporedux.com.br" />
-        <link rel="preload" fetchPriority="high" as="image" href="https://cdn.gruporedux.com.br/assets/img/redux/capa_redux.webp" sizes="100vw" type="image/webp"></link>
+        {/* <link rel="preload" fetchPriority="high" as="image" href="https://cdn.gruporedux.com.br/assets/img/redux/capa_redux.webp" sizes="100vw" type="image/webp"></link> */}
         <link
           rel="image_src"
           href={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_preta.webp`}
