@@ -9,6 +9,7 @@ module.exports = withMT({
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{css,scss,sass}",
+    "node_modules/react-toastify/dist/ReactToastify.css",
   ],
   theme: {
     extend: {

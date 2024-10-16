@@ -1,16 +1,14 @@
 import { Montserrat } from "next/font/google";
-// import localFont from "next/font/local";
 import { ReactNode } from "react";
 import type { Viewport, Metadata as Meta } from "next";
-import "@/styles/globals.scss";
-import "react-toastify/dist/ReactToastify.minimal.css";
 
-import { ToastContainer } from "react-toastify";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+
+import "@/styles/globals.scss";
 
 const font = Montserrat({
   subsets: ["latin"],
@@ -113,7 +111,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
       <head>
-        <meta httpEquiv="Cache-Control" content="max-age=1000" />
+        <meta httpEquiv="Cache-Control" content="max-age=31536000" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta charSet="UTF-8" />
         <meta
@@ -127,29 +125,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
         {/* <!-- GTAG --> */}
         <Script
-          id="g-tag"
           async
+          id="g-tag"
+          strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=AW-16721885854"
         ></Script>
-        <Script id="analytics" async>
-          {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-
-              gtag('config', 'AW-16721885854');
-          `}
-        </Script>
         {/* <!-- Google Tag Manager --> */}
-        <Script id="gtag-manager" async>
+        <Script async id="gtm">
           {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer', '${String(
-              process.env.NEXT_PUBLIC_GTAG_MANAGER
-            )}');
+            process.env.NEXT_PUBLIC_GTAG_MANAGER
+          )}');
           `}
         </Script>
         {/* <!-- End Google Tag Manager --> */}
@@ -163,31 +153,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={`${font.variable} flex min-h-screen flex-col items-center justify-between`}
       >
-        <Header />
-        <main className="Wrapper relative flex w-full flex-1 flex-col items-center justify-between bg-[#fafafa] font-montserrat">
-          {children}
-          <ToastContainer />
-        </main>
-        <Footer />
-        {/* <!-- Meta Pixel Code --> */}
-        <Script async id="meta-pixel">
-          {`
-              !function(f,b,e,v,n,t,s)
-              {
-                if(f.fbq) return; 
-                n=f.fbq=function() {
-                  n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)};
-                  if (!f._fbq) f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
-                  n.queue=[]; t=b.createElement(e); t.async=!0;
-                  t.src=v; s=b.getElementsByTagName(e)[0];
-                  s.parentNode.insertBefore(t,s)
-                }
-                (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', ${String(process.env.NEXT_PUBLIC_FB_PIXEL_ID)});
-                fbq('track', 'PageView');
-          `}
-        </Script>
-        {/* <!-- End MetaPixelCode--> */}
         {/* NOSCRIPT GOOGLE */}
         <noscript>
           <iframe
@@ -209,9 +174,44 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             )}&ev=PageView&noscript=1`}
           />
         </noscript>
+        {/* Init Content */}
+        <Header />
+        <main className="Wrapper relative flex w-full flex-1 flex-col items-center justify-between bg-[#fafafa] font-montserrat">
+          {children}
+        </main>
+        <Footer />
+        {/* Google Analytics */}
+        <Script async id="analytics">
+          {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'AW-16721885854');
+          `}
+        </Script>
+        {/* <!-- Meta Pixel Code --> */}
+        <Script defer id="meta-pixel">
+          {`
+              !function(f,b,e,v,n,t,s)
+              {
+                if(f.fbq) return; 
+                n=f.fbq=function() {
+                  n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)};
+                  if (!f._fbq) f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
+                  n.queue=[]; t=b.createElement(e); t.async=!0;
+                  t.src=v; s=b.getElementsByTagName(e)[0];
+                  s.parentNode.insertBefore(t,s)
+                }
+                (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', ${String(process.env.NEXT_PUBLIC_FB_PIXEL_ID)});
+                fbq('track', 'PageView');
+          `}
+        </Script>
+        {/* <!-- End MetaPixelCode--> */}
         {/* Vercel Analytics */}
-        <SpeedInsights />
-        <Analytics />
+        <VercelSpeedInsights />
+        <VercelAnalytics />
       </body>
     </html>
   );

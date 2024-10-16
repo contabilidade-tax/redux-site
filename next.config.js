@@ -5,14 +5,11 @@ const nextConfig = {
   // output: 'export',
   images: {
     domains: [
-      "images.pexels.com",
-      "images.unsplash.com",
-      "www.flaticon.com",
-      "scontent.cdninstagram.com",
       "contabilidade.gruporedux.com.br",
+      "cdn.gruporedux.com.br"
     ],
     dangerouslyAllowSVG: true,
-    unoptimized: true,
+    unoptimized: false,
   },
   experimental: {
     optimizePackageImports: [
@@ -49,24 +46,24 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "cache", // Configura o cabeçalho de controle de cache para evitar o cache.
+            value: "nocache", // Configura o cabeçalho de controle de cache para evitar o cache.
           },
         ],
       },
       {
-        source: "/:path*",
+        source: "/",
         headers: [
           // { key: "", value: "" },
-          { key: "Accept-Encoding", value: "brotli, compress, gzip" },
+          { key: "Accept-Encoding", value: "br, gzip" }, // Prioriza Brotli ('br') com fallback para Gzip.
           { key: "hreflang", value: "pt-BR" },
           { key: "Content-Language", value: "pt-BR" },
-          { key: "Vary", value: "nosniff" },
+          { key: "Vary", value: "Accept-Encoding" }, // Garante que o cache considere o tipo de codificação de resposta.
           { key: "Max-Snippet", value: "-1" },
           {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload",
           },
-          { key: "Cache-Control", value: "max-age=1000, must-revalidate" },
+          { key: "Cache-Control", value: "max-age=31536000, must-revalidate" },
           { key: "X-Robots-Tag", value: "index, follow" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
@@ -74,18 +71,6 @@ const nextConfig = {
       },
       {
         source: "/instaData",
-        headers: [
-          { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
-        ],
-      },
-      {
-        source: "/loading",
-        headers: [
-          { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
-        ],
-      },
-      {
-        source: "/email",
         headers: [
           { key: "Referrer-Policy", value: "no-referrer-when-downgrade" },
         ],

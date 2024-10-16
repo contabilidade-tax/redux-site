@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { parseCookies, setCookie } from "nookies";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import * as z from "zod";
 import {
   Command,
@@ -35,9 +35,11 @@ import { CheckIcon } from "lucide-react";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import "./form.scss";
 import { validateRecaptcha } from "@/common/actions/recaptcha";
 import { sendWorkWithUsMail } from "@/common/actions/rhSendMail";
+
+import "./form.scss";
+import "react-toastify/dist/ReactToastify.minimal.css";
 
 type Person = {
   name: string;
@@ -351,14 +353,14 @@ export default function ContactForm({ className }: { className?: string }) {
               alreadySent
                 ? cookieObj
                 : {
-                    sent: [
-                      {
-                        name: data.name,
-                        email: data.email,
-                        whatsapp: data.whatsapp,
-                      },
-                    ],
-                  }
+                  sent: [
+                    {
+                      name: data.name,
+                      email: data.email,
+                      whatsapp: data.whatsapp,
+                    },
+                  ],
+                }
             ),
             {
               path: "/",
@@ -426,263 +428,266 @@ export default function ContactForm({ className }: { className?: string }) {
     "font-[#222020] font-base placeholder:text-muted-foreground bg-gray-300/60 border border-gray-400/80";
 
   return (
-    <Form {...form}>
-      <form className={className} onSubmit={form.handleSubmit(onSubmit)}>
-        {/* Name */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={labelStyle}>Nome*</FormLabel>
-              <FormMessage className={errorMessageStyle} />
-              <FormControl>
-                <Input
-                  {...field}
-                  id="name"
-                  className={placeHolderStyle}
-                  placeholder="Digite seu nome"
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        {/* Email */}
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={labelStyle}>Email*</FormLabel>
-              <FormMessage className={errorMessageStyle} />
-              <FormControl>
-                <Input
-                  {...field}
-                  id="email"
-                  className={cn(placeHolderStyle)}
-                  placeholder="Informe seu email principal"
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        {/* Whatsapp */}
-        <FormField
-          control={form.control}
-          name="whatsapp"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={labelStyle}>Whatsapp*</FormLabel>
-              <FormMessage className={errorMessageStyle} />
-              <FormControl>
-                <InputMask
-                  mask="(99) 9 9999-9999"
-                  // value={field.value}
-                  value={whatsappValue}
-                  // onChange={field.onChange}
-                  onChange={(e) => {
-                    // Remove todos os caracteres não numéricos
-                    const numericValue = e.target.value.replace(/\D/g, "");
-                    // Formata o valor para a máscara
-                    const formattedValue = numericValue.replace(
-                      /(\d{2})(\d{1})(\d{4})(\d{4})/,
-                      "($1) $2 $3-$4"
-                    );
-                    // Atualiza o estado local
-                    setWhatsappValue(formattedValue);
-                    // Atualiza o valor no react-hook-form
-                    field.onChange(numericValue);
-                  }}
-                  maskChar=""
-                >
-                  {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    (field) => (
-                      <Input
-                        {...field}
-                        id="whatsapp"
-                        className={placeHolderStyle}
-                        placeholder="Telefone para contato"
-                      />
-                    )
-                  }
-                </InputMask>
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        {/* Cidade e Estado */}
-        <div className="flex w-full items-center gap-8">
+    <>
+      <Form {...form}>
+        <form className={className} onSubmit={form.handleSubmit(onSubmit)}>
+          {/* Name */}
           <FormField
             control={form.control}
-            name="cidade"
+            name="name"
             render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel className={labelStyle}>Cidade*</FormLabel>
+              <FormItem>
+                <FormLabel className={labelStyle}>Nome*</FormLabel>
                 <FormMessage className={errorMessageStyle} />
                 <FormControl>
                   <Input
                     {...field}
-                    id="cidade"
+                    id="name"
                     className={placeHolderStyle}
-                    placeholder="Onde você reside?"
+                    placeholder="Digite seu nome"
                   />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={labelStyle}>Email*</FormLabel>
+                <FormMessage className={errorMessageStyle} />
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="email"
+                    className={cn(placeHolderStyle)}
+                    placeholder="Informe seu email principal"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          {/* Whatsapp */}
+          <FormField
+            control={form.control}
+            name="whatsapp"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={labelStyle}>Whatsapp*</FormLabel>
+                <FormMessage className={errorMessageStyle} />
+                <FormControl>
+                  <InputMask
+                    mask="(99) 9 9999-9999"
+                    // value={field.value}
+                    value={whatsappValue}
+                    // onChange={field.onChange}
+                    onChange={(e) => {
+                      // Remove todos os caracteres não numéricos
+                      const numericValue = e.target.value.replace(/\D/g, "");
+                      // Formata o valor para a máscara
+                      const formattedValue = numericValue.replace(
+                        /(\d{2})(\d{1})(\d{4})(\d{4})/,
+                        "($1) $2 $3-$4"
+                      );
+                      // Atualiza o estado local
+                      setWhatsappValue(formattedValue);
+                      // Atualiza o valor no react-hook-form
+                      field.onChange(numericValue);
+                    }}
+                    maskChar=""
+                  >
+                    {
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-ignore
+                      (field) => (
+                        <Input
+                          {...field}
+                          id="whatsapp"
+                          className={placeHolderStyle}
+                          placeholder="Telefone para contato"
+                        />
+                      )
+                    }
+                  </InputMask>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          {/* Cidade e Estado */}
+          <div className="flex w-full items-center gap-8">
+            <FormField
+              control={form.control}
+              name="cidade"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className={labelStyle}>Cidade*</FormLabel>
+                  <FormMessage className={errorMessageStyle} />
+                  <FormControl>
+                    <Input
+                      {...field}
+                      id="cidade"
+                      className={placeHolderStyle}
+                      placeholder="Onde você reside?"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="estado"
+              render={({ field }) => (
+                <FormItem className="mt-2 flex flex-1 flex-col gap-1">
+                  <FormLabel className={labelStyle}>Estado*</FormLabel>
+                  <FormMessage className={errorMessageStyle} />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "h-9 w-full max-w-[200px] justify-between border border-gray-400/80 bg-gray-300/60",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value
+                            ? estadosDoBrasil.find(
+                              (estado) => estado.UF === field.value
+                            )?.name
+                            : "Selecione o Estado"}
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command className="bg-gray-100">
+                        <CommandInput placeholder="Informe seu estado..." />
+                        <CommandEmpty>Estado não existe</CommandEmpty>
+                        <CommandGroup>
+                          <CommandList>
+                            {estadosDoBrasil.map((estado) => (
+                              <CommandItem
+                                value={estado.name}
+                                key={estado.UF}
+                                onSelect={() => {
+                                  form.setValue("estado", estado.UF);
+                                }}
+                              >
+                                <CheckIcon
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    estado.UF === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {estado.name}
+                              </CommandItem>
+                            ))}
+                          </CommandList>
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name="arquivo"
+            render={({ field }) => (
+              <FormItem className="my-3 flex flex-col">
+                <FormLabel className={labelStyle}>Currículo*</FormLabel>
+                <FormMessage className={errorMessageStyle} />
+                <FormControl>
+                  <div className="z-[999] w-max min-w-[176px] max-w-[390px] cursor-pointer rounded-md border border-solid border-gray-400/80 bg-gray-300/60 p-1 px-2">
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleFileChange}
+                      id="arquivo"
+                      style={{ display: "none" }} // Esconde o input padrão
+                    />
+                    <label
+                      htmlFor="arquivo"
+                      className="flex cursor-pointer items-center justify-center"
+                    >
+                      {file?.name || "Escolha um arquivo"}{" "}
+                      {/* Exibe o nome do arquivo ou um texto padrão */}
+                    </label>
+                    {/* ...resto do seu componente */}
+                  </div>
                 </FormControl>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="estado"
+            name="message"
             render={({ field }) => (
-              <FormItem className="mt-2 flex flex-1 flex-col gap-1">
-                <FormLabel className={labelStyle}>Estado*</FormLabel>
+              <FormItem>
+                <FormLabel className={labelStyle}>Mensagem*</FormLabel>
                 <FormMessage className={errorMessageStyle} />
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "h-9 w-full max-w-[200px] justify-between border border-gray-400/80 bg-gray-300/60",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value
-                          ? estadosDoBrasil.find(
-                              (estado) => estado.UF === field.value
-                            )?.name
-                          : "Selecione o Estado"}
-                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
-                    <Command className="bg-gray-100">
-                      <CommandInput placeholder="Informe seu estado..." />
-                      <CommandEmpty>Estado não existe</CommandEmpty>
-                      <CommandGroup>
-                        <CommandList>
-                          {estadosDoBrasil.map((estado) => (
-                            <CommandItem
-                              value={estado.name}
-                              key={estado.UF}
-                              onSelect={() => {
-                                form.setValue("estado", estado.UF);
-                              }}
-                            >
-                              <CheckIcon
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  estado.UF === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {estado.name}
-                            </CommandItem>
-                          ))}
-                        </CommandList>
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                <FormControl className="max-h-[230px]">
+                  <Textarea
+                    {...field}
+                    id="message"
+                    className={placeHolderStyle}
+                    placeholder="Digite sua mensagem..."
+                  />
+                </FormControl>
               </FormItem>
             )}
           />
-        </div>
-        <FormField
-          control={form.control}
-          name="arquivo"
-          render={({ field }) => (
-            <FormItem className="my-3 flex flex-col">
-              <FormLabel className={labelStyle}>Currículo*</FormLabel>
-              <FormMessage className={errorMessageStyle} />
-              <FormControl>
-                <div className="z-[999] w-max min-w-[176px] max-w-[390px] cursor-pointer rounded-md border border-solid border-gray-400/80 bg-gray-300/60 p-1 px-2">
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={handleFileChange}
-                    id="arquivo"
-                    style={{ display: "none" }} // Esconde o input padrão
-                  />
-                  <label
-                    htmlFor="arquivo"
-                    className="flex cursor-pointer items-center justify-center"
-                  >
-                    {file?.name || "Escolha um arquivo"}{" "}
-                    {/* Exibe o nome do arquivo ou um texto padrão */}
-                  </label>
-                  {/* ...resto do seu componente */}
-                </div>
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={labelStyle}>Mensagem*</FormLabel>
-              <FormMessage className={errorMessageStyle} />
-              <FormControl className="max-h-[230px]">
-                <Textarea
-                  {...field}
-                  id="message"
-                  className={placeHolderStyle}
-                  placeholder="Digite sua mensagem..."
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <ReCAPTCHA
-          ref={recaptchaRef}
-          sitekey={process.env.NEXT_PUBLIC_SITE_KEY!}
-          onChange={onChangeCaptcha}
-          className="mt-4 self-start"
-        />
-        {isSending ? (
-          <Button
-            disabled
-            type="submit"
-            className="mt-4 w-1/3 place-self-center self-center !rounded-2xl bg-[#4EA929] text-lg font-bold text-white"
-          >
-            {/* Loading Spinner */}
-            <div id="wrapper">
-              <div className="profile-main-loader">
-                <div className="loader">
-                  <svg className="circular-loader" viewBox="25 25 50 50">
-                    <circle
-                      className="loader-path"
-                      cx="50"
-                      cy="50"
-                      r="20"
-                      fill="none"
-                      stroke="#70c542"
-                      stroke-width="2"
-                    />
-                  </svg>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={process.env.NEXT_PUBLIC_SITE_KEY!}
+            onChange={onChangeCaptcha}
+            className="mt-4 self-start"
+          />
+          {isSending ? (
+            <Button
+              disabled
+              type="submit"
+              className="mt-4 w-1/3 place-self-center self-center !rounded-2xl bg-[#4EA929] text-lg font-bold text-white"
+            >
+              {/* Loading Spinner */}
+              <div id="wrapper">
+                <div className="profile-main-loader">
+                  <div className="loader">
+                    <svg className="circular-loader" viewBox="25 25 50 50">
+                      <circle
+                        className="loader-path"
+                        cx="50"
+                        cy="50"
+                        r="20"
+                        fill="none"
+                        stroke="#70c542"
+                        stroke-width="2"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </div>
-            Enviar
-          </Button>
-        ) : (
-          <Button
-            type="submit"
-            className="mt-4 w-1/3 place-self-center self-center !rounded-2xl bg-[#4EA929] text-lg font-bold text-white"
-          >
-            Enviar
-          </Button>
-        )}
+              Enviar
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="mt-4 w-1/3 place-self-center self-center !rounded-2xl bg-[#4EA929] text-lg font-bold text-white"
+            >
+              Enviar
+            </Button>
+          )}
 
-        {/* <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-primary-color text-white text-lg font-bold !rounded-2xl">Enviar</Button> */}
-      </form>
-    </Form>
+          {/* <Button type="submit" className="place-self-center self-center my-4 w-1/3 bg-primary-color text-white text-lg font-bold !rounded-2xl">Enviar</Button> */}
+        </form>
+      </Form>
+      <ToastContainer />
+    </>
   );
 }
