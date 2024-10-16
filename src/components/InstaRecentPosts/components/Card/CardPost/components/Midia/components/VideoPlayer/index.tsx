@@ -50,6 +50,14 @@ export default function VideoPlayer({
     };
   }, []);
 
+  useEffect(() => {
+    if (isPlaying) {
+      setIsMuted(false)
+    } else {
+      setIsMuted(true)
+    }
+  }, [isPlaying])
+
   return (
     <div className="relative h-full w-full">
       <video
