@@ -6,7 +6,9 @@ const nextConfig = {
   images: {
     domains: [
       "contabilidade.gruporedux.com.br",
-      "cdn.gruporedux.com.br"
+      "cdn.gruporedux.com.br",
+      "www.instagram.com",
+      "instagram.com",
     ],
     dangerouslyAllowSVG: true,
     unoptimized: false,
