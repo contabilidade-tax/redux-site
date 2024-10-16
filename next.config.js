@@ -7,11 +7,11 @@ const nextConfig = {
     domains: [
       "contabilidade.gruporedux.com.br",
       "cdn.gruporedux.com.br",
-      "www.instagram.com",
-      "instagram.com",
+      "scontent.cdninstagram.com",
+      "maps.googleapis.com"
     ],
     dangerouslyAllowSVG: true,
-    unoptimized: false,
+    unoptimized: true,
   },
   experimental: {
     optimizePackageImports: [
