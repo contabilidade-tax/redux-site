@@ -1,6 +1,7 @@
 import { Montserrat } from "next/font/google";
 import { ReactNode } from "react";
 import type { Viewport, Metadata as Meta } from "next";
+import { headers } from 'next/headers'
 
 import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";

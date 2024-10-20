@@ -1,6 +1,4 @@
-import React, { CSSProperties, ComponentProps, HTMLAttributes, ReactNode } from 'react'
-
-import { Tab } from '@material-tailwind/react'
+import React, { ComponentProps, ReactNode } from 'react'
 import { StaticImageData } from 'next/image'
 
 

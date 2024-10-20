@@ -1,4 +1,7 @@
 import '@/components/404/404.scss'
+import { MoveLeft } from 'lucide-react'
+import { Button } from '../ui/button'
+import Link from 'next/link'
 
 export const metadata = {
   title: 'Nada por aqui',
@@ -6,8 +9,9 @@ export const metadata = {
 
 export default function Page404() {
   return (
-    <section className="bg-slate-200·absolute·top-1/2·h-screen·w-full··-translate-y-1/2·overflow-auto">
+    <section className="bg-[#eee] h-[100svh] pt-[10vh] w-full overflow-hidden z-[9999]">
       <div className="container">
+        <Link className='absolute top-8 left-8' href="/" title='Voltar para o início'><Button variant='outline' className='bg-[#181818] text-white flex gap-2'><MoveLeft /> Voltar para o início</Button></Link>
         <div className="error404page">
           <div className="newcharacter404">
             <div className="chair404"></div>
