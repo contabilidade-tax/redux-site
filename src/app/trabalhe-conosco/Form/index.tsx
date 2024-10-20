@@ -39,7 +39,6 @@ import { validateRecaptcha } from "@/common/actions/recaptcha";
 import { sendWorkWithUsMail } from "@/common/actions/rhSendMail";
 
 import "./form.scss";
-import 'react-toastify/dist/ReactToastify.css';
 
 type Person = {
   name: string;
