@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { VideoPlayerProps } from "@/types";
-import { Volume, VolumeX } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function VideoPlayer({
@@ -12,59 +12,32 @@ export default function VideoPlayer({
   ...rest
 }: VideoPlayerProps) {
   const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const handleVideoClick = () => {
-    setIsMuted(!isMuted);
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsPlaying(true);
-            if (videoRef.current) {
-              videoRef.current.play(); // Inicia a reprodução
-            }
-          } else {
-            setIsPlaying(false);
-            if (videoRef.current) {
-              videoRef.current.pause(); // Pausa a reprodução
-            }
-          }
-        });
-      },
-      { threshold: 0.5 } // 50% do vídeo deve estar visível para considerar 'intersectando'
-    );
-
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
-
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isPlaying) {
-      setIsMuted(false)
-    } else {
-      setIsMuted(true)
-    }
-  }, [isPlaying])
+  const handleVolumeClick = () => {
+    setIsMuted(!isMuted);
+  };
 
   return (
     <div className="relative h-full w-full">
       <video
-        ref={videoRef} // Referência ao vídeo
+        onClick={handleVideoClick}
+        ref={videoRef}
         className={cn(className, "rounded-2xl")}
         muted={isMuted}
         loop
+        autoPlay
         preload="metadata" // Configuração de preload
         playsInline={true}
         {...rest}
@@ -74,17 +47,17 @@ export default function VideoPlayer({
       </video>
       {isMuted ? (
         <VolumeX
-          onClick={handleVideoClick}
+          onClick={handleVolumeClick}
           className="absolute bottom-4 left-4 text-white cursor-pointer"
           fill="#202022"
-          size={30}
+          size={34}
         />
       ) : (
-        <Volume
-          onClick={handleVideoClick}
+        <Volume2
+          onClick={handleVolumeClick}
           className="absolute bottom-4 left-4 text-white cursor-pointer"
           fill="#202022"
-          size={30}
+          size={34}
         />
       )}
     </div>

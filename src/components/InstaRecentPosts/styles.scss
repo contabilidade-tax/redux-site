@@ -1,17 +1,13 @@
 $instaPostHeight: 30rem;
 
-// .instaPost {
-//   width: 27%;
-//   max-width: 380px;
-//   min-width: 350px;
-//   overflow: hidden;
+.swiper-container {
+  width: 100%;
+}
 
-//   // .instaMidia {
-//   // width: 85%;
-//   // height: inherit;
-//   // max-height: $instaPostHeight;
-//   // }
-// }
+.swiper-wrapper {
+  // width: 50%;
+  gap: 12px;
+}
 
 .swiper-button-next,
 .swiper-button-prev {
