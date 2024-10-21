@@ -15,9 +15,9 @@ export default function CoreServicos() {
                     <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
                         <Image
                             className="rounded-2xl"
-                            src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/inst_redux_1.webp`}
+                            src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/small/inst_redux_1.webp`}
                             width={280}
-                            height={200}
+                            height={224}
                             loading="lazy"
                             alt="Imagem institucional Redux"
                             title="Imagem institucional Redux"
@@ -48,7 +48,7 @@ export default function CoreServicos() {
                     <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
                         <Image
                             className="rounded-2xl"
-                            src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/inst_redux_2.webp`}
+                            src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/small/inst_redux_2.webp`}
                             width={280}
                             height={200}
                             loading="lazy"
@@ -81,7 +81,7 @@ export default function CoreServicos() {
                     <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
                         <Image
                             className="max-h-[200px] rounded-2xl"
-                            src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/inst_redux_3.webp`}
+                            src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/small/inst_redux_3.webp`}
                             width={280}
                             height={200}
                             loading="lazy"
@@ -114,7 +114,7 @@ export default function CoreServicos() {
                     <div className="serviceCard flex h-full w-full flex-col items-center justify-between">
                         <Image
                             className="rounded-2xl"
-                            src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/inst_redux_4.webp`}
+                            src={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/servicos/small/inst_redux_4.webp`}
                             style={{ aspectRatio: "auto" }}
                             width={280}
                             height={200}

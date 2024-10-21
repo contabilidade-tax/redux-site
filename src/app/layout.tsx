@@ -1,11 +1,11 @@
 import { Montserrat } from "next/font/google";
 import { ReactNode } from "react";
+import Script from "next/script";
 import type { Viewport, Metadata as Meta } from "next";
-import { headers } from 'next/headers'
 
 import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
-import Script from "next/script";
+import { GoogleAnalytics, Gtag, MetaPixel } from "@/components/ThirdParty";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
@@ -119,37 +119,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           content={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_preta.webp`}
         />
         <link rel="canonical" href="https://contabilidade.gruporedux.com.br" />
-        {/* <link rel="preload" fetchPriority="high" as="image" href="https://cdn.gruporedux.com.br/assets/img/redux/capa_redux.webp" sizes="100vw" type="image/webp"></link> */}
         <link
           rel="image_src"
           href={`${process.env.NEXT_PUBLIC_CDN}/assets/img/redux/logo_preta.webp`}
         />
-        {/* <!-- GTAG --> */}
-        <Script
-          async
-          id="g-tag"
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=AW-16721885854"
-        ></Script>
-        {/* <!-- Google Tag Manager --> */}
-        <Script async id="gtm">
-          {`
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer', '${String(
-            process.env.NEXT_PUBLIC_GTAG_MANAGER
-          )}');
-          `}
-        </Script>
-        {/* <!-- End Google Tag Manager --> */}
         <Script
           defer
           id="ld+json"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
         />
+        <Gtag />
       </head>
       <body
         className={`${font.variable} flex min-h-screen flex-col items-center justify-between`}
@@ -163,53 +143,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        {/* NOSCRIPT FB */}
-        <noscript>
-          <img
-            alt="fb-noscript"
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src={`https://www.facebook.com/tr?id=${String(
-              process.env.NEXT_PUBLIC_FB_PIXEL_ID
-            )}&ev=PageView&noscript=1`}
-          />
-        </noscript>
         {/* Init Content */}
         <Header />
         <main className="Wrapper relative flex w-full flex-1 flex-col items-center justify-between bg-[#fafafa] font-montserrat">
           {children}
         </main>
         <Footer />
-        {/* Google Analytics */}
-        <Script async id="analytics">
-          {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-
-              gtag('config', 'AW-16721885854');
-          `}
-        </Script>
-        {/* <!-- Meta Pixel Code --> */}
-        <Script defer id="meta-pixel">
-          {`
-              !function(f,b,e,v,n,t,s)
-              {
-                if(f.fbq) return; 
-                n=f.fbq=function() {
-                  n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)};
-                  if (!f._fbq) f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
-                  n.queue=[]; t=b.createElement(e); t.async=!0;
-                  t.src=v; s=b.getElementsByTagName(e)[0];
-                  s.parentNode.insertBefore(t,s)
-                }
-                (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', ${String(process.env.NEXT_PUBLIC_FB_PIXEL_ID)});
-                fbq('track', 'PageView');
-          `}
-        </Script>
-        {/* <!-- End MetaPixelCode--> */}
+        {/* End Content */}
+        <GoogleAnalytics />
+        <MetaPixel />
         {/* Vercel Analytics */}
         <VercelSpeedInsights />
         <VercelAnalytics />
