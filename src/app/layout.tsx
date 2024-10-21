@@ -125,6 +125,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
         <Script
           defer
+          strategy="worker"
           id="ld+json"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}

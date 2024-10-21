@@ -6,7 +6,7 @@ function MetaPixel() {
             {/* Meta Pixel Code */}
             <Script
                 id="meta-pixel"
-                strategy="afterInteractive" // Usar 'afterInteractive' para garantir que o script seja carregado após a interação
+                strategy="worker"
             >
                 {`
           !function(f,b,e,v,n,t,s) {
@@ -45,7 +45,7 @@ function MetaPixel() {
 function GoogleAnalytics() {
     return (
         //  Google Analytics
-        <Script async id="analytics" >
+        <Script async strategy='worker' id="analytics" >
             {`
                    window.dataLayer = window.dataLayer || [];
                    function gtag(){dataLayer.push(arguments);}
@@ -64,11 +64,11 @@ function Gtag() {
             <Script
                 async
                 id="g-tag"
-                strategy="afterInteractive"
+                strategy="worker"
                 src="https://www.googletagmanager.com/gtag/js?id=AW-16721885854"
             ></Script>
             {/* <!-- Google Tag Manager --> */}
-            <Script async id="gtm">
+            <Script async strategy='worker' id="gtm">
                 {`
                 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
