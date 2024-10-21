@@ -30,7 +30,7 @@ export default function Page() {
       >
         <div className="content flex h-full w-full flex-col items-center justify-evenly gap-0 text-white">
           <div className="text-center">
-            <h1 className="mx-[1vw] text-5xl font-normal">
+            <h1 className="mx-4 text-5xl font-normal">
               Não somos obrigação,{" "}
               <span className="font-extrabold text-primary-color">
                 somos ferramenta
