@@ -13,12 +13,12 @@ function criptografar(texto: any, chave: any, iv: any) {
   const ivBuffer = Buffer.from(iv, "hex");
   if (keyBuffer.length !== 32) {
     throw new Error(
-      `A chave criptográfica (NEXT_PUBLIC_CRYPTO_KEY) deve ter 32 bytes (64 caracteres hex). Tamanho atual: ${keyBuffer.length} bytes.`
+      `A chave criptográfica (NEXT_CRYPTO_KEY) deve ter 32 bytes (64 caracteres hex). Tamanho atual: ${keyBuffer.length} bytes.`
     );
   }
   if (ivBuffer.length !== 16) {
     throw new Error(
-      `O IV criptográfico (NEXT_PUBLIC_CRYPTO_IV) deve ter 16 bytes (32 caracteres hex). Tamanho atual: ${ivBuffer.length} bytes.`
+      `O IV criptográfico (NEXT_CRYPTO_IV) deve ter 16 bytes (32 caracteres hex). Tamanho atual: ${ivBuffer.length} bytes.`
     );
   }
   const cipher = crypto.createCipheriv(
@@ -33,12 +33,12 @@ function criptografar(texto: any, chave: any, iv: any) {
 
 export default function Page() {
   const api_base = "https://api.instagram.com/oauth/authorize";
-  const appId = process.env.NEXT_PUBLIC_API_IG_APP_ID;
+  const appId = process.env.NEXT_API_IG_APP_ID;
   const scope = "user_profile,user_media";
-  const key = process.env.NEXT_PUBLIC_CRYPTO_KEY;
-  const iv = process.env.NEXT_PUBLIC_CRYPTO_IV;
-  const token = process.env.NEXT_PUBLIC_BEARER_TOKEN;
-  const redirectUri = `https://contabilidade.gruporedux.com.br/api/instaData/authorize/${encodeURIComponent(
+  const key = process.env.NEXT_CRYPTO_KEY;
+  const iv = process.env.NEXT_CRYPTO_IV;
+  const token = process.env.NEXT_BEARER_TOKEN;
+  const redirectUri = `${process.env.NEXT_PUBLIC_HOME}/api/instaData/authorize/${encodeURIComponent(
     criptografar(token, key, iv)
   )}/`;
 

@@ -72,19 +72,19 @@ async function getTokenDataOnDb() {
 }
 
 async function renewToken(expiredToken: string) {
-    // const key = process.env.NEXT_PUBLIC_CRYPTO_KEY;
-    // const iv = process.env.NEXT_PUBLIC_CRYPTO_IV;
-    // const authorization = process.env.NEXT_PUBLIC_BEARER_TOKEN;
+    // const key = process.env.NEXT_CRYPTO_KEY;
+    // const iv = process.env.NEXT_CRYPTO_IV;
+    // const authorization = process.env.NEXT_BEARER_TOKEN;
     //
     // const api_base = "https://api.instagram.com/oauth/authorize";
-    // const appId = process.env.NEXT_PUBLIC_API_IG_APP_ID;
+    // const appId = process.env.NEXT_API_IG_APP_ID;
     // const scope = "user_profile,user_media";
     // const redirectUri = `/api/instaData/authorize/${encodeURIComponent(
     //   criptografar(authorization, key, iv)
     // )}/`;
 
     try {
-        const url = `${process.env.NEXT_PUBLIC_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${expiredToken}`;
+        const url = `${process.env.NEXT_API_IG_URL}/refresh_access_token?grant_type=ig_refresh_token&access_token=${expiredToken}`;
         const response = await axios.get(url);
         const responseDataWithTimestamp = {
             ...response.data,

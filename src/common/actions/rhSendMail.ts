@@ -4,7 +4,7 @@ import sendgrid from '@sendgrid/mail'
 async function sendWorkWithUsMail(data: { body: string, arquivo: any }) {
     try {
         const client = sendgrid;
-        client.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY!);
+        client.setApiKey(process.env.NEXT_SENDGRID_API_KEY!);
         const options = {
             personalizations: [
                 {

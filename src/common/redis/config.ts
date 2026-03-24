@@ -1,11 +1,12 @@
+'use server'
 import { InstaPostData } from '@/types'
 import Redis, { RedisOptions } from 'ioredis'
 
 const redisConfigurations = {
-    port: process.env.NEXT_PUBLIC_REDIS_PORT ? parseInt(process.env.NEXT_PUBLIC_REDIS_PORT) : undefined,
-    password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
-    user: process.env.NEXT_PUBLIC_REDIS_USER,
-    host: process.env.NEXT_PUBLIC_REDIS_HOST,
+    port: process.env.NEXT_REDIS_PORT ? parseInt(process.env.NEXT_REDIS_PORT) : undefined,
+    password: process.env.NEXT_REDIS_PASSWORD,
+    user: process.env.NEXT_REDIS_USER,
+    host: process.env.NEXT_REDIS_HOST,
 }
 
 function getRedisConfiguration(): {
@@ -61,7 +62,7 @@ class RedisInstance {
 
 const redis = RedisInstance.getInstance()
 
-export function getDateTime(date = new Date()): string {
+export async function getDateTime(date = new Date()): Promise<string> {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
@@ -71,7 +72,7 @@ export function getDateTime(date = new Date()): string {
 }
 
 export async function setRedisRegister(data: InstaPostData[] | string, customKey?: string) {
-    const key = customKey ?? `last_insta_posts-${getDateTime()}`;
+    const key = customKey ?? `last_insta_posts-${await getDateTime()}`;
     const MAX_AGE = 60_000 * 60; // 1 hora
     const EXPIRY_MS = 'PX'; // milissegundos
 
@@ -88,7 +89,7 @@ export async function getRedisValue(key: string): Promise<string | null> {
 }
 
 export async function clearCache(customKey?: string): Promise<boolean> {
-    const key = customKey ?? `last_insta_posts-${getDateTime()}`;
+    const key = customKey ?? `last_insta_posts-${await getDateTime()}`;
     try {
         const deletedCount = await redis.del(key);
         if (deletedCount === 0) {

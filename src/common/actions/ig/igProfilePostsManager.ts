@@ -113,7 +113,7 @@ async function getPostsDataFromIGApi(
     token: string
 ): Promise<InstaPostData[] | null> {
     try {
-        let url = `${process.env.NEXT_PUBLIC_API_IG_URL}/me/media`;
+        let url = `${process.env.NEXT_API_IG_URL}/me/media`;
         let allData: InstaPostData[] = [];
 
         for (let i = 0; i === 0; i++) {

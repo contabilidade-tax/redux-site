@@ -9,7 +9,7 @@ import { setTokenDataOnDb } from '@/common/actions/ig/igTokenManager';
 import { setCurrentProfile } from '@/common/actions/ig/igProfileManager';
 
 async function getLongLivedToken(client_secret: string, access_token: string) {
-  const graphApiUrl = process.env.NEXT_PUBLIC_API_IG_URL;
+  const graphApiUrl = process.env.NEXT_API_IG_URL;
   const apiIgLongLivedTokenUrl = `${graphApiUrl}/access_token`
   try {
     const response = await axios.get(apiIgLongLivedTokenUrl, {
@@ -45,7 +45,7 @@ function descriptografar(textoCriptografado: any, chave: any) {
 //       apiUrl,
 //       { ...Instadata },
 //       {
-//         headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` }, params: { key: 'token' }
+//         headers: { Authorization: `Bearer ${process.env.NEXT_BEARER_TOKEN}` }, params: { key: 'token' }
 //       }
 //     );
 //     return response.data;
@@ -60,7 +60,7 @@ async function setCurrentUser(apiUrl: string, userData: Partial<schema.CurrentUs
     const response = await axios.post(
       apiUrl,
       { ...userData },
-      { params: { key: 'user' }, headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}` } }
+      { params: { key: 'user' }, headers: { Authorization: `Bearer ${process.env.NEXT_BEARER_TOKEN}` } }
     );
 
     // Após validar, limpa o cache e o banco de dados deste usuário
@@ -104,24 +104,24 @@ export async function GET(req: NextRequest, context: any) {
       throw new Error('Provide auth! This is a security route to authorize app only');
     }
 
-    const chave = process.env.NEXT_PUBLIC_CRYPTO_KEY!
+    const chave = process.env.NEXT_CRYPTO_KEY!
 
     try {
       const token_auth = descriptografar(auth_param, chave)
-      if (token_auth !== process.env.NEXT_PUBLIC_BEARER_TOKEN) {
+      if (token_auth !== process.env.NEXT_BEARER_TOKEN) {
         throw new Error('Token invalid!')
       }
     } catch (error: any) {
       return NextResponse.json({ error: 'Não autorizado!', details: error.message }, { status: 401 });
     }
 
-    const key = process.env.NEXT_PUBLIC_CRYPTO_KEY
-    const iv = process.env.NEXT_PUBLIC_CRYPTO_IV
-    const token = process.env.NEXT_PUBLIC_BEARER_TOKEN
+    const key = process.env.NEXT_CRYPTO_KEY
+    const iv = process.env.NEXT_CRYPTO_IV
+    const token = process.env.NEXT_BEARER_TOKEN
     const tokenUrl = "https://api.instagram.com/oauth/access_token"
     const redirect_uri = `/api/instaData/authorize/${criptografar(token, key, iv)}/`
-    const client_secret = process.env.NEXT_PUBLIC_API_IG_APP_SECRET!
-    const client_id = process.env.NEXT_PUBLIC_API_IG_APP_ID
+    const client_secret = process.env.NEXT_API_IG_APP_SECRET!
+    const client_id = process.env.NEXT_API_IG_APP_ID
     const data = qs.stringify({
       client_id,
       client_secret,

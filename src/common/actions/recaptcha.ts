@@ -7,7 +7,7 @@ async function validateRecaptcha(token: string) {
         {},
         {
             params: {
-                secret: process.env.NEXT_PUBLIC_SITE_SECRET_KEY,
+                secret: process.env.NEXT_RECAPTCHA_SITE_SECRET_KEY,
                 response: token
             }
         }
