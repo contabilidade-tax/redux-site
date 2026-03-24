@@ -87,7 +87,7 @@ export default function Footer({ className }: { className?: string }) {
               title="Localização redux"
               width={300}
               height={250}
-              src="https://maps.googleapis.com/maps/api/staticmap?center=-7.20663595199585,-39.30320358276367&maptype=roadmap&zoom=15&scale=2&size=390x250&markers=size:mid%7Ccolor:green%7C-7.206551,%20-39.303191&key=AIzaSyDHMwnYDgd_fedJCX7JQUT3Z4NYccUCsjg"
+              src={`https://maps.googleapis.com/maps/api/staticmap?center=-7.20663595199585,-39.30320358276367&maptype=roadmap&zoom=15&scale=2&size=390x250&markers=size:mid%7Ccolor:green%7C-7.206551,%20-39.303191&key=${process.env.NEXT_PUBLIC_MAPS_API_KEY}`}
             />
           </Link>
           <p className="text-xs font-semibold md:text-sm">
