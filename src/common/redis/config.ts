@@ -4,6 +4,7 @@ import Redis, { RedisOptions } from 'ioredis'
 const redisConfigurations = {
     port: process.env.NEXT_PUBLIC_REDIS_PORT ? parseInt(process.env.NEXT_PUBLIC_REDIS_PORT) : undefined,
     password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
+    user: process.env.NEXT_PUBLIC_REDIS_USER,
     host: process.env.NEXT_PUBLIC_REDIS_HOST,
 }
 
@@ -11,6 +12,7 @@ function getRedisConfiguration(): {
     port: number | undefined
     host: string | undefined
     password: string | undefined
+    user: string | undefined
 } {
     return redisConfigurations
 }
@@ -37,6 +39,7 @@ class RedisInstance {
             retryStrategy: this.retryStrategy,
             ...(config.port && { port: config.port }),
             ...(config.password && { password: config.password }),
+            ...(config.user && { username: config.user }),
         };
 
         const redis = new Redis(options);
