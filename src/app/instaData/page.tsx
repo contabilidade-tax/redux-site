@@ -9,14 +9,26 @@ import {
 import crypto from "crypto";
 
 function criptografar(texto: any, chave: any, iv: any) {
+  const keyBuffer = Buffer.from(chave, "hex");
+  const ivBuffer = Buffer.from(iv, "hex");
+  if (keyBuffer.length !== 32) {
+    throw new Error(
+      `A chave criptográfica (NEXT_PUBLIC_CRYPTO_KEY) deve ter 32 bytes (64 caracteres hex). Tamanho atual: ${keyBuffer.length} bytes.`
+    );
+  }
+  if (ivBuffer.length !== 16) {
+    throw new Error(
+      `O IV criptográfico (NEXT_PUBLIC_CRYPTO_IV) deve ter 16 bytes (32 caracteres hex). Tamanho atual: ${ivBuffer.length} bytes.`
+    );
+  }
   const cipher = crypto.createCipheriv(
     "aes-256-cbc",
-    Buffer.from(chave, "hex"),
-    Buffer.from(iv, "hex")
+    keyBuffer,
+    ivBuffer
   );
   let textoCriptografado = cipher.update(texto);
   textoCriptografado = Buffer.concat([textoCriptografado, cipher.final()]);
-  return iv.toString("hex") + ":" + textoCriptografado.toString("hex");
+  return ivBuffer.toString("hex") + ":" + textoCriptografado.toString("hex");
 }
 
 export default function Page() {
