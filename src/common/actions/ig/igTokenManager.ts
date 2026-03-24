@@ -1,51 +1,73 @@
 'use server'
-import { Prisma, PrismaClient } from "@prisma/client";
+import { database, schema } from "@/lib/db";
+import { eq } from "drizzle-orm";
 import axios from "axios";
 
-async function setTokenDataOnDb(tokenData: Prisma.TokenDataCreateInput) {
-    const prisma = new PrismaClient()
+async function setTokenDataOnDb(tokenData: Partial<schema.TokenDataInsert>) {
     try {
-        return await prisma.tokenData.upsert({
-            where: {
-                id: 1
-            },
-            create: {
-                id: 1,
-                ...tokenData,
-                access_token: tokenData.access_token,
-                generated_at: tokenData.generated_at,
-                expires_in: tokenData.expires_in.toString()
-            },
-            update: {
-                ...tokenData,
-                access_token: tokenData.access_token,
-                expires_in: tokenData.expires_in.toString()
-            }
-        })
+        // Check if record exists
+        const existing = await database
+            .select()
+            .from(schema.tokenData)
+            .where(eq(schema.tokenData.id, 1));
 
-    } finally {
-        await prisma.$disconnect()
+        let result;
+        if (existing.length > 0) {
+            // Update existing record
+            const updated = await database
+                .update(schema.tokenData)
+                .set({
+                    access_token: tokenData.access_token || '',
+                    token_type: tokenData.token_type,
+                    expires_in: tokenData.expires_in?.toString() || '',
+                    generated_at: tokenData.generated_at?.toString() || '',
+                    permissions: tokenData.permissions,
+                })
+                .where(eq(schema.tokenData.id, 1))
+                .returning();
+            result = updated[0] || null;
+        } else {
+            // Create new record
+            const inserted = await database
+                .insert(schema.tokenData)
+                .values({
+                    id: 1,
+                    access_token: tokenData.access_token || '',
+                    token_type: tokenData.token_type,
+                    expires_in: tokenData.expires_in?.toString() || '',
+                    generated_at: tokenData.generated_at?.toString() || '',
+                    permissions: tokenData.permissions,
+                })
+                .returning();
+            result = inserted[0] || null;
+        }
+        return result;
+    } catch (error) {
+        console.error('Error setting token data:', error);
+        throw error;
     }
 }
 
 async function getTokenDataOnDb() {
-    const prisma = new PrismaClient()
     try {
-        const data = await prisma.tokenData.findUnique({
-            where: { id: 1 }
-        });
+        const data = await database
+            .select()
+            .from(schema.tokenData)
+            .where(eq(schema.tokenData.id, 1));
 
-        if (data) {
+        if (data.length > 0) {
             return {
-                ...data,
-                generated_at: data.generated_at,
-                expires_in: Number(data.expires_in.toString())
+                ...data[0],
+                generated_at: data[0].generated_at,
+                expires_in: Number(data[0].expires_in),
+                token_type: data[0].token_type || 'bearer',
             };
         }
 
-        return null
-    } finally {
-        prisma.$disconnect()
+        return null;
+    } catch (error) {
+        console.error('Error getting token data:', error);
+        throw error;
     }
 }
 

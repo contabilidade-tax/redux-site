@@ -1,8 +1,9 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { database, schema } from '@/lib/db';
 import axios, { AxiosError } from 'axios';
 import { NextRequest, NextResponse } from 'next/server'
 import qs from 'qs'
 import crypto from 'crypto';
+import { eq } from 'drizzle-orm';
 import { } from '@/app/instaData/page'
 import { setTokenDataOnDb } from '@/common/actions/ig/igTokenManager';
 import { setCurrentProfile } from '@/common/actions/ig/igProfileManager';
@@ -53,8 +54,7 @@ function descriptografar(textoCriptografado: any, chave: any) {
 //   }
 // }
 
-async function setCurrentUser(apiUrl: string, userData: Prisma.CurrentUserCreateInput) {
-  const prisma = new PrismaClient();
+async function setCurrentUser(apiUrl: string, userData: Partial<schema.CurrentUserInsert>) {
   try {
     // Troca e valida se o usuário é permitido de usar a plicação
     const response = await axios.post(
@@ -68,8 +68,7 @@ async function setCurrentUser(apiUrl: string, userData: Prisma.CurrentUserCreate
       // CACHE
       await axios.get("/api/deleteInstaData").then(res => console.log("Cache limpo", res.data))
       // DATABASE
-      await prisma.post.deleteMany({ where: { instaPostsDataId: 1 } })
-
+      await database.delete(schema.post).where(eq(schema.post.instaPostsDataId, 1));
     } catch (error: any) {
       throw Error(error.message)
     }
@@ -78,8 +77,6 @@ async function setCurrentUser(apiUrl: string, userData: Prisma.CurrentUserCreate
     return response.data;
   } catch (error: any) {
     throw new Error(`${error.response?.data.details ?? error.response?.data} - INTERNO`);
-  } finally {
-    await prisma.$disconnect();
   }
 }
 

@@ -1,48 +1,70 @@
 'use server'
-import { PrismaClient } from "@prisma/client";
+import { database, schema } from "@/lib/db";
+import { eq } from "drizzle-orm";
 import { clearCache, getDateTime, getRedisValue } from '@/common/redis/config';
 import { InstaPostData, InstaTokenData } from "@/types";
 import axios from "axios";
 
 async function createOrUpdatePostsDataLocalCopy(postsData: any[]) {
-    const prisma = new PrismaClient()
     try {
         // Certifique-se de que InstaPostsData com id 1 existe pra evitar erros
-        await prisma.instaPostsData.upsert({
-            where: { id: 1 },
-            create: { id: 1, generated_at: new Date() },
-            update: { generated_at: new Date() }
+        const existing = await database
+            .select()
+            .from(schema.instaPostsData)
+            .where(eq(schema.instaPostsData.id, 1));
+
+        if (existing.length === 0) {
+            await database
+                .insert(schema.instaPostsData)
+                .values({ id: 1, generated_at: new Date() });
+        } else {
+            await database
+                .update(schema.instaPostsData)
+                .set({ generated_at: new Date() })
+                .where(eq(schema.instaPostsData.id, 1));
+        }
+
+        const postsPromiseArray = postsData.map(async (post) => {
+            const timestamp = new Date(post.timestamp!).toISOString();
+            const postData = {
+                id: post.id,
+                caption: post.caption ?? ' Sem legenda...',
+                media_type: post.media_type,
+                media_url: post.media_url,
+                permalink: post.permalink,
+                timestamp: new Date(timestamp),
+                username: post.username,
+                instaPostsDataId: 1,
+            };
+
+            // Check if post exists
+            const existingPost = await database
+                .select()
+                .from(schema.post)
+                .where(eq(schema.post.id, post.id));
+
+            if (existingPost.length > 0) {
+                const updated = await database
+                    .update(schema.post)
+                    .set(postData)
+                    .where(eq(schema.post.id, post.id))
+                    .returning();
+                return updated[0] || null;
+            } else {
+                const inserted = await database
+                    .insert(schema.post)
+                    .values(postData)
+                    .returning();
+                return inserted[0] || null;
+            }
         });
 
-        const postsPromiseArray = postsData.map((post) => {
-            const timestamp = new Date(post.timestamp!).toISOString()
-            return prisma.post.upsert({
-                where: {
-                    id: post.id
-                },
-                create: {
-                    ...post,
-                    timestamp,
-                    caption: post.caption ?? ' Sem legenda...',
-                    instaPostsData: {
-                        connect: { id: 1 }
-                    }
-                },
-                update: {
-                    ...post,
-                    timestamp,
-                    caption: post.caption ?? ' Sem legenda...',
-                    instaPostsData: {
-                        connect: { id: 1 }
-                    }
-                }
-            });
-        });
-        return await Promise.resolve(postsPromiseArray);
-    } finally {
-        prisma.$disconnect()
+        return await Promise.all(postsPromiseArray);
+    } catch (error) {
+        console.error('Error creating or updating posts:', error);
+        throw error;
     }
-};
+}
 
 async function deleteProfilePostsCache(key?: string) {
     return await clearCache(key ?? `last_insta_posts-${getDateTime()}`);
@@ -64,16 +86,26 @@ async function getCachedProfilePostsData() {
 }
 
 async function getProfilePostsDataOnLocalCopy() {
-    const prisma = new PrismaClient()
     try {
-        const data = await prisma.instaPostsData.findUnique({
-            where: { id: 1 },
-            include: { data: true }
-        });
+        const data = await database
+            .select()
+            .from(schema.instaPostsData)
+            .where(eq(schema.instaPostsData.id, 1));
 
-        return data ? data.data.slice(0, 25) : [];
-    } finally {
-        prisma.$disconnect()
+        if (data.length > 0) {
+            // Get all posts for this instaPostsData
+            const posts = await database
+                .select()
+                .from(schema.post)
+                .where(eq(schema.post.instaPostsDataId, 1));
+
+            return posts.slice(0, 25);
+        }
+
+        return [];
+    } catch (error) {
+        console.error('Error getting profile posts data:', error);
+        throw error;
     }
 }
 

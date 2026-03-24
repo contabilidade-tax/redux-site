@@ -1,14 +1,4 @@
-import "dotenv/config";
-import type { PrismaConfig } from "prisma";
-import { env } from "prisma/config";
+// Arquivo legado - migrado para Drizzle ORM
+// Ver: drizzle.config.ts
 
-export default {
-  schema: "prisma/schema.prisma",
-  migrations: {
-    path: "prisma/migrations",
-    seed: "tsx prisma/seed.ts",
-  },
-  datasource: {
-    url: env("PGVERCEL_URL"),
-  },
-} satisfies PrismaConfig;
+export default {};

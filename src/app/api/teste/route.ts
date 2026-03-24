@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
 
-export function GET(
+export async function GET(
     req: NextRequest,
 ) {
     const token = req.headers.get('Authorization')?.split(' ')[1]
@@ -10,9 +10,11 @@ export function GET(
     if (token !== process.env.NEXT_PUBLIC_BEARER_TOKEN) {
         return NextResponse.json({ error: 'Não autorizado!' }, { status: 401 });
     }
+    
+    const cookieStore = await cookies()
     return NextResponse.json(
         {
-            cookies: cookies().getAll()
+            cookies: cookieStore.getAll()
         },
         { status: 200 }
     )
