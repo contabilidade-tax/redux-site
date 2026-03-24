@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
-const path = require("path");
 const nextConfig = {
-  // output: 'export',
   images: {
-    domains: [
-      "contabilidade.gruporedux.com.br",
-      "cdn.gruporedux.com.br",
-      "scontent.cdninstagram.com",
-      "maps.googleapis.com"
+    remotePatterns: [
+      new URL("https://contabilidade.gruporedux.com.br"),
+      new URL("https://contabilidade1.gruporedux.com.br"),
+      new URL("https://cdn.gruporedux.com.br"),
+      new URL("https://scontent.cdninstagram.com"),
+      new URL("https://maps.googleapis.com")
     ],
     dangerouslyAllowSVG: true,
     unoptimized: true,
+    qualities: [75, 100]
   },
   experimental: {
     optimizePackageImports: [
@@ -25,10 +25,6 @@ const nextConfig = {
       "@radix-ui/*",
       "react-email/*",
     ],
-  },
-  webpack: (config) => {
-    config.resolve.alias["@"] = path.resolve(__dirname, "./src/");
-    return config;
   },
   async redirects() {
     return [
@@ -55,7 +51,6 @@ const nextConfig = {
       {
         source: "/",
         headers: [
-          // { key: "", value: "" },
           { key: "Accept-Encoding", value: "br, gzip" }, // Prioriza Brotli ('br') com fallback para Gzip.
           { key: "hreflang", value: "pt-BR" },
           { key: "Content-Language", value: "pt-BR" },

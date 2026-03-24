@@ -1,14 +1,12 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
-  provider  = "postgresql"
-  url       = env("PGVERCEL_PRISMA_URL") // uses connection pooling
-  directUrl = env("PGVERCEL_URL_NON_POOLING") // uses a direct connection
+  provider = "postgresql"
+}
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
 }
 
 model Post {
