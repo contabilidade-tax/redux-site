@@ -88,13 +88,13 @@ function Home() {
     }
   }, [])
 
-  // Não permite scroll na tela durante o loading
-  useEffect(() => {
-    // Verificar se o código está sendo executado no lado do cliente
-    if (isClient) {
-      document.body.style.overflow = isLoading ? 'hidden' : 'auto'
-    }
-  }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
+  // // Não permite scroll na tela durante o loading
+  // useEffect(() => {
+  //   // Verificar se o código está sendo executado no lado do cliente
+  //   if (isClient) {
+  //     document.body.style.overflow = isLoading ? 'hidden' : 'auto'
+  //   }
+  // }, [isLoading]) // A função no useEffect será executada sempre que isLoading mudar
 
   return (
     <>
