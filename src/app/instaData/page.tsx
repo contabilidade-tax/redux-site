@@ -24,7 +24,14 @@ export default function Page() {
   const key = process.env.NEXT_PUBLIC_CRYPTO_KEY
   const iv = process.env.NEXT_PUBLIC_CRYPTO_IV
   const token = process.env.NEXT_PUBLIC_BEARER_TOKEN
-  const redirectUri = `https://redux.app.br/api/instaData/authorize/${encodeURIComponent(criptografar(token, key, iv))}/`
+  const isConfigReady = Boolean(appId && key && iv && token)
+
+  let authorizeUrl = '#'
+  if (isConfigReady) {
+    const encryptedToken = encodeURIComponent(criptografar(token, key, iv))
+    const redirectUri = `https://redux.app.br/api/instaData/authorize/${encryptedToken}/`
+    authorizeUrl = `${api_base}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`
+  }
 
   return (
     <div className="flex flex-col items-center justify-center my-10 gap-10 max-w-[500px]">
@@ -67,12 +74,19 @@ export default function Page() {
         </AccordionItem>
       </Accordion>
 
-      <Link target='_blank' href={`${api_base}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`}>
-        <Button
-          variant="outline"
-          className='bg-primary-color font-medium text-lg'
-        >Authorize</Button>
-      </Link>
+      {isConfigReady ? (
+        <Link target='_blank' href={authorizeUrl}>
+          <Button
+            variant="outline"
+            className='bg-primary-color font-medium text-lg'
+          >Authorize</Button>
+        </Link>
+      ) : (
+        <p className="text-sm text-center text-red-500">
+          Missing Instagram environment variables. Configure the NEXT_PUBLIC_API_IG_APP_ID, NEXT_PUBLIC_CRYPTO_KEY,
+          NEXT_PUBLIC_CRYPTO_IV and NEXT_PUBLIC_BEARER_TOKEN values.
+        </p>
+      )}
     </div>
 
   )
