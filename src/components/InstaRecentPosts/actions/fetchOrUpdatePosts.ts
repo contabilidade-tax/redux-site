@@ -6,6 +6,7 @@ import {
     getPostsDataFromIGApi
 } from "@/common/actions/ig/igProfilePostsManager";
 import { getTokenDataOnDb, renewToken, setTokenDataOnDb } from "@/common/actions/ig/igTokenManager";
+import { setRedisRegister } from "@/common/redis/config";
 import { InstaPostData, InstaTokenData } from "@/types";
 
 async function fetchPostsData(): Promise<InstaPostData[]> {
@@ -19,6 +20,7 @@ async function fetchPostsData(): Promise<InstaPostData[]> {
 
         const apiIGData = await getPostsDataFromIGApi(token.access_token);
         if (apiIGData) {
+            await setRedisRegister(apiIGData);
             await createOrUpdatePostsDataLocalCopy(apiIGData);
             return apiIGData;
         }
@@ -39,7 +41,10 @@ async function fetchOrUpdateFBAcessToken(): Promise<
             Number(savedToken.generated_at) + Number(savedToken.expires_in) * 1000
         ) {
             const newTokenData = await renewToken(savedToken.access_token);
-            // const newToken = setTokenData(newTokenData);
+            if (!newTokenData?.access_token) {
+                return null;
+            }
+
             const newToken = await setTokenDataOnDb(newTokenData);
 
             return newToken;

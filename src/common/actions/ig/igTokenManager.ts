@@ -71,7 +71,9 @@ async function getTokenDataOnDb() {
     }
 }
 
-async function renewToken(expiredToken: string) {
+async function renewToken(
+    expiredToken: string
+): Promise<Partial<schema.TokenDataInsert> | null> {
     // const key = process.env.NEXT_CRYPTO_KEY;
     // const iv = process.env.NEXT_CRYPTO_IV;
     // const authorization = process.env.NEXT_BEARER_TOKEN;
@@ -102,6 +104,7 @@ async function renewToken(expiredToken: string) {
         //     `${api_base}?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`
         //   );
         // }
+        return null;
     }
 }
 

@@ -113,25 +113,33 @@ async function getPostsDataFromIGApi(
     token: string
 ): Promise<InstaPostData[] | null> {
     try {
-        let url = `${process.env.NEXT_API_IG_URL}/me/media`;
+        const MAX_PAGES = 20;
+        let url: string | null = `${process.env.NEXT_API_IG_URL}/me/media`;
         let allData: InstaPostData[] = [];
+        let pageCount = 0;
 
-        for (let i = 0; i === 0; i++) {
-            if (!url) break; // Se não houver mais URLs para buscar, interrompe o loop
+        while (url && pageCount < MAX_PAGES) {
+            const isFirstPage = pageCount === 0;
 
-            const response = await axios.get(url, {
-                params: {
-                    fields:
-                        "id,caption,media_type,media_url,permalink,timestamp,username",
-                    access_token: token,
-                },
-            });
+            const response = await axios.get(
+                url,
+                isFirstPage
+                    ? {
+                        params: {
+                            fields:
+                                "id,caption,media_type,media_url,permalink,timestamp,username",
+                            access_token: token,
+                        },
+                    }
+                    : undefined
+            );
 
             if (response.data && response.data.data) {
                 allData = [...allData, ...response.data.data];
             }
 
             url = response.data.paging?.next || null;
+            pageCount += 1;
         }
 
         return allData;
