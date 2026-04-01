@@ -3,7 +3,14 @@ import { database, schema } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { clearCache, getDateTime, getRedisValue } from '@/common/redis/config';
 import { InstaPostData, InstaTokenData } from "@/types";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
+
+type InstagramMediaApiResponse = {
+    data?: InstaPostData[];
+    paging?: {
+        next?: string;
+    };
+};
 
 async function createOrUpdatePostsDataLocalCopy(postsData: any[]) {
     try {
@@ -120,9 +127,10 @@ async function getPostsDataFromIGApi(
 
         while (url && pageCount < MAX_PAGES) {
             const isFirstPage = pageCount === 0;
+            const currentUrl = url;
 
-            const response = await axios.get(
-                url,
+            const response: AxiosResponse<InstagramMediaApiResponse> = await axios.get<InstagramMediaApiResponse>(
+                currentUrl,
                 isFirstPage
                     ? {
                         params: {

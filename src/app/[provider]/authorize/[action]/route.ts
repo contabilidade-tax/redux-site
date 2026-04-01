@@ -7,7 +7,9 @@ import { setCurrentProfile } from '@/common/actions/ig/igProfileManager';
 import { setTokenDataOnDb } from '@/common/actions/ig/igTokenManager';
 
 type ProviderName = 'instagram';
-type RouteParams = { params: { provider: string; action: string } };
+type RouteParams = {
+  params: Promise<{ provider: string; action: string }>;
+};
 
 function resolveProvider(providerRaw: string): ProviderName | null {
   const provider = providerRaw.toLowerCase();
@@ -154,8 +156,9 @@ async function handleInstagramCallback(req: NextRequest, provider: ProviderName)
 }
 
 export async function GET(req: NextRequest, context: RouteParams) {
-  const provider = resolveProvider(context.params.provider);
-  const action = context.params.action?.toLowerCase();
+  const { provider: providerParam, action: actionParam } = await context.params;
+  const provider = resolveProvider(providerParam);
+  const action = actionParam?.toLowerCase();
 
   if (!provider) {
     return NextResponse.json({ error: 'Unsupported provider' }, { status: 404 });
