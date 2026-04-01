@@ -78,7 +78,7 @@ importers:
         specifier: 10.4.20
         version: 10.4.20(postcss@8.4.47)
       axios:
-        specifier: ^1.7.7
+        specifier: 1.7.7
         version: 1.7.7
       class-variance-authority:
         specifier: ^0.7.0
